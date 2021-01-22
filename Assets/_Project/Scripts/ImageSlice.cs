@@ -16,7 +16,7 @@ public static class  ImageSlice
         {
             for(int x=0; x<blocksPerLine; x++)
             {
-                Texture2D _block = new Texture2D(_blockSize, _blockSize/2);
+                Texture2D _block = new Texture2D(_blockSize, _blockSize);
                 //_block.wrapMode = TextureWrapMode.Clamp;
                 _block.SetPixels(image.GetPixels(x * _blockSize, y * _blockSize, _blockSize, _blockSize));
                 _block.Apply();

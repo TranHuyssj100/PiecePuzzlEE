@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Puzzle : MonoBehaviour
 {
