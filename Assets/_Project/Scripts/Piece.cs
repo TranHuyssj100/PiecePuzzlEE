@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using DG.Tweening;
-using UnityEngine.Experimental.Playables;
-using System.Collections.Generic;
-using System.Linq;
+
 
 public class Piece : MonoBehaviour
 {
@@ -12,7 +10,12 @@ public class Piece : MonoBehaviour
     public bool canSetPosition=true;
     
     Vector3 oldPosition;
-
+    Vector3 oldMousePos;
+    
+    private void OnEnable()
+    {
+        transform.localScale= Vector3.one * 0.5f;   
+    }
     private void Start()
     {
         canSetPosition = true;
@@ -27,16 +30,18 @@ public class Piece : MonoBehaviour
     private void OnMouseDown()
     {
         isMouseDown = true;
+        OnPieceSelected();
+        CheckInPuzzleBoard();
     }
 
     private void OnMouseDrag()
     {
         //Debug.Log("OnMouseDrag");
-        transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z-1));
+        OnPieceDrag();
     }
-
     private void OnMouseUp()
     {
+        OnPieceUnselected();
         SetPositionPiece();
         //isMouseDown = false;
         //if(isOnGridMap && canSetPosition)
@@ -49,25 +54,52 @@ public class Piece : MonoBehaviour
         //    canSetPosition = true;
         //}
     }
-    
 
+
+    void OnPieceSelected()
+    {
+        transform.DOScale(Vector3.one*1.2f, .1f);
+        oldMousePos = Input.mousePosition;
+       
+    }
+    void OnPieceDrag()
+    {
+        Vector2 _directionMouse = Camera.main.ScreenToWorldPoint( Input.mousePosition) - Camera.main.ScreenToWorldPoint(oldMousePos);
+        oldMousePos = Input.mousePosition;
+        transform.position += (Vector3) _directionMouse;
+    }
+    void OnPieceUnselected()
+    {
+        transform.DOScale(Vector3.one, .1f);
+    }
     void SetPositionPiece()
     {
-        transform.DOMove(new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y-0.5f)+0.5f, transform.position.z),0.5f);
+        transform.DOMove(new Vector3(Mathf.RoundToInt(transform.position.x-0.5f)+0.5f, Mathf.RoundToInt(transform.position.y), transform.position.z),0.5f);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) 
+    void CheckInPuzzleBoard()
     {
-        Debug.Log(collision.name);
-        if(collision.tag=="Piece")
-            canSetPosition = false;
+        RaycastHit _hit;
+        if (Physics.Raycast(transform.position,-transform.forward, out _hit, 10f))
+        {
+            Debug.Log(_hit.collider.name);
+        }
+
+
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if(collision.tag=="Piece")
-            canSetPosition = true;
-    }
+    //private void OnTriggerEnter2D(Collider2D collision) 
+    //{
+    //    Debug.Log(collision.name);
+    //    if(collision.tag=="Piece")
+    //        canSetPosition = false;
+    //}
+
+    //private void OnTriggerExit2D(Collider2D collision)
+    //{
+    //    if(collision.tag=="Piece")
+    //        canSetPosition = true;
+    //}
 
 
 
