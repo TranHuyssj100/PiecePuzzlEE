@@ -16,7 +16,6 @@ public class Puzzle : MonoBehaviour
         
     }
 
-
     void CreatePuzzle()
     {
         Texture2D[,] _imageSlice = ImageSlice.GetSlice(image, blockPerLine);

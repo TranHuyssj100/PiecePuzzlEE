@@ -14,7 +14,8 @@ public class Piece : MonoBehaviour
     
     private void OnEnable()
     {
-        transform.localScale= Vector3.one * 0.5f;   
+        if(transform.GetChild(0)!=null)
+            transform.GetChild(0).localScale= Vector3.one * 0.5f;   
     }
     private void Start()
     {
@@ -29,9 +30,10 @@ public class Piece : MonoBehaviour
 
     private void OnMouseDown()
     {
+   
         isMouseDown = true;
         OnPieceSelected();
-        CheckInPuzzleBoard();
+        //CheckInPuzzleBoard();
     }
 
     private void OnMouseDrag()
@@ -42,35 +44,45 @@ public class Piece : MonoBehaviour
     private void OnMouseUp()
     {
         OnPieceUnselected();
-        SetPositionPiece();
-        //isMouseDown = false;
-        //if(isOnGridMap && canSetPosition)
-        //{
-        //    SetPositionPiece();
-        //}
-        //else
-        //{
-        //    transform.DOMove(oldPosition, 0.5f);
-        //    canSetPosition = true;
-        //}
+        //SetPositionPiece();
+        isMouseDown = false;
+        if (isOnGridMap && canSetPosition)
+        {
+            SetPositionPiece();
+        }
+        else
+        {
+            transform.DOMove(oldPosition, 0.5f);
+            canSetPosition = true;
+        }
     }
 
 
     void OnPieceSelected()
     {
-        transform.DOScale(Vector3.one*1.2f, .1f);
+        if (transform.GetChild(0)!=null)
+        {
+            transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder++;
+            transform.GetChild(0).DOScale(Vector3.one*1.2f, .1f);
+        }
         oldMousePos = Input.mousePosition;
        
     }
     void OnPieceDrag()
     {
+     
         Vector2 _directionMouse = Camera.main.ScreenToWorldPoint( Input.mousePosition) - Camera.main.ScreenToWorldPoint(oldMousePos);
         oldMousePos = Input.mousePosition;
         transform.position += (Vector3) _directionMouse;
     }
     void OnPieceUnselected()
     {
-        transform.DOScale(Vector3.one, .1f);
+
+        if (transform.GetChild(0) != null)
+        {
+            transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder--;
+            transform.GetChild(0).DOScale(Vector3.one, .1f);
+        }
     }
     void SetPositionPiece()
     {
@@ -79,30 +91,29 @@ public class Piece : MonoBehaviour
 
     void CheckInPuzzleBoard()
     {
-        RaycastHit _hit;
-        if (Physics.Raycast(transform.position,-transform.forward, out _hit, 10f))
-        {
-            Debug.Log(_hit.collider.name);
-        }
-
+        RaycastHit2D _hit=Physics2D.Raycast(transform.position, transform.position + Vector3.forward, 100f);
+        Debug.Log(_hit.collider.name);
 
     }
 
-    //private void OnTriggerEnter2D(Collider2D collision) 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log(collision.name);
+        if (collision.tag == "Piece")
+            canSetPosition = false;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Piece")
+            canSetPosition = true;
+    }
+
+
+    //private void OnDrawGizmos()
     //{
-    //    Debug.Log(collision.name);
-    //    if(collision.tag=="Piece")
-    //        canSetPosition = false;
+    //    Gizmos.DrawLine(transform.position, transform.position + Vector3.forward*100);
     //}
-
-    //private void OnTriggerExit2D(Collider2D collision)
-    //{
-    //    if(collision.tag=="Piece")
-    //        canSetPosition = true;
-    //}
-
-
-
 
 
 }

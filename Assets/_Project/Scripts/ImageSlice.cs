@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Net;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public static class  ImageSlice 
@@ -43,4 +39,8 @@ public static class  ImageSlice
 
     
     
+    //public static Texture2D MergeImage(Texture2D _img1, Texture2D _img2)
+    //{
+        
+    //}
 }

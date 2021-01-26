@@ -41,4 +41,6 @@ public class PieceTest : MonoBehaviour
         mesh.CombineMeshes(combine);
         return mesh;
     }
+
+
 }
