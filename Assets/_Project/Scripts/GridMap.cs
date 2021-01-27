@@ -44,4 +44,6 @@ public class GridMap : MonoBehaviour
             collision.GetComponent<Piece>().isOnGridMap = false;
         }
     }
+
+   
 }

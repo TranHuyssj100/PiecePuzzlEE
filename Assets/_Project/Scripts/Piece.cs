@@ -14,13 +14,12 @@ public class Piece : MonoBehaviour
     
     private void OnEnable()
     {
-        if(transform.GetChild(0)!=null)
-            transform.GetChild(0).localScale= Vector3.one * 0.5f;   
     }
     private void Start()
     {
         canSetPosition = true;
         oldPosition = transform.position;
+        transform.localScale= Vector3.one * 0.5f;   
     }
 
 
@@ -54,30 +53,31 @@ public class Piece : MonoBehaviour
         {
             transform.DOMove(oldPosition, 0.5f);
             canSetPosition = true;
+            transform.DOScale(Vector3.one * 0.5f, .2f);
         }
     }
 
 
     void OnPieceSelected()
     {
+        transform.DOScale(Vector3.one, .1f);
         if (transform.GetChild(0)!=null)
         {
             transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder++;
-            transform.GetChild(0).DOScale(Vector3.one*1.2f, .1f);
+            transform.GetChild(0).DOScale(Vector3.one*1.2f, .2f);
         }
         oldMousePos = Input.mousePosition;
        
     }
     void OnPieceDrag()
     {
-     
         Vector2 _directionMouse = Camera.main.ScreenToWorldPoint( Input.mousePosition) - Camera.main.ScreenToWorldPoint(oldMousePos);
         oldMousePos = Input.mousePosition;
         transform.position += (Vector3) _directionMouse;
     }
     void OnPieceUnselected()
     {
-
+        
         if (transform.GetChild(0) != null)
         {
             transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder--;
@@ -86,7 +86,7 @@ public class Piece : MonoBehaviour
     }
     void SetPositionPiece()
     {
-        transform.DOMove(new Vector3(Mathf.RoundToInt(transform.position.x-0.5f)+0.5f, Mathf.RoundToInt(transform.position.y), transform.position.z),0.5f);
+        transform.DOMove(new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), transform.position.z),0.5f);
     }
 
     void CheckInPuzzleBoard()
