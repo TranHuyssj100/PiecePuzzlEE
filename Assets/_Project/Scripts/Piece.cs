@@ -8,9 +8,14 @@ public class Piece : MonoBehaviour
     public bool isOnGridMap=false;
     public bool isMouseDown = false;
     public bool canSetPosition=true;
+    public float startScale = .3f; 
+    public float selectedScale = 1.2f;
+    public Vector2 sizeSprite;
     
     Vector3 oldPosition;
     Vector3 oldMousePos;
+    Vector2 limitPosX= new Vector2(-3,1);
+    Vector2 limitPosY= new Vector2(-2,3);
     
     private void OnEnable()
     {
@@ -19,7 +24,10 @@ public class Piece : MonoBehaviour
     {
         canSetPosition = true;
         oldPosition = transform.position;
-        transform.localScale= Vector3.one * 0.5f;   
+        transform.localScale = Vector3.zero;
+        transform.DOScale(Vector3.one * startScale,0.2f);
+        limitPosX += new Vector2(0, -1 * (sizeSprite.x - 1));
+        limitPosY -= new Vector2(0, (sizeSprite.y));
     }
 
 
@@ -32,7 +40,6 @@ public class Piece : MonoBehaviour
    
         isMouseDown = true;
         OnPieceSelected();
-        //CheckInPuzzleBoard();
     }
 
     private void OnMouseDrag()
@@ -43,17 +50,17 @@ public class Piece : MonoBehaviour
     private void OnMouseUp()
     {
         OnPieceUnselected();
-        //SetPositionPiece();
         isMouseDown = false;
         if (isOnGridMap && canSetPosition)
         {
+            LevelController.indexSpawn--;
             SetPositionPiece();
         }
         else
         {
             transform.DOMove(oldPosition, 0.5f);
             canSetPosition = true;
-            transform.DOScale(Vector3.one * 0.5f, .2f);
+            transform.DOScale(Vector3.one * startScale, .2f);
         }
     }
 
@@ -64,7 +71,7 @@ public class Piece : MonoBehaviour
         if (transform.GetChild(0)!=null)
         {
             transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder++;
-            transform.GetChild(0).DOScale(Vector3.one*1.2f, .2f);
+            transform.GetChild(0).DOScale(Vector3.one* selectedScale, .2f);
         }
         oldMousePos = Input.mousePosition;
        
@@ -86,14 +93,11 @@ public class Piece : MonoBehaviour
     }
     void SetPositionPiece()
     {
-        transform.DOMove(new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), transform.position.z),0.5f);
-    }
-
-    void CheckInPuzzleBoard()
-    {
-        RaycastHit2D _hit=Physics2D.Raycast(transform.position, transform.position + Vector3.forward, 100f);
-        Debug.Log(_hit.collider.name);
-
+        //transform.DOMove(new Vector3(Mathf.RoundToInt(transform.position.x),
+        transform.DOMove(new Vector3(Mathf.Clamp(Mathf.RoundToInt(transform.position.x), limitPosX.x, limitPosX.y),
+                                     Mathf.Clamp(Mathf.RoundToInt(transform.position.y), limitPosY.x, limitPosY.y),
+                                     //(Mathf.RoundToInt(transform.position.y)),
+                                     transform.position.z),0.5f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -117,3 +121,6 @@ public class Piece : MonoBehaviour
 
 
 }
+
+
+
