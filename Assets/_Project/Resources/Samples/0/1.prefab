@@ -48,8 +48,11 @@ MonoBehaviour:
   isOnGridMap: 0
   isMouseDown: 0
   canSetPosition: 1
+  isCorrect: 0
   startScale: 0.3
   selectedScale: 1.2
+  sizeSprite: {x: 0, y: 0}
+  index: 1
 --- !u!60 &1325757592681010196
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -75,10 +78,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 2, y: 2}
-      - {x: 0, y: 2}
-      - {x: 0, y: 0}
-      - {x: 2, y: 0}
+    - - {x: 1.8, y: 1.8}
+      - {x: 0.2, y: 1.8}
+      - {x: 0.2, y: 0.2}
+      - {x: 1.8, y: 0.2}
 --- !u!50 &1325757592681010199
 Rigidbody2D:
   serializedVersion: 4

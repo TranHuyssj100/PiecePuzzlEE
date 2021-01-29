@@ -31,7 +31,7 @@ public class GridMap : MonoBehaviour
         if (collision.GetComponent<Piece>() != null)
         {
             Debug.Log("Piece In");
-            collision.GetComponent<Piece>().isOnGridMap = true;
+            collision.GetComponent<Piece>().isOnGridBoard = true;
         }
        
     }
@@ -41,7 +41,7 @@ public class GridMap : MonoBehaviour
         if (collision.GetComponent<Piece>() != null)
         {
             Debug.Log("Piece Out");
-            collision.GetComponent<Piece>().isOnGridMap = false;
+            collision.GetComponent<Piece>().isOnGridBoard = false;
         }
     }
 
