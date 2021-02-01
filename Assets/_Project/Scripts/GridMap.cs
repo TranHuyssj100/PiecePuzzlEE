@@ -28,20 +28,30 @@ public class GridMap : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<Piece>() != null)
+        //if (collision.GetComponent<Piece>() != null)
+        //{
+        //    Debug.Log("Piece In");
+        //    collision.GetComponent<Piece>().isOnGridBoard = true;
+        //}   
+        if (collision.GetComponent<TriggerPiece>() != null)
         {
             Debug.Log("Piece In");
-            collision.GetComponent<Piece>().isOnGridBoard = true;
+            collision.GetComponent<TriggerPiece>().SetPieceOnGridBoard(true);
         }
        
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.GetComponent<Piece>() != null)
+        //if (collision.GetComponent<Piece>() != null)
+        //{
+        //    Debug.Log("Piece Out");
+        //    collision.GetComponent<Piece>().isOnGridBoard = false;
+        //}
+        if (collision.GetComponent<TriggerPiece>() != null)
         {
-            Debug.Log("Piece Out");
-            collision.GetComponent<Piece>().isOnGridBoard = false;
+            Debug.Log("Piece In");
+            collision.GetComponent<TriggerPiece>().SetPieceOnGridBoard(false);
         }
     }
 

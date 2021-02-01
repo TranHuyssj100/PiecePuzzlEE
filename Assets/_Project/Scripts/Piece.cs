@@ -152,18 +152,18 @@ public class Piece : MonoBehaviour
                                      }) ;
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        //Debug.Log(collision.name);
-        if (collision.tag == "Piece")
-            canSetPosition = false;
-    }
+    //private void OnTriggerStay2D(Collider2D collision)
+    //{
+    //    //Debug.Log(collision.name);
+    //    if (collision.tag == "Piece")
+    //        canSetPosition = false;
+    //}
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == "Piece")
-            canSetPosition = true;
-    }
+    //private void OnTriggerExit2D(Collider2D collision)
+    //{
+    //    if (collision.tag == "Piece")
+    //        canSetPosition = true;
+    //}
 
     public void DestroyPiece()
     {
