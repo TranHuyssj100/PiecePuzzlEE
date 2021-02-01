@@ -8,11 +8,14 @@ public class Piece : MonoBehaviour
     [Header("Checking Piece")]
     public bool isOnGridBoard=false;
     public bool isMouseDown = false;
+    public bool isOnPreSpace = true;
     public bool canSetPosition=true;
+
     [Space()]
     public bool isCorrect = false;
     public float startScale = .3f; 
     public float selectedScale = 1.2f;
+    public float selectedPos = 0.3f;
     public Vector2 sizeSprite;
 
     [SerializeField] int index;
@@ -54,10 +57,11 @@ public class Piece : MonoBehaviour
 
     private void OnMouseDown()
     {
+        Debug.Log("OnMouseDown");
         if (!isCorrect)
         {
+            OnPieceSelecte();
             isMouseDown = true;
-            OnPieceSelected();
         }
         else
         {
@@ -74,32 +78,36 @@ public class Piece : MonoBehaviour
     }
     private void OnMouseUp()
     {
+        Debug.Log("OnMouseUp");
         if (!isCorrect)
         {
-            OnPieceUnselected();
+            OnPieceUnselecte();
             isMouseDown = false;
-            if (isOnGridBoard && canSetPosition)
+            if (isOnGridBoard && canSetPosition && !isOnPreSpace)
             {
-                LevelController.indexSpawn--;
+                //LevelController.indexSpawn--;
                 SetPositionPiece();
             }
             else
             {
-                transform.DOMove(startPosition, 0.5f);
                 canSetPosition = true;
+                transform.DOMove(startPosition, 0.5f);
                 transform.DOScale(Vector3.one * startScale, .2f);
             }
         }
     }
 
 
-    void OnPieceSelected()
+    void OnPieceSelecte()
     {
-        transform.DOScale(Vector3.one, .1f);
-        if (transform.GetChild(transform.childCount-1)!=null)
+        Transform _child = transform.GetChild(transform.childCount - 1);
+        if (_child != null)
         {
-            transform.GetChild(transform.childCount-1).GetComponent<SpriteRenderer>().sortingOrder++;
-            transform.GetChild(transform.childCount-1).DOScale(Vector3.one* selectedScale, .2f);
+            Sequence _seq = DOTween.Sequence();
+            _child.localPosition = new Vector2(_child.localPosition.x + selectedPos, _child.localPosition.y + selectedPos);
+            _seq.Append(transform.DOScale(Vector3.one, .1f));
+            _child.localScale = Vector3.one * selectedScale;
+            _child.GetComponent<SpriteRenderer>().sortingOrder++;
         }
         oldMousePos = Input.mousePosition;
        
@@ -110,19 +118,24 @@ public class Piece : MonoBehaviour
         oldMousePos = Input.mousePosition;
         transform.position += (Vector3) _directionMouse;
     }
-    void OnPieceUnselected()
+    void OnPieceUnselecte()
     {
-        if (transform.GetChild(transform.childCount-1) != null)
+        Transform _child = transform.GetChild(transform.childCount - 1);
+        if (_child != null)
         {
-            transform.GetChild(transform.childCount-1).GetComponent<SpriteRenderer>().sortingOrder--;
-            transform.GetChild(transform.childCount-1).DOScale(Vector3.one, .1f);
+            _child.localPosition = Vector2.zero;
+            Sequence _seq = DOTween.Sequence();
+            _seq.Append(transform.DOScale(Vector3.one, .1f)).OnComplete(()=> {
+                _child.GetComponent<SpriteRenderer>().sortingOrder--;
+            });
+            _child.localScale = Vector3.one;
         }
     }
     void SetPositionPiece()
     {
         transform.DOMove(new Vector3(Mathf.Clamp(Mathf.RoundToInt(transform.position.x), limitPosX.x, limitPosX.y),
                                      Mathf.Clamp(Mathf.RoundToInt(transform.position.y), limitPosY.x, limitPosY.y),
-                                     transform.position.z), 0.5f).OnComplete(() =>
+                                     transform.position.z), 0.2f).OnComplete(() =>
                                      {
                                          //Debug.Log("check Complete: " +new Vector3(index, transform.position.x, transform.position.y));
                                          //Debug.Log("listIndex:  " + LevelController.instance.listAnswerForSample[index - 1]);
@@ -139,31 +152,19 @@ public class Piece : MonoBehaviour
                                              }
                                              //LevelController.instance.NUM_MOVE--;
                                              oldPostionOnGridBoard = transform.position;
+                                             isCorrect = new Vector3(index, transform.position.x, transform.position.y) == LevelController.instance.listAnswerForSample[index - 1] ? true:false;
+                                             if (isCorrect)
+                                             { 
+                                                 transform.GetChild(transform.childCount-1).localScale=Vector3.one;
+                                                 transform.GetChild(transform.childCount - 1).localPosition = Vector2.zero;
+                                                 LevelController.instance.NUM_PIECES_WORNG--;
+                                                 LevelController.instance.SpawnRadomPieces(startPosition);
+                                                 Debug.Log(index + "<color=green> is Correctly </color>," + "numMove "+ LevelController.instance.NUM_MOVE);
+                                             }
                                          }
 
-                                         isCorrect = new Vector3(index, transform.position.x, transform.position.y) == LevelController.instance.listAnswerForSample[index - 1] ? true:false;
-                                         if (isCorrect)
-                                         { 
-                                             LevelController.instance.NUM_PIECES_WORNG--;
-                                             LevelController.instance.SpawnRadomPieces(startPosition);
-                                             Debug.Log(index + "<color=green> is Correctly </color>," + "numMove "+ LevelController.instance.NUM_MOVE);
-
-                                         }
                                      }) ;
     }
-
-    //private void OnTriggerStay2D(Collider2D collision)
-    //{
-    //    //Debug.Log(collision.name);
-    //    if (collision.tag == "Piece")
-    //        canSetPosition = false;
-    //}
-
-    //private void OnTriggerExit2D(Collider2D collision)
-    //{
-    //    if (collision.tag == "Piece")
-    //        canSetPosition = true;
-    //}
 
     public void DestroyPiece()
     {

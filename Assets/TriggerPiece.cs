@@ -8,12 +8,16 @@ public class TriggerPiece : MonoBehaviour
     {
         if (collision.tag == "TriggerPiece")
             GetComponentInParent<Piece>().canSetPosition = false;
+        if (collision.tag == "PreSpace")
+            GetComponentInParent<Piece>().isOnPreSpace = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.tag == "TriggerPiece")
             GetComponentInParent<Piece>().canSetPosition = true;
+        if (collision.tag == "PreSpace")
+            GetComponentInParent<Piece>().isOnPreSpace = false;
     }
 
 
