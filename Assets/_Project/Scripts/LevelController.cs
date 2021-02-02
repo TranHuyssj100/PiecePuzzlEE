@@ -7,6 +7,7 @@ public class LevelController : MonoBehaviour
     public int level = 0;
     public int indexSample = 0;
     public ThemeType theme;
+    
 
     public Transform[] points;
     public List<Object> listTexture = new List<Object>();
@@ -18,7 +19,7 @@ public class LevelController : MonoBehaviour
     public static int indexSpawn = 3;
     public static LevelController instance;
 
-    SampleAnswer sample1 = new SampleAnswer();
+    SampleAnswer sample = new SampleAnswer();
     int numPiecesWrong;
     int numMove;
 
@@ -44,16 +45,14 @@ public class LevelController : MonoBehaviour
     void Start()
     {
         InitializeGame();
-        int[] answerSample1 = new int[] { 1, -3, 1, 2, -1, 1, 3, 0, 1, 4, -3, -2, 5, -2, -1, 6, -2, -2, 7, 1, -2 };
-        sample1.indexSample = indexSample;
-        sample1.answers = new Queue<int>(answerSample1);
-        listAnswerForSample = CreateAnswerForSample(sample1.answers);
+        sample.answers = new int[] { 1, -3, 1, 2, -1, 1, 3, 0, 1, 4, -3, -2, 5, -2, -1, 6, -2, -2, 7, 1, -2 };
+        sample.index = indexSample;
+        listAnswerForSample = CreateAnswerForSample(new Queue<int>( sample.answers));
+        
 
         //listTexture = LoadTextureFromLevel(level, theme);
         //listSamples = LoadSample(indexSample);
         //randIndexPiece = RandomStackInt(0, listSamples.Count);
-
-
         //numMove = 10;
         //numPiecesWrong = listSamples.Count;
     }

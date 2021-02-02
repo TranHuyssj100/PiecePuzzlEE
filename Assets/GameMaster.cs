@@ -7,6 +7,7 @@ public class GameMaster : MonoBehaviour
     public GameObject winPanel; 
     public GameObject losePanel;
     public TextMeshProUGUI moveTxt;
+        
 
     public 
     void Start()
