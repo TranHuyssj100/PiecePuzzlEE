@@ -18,7 +18,7 @@ public class GameMaster : MonoBehaviour
     void Update()
     {
         ShowNumMove();
-        if (LevelController.instance.NUM_MOVE >0)
+        if (LevelController.instance.NUM_MOVE >=0)
         {
             if (LevelController.instance.NUM_PIECES_WORNG <= 0)
             {

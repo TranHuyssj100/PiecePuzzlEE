@@ -4,22 +4,25 @@ using UnityEngine;
 
 public class LevelController : MonoBehaviour
 {
-    public int level = 0;
-    public int indexSample = 0;
-    public ThemeType theme;
-    
-
+    //public int level;
+    //public int indexSample;
+    //public ThemeType theme;
+    //public int[] arraySample= {0,1,2,3,4,5,6 };
     public Transform[] points;
     public List<Object> listTexture = new List<Object>();
     public List<Object> listSamples = new List<Object>();
     public List<Vector3> listAnswerForSample = new List<Vector3>();
     public Stack<int> randIndexPiece;
     public Stack<int> deleIndexPiece;
+    [Space(10)]
+    [Header("Data")]
+    public  SampleAnswer curSampleAnswer = new SampleAnswer();
+    public ThemeData curThemeData = new ThemeData();
 
-    public static int indexSpawn = 3;
+
     public static LevelController instance;
 
-    SampleAnswer sample = new SampleAnswer();
+    LevelData curLevelData;
     int numPiecesWrong;
     int numMove;
 
@@ -45,37 +48,45 @@ public class LevelController : MonoBehaviour
     void Start()
     {
         InitializeGame();
-        sample.answers = new int[] { 1, -3, 1, 2, -1, 1, 3, 0, 1, 4, -3, -2, 5, -2, -1, 6, -2, -2, 7, 1, -2 };
-        sample.index = indexSample;
-        listAnswerForSample = CreateAnswerForSample(new Queue<int>( sample.answers));
         
-
-        //listTexture = LoadTextureFromLevel(level, theme);
-        //listSamples = LoadSample(indexSample);
-        //randIndexPiece = RandomStackInt(0, listSamples.Count);
-        //numMove = 10;
-        //numPiecesWrong = listSamples.Count;
+        //curSample.answers = new int[] { 0, -3, 1, 1, -1, 1, 2, 0, 1, 3, -3, -2, 4, -2, -1, 5, -2, -2, 6, 1, -2 };
+        //curSample.index = curLevelData.sampleIndex;
+        listAnswerForSample = CreateAnswerForSample(new Queue<int>(curSampleAnswer.answers));
     }
 
     void Update()
     {
-        //CreateRadomPiece();  
     }
 
     public List<Object> LoadTextureFromLevel(int _level, ThemeType _themeType)
     {
-        string _path = _themeType.ToString() + "/" + "Pieces" + "/" + _level.ToString();
-        Debug.Log(_path);
+        string _path = _themeType.ToString() + "/" + _level.ToString();
+        //Debug.Log(_path);
         Object[] _textures = Resources.LoadAll(_path, typeof(Texture2D));
         return _textures.ToList();
     }
+
     public List<Object> LoadSample(int _indexSample)
     {
-        string _path = "Samples" + "/" + _indexSample.ToString();
-        Debug.Log(_path);
+        string _path = "Samples"+ "/" + _indexSample.ToString();
+        //Debug.Log(_path);
         Object[] _prefabs = Resources.LoadAll(_path);
         return _prefabs.ToList();
     }
+
+    //public List<Object> LoadSample(int [] _samples)
+    //{
+    //    string _path = "Samples/"; 
+    //    List<Object> _prefabs= new List<Object>(); 
+    //    foreach (int _child in _samples)
+    //    {
+    //        var _prefab = Resources.Load<Object>(_path+ _child.ToString());
+    //        Debug.Log(_prefab);
+    //        Debug.Log(_path+_child.ToString());
+    //        _prefabs.Add(_prefab);
+    //    }
+    //    return _prefabs;
+    //}
 
     public GameObject CreatePiece(Object _textureObj, Object _sampleObj, Vector3 _pointSpawn)
     {
@@ -85,6 +96,7 @@ public class LevelController : MonoBehaviour
         GameObject _sampleClone = GameObject.Instantiate(_sampleObj as GameObject, _pointSpawn, Quaternion.identity);
         _spriteObject.AddComponent<SpriteRenderer>().sprite = _sprite;
         _spriteObject.GetComponent<SpriteRenderer>().sortingLayerID = SortingLayer.NameToID("Piece");
+        _spriteObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
         _spriteObject.transform.parent = _sampleClone.transform;
         _sampleClone.GetComponent<Piece>().sizeSprite = _spriteObject.GetComponent<SpriteRenderer>().size;
         _spriteObject.transform.localPosition = Vector3.zero;
@@ -102,10 +114,20 @@ public class LevelController : MonoBehaviour
 
     public void InitializeGame()
     {
-        listTexture = LoadTextureFromLevel(level, theme);
-        listSamples = LoadSample(indexSample);
-        randIndexPiece = RandomStackInt(0, listSamples.Count);
+        curThemeData = DataController.LoadThemeData(GameData.Theme);
+        if (GameData.level < curThemeData.groupLevel.Length)
+        {
+            curLevelData = curThemeData.groupLevel[GameData.level];
+        }
+        else
+        {
+            curLevelData = curThemeData.groupLevel[curThemeData.groupLevel.Length - 1];
+        }
+        curSampleAnswer = DataController.LoadSampleAnswer(curLevelData.sampleIndex);
 
+        listTexture = LoadTextureFromLevel(curLevelData.index, curThemeData.theme) ;
+        listSamples = LoadSample(curLevelData.sampleIndex);
+        randIndexPiece = RandomStackInt(0, listSamples.Count);
         for (int i=0; i < 3; i++)
         {
             SpawnRadomPieces(points[i].position);
@@ -143,7 +165,6 @@ public class LevelController : MonoBehaviour
             _listAnswerforSample.Add(new Vector3(_temp[0], _temp[1], _temp[2]));
             _temp.Clear();
         }   
-
         return _listAnswerforSample;
     }
 

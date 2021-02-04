@@ -4,7 +4,7 @@ using DG.Tweening;
 
 public class Piece : MonoBehaviour
 {
-
+    public int index;
     [Header("Checking Piece")]
     public bool isOnGridBoard=false;
     public bool isMouseDown = false;
@@ -18,7 +18,6 @@ public class Piece : MonoBehaviour
     public float selectedPos = 0.3f;
     public Vector2 sizeSprite;
 
-    [SerializeField] int index;
 
     
     Vector3 oldMousePos;
@@ -101,6 +100,7 @@ public class Piece : MonoBehaviour
     void OnPieceSelecte()
     {
         Transform _child = transform.GetChild(transform.childCount - 1);
+        Transform _shadown = transform.Find("Shadow");
         if (_child != null)
         {
             Sequence _seq = DOTween.Sequence();
@@ -108,6 +108,7 @@ public class Piece : MonoBehaviour
             _seq.Append(transform.DOScale(Vector3.one, .1f));
             _child.localScale = Vector3.one * selectedScale;
             _child.GetComponent<SpriteRenderer>().sortingOrder++;
+            _shadown.GetComponent<SpriteRenderer>().sortingOrder++;
         }
         oldMousePos = Input.mousePosition;
        
@@ -121,12 +122,14 @@ public class Piece : MonoBehaviour
     void OnPieceUnselecte()
     {
         Transform _child = transform.GetChild(transform.childCount - 1);
+        Transform _shadown = transform.Find("Shadow");
         if (_child != null)
         {
             _child.localPosition = Vector2.zero;
             Sequence _seq = DOTween.Sequence();
             _seq.Append(transform.DOScale(Vector3.one, .1f)).OnComplete(()=> {
                 _child.GetComponent<SpriteRenderer>().sortingOrder--;
+                _shadown.GetComponent<SpriteRenderer>().sortingOrder--;
             });
             _child.localScale = Vector3.one;
         }
@@ -152,7 +155,7 @@ public class Piece : MonoBehaviour
                                              }
                                              //LevelController.instance.NUM_MOVE--;
                                              oldPostionOnGridBoard = transform.position;
-                                             isCorrect = new Vector3(index, transform.position.x, transform.position.y) == LevelController.instance.listAnswerForSample[index - 1] ? true:false;
+                                             isCorrect = new Vector3(index, transform.position.x, transform.position.y) == LevelController.instance.listAnswerForSample[index] ? true:false;
                                              if (isCorrect)
                                              { 
                                                  transform.GetChild(transform.childCount-1).localScale=Vector3.one;
