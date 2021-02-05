@@ -1,14 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class LevelController : MonoBehaviour
+public class BuildLevel : MonoBehaviour
 {
-    //public int level;
-    //public int indexSample;
-    //public ThemeType theme;
-    //public int[] arraySample;
     public Transform[] points;
     public List<Object> listTexture = new List<Object>();
     public List<Object> listSamples = new List<Object>();
@@ -17,27 +12,26 @@ public class LevelController : MonoBehaviour
     public Stack<int> deleIndexPiece;
     [Space(10)]
     [Header("Data")]
-    public  SampleAnswer curSampleAnswer = new SampleAnswer();
+    public SampleAnswer curSampleAnswer = new SampleAnswer();
     public ThemeData curThemeData = new ThemeData();
-   
 
 
-    public static LevelController instance;
-    public static bool isInitializeComplete=false;
+    public static BuildLevel instance;
+
     LevelData curLevelData;
     int numPiecesWrong;
     int numMove;
 
-    public int NUM_PIECES_WORNG
-    {
-        get { return numPiecesWrong; }
-        set { numPiecesWrong = value; }
-    }
-    public int NUM_MOVE
-    {
-        get { return numMove; }
-        set { numMove = value; }
-    }
+    //public int NUM_PIECES_WORNG
+    //{
+    //    get { return numPiecesWrong; }
+    //    set { numPiecesWrong = value; }
+    //}
+    //public int NUM_MOVE
+    //{
+    //    get { return numMove; }
+    //    set { numMove = value; }
+    //}
 
     private void Awake()
     {
@@ -46,13 +40,10 @@ public class LevelController : MonoBehaviour
             instance = this;
         }
     }
-    
-    
+
     void Start()
     {
-         InitializeGame();
-        //curSample.answers = new int[] { 0, -3, 1, 1, -1, 1, 2, 0, 1, 3, -3, -2, 4, -2, -1, 5, -2, -2, 6, 1, -2 };
-        //curSample.index = curLevelData.sampleIndex;
+ 
     }
 
     void Update()
@@ -65,21 +56,13 @@ public class LevelController : MonoBehaviour
         //Debug.Log(_path);
         Object[] _textures = Resources.LoadAll(_path, typeof(Texture2D));
         return _textures.ToList();
-    }  
+    }
 
-
-    //public List<Object> LoadSample(int _indexSample)
-    //{
-    //    string _path = "Samples" + "/" + _indexSample.ToString();
-    //    Debug.Log(_path);
-    //    Object[] _prefabs = Resources.LoadAll(_path);
-    //    return _prefabs.ToList();
-    //}
 
     public List<Object> LoadSample(int[] _samples)
     {
         string _path = "Samples/";
-        int _id=0;
+        int _id = 0;
         List<Object> _prefabs = new List<Object>();
         foreach (int _child in _samples)
         {
@@ -116,36 +99,31 @@ public class LevelController : MonoBehaviour
         }
     }
 
-    public void InitializeGame()
-    {
-        isInitializeComplete = false;
-        //curThemeData = DataController.LoadThemeData(GameData.Theme);
-        curThemeData = DataController.Instance.themeData;
-        if (GameData.level < curThemeData.groupLevel.Length)
-        {
-            curLevelData = curThemeData.groupLevel[GameData.level];
-        }
-        else
-        {
-            curLevelData = curThemeData.groupLevel[curThemeData.groupLevel.Length - 1];
-        }
-        curSampleAnswer = DataController.LoadSampleAnswer(curLevelData.sampleIndex);
-        listTexture = LoadTextureFromLevel(curLevelData.index, curThemeData.theme) ;
-        //listSamples = LoadSample(curLevelData.sampleIndex);
-        listSamples = LoadSample(curSampleAnswer.pieceNames);
-        listAnswerForSample = CreateAnswerForSample(new Queue<int>(curSampleAnswer.answers));
-        randIndexPiece = RandomStackInt(0, listSamples.Count);
-        for (int i=0; i < 3; i++)
-        {
-            SpawnRadomPieces(points[i].position);
-        }
-        numMove = 10;
-        numPiecesWrong = listSamples.Count;
-        isInitializeComplete = true;
-        //WinPanel.instance.SetImageReview(listTexture[listTexture.Count - 1]);
-    }
-    
-    public Stack<int> RandomStackInt( int _min, int _max)
+    //public void InitializeGame()
+    //{
+    //    curThemeData = DataController.LoadThemeData(GameData.Theme);
+    //    if (GameData.level < curThemeData.groupLevel.Length)
+    //    {
+    //        curLevelData = curThemeData.groupLevel[GameData.level];
+    //    }
+    //    else
+    //    {
+    //        curLevelData = curThemeData.groupLevel[curThemeData.groupLevel.Length - 1];
+    //    }
+    //    curSampleAnswer = DataController.LoadSampleAnswer(curLevelData.sampleIndex);
+    //    listTexture = LoadTextureFromLevel(curLevelData.index, curThemeData.theme);
+    //    //listSamples = LoadSample(curLevelData.sampleIndex);
+    //    listSamples = LoadSample(curSampleAnswer.pieceNames);
+    //    randIndexPiece = RandomStackInt(0, listSamples.Count);
+    //    for (int i = 0; i < 3; i++)
+    //    {
+    //        SpawnRadomPieces(points[i].position);
+    //    }
+    //    numMove = 10;
+    //    numPiecesWrong = listSamples.Count;
+    //}
+
+    public Stack<int> RandomStackInt(int _min, int _max)
     {
         Stack<int> _randIntStack = new Stack<int>();
         while (_randIntStack.Count < _max)
@@ -160,27 +138,22 @@ public class LevelController : MonoBehaviour
         return _randIntStack;
     }
 
-    public List<Vector3> CreateAnswerForSample(Queue<int>_answers)
+    public List<Vector3> CreateAnswerForSample(Queue<int> _answers)
     {
-        List<Vector3> _listAnswerforSample= new List<Vector3>();
+        List<Vector3> _listAnswerforSample = new List<Vector3>();
         List<int> _temp = new List<int>(3);
-        
+
         while (_answers.Count > 0)
         {
-            for(int i=0; i<3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 _temp.Add(_answers.Dequeue());
             }
             _listAnswerforSample.Add(new Vector3(_temp[0], _temp[1], _temp[2]));
             _temp.Clear();
-        }   
+        }
         return _listAnswerforSample;
     }
 
-   
-}
 
-public enum ThemeType
-{
-   Animal,
 }

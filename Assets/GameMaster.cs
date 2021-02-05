@@ -17,49 +17,59 @@ public class GameMaster : MonoBehaviour
 
     void Update()
     {
-        ShowNumMove();
-        if (LevelController.instance.NUM_MOVE >=0)
-        {
-            if (LevelController.instance.NUM_PIECES_WORNG <= 0)
-            {
-                WinPhase();
-            }
-        }
-        else
-        {
-            LosePhase();
-        }
+        //ShowNumMove();
+        //if (LevelController.instance.NUM_MOVE >=0)
+        //{
+        //    if (LevelController.instance.NUM_PIECES_WORNG <= 0)
+        //    {
+        //        WinPhase();
+        //    }
+        //}
+        //else
+        //{
+        //    LosePhase();
+        //}
     }
 
 
     void WinPhase()
     {
         OpenWinPanel();
-        Debug.Log("<color=yellow> YOU WIN ! </color>");
+
     }
     void LosePhase()
     {
         OpenLosePanel();
-        Debug.Log("<color=red> YOU LOSE ! </color>");
     }
 
 
    void OpenWinPanel()
     {
-        winPanel.transform.localScale = Vector3.zero;
-        winPanel.SetActive(true);
-        winPanel.transform.DOScale(Vector3.one, .2f);
+        if (!winPanel.activeSelf)
+        {
+            Debug.Log("<color=yellow> YOU WIN ! </color>");
+            winPanel.transform.localScale = Vector3.zero;
+            winPanel.SetActive(true);
+            winPanel.transform.DOScale(Vector3.one, .2f);
+            winPanel.GetComponent<WinPanel>().SetImageReview();
+            GameData.level++;
+        }
     } 
 
     public void CloseWinPanel()
     {
-        winPanel.transform.DOScale(Vector3.zero, .2f).OnComplete(()=> {
-            winPanel.SetActive(false);
-            winPanel.transform.localScale = Vector3.one;
-        });
+        if (winPanel.activeSelf)
+        {
+
+            winPanel.transform.DOScale(Vector3.zero, .2f).OnComplete(()=> {
+                winPanel.SetActive(false);
+                winPanel.transform.localScale = Vector3.one;
+            });
+        }
     }
     public void OpenLosePanel()
     {
+        Debug.Log("<color=red> YOU LOSE ! </color>");
         losePanel.transform.localScale = Vector3.zero;
         losePanel.transform.DOScale(Vector3.one, .2f);
         losePanel.SetActive(true);

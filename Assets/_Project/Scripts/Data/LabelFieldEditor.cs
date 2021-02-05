@@ -1,9 +1,9 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 using UnityEngine;
 
 public class LabelFieldEditor : EditorWindow
 {
-#if UNITY_EDITOR
 
     Rect windowRect = new Rect(20, 20, 120, 50);
 
@@ -18,9 +18,9 @@ public class LabelFieldEditor : EditorWindow
     void OnGUI()
     {
         GUILayout.Label("PlayerPrefs", EditorStyles.boldLabel);
-        EditorGUILayout.LabelField("Level", PlayerPrefs.GetInt("Level").ToString());
+        EditorGUILayout.LabelField("level", PlayerPrefs.GetInt("level").ToString());
         this.Repaint();
     }
-#endif
 
 }
+#endif

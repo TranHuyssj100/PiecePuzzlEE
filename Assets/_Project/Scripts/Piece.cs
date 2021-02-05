@@ -4,7 +4,7 @@ using DG.Tweening;
 
 public class Piece : MonoBehaviour
 {
-    public int index;
+    public int id;
     [Header("Checking Piece")]
     public bool isOnGridBoard=false;
     public bool isMouseDown = false;
@@ -64,7 +64,7 @@ public class Piece : MonoBehaviour
         }
         else
         {
-            Debug.Log(index + "<color=green> was Correctly </color>");
+            Debug.Log(id + "<color=green> was Correctly </color>");
         }
     }
 
@@ -136,9 +136,11 @@ public class Piece : MonoBehaviour
     }
     void SetPositionPiece()
     {
-        transform.DOMove(new Vector3(Mathf.Clamp(Mathf.RoundToInt(transform.position.x), limitPosX.x, limitPosX.y),
+        Vector3 _pos = new Vector3(Mathf.Clamp(Mathf.RoundToInt(transform.position.x), limitPosX.x, limitPosX.y),
                                      Mathf.Clamp(Mathf.RoundToInt(transform.position.y), limitPosY.x, limitPosY.y),
-                                     transform.position.z), 0.2f).OnComplete(() =>
+                                     transform.position.z);
+
+        transform.DOMove(_pos, 0.2f).OnComplete(() =>
                                      {
                                          //Debug.Log("check Complete: " +new Vector3(index, transform.position.x, transform.position.y));
                                          //Debug.Log("listIndex:  " + LevelController.instance.listAnswerForSample[index - 1]);
@@ -155,14 +157,14 @@ public class Piece : MonoBehaviour
                                              }
                                              //LevelController.instance.NUM_MOVE--;
                                              oldPostionOnGridBoard = transform.position;
-                                             isCorrect = new Vector3(index, transform.position.x, transform.position.y) == LevelController.instance.listAnswerForSample[index] ? true:false;
+                                             isCorrect = new Vector3(id, transform.position.x, transform.position.y) == LevelController.instance.listAnswerForSample[id] ? true:false;
                                              if (isCorrect)
                                              { 
                                                  transform.GetChild(transform.childCount-1).localScale=Vector3.one;
                                                  transform.GetChild(transform.childCount - 1).localPosition = Vector2.zero;
                                                  LevelController.instance.NUM_PIECES_WORNG--;
                                                  LevelController.instance.SpawnRadomPieces(startPosition);
-                                                 Debug.Log(index + "<color=green> is Correctly </color>," + "numMove "+ LevelController.instance.NUM_MOVE);
+                                                 Debug.Log(id + "<color=green> is Correctly </color>," + "numMove "+ LevelController.instance.NUM_MOVE);
                                              }
                                          }
 

@@ -17,9 +17,18 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
     private void Awake()
     {
         base.Awake();
-        SAVELEVEL = "Assets/_Project/Json/Levels/";
-        SAVESAMPLE = "Assets/_Project/Json/Answers/";
-        SAVETHEME = "Assets/_Project/Json/themes/";
+//#if UNITY_EDITOR
+        //SAVELEVEL = "Assets/Json/Levels/";
+        //SAVESAMPLE = "Assets/Json/Answers/";
+        //SAVETHEME = "Assets/Json/themes/";
+//#elif UNITY_ANDROID
+        SAVELEVEL =  Application.dataPath + "/Json/Levels/";
+        SAVESAMPLE = Application.dataPath +  "/Json/Answers/";
+        SAVETHEME =  Application.dataPath +  "/Json/themes/";
+//#endif
+        //SAVELEVEL = "Assets/_Project/Resources/Json/Levels/";
+        //SAVESAMPLE = "Assets/_Project/Resources/Json/Answers/";
+        //SAVETHEME = "Assets/_Project/Resources/Json/themes/";
         themeData = LoadThemeData(0);
     }
 
@@ -33,7 +42,14 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
 
     public static ThemeData LoadThemeData(int _type)
     {
-        string loadString = File.ReadAllText(Path.Combine(SAVETHEME, ((ThemeType)_type).ToString() + JsonSuffix));
+        string loadString ;
+        //#if UNITY_EDITOR
+        //loadString = File.ReadAllText(Path.Combine(SAVETHEME, ((ThemeType)_type).ToString() + JsonSuffix));
+        //#elif UNITY_ANDROID
+        WWW reader = new WWW(Path.Combine(SAVETHEME, ((ThemeType)_type).ToString() + JsonSuffix));
+        while (!reader.isDone) { }
+        loadString = reader.text;
+        //#endif
         return JsonHelper.FromJson<ThemeData>(loadString)[0];
     }
 
@@ -88,7 +104,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
 
 
 
-    #region JSONHELPER
+#region JSONHELPER
     //----------------------------JsonHelp---------DONT TOUCH------------------
     public static class JsonHelper
     {
@@ -115,7 +131,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
             public T[] items;
         }
     }
-    #endregion
+#endregion
 }
 
 [System.Serializable]
@@ -138,5 +154,6 @@ public class LevelData
 public class SampleAnswer
 {
     public int index;
+    public int [] pieceNames;
     public int [] answers;
 }

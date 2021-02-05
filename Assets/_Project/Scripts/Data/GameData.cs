@@ -13,11 +13,11 @@ public class GameData
     public static int level
     {
         get { return LEVEL; }
-        set { LEVEL = value; }
+        set { PlayerPrefs.SetInt("level", (LEVEL = value)); }
     }  
     public static int Theme
     {
         get { return THEME; }
-        set { THEME = value; }
+        set { PlayerPrefs.SetInt("theme", (THEME = value)); }
     }
 }
