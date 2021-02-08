@@ -196,15 +196,16 @@ public class Piece : MonoBehaviour
     public void AutoCorrectPiece(Vector2 _correctPos,Vector2 _startPos , float _duration)
     {
         startPosition = _startPos;
+        Transform _sprite = transform.GetChild(transform.childCount - 1);
         LevelController.instance.NUM_PIECES_WORNG--;
         LevelController.instance.SpawnRadomPieces(startPosition);
         isCorrect = true;
         isOnPreSpace = false;
-        Transform _sprite = transform.GetChild(transform.childCount - 1);
-        Transform _shadow = transform.Find("Shadow");
+        //Transform _shadow = transform.Find("Shadow");
         transform.localScale = Vector2.one;
-        _sprite.localScale = Vector2.one;
+        _sprite.localScale  = Vector2.one;
         _sprite.localPosition = Vector2.zero;
+
         transform.DOMove(_correctPos, _duration);
     }
     public void DestroyPiece()
