@@ -29,9 +29,9 @@ public class WinPanel : MonoBehaviour
     public Sprite LoadSpriteReview(int _level, ThemeType _themeType)
     {
         string _path = _themeType.ToString() + "/" + _level.ToString() + "/full";
-        Debug.Log(_path);
+        //Debug.Log(_path);
         Sprite _sprite = Resources.Load<Sprite>(_path);
-        Debug.Log(_sprite.name);
+        //Debug.Log(_sprite.name);
         return _sprite;
     }
 }

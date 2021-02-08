@@ -2,6 +2,8 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using DG.Tweening;
 
 public class LevelController : MonoBehaviour
 {
@@ -17,6 +19,7 @@ public class LevelController : MonoBehaviour
     public Stack<int> deleIndexPiece;
     [Space(10)]
     [Header("Data")]
+    public TextMeshProUGUI textDebug;
     public  SampleAnswer curSampleAnswer = new SampleAnswer();
     public ThemeData curThemeData = new ThemeData();
    
@@ -25,7 +28,7 @@ public class LevelController : MonoBehaviour
     public static LevelController instance;
     public static bool isInitializeComplete=false;
     LevelData curLevelData;
-    int numPiecesWrong;
+    public int numPiecesWrong;
     int numMove;
 
     public int NUM_PIECES_WORNG
@@ -51,8 +54,7 @@ public class LevelController : MonoBehaviour
     void Start()
     {
          InitializeGame();
-        //curSample.answers = new int[] { 0, -3, 1, 1, -1, 1, 2, 0, 1, 3, -3, -2, 4, -2, -1, 5, -2, -2, 6, 1, -2 };
-        //curSample.index = curLevelData.sampleIndex;
+       
     }
 
     void Update()
@@ -107,13 +109,14 @@ public class LevelController : MonoBehaviour
         return _sampleClone;
     }
 
-    public void SpawnRadomPieces(Vector3 _pointSpawn)
+    public GameObject SpawnRadomPieces(Vector3 _pointSpawn)
     {
         if (randIndexPiece.Count > 0)
         {
             int _randIndex = randIndexPiece.Pop();
-            CreatePiece(listTexture[_randIndex], listSamples[_randIndex], _pointSpawn);
+            return  CreatePiece(listTexture[_randIndex], listSamples[_randIndex], _pointSpawn);
         }
+        return null;
     }
 
     public void InitializeGame()
@@ -121,6 +124,7 @@ public class LevelController : MonoBehaviour
         isInitializeComplete = false;
         //curThemeData = DataController.LoadThemeData(GameData.Theme);
         curThemeData = DataController.Instance.themeData;
+        //textDebug.text = curThemeData.theme.ToString();
         if (GameData.level < curThemeData.groupLevel.Length)
         {
             curLevelData = curThemeData.groupLevel[GameData.level];
@@ -133,14 +137,17 @@ public class LevelController : MonoBehaviour
         listTexture = LoadTextureFromLevel(curLevelData.index, curThemeData.theme) ;
         //listSamples = LoadSample(curLevelData.sampleIndex);
         listSamples = LoadSample(curSampleAnswer.pieceNames);
+
+        numMove = 10;
+        numPiecesWrong = listSamples.Count;
+
         listAnswerForSample = CreateAnswerForSample(new Queue<int>(curSampleAnswer.answers));
         randIndexPiece = RandomStackInt(0, listSamples.Count);
-        for (int i=0; i < 3; i++)
+        SetCorrectPiecePos(SpawnRadomPieces(points[0].position),points[0].position,0);
+        for (int i=1; i < 3; i++)
         {
             SpawnRadomPieces(points[i].position);
         }
-        numMove = 10;
-        numPiecesWrong = listSamples.Count;
         isInitializeComplete = true;
         //WinPanel.instance.SetImageReview(listTexture[listTexture.Count - 1]);
     }
@@ -177,7 +184,15 @@ public class LevelController : MonoBehaviour
         return _listAnswerforSample;
     }
 
-   
+    public void SetCorrectPiecePos(GameObject _pieceObj,Vector3 _startPos, float _duration)
+    {
+        Piece _piece = _pieceObj.GetComponent<Piece>();
+        Vector3 _correctPos = listAnswerForSample.Find(a => a.x == _piece.id);
+        if (_correctPos != null)
+        {
+            _piece.AutoCorrectPiece(new Vector2(_correctPos.y, _correctPos.z), _startPos, _duration);
+        }
+    }
 }
 
 public enum ThemeType

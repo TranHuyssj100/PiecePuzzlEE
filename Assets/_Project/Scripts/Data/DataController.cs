@@ -1,34 +1,32 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using TMPro;
+
 
 public class DataController : SingletonDontDestroyMonoBehavior<DataController>
 {
 
-    private static string SAVELEVEL;
     private static string SAVESAMPLE;
     private static string SAVETHEME;
     private static string LEVEL = "Level";
     private static string SAMPLE = "Sample";
     private static string JsonSuffix = ".json";
 
+    public TextMeshProUGUI txtDebug;
     public ThemeData themeData;
 
     private void Awake()
     {
         base.Awake();
-//#if UNITY_EDITOR
-        //SAVELEVEL = "Assets/Json/Levels/";
-        //SAVESAMPLE = "Assets/Json/Answers/";
-        //SAVETHEME = "Assets/Json/themes/";
-//#elif UNITY_ANDROID
-        SAVELEVEL =  Application.dataPath + "/Json/Levels/";
-        SAVESAMPLE = Application.dataPath +  "/Json/Answers/";
-        SAVETHEME =  Application.dataPath +  "/Json/themes/";
-//#endif
-        //SAVELEVEL = "Assets/_Project/Resources/Json/Levels/";
-        //SAVESAMPLE = "Assets/_Project/Resources/Json/Answers/";
-        //SAVETHEME = "Assets/_Project/Resources/Json/themes/";
+#if UNITY_EDITOR
+        SAVESAMPLE = Application.streamingAssetsPath +"/Json/Answers";
+        SAVETHEME = Application.streamingAssetsPath + "/Json/Themes";
+#elif UNITY_ANDROID
+        SAVESAMPLE = "jar:file://" + Application.dataPath + "!assets/";
+        SAVETHEME =  "jar:file://" + Application.dataPath + "!assets/";
+#endif
+        txtDebug.text = SAVETHEME ;
         themeData = LoadThemeData(0);
     }
 
@@ -43,33 +41,29 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
     public static ThemeData LoadThemeData(int _type)
     {
         string loadString ;
-        //#if UNITY_EDITOR
-        //loadString = File.ReadAllText(Path.Combine(SAVETHEME, ((ThemeType)_type).ToString() + JsonSuffix));
-        //#elif UNITY_ANDROID
-        WWW reader = new WWW(Path.Combine(SAVETHEME, ((ThemeType)_type).ToString() + JsonSuffix));
+#if UNITY_EDITOR
+        loadString = File.ReadAllText(Path.Combine(SAVETHEME, ((ThemeType)_type).ToString() + JsonSuffix));
+        //Debug.LogError(Path.Combine(SAVETHEME, ((ThemeType)_type).ToString() + JsonSuffix));
+#elif UNITY_ANDROID
+        WWW reader = new WWW(Path.Combine(SAVETHEME, "Json/Themes/" + ((ThemeType)_type).ToString() + JsonSuffix));
         while (!reader.isDone) { }
         loadString = reader.text;
-        //#endif
+#endif
         return JsonHelper.FromJson<ThemeData>(loadString)[0];
     }
 
-    public static LevelData [] LoadLevelData(int _index)
-    {
-        //if (!File.Exists(Path.Combine(SAVEPATH, LEVEL + JsonSuffix)))
-        //{
-        //    CreateDefaultLevelData();
-        //}
-        string loadString = File.ReadAllText(Path.Combine(SAVELEVEL, _index.ToString() + JsonSuffix));
-        return JsonHelper.FromJson<LevelData>(loadString);
-    }
+
     public static SampleAnswer LoadSampleAnswer(int _indexSample)
     {
-        //if (!File.Exists(Path.Combine(SAVEPATH, SAMPLE + JsonSuffix)))
-        //{
-        //    CreateSampleAnswer(0, 7, new int[] { 1, -3, 1, 2, -1, 1, 3, 0, 1, 4, -3, -2, 5, -2, -1, 6, -2, -2, 7, 1, -2 });
-        //}
-        string loadString = File.ReadAllText(Path.Combine(SAVESAMPLE, _indexSample.ToString() + JsonSuffix));
-        //Debug.Log(loadString);
+        string loadString;
+#if UNITY_EDITOR
+        loadString = File.ReadAllText(Path.Combine(SAVESAMPLE, _indexSample.ToString() + JsonSuffix));
+        //Debug.LogError(Path.Combine(SAVESAMPLE, _indexSample.ToString() + JsonSuffix));
+#elif UNITY_ANDROID
+        WWW reader = new WWW(Path.Combine(SAVESAMPLE, "Json/Answers/" +_indexSample.ToString() + JsonSuffix));
+        while (!reader.isDone) { }
+        loadString = reader.text;
+#endif
         return JsonHelper.FromJson<SampleAnswer>(loadString)[0];
     }
     

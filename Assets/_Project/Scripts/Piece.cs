@@ -13,7 +13,7 @@ public class Piece : MonoBehaviour
 
     [Space()]
     public bool isCorrect = false;
-    public float startScale = .3f; 
+    public float startScale = .6f; 
     public float selectedScale = 1.2f;
     public float selectedPos = 0.3f;
     public Vector2 sizeSprite;
@@ -40,10 +40,16 @@ public class Piece : MonoBehaviour
 
     private void Start()
     {
+        startScale = .6f;
+        selectedScale = 1f;
+        selectedPos = 0.1f;
+
         canSetPosition = true;
         startPosition = transform.position;
-        transform.localScale = Vector3.zero;
-        transform.DOScale(Vector3.one * startScale,0.2f);
+
+        //transform.DOScale(Vector3.one * startScale,0.2f);
+        SetScalePieceOnPreSpace();
+
         limitPosX += new Vector2(0, -1 * (sizeSprite.x - 1));
         limitPosY -= new Vector2(0, (sizeSprite.y));
     }
@@ -56,10 +62,10 @@ public class Piece : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log("OnMouseDown");
+        //Debug.Log("OnMouseDown");
         if (!isCorrect)
         {
-            OnPieceSelecte();
+            OnPieceSelect();
             isMouseDown = true;
         }
         else
@@ -77,10 +83,10 @@ public class Piece : MonoBehaviour
     }
     private void OnMouseUp()
     {
-        Debug.Log("OnMouseUp");
+        //Debug.Log("OnMouseUp");
         if (!isCorrect)
         {
-            OnPieceUnselecte();
+            OnPieceUnselect();
             isMouseDown = false;
             if (isOnGridBoard && canSetPosition && !isOnPreSpace)
             {
@@ -90,24 +96,45 @@ public class Piece : MonoBehaviour
             else
             {
                 canSetPosition = true;
+                //SetScalePieceOnPreSpace();
                 transform.DOMove(startPosition, 0.5f);
                 transform.DOScale(Vector3.one * startScale, .2f);
             }
         }
     }
 
-
-    void OnPieceSelecte()
+    void SetScalePieceOnPreSpace()
     {
-        Transform _child = transform.GetChild(transform.childCount - 1);
-        Transform _shadown = transform.Find("Shadow");
-        if (_child != null)
+        Transform _sprite = transform.GetChild(transform.childCount - 1);
+        Transform _shadow = transform.Find("Shadow");
+       
+        if (isOnPreSpace)
         {
+            transform.localScale = Vector3.zero;
+            transform.localScale = Vector3.zero;
+            transform.DOScale(Vector3.one * startScale, 0.2f);
+            _sprite.localScale = Vector2.one* 0.8f;
+            _sprite.localPosition = Vector2.zero;
+            _shadow.localScale = Vector2.one* 0.8f;
+            _shadow.localPosition = Vector2.zero;
+        }
+    }
+
+    public void OnPieceSelect()
+    {
+        Transform _sprite = transform.GetChild(transform.childCount - 1);
+        Transform _shadown = transform.Find("Shadow");
+        if (_sprite != null)
+        {
+
             Sequence _seq = DOTween.Sequence();
-            _child.localPosition = new Vector2(_child.localPosition.x + selectedPos, _child.localPosition.y + selectedPos);
             _seq.Append(transform.DOScale(Vector3.one, .1f));
-            _child.localScale = Vector3.one * selectedScale;
-            _child.GetComponent<SpriteRenderer>().sortingOrder++;
+
+            _sprite.localPosition = new Vector2(_sprite.localPosition.x + selectedPos, _sprite.localPosition.y + selectedPos);
+            _sprite.localScale = Vector2.one * selectedScale;
+            _shadown.localScale = Vector2.one * selectedScale;
+
+            _sprite.GetComponent<SpriteRenderer>().sortingOrder++;
             _shadown.GetComponent<SpriteRenderer>().sortingOrder++;
         }
         oldMousePos = Input.mousePosition;
@@ -119,19 +146,23 @@ public class Piece : MonoBehaviour
         oldMousePos = Input.mousePosition;
         transform.position += (Vector3) _directionMouse;
     }
-    void OnPieceUnselecte()
+    public void OnPieceUnselect()
     {
-        Transform _child = transform.GetChild(transform.childCount - 1);
+        Transform _sprite = transform.GetChild(transform.childCount - 1);
         Transform _shadown = transform.Find("Shadow");
-        if (_child != null)
+        if (_sprite != null)
         {
-            _child.localPosition = Vector2.zero;
+            _sprite.localPosition = Vector2.zero;
+
             Sequence _seq = DOTween.Sequence();
-            _seq.Append(transform.DOScale(Vector3.one, .1f)).OnComplete(()=> {
-                _child.GetComponent<SpriteRenderer>().sortingOrder--;
+            _seq.Append(transform.DOScale(Vector3.one, .1f))
+                .OnComplete(()=> {
+                _sprite.GetComponent<SpriteRenderer>().sortingOrder--;
                 _shadown.GetComponent<SpriteRenderer>().sortingOrder--;
             });
-            _child.localScale = Vector3.one;
+           
+            _sprite.localScale = isOnPreSpace ?Vector2.one*0.8f:Vector2.one;
+            _shadown.localScale = isOnPreSpace ?Vector2.one*0.8f:Vector2.one;
         }
     }
     void SetPositionPiece()
@@ -146,16 +177,7 @@ public class Piece : MonoBehaviour
                                          //Debug.Log("listIndex:  " + LevelController.instance.listAnswerForSample[index - 1]);
                                          if (transform.position != oldPostionOnGridBoard || oldPostionOnGridBoard== Vector3.one*10000)
                                          {
-                                             if (LevelController.instance.NUM_MOVE >0)
-                                             { 
-                                                LevelController.instance.NUM_MOVE--;
-                                             }
-                                             else
-                                             {
-                                                 LevelController.instance.NUM_MOVE=0;
-
-                                             }
-                                             //LevelController.instance.NUM_MOVE--;
+                                             LevelController.instance.NUM_MOVE--;
                                              oldPostionOnGridBoard = transform.position;
                                              isCorrect = new Vector3(id, transform.position.x, transform.position.y) == LevelController.instance.listAnswerForSample[id] ? true:false;
                                              if (isCorrect)
@@ -171,6 +193,20 @@ public class Piece : MonoBehaviour
                                      }) ;
     }
 
+    public void AutoCorrectPiece(Vector2 _correctPos,Vector2 _startPos , float _duration)
+    {
+        startPosition = _startPos;
+        LevelController.instance.NUM_PIECES_WORNG--;
+        LevelController.instance.SpawnRadomPieces(startPosition);
+        isCorrect = true;
+        isOnPreSpace = false;
+        Transform _sprite = transform.GetChild(transform.childCount - 1);
+        Transform _shadow = transform.Find("Shadow");
+        transform.localScale = Vector2.one;
+        _sprite.localScale = Vector2.one;
+        _sprite.localPosition = Vector2.zero;
+        transform.DOMove(_correctPos, _duration);
+    }
     public void DestroyPiece()
     {
         Destroy(gameObject);

@@ -17,18 +17,18 @@ public class GameMaster : MonoBehaviour
 
     void Update()
     {
-        //ShowNumMove();
-        //if (LevelController.instance.NUM_MOVE >=0)
-        //{
-        //    if (LevelController.instance.NUM_PIECES_WORNG <= 0)
-        //    {
-        //        WinPhase();
-        //    }
-        //}
-        //else
-        //{
-        //    LosePhase();
-        //}
+        ShowNumMove();
+        if (LevelController.instance.NUM_MOVE >= 0)
+        {
+            if (LevelController.instance.NUM_PIECES_WORNG <= 0)
+            {
+                WinPhase();
+            }
+        }
+        else
+        {
+            LosePhase();
+        }
     }
 
 
@@ -84,7 +84,7 @@ public class GameMaster : MonoBehaviour
 
     public void ShowNumMove()
     {
-        moveTxt.text = LevelController.instance.NUM_MOVE.ToString();
+        moveTxt.text = LevelController.instance.NUM_MOVE>0 ? LevelController.instance.NUM_MOVE.ToString(): "0";
     }
     
 

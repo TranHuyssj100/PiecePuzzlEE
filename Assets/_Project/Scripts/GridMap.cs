@@ -31,7 +31,7 @@ public class GridMap : MonoBehaviour
         
         if (collision.GetComponent<TriggerPiece>() != null)
         {
-            Debug.Log("Piece In");
+            //Debug.Log("Piece In");
             collision.GetComponent<TriggerPiece>().SetPieceOnGridBoard(true);
         }
        
@@ -42,7 +42,7 @@ public class GridMap : MonoBehaviour
      
         if (collision.GetComponent<TriggerPiece>() != null)
         {
-            Debug.Log("Piece In");
+            //Debug.Log("Piece In");
             collision.GetComponent<TriggerPiece>().SetPieceOnGridBoard(false);
         }
     }
