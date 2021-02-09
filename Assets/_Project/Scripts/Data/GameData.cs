@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 
-public class GameData
+public static class GameData
 {
     private static int THEME;
     private static int LEVEL;
+
     static GameData()
     {
-        PlayerPrefs.GetInt("level", 0);
-        PlayerPrefs.GetInt("theme", 0);
+        LEVEL= PlayerPrefs.GetInt("level", 0);
+        THEME=PlayerPrefs.GetInt("theme", 0);
     }  
     
     public static int level
@@ -20,4 +21,5 @@ public class GameData
         get { return THEME; }
         set { PlayerPrefs.SetInt("theme", (THEME = value)); }
     }
+
 }

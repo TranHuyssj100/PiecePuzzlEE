@@ -13,8 +13,8 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
     private static string SAMPLE = "Sample";
     private static string JsonSuffix = ".json";
 
-    public TextMeshProUGUI txtDebug;
-    public ThemeData themeData;
+    //public TextMeshProUGUI txtDebug;
+    //public ThemeData themeData;
 
     private void Awake()
     {
@@ -26,8 +26,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
         SAVESAMPLE = "jar:file://" + Application.dataPath + "!assets/";
         SAVETHEME =  "jar:file://" + Application.dataPath + "!assets/";
 #endif
-        txtDebug.text = SAVETHEME ;
-        themeData = LoadThemeData(0);
+        //themeData = LoadThemeData(0);
     }
 
 

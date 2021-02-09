@@ -7,7 +7,6 @@ using DG.Tweening;
 
 public class LevelController : MonoBehaviour
 {
-    //public int level;
     //public int indexSample;
     //public ThemeType theme;
     //public int[] arraySample;
@@ -27,6 +26,7 @@ public class LevelController : MonoBehaviour
 
     public static LevelController instance;
     public static bool isInitializeComplete=false;
+    public static int level;
     LevelData curLevelData;
     public int numPiecesWrong;
     int numMove;
@@ -53,6 +53,7 @@ public class LevelController : MonoBehaviour
     
     void Start()
     {
+
          InitializeGame();
        
     }
@@ -81,13 +82,13 @@ public class LevelController : MonoBehaviour
     public List<Object> LoadSample(int[] _samples)
     {
         string _path = "Samples/";
-        int _id=0;
+        //int _id=0;
         List<Object> _prefabs = new List<Object>();
         foreach (int _child in _samples)
         {
             var _prefab = Resources.Load<Object>(_path + _child.ToString());
             GameObject _prefabGameObj = _prefab as GameObject;
-            _prefabGameObj.GetComponent<Piece>().id = _id++;
+            //_prefabGameObj.GetComponent<Piece>().id = _id++;
             _prefabs.Add(_prefab);
         }
         return _prefabs;
@@ -114,7 +115,9 @@ public class LevelController : MonoBehaviour
         if (randIndexPiece.Count > 0)
         {
             int _randIndex = randIndexPiece.Pop();
-            return  CreatePiece(listTexture[_randIndex], listSamples[_randIndex], _pointSpawn);
+            GameObject _piece=  CreatePiece(listTexture[_randIndex], listSamples[_randIndex], _pointSpawn);
+            _piece.GetComponent<Piece>().id = _randIndex;
+            return _piece;
         }
         return null;
     }
@@ -122,16 +125,15 @@ public class LevelController : MonoBehaviour
     public void InitializeGame()
     {
         isInitializeComplete = false;
-        //curThemeData = DataController.LoadThemeData(GameData.Theme);
-        curThemeData = DataController.Instance.themeData;
-        //textDebug.text = curThemeData.theme.ToString();
-        if (GameData.level < curThemeData.groupLevel.Length)
+        curThemeData = DataController.LoadThemeData(GameData.Theme);
+        if ( GameData.level < curThemeData.groupLevel.Length)
         {
             curLevelData = curThemeData.groupLevel[GameData.level];
         }
         else
         {
-            curLevelData = curThemeData.groupLevel[curThemeData.groupLevel.Length - 1];
+            GameData.level = curThemeData.groupLevel.Length - 1;
+            curLevelData = curThemeData.groupLevel[curThemeData.groupLevel.Length-1];
         }
         curSampleAnswer = DataController.LoadSampleAnswer(curLevelData.sampleIndex);
         listTexture = LoadTextureFromLevel(curLevelData.index, curThemeData.theme) ;
@@ -192,6 +194,16 @@ public class LevelController : MonoBehaviour
         {
             _piece.AutoCorrectPiece(new Vector2(_correctPos.y, _correctPos.z), _startPos, _duration);
         }
+    }
+
+
+    public Sprite LoadSpriteReview(int _level, ThemeType _themeType)
+    {
+        string _path = _themeType.ToString() + "/" + _level.ToString() + "/full";
+        //Debug.Log(_path);
+        Sprite _sprite = Resources.Load<Sprite>(_path);
+        //Debug.Log(_sprite.name);
+        return _sprite;
     }
 }
 

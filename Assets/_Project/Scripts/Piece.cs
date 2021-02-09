@@ -22,7 +22,7 @@ public class Piece : MonoBehaviour
     
     Vector3 oldMousePos;
 
-    Vector3 startPosition;
+    public Vector3 startPosition;
     Vector3 oldPostionOnGridBoard=Vector3.one*10000;
     Vector2 limitPosX= new Vector2(-3,1);
     Vector2 limitPosY= new Vector2(-2,3);
@@ -186,7 +186,7 @@ public class Piece : MonoBehaviour
                                                  transform.GetChild(transform.childCount - 1).localPosition = Vector2.zero;
                                                  LevelController.instance.NUM_PIECES_WORNG--;
                                                  LevelController.instance.SpawnRadomPieces(startPosition);
-                                                 Debug.Log(id + "<color=green> is Correctly </color>," + "numMove "+ LevelController.instance.NUM_MOVE);
+                                                 //Debug.Log(id + "<color=green> is Correctly </color>," + "numMove "+ LevelController.instance.NUM_MOVE);
                                              }
                                          }
 
@@ -197,14 +197,16 @@ public class Piece : MonoBehaviour
     {
         startPosition = _startPos;
         Transform _sprite = transform.GetChild(transform.childCount - 1);
+        Transform _shadow = transform.Find("Shadow");
         LevelController.instance.NUM_PIECES_WORNG--;
         LevelController.instance.SpawnRadomPieces(startPosition);
         isCorrect = true;
         isOnPreSpace = false;
-        //Transform _shadow = transform.Find("Shadow");
         transform.localScale = Vector2.one;
         _sprite.localScale  = Vector2.one;
-        _sprite.localPosition = Vector2.zero;
+        _sprite.localPosition = Vector2.zero;    
+        _shadow.localScale  = Vector2.one;
+        _shadow.localPosition = Vector2.zero;
 
         transform.DOMove(_correctPos, _duration);
     }
