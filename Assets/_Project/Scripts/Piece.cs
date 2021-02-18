@@ -199,10 +199,9 @@ public class Piece : MonoBehaviour
         Transform _sprite = transform.GetChild(transform.childCount - 1);
         Transform _shadow = transform.Find("Shadow");
         LevelController.instance.NUM_PIECES_WORNG--;
-        LevelController.instance.SpawnRadomPieces(startPosition);
+
         isCorrect = true;
         isOnPreSpace = false;
-        transform.DOComplete();
         transform.localScale = Vector2.one;
         _sprite.localScale  = Vector2.one;
         _sprite.localPosition = Vector2.zero;    
@@ -210,9 +209,8 @@ public class Piece : MonoBehaviour
         _shadow.localPosition = Vector2.zero;
 
         transform.DOMove(_correctPos, _duration);
-
+        LevelController.instance.SpawnRadomPieces(startPosition);   
     }
-
     public void DestroyPiece()
     {
         Destroy(gameObject);

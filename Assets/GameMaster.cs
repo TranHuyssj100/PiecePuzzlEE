@@ -134,8 +134,8 @@ public class GameMaster : MonoBehaviour
     }
 
    public void OnHintClick()
-    {        
-        Piece _piece = FindObjectOfType<Piece>();
+    {
+        Piece _piece = LevelController.instance.FindIncorrectPiece();
         if (!_piece.isCorrect)
         {
             LevelController.instance.SetCorrectPiecePos(_piece.gameObject, _piece.startPosition, 0.5f);
