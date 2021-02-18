@@ -30,6 +30,7 @@ public class LevelController : MonoBehaviour
     LevelData curLevelData;
     public int numPiecesWrong;
     int numMove;
+    GameObject allPieces;
 
     public int NUM_PIECES_WORNG
     {
@@ -53,7 +54,7 @@ public class LevelController : MonoBehaviour
     
     void Start()
     {
-
+         allPieces = new GameObject("AllPiece");
          InitializeGame();
        
     }
@@ -117,6 +118,7 @@ public class LevelController : MonoBehaviour
             int _randIndex = randIndexPiece.Pop();
             GameObject _piece=  CreatePiece(listTexture[_randIndex], listSamples[_randIndex], _pointSpawn);
             _piece.GetComponent<Piece>().id = _randIndex;
+            _piece.transform.parent = allPieces.transform;
             return _piece;
         }
         return null;
@@ -125,6 +127,7 @@ public class LevelController : MonoBehaviour
     public void InitializeGame()
     {
         isInitializeComplete = false;
+        
         curThemeData = DataController.LoadThemeData(GameData.Theme);
         if ( GameData.level < curThemeData.groupLevel.Length)
         {
@@ -204,6 +207,23 @@ public class LevelController : MonoBehaviour
         Sprite _sprite = Resources.Load<Sprite>(_path);
         //Debug.Log(_sprite.name);
         return _sprite;
+    }
+
+    public Piece FindIncorrectPiece()
+    {
+        Piece _piece=null;
+        if (allPieces!=null)
+        {
+            foreach(Transform child in allPieces.transform)
+            {
+                if (!child.GetComponent<Piece>().isCorrect)
+                {
+                    _piece = child.GetComponent<Piece>();
+                    break;
+                }
+            }    
+        }
+           return _piece;
     }
 }
 
