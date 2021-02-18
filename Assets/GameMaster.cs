@@ -49,6 +49,8 @@ public class GameMaster : MonoBehaviour
     {
         if (!panel.activeSelf)
         {
+            SoundManager.instance.PlayRandom(TypeSFX.Win);
+            SoundManager.instance.ClearIndexSquential(TypeSFX.True);
             panel.transform.localScale = Vector3.zero;
             panel.SetActive(true);
             panel.transform.DOScale(Vector3.one, .2f);
@@ -136,7 +138,7 @@ public class GameMaster : MonoBehaviour
    public void OnHintClick()
     {
         Piece _piece = LevelController.instance.FindIncorrectPiece();
-        if (!_piece.isCorrect)
+        if (_piece!=null && !_piece.isCorrect)
         {
             LevelController.instance.SetCorrectPiecePos(_piece.gameObject, _piece.startPosition, 0.5f);
         }
