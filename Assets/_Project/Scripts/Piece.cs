@@ -17,15 +17,17 @@ public class Piece : MonoBehaviour
     public float selectedScale = 1.2f;
     public float selectedPos = 0.3f;
     public Vector2 sizeSprite;
+    public Vector3 startPosition;
 
 
     
     Vector3 oldMousePos;
 
-    public Vector3 startPosition;
     Vector3 oldPostionOnGridBoard=Vector3.one*10000;
     Vector2 limitPosX= new Vector2(-3,1);
     Vector2 limitPosY= new Vector2(-2,3);
+
+    int _indexTrueSound = 0;
 
 
     private void OnEnable()
@@ -182,11 +184,17 @@ public class Piece : MonoBehaviour
                                              isCorrect = new Vector3(id, transform.position.x, transform.position.y) == LevelController.instance.listAnswerForSample[id] ? true:false;
                                              if (isCorrect)
                                              { 
+                                                
                                                  transform.GetChild(transform.childCount-1).localScale=Vector3.one;
                                                  transform.GetChild(transform.childCount - 1).localPosition = Vector2.zero;
                                                  LevelController.instance.NUM_PIECES_WORNG--;
                                                  LevelController.instance.SpawnRadomPieces(startPosition);
+                                                 SoundManager.instance.playSequential(TypeSFX.True);
                                                  //Debug.Log(id + "<color=green> is Correctly </color>," + "numMove "+ LevelController.instance.NUM_MOVE);
+                                             }
+                                             else
+                                             {
+                                                 SoundManager.instance.PlayRandom(TypeSFX.Wrong);
                                              }
                                          }
 
@@ -211,6 +219,8 @@ public class Piece : MonoBehaviour
         transform.DOMove(_correctPos, _duration);
         LevelController.instance.SpawnRadomPieces(startPosition);   
     }
+
+   
     public void DestroyPiece()
     {
         Destroy(gameObject);
