@@ -27,7 +27,7 @@ public class GameMaster : MonoBehaviour
                 WinPhase();
             }
         }
-        else
+        else 
         {
             LosePhase();
         }

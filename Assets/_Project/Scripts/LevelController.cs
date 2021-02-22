@@ -4,12 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using System.Drawing;
+using System.Net.Mail;
 
 public class LevelController : MonoBehaviour
 {
     //public int indexSample;
     //public ThemeType theme;
     //public int[] arraySample;
+    public int sizeLevel;
     public Transform[] points;
     public List<Object> listTexture = new List<Object>();
     public List<Object> listSamples = new List<Object>();
@@ -100,7 +103,7 @@ public class LevelController : MonoBehaviour
         Texture2D _texture = _textureObj as Texture2D;
         Sprite _sprite = Sprite.Create(_texture, new Rect(0f, 0f, _texture.width, _texture.height), new Vector2(0, 0), 100f);
         GameObject _spriteObject = new GameObject(_texture.name);
-        GameObject _sampleClone = GameObject.Instantiate(_sampleObj as GameObject, _pointSpawn, Quaternion.identity);
+        GameObject _sampleClone = GameObject.Instantiate(_sampleObj as GameObject, new Vector3(_pointSpawn.x, _pointSpawn.y, 0), Quaternion.identity);
         _spriteObject.AddComponent<SpriteRenderer>().sprite = _sprite;
         _spriteObject.GetComponent<SpriteRenderer>().sortingLayerID = SortingLayer.NameToID("Piece");
         _spriteObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
@@ -138,13 +141,17 @@ public class LevelController : MonoBehaviour
             GameData.level = curThemeData.groupLevel.Length - 1;
             curLevelData = curThemeData.groupLevel[curThemeData.groupLevel.Length-1];
         }
+        //sizeLevel = curLevelData.size;
+        //SetCamPosition(sizeLevel);
         curSampleAnswer = DataController.LoadSampleAnswer(curLevelData.sampleIndex);
         listTexture = LoadTextureFromLevel(curLevelData.index, curThemeData.theme) ;
         //listSamples = LoadSample(curLevelData.sampleIndex);
+
         listSamples = LoadSample(curSampleAnswer.pieceNames);
 
-        numMove = 10;
+        numMove = listSamples.Count+ Mathf.CeilToInt(0.3f* listSamples.Count);
         numPiecesWrong = listSamples.Count;
+
 
         listAnswerForSample = CreateAnswerForSample(new Queue<int>(curSampleAnswer.answers));
         randIndexPiece = RandomStackInt(0, listSamples.Count);
@@ -225,9 +232,28 @@ public class LevelController : MonoBehaviour
         }
            return _piece;
     }
+
+    void SetCamPosition(int sizeLevel)
+    {
+        switch (sizeLevel)
+        {
+            case 5 :
+                Camera.main.transform.position = new Vector3(CameraInfo.POSITION_5x5.x,CameraInfo.POSITION_5x5.y, -10) ;
+                Camera.main.orthographicSize = CameraInfo.POSITION_5x5.z;
+                break;  
+            case 6 :
+                Camera.main.transform.position = new Vector3(CameraInfo.POSITION_6x6.x, CameraInfo.POSITION_6x6.y);
+                Camera.main.orthographicSize = CameraInfo.POSITION_6x6.z;
+                break;
+        }
+    }
 }
 
 public enum ThemeType
 {
    Animal,
 }
+
+
+
+
