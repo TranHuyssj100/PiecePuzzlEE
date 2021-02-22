@@ -18,12 +18,11 @@ public class Piece : MonoBehaviour
     public float selectedPos = 0.3f;
     public Vector2 sizeSprite;
     public Vector3 startPosition;
+    public Vector3 oldPostionOnGridBoard=Vector3.one*10000;
 
 
     
     Vector3 oldMousePos;
-
-    Vector3 oldPostionOnGridBoard=Vector3.one*10000;
     Vector2 limitPosX= new Vector2(-3,1);
     Vector2 limitPosY= new Vector2(-2,3);
 
@@ -42,7 +41,7 @@ public class Piece : MonoBehaviour
 
     private void Start()
     {
-        startScale = .6f;
+        startScale = .55f;
         selectedScale = 1f;
         selectedPos = 0.1f;
 
@@ -69,6 +68,10 @@ public class Piece : MonoBehaviour
         {
             OnPieceSelect();
             isMouseDown = true;
+            if (isOnPreSpace)
+            {
+                oldPostionOnGridBoard = startPosition;
+            }
         }
         else
         {
@@ -163,8 +166,8 @@ public class Piece : MonoBehaviour
                 _shadown.GetComponent<SpriteRenderer>().sortingOrder--;
             });
            
-            _sprite.localScale = isOnPreSpace ?Vector2.one*0.8f:Vector2.one;
-            _shadown.localScale = isOnPreSpace ?Vector2.one*0.8f:Vector2.one;
+            _sprite.localScale = isOnPreSpace ?Vector2.one*1f:Vector2.one;
+            _shadown.localScale = isOnPreSpace ?Vector2.one*1f:Vector2.one;
         }
     }
     void SetPositionPiece()
@@ -173,32 +176,31 @@ public class Piece : MonoBehaviour
                                      Mathf.Clamp(Mathf.RoundToInt(transform.position.y), limitPosY.x, limitPosY.y),
                                      transform.position.z);
 
+        //Debug.Log(_pos);
+        if (_pos != oldPostionOnGridBoard || oldPostionOnGridBoard == Vector3.one * 10000)
+        {
+            LevelController.instance.NUM_MOVE--;
+            oldPostionOnGridBoard =_pos;
+        }
         transform.DOMove(_pos, 0.2f).OnComplete(() =>
                                      {
-                                         //Debug.Log("check Complete: " +new Vector3(index, transform.position.x, transform.position.y));
-                                         //Debug.Log("listIndex:  " + LevelController.instance.listAnswerForSample[index - 1]);
-                                         if (transform.position != oldPostionOnGridBoard || oldPostionOnGridBoard== Vector3.one*10000)
-                                         {
-                                             LevelController.instance.NUM_MOVE--;
-                                             oldPostionOnGridBoard = transform.position;
-                                             isCorrect = new Vector3(id, transform.position.x, transform.position.y) == LevelController.instance.listAnswerForSample[id] ? true:false;
-                                             if (isCorrect)
-                                             { 
-                                                
-                                                 transform.GetChild(transform.childCount-1).localScale=Vector3.one;
-                                                 transform.GetChild(transform.childCount - 1).localPosition = Vector2.zero;
-                                                 LevelController.instance.NUM_PIECES_WORNG--;
-                                                 LevelController.instance.SpawnRadomPieces(startPosition);
-                                                 SoundManager.instance.playSequential(TypeSFX.True);
-                                                 //Debug.Log(id + "<color=green> is Correctly </color>," + "numMove "+ LevelController.instance.NUM_MOVE);
-                                             }
-                                             else
-                                             {
-                                                 SoundManager.instance.PlayRandom(TypeSFX.Wrong);
-                                             }
+                                        isCorrect = new Vector3(id, transform.position.x, transform.position.y) == LevelController.instance.listAnswerForSample[id] ? true:false;
+                                        if (isCorrect)
+                                        { 
+                                            transform.GetChild(transform.childCount-1).localScale=Vector3.one;
+                                            transform.GetChild(transform.childCount - 1).localPosition = Vector2.zero;
+                                            LevelController.instance.NUM_PIECES_WORNG--;
+                                            LevelController.instance.SpawnRadomPieces(startPosition);
+                                            SoundManager.instance.playSequential(TypeSFX.True);
+                                             //Debug.Log(id + "<color=green> is Correctly </color>," + "numMove "+ LevelController.instance.NUM_MOVE);
                                          }
+                                        else
+                                        {
+                                            SoundManager.instance.ClearIndexSquential(TypeSFX.True);
+                                            SoundManager.instance.PlayRandom(TypeSFX.Wrong);
+                                        }
 
-                                     }) ;
+                                     });
     }
 
     public void AutoCorrectPiece(Vector2 _correctPos,Vector2 _startPos , float _duration)

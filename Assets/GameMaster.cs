@@ -20,7 +20,7 @@ public class GameMaster : MonoBehaviour
     void Update()
     {
         ShowNumMove();
-        if (LevelController.instance.NUM_MOVE >= 0)
+        if (LevelController.instance.NUM_MOVE > 0)
         {
             if (LevelController.instance.NUM_PIECES_WORNG <= 0)
             {
@@ -49,8 +49,7 @@ public class GameMaster : MonoBehaviour
     {
         if (!panel.activeSelf)
         {
-            SoundManager.instance.PlayRandom(TypeSFX.Win);
-            SoundManager.instance.ClearIndexSquential(TypeSFX.True);
+
             panel.transform.localScale = Vector3.zero;
             panel.SetActive(true);
             panel.transform.DOScale(Vector3.one, .2f);
@@ -77,6 +76,8 @@ public class GameMaster : MonoBehaviour
     {
         if (!winPanel.activeSelf)
         {
+            SoundManager.instance.PlayRandom(TypeSFX.Win);
+            SoundManager.instance.ClearIndexSquential(TypeSFX.True);
             Debug.Log("<color=yellow> YOU WIN ! </color>");
             OpenPanel(winPanel);
             winPanel.GetComponent<WinPanel>().SetImageReview();
