@@ -55,7 +55,7 @@ public class SoundManager : MonoBehaviour
     {
         ObjectSound _objectSound = listObject.Find(x => (x.type == _type));
         int _index = PlayerPrefs.GetInt(_type.ToString(), 0);
-        Debug.LogError(_index);
+        //Debug.LogError(_index);
         if (_objectSound != null)
         {
             if (_index >=_objectSound.track.Count) PlayerPrefs.SetInt(_type.ToString(), _index=0);

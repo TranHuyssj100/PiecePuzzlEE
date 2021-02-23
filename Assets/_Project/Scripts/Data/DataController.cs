@@ -140,6 +140,7 @@ public class ThemeData
 public class LevelData
 {
     public int index;
+    public int size;
     public int sampleIndex;
 }
 
