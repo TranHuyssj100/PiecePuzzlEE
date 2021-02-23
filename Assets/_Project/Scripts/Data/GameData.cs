@@ -7,6 +7,7 @@ public static class GameData
     private static int IS_SOUND;
     private static int PREVIEW;
     private static int AUTO_CORRECT;
+    private static int GOLD;
 
     static GameData()
     {
@@ -15,6 +16,7 @@ public static class GameData
         IS_SOUND = PlayerPrefs.GetInt("sound", 1);
         PREVIEW = PlayerPrefs.GetInt("preview", 0);
         AUTO_CORRECT = PlayerPrefs.GetInt("auto_correct", 0);
+        GOLD = PlayerPrefs.GetInt("gold", 0);
     }  
     
     public static int level
@@ -41,6 +43,11 @@ public static class GameData
     {
         get { return AUTO_CORRECT; }
         set { PlayerPrefs.SetInt("auto_correct", (AUTO_CORRECT = value)); }
+    }   
+    public static int gold
+    {
+        get { return GOLD; }
+        set { PlayerPrefs.SetInt("gold", (GOLD = value)); }
     }
 
 }
