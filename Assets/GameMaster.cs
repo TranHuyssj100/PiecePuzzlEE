@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameMaster : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class GameMaster : MonoBehaviour
     public 
     void Start()
     {
-        
+        AdManager.instance.onRewardAdClosed += RewardAdClosed;
     }
 
     void Update()
@@ -59,7 +60,6 @@ public class GameMaster : MonoBehaviour
     {
         if (panel.activeSelf)
         {
-
             panel.transform.DOScale(Vector3.zero, .2f).OnComplete(() => {
                 panel.SetActive(false);
                 panel.transform.localScale = Vector3.one;
@@ -86,9 +86,12 @@ public class GameMaster : MonoBehaviour
 
     public void OpenLosePanel()
     {
-        Debug.Log("<color=red> YOU LOSE ! </color>");
-        OpenPanel(losePanel);
-        losePanel.SetActive(true);
+        if (!losePanel.activeSelf)
+        {
+            Debug.Log("<color=red> YOU LOSE ! </color>");
+            OpenPanel(losePanel);
+            losePanel.SetActive(true);
+        }
     }  
     public void OpenSetting()
     {
@@ -117,7 +120,8 @@ public class GameMaster : MonoBehaviour
         LevelController.instance.InitializeGame();
         CloseWinPanel();
         CloseLosePanel();
-    }  
+        AdManager.instance.checkInterAdsCondition();
+    }
     public void Next()
     { 
         GameData.level++;
@@ -125,15 +129,19 @@ public class GameMaster : MonoBehaviour
         LevelController.instance.InitializeGame();
         CloseWinPanel();
         CloseLosePanel();
+        AdManager.instance.checkInterAdsCondition();
     }
 
-   public void OnStartClick()
+    public void OnStartClick()
     {
         ClosePanel(menu);
+        AdManager.instance.checkInterAdsCondition();
     }
    public void OnReturnClick()
     {
-        OpenPanel(menu);
+        //OpenPanel(menu);
+        AdManager.instance.showInterstitialAd();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
    public void OnHintClick()
@@ -147,6 +155,21 @@ public class GameMaster : MonoBehaviour
     }
     #endregion
 
-    
+    #region Reward
+    public void ShowMoreMoveAd()
+    {
+        AdManager.instance.showRewardedAd(AdManager.RewardType.MoreMove);
+    }
+    public void GrantMoreMove()
+    {
+        LevelController.instance.NUM_MOVE += 5;
+        CloseLosePanel();
+    }    
+    private void RewardAdClosed()
+    {
+        if (AdManager.rewardType == AdManager.RewardType.MoreMove)
+            GrantMoreMove();
+    }
+    #endregion
 
 }

@@ -8,6 +8,9 @@ public class AdManager : MonoBehaviour
 {
     public event Action onRewardAdClosed;
 
+    public int stagePlayed = 0;
+    private int stageToShowAd = 3;
+
     public void RewardAdClosed()
     {
         if (onRewardAdClosed != null)
@@ -25,7 +28,6 @@ public class AdManager : MonoBehaviour
 
 
     public RewardedAd rewardedAd;
-    private bool isSecondChanceRewarded;
 
     public InterstitialAd interstitialAd;
 
@@ -164,6 +166,16 @@ public class AdManager : MonoBehaviour
         this.interstitialAd.LoadAd(request);
     }
 
+    public void checkInterAdsCondition()
+    {
+        stagePlayed++;
+        if(stagePlayed >= stageToShowAd)
+        {
+            stagePlayed = 0;
+            showInterstitialAd();
+        }    
+    }    
+
     public void showInterstitialAd()
     {
         if (this.interstitialAd.IsLoaded())
@@ -240,7 +252,6 @@ public void HandleOnAdLeavingApplication(object sender, EventArgs args)
     public void HandleRewardedAdOpening(object sender, EventArgs args)
     {
         Time.timeScale = 0;
-        isSecondChanceRewarded = false;
     }
 
     public void HandleRewardedAdFailedToShow(object sender, AdErrorEventArgs args)

@@ -13,8 +13,6 @@ public static class GameData
         LEVEL= PlayerPrefs.GetInt("level", 0);
         THEME=PlayerPrefs.GetInt("theme", 0);
         IS_SOUND = PlayerPrefs.GetInt("sound", 1);
-        PREVIEW = PlayerPrefs.GetInt("preview", 0);
-        AUTO_CORRECT = PlayerPrefs.GetInt("auto_correct", 0);
     }  
     
     public static int level
@@ -32,15 +30,4 @@ public static class GameData
         get { return IS_SOUND; }
         set { PlayerPrefs.SetInt("sound", (IS_SOUND = value)); }
     }
-    public static int preview
-    {
-        get { return PREVIEW; }
-        set { PlayerPrefs.SetInt("preview", (PREVIEW = value)); }
-    }
-    public static int auto_correct
-    {
-        get { return AUTO_CORRECT; }
-        set { PlayerPrefs.SetInt("auto_correct", (AUTO_CORRECT = value)); }
-    }
-
 }
