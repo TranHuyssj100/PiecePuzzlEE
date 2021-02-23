@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 using TMPro;
+using System.Threading;
 
 public class GameMaster : MonoBehaviour
 {
@@ -8,7 +9,9 @@ public class GameMaster : MonoBehaviour
     public GameObject losePanel;
     public GameObject setting;
     public GameObject menu;
+    [Header("text")]
     public TextMeshProUGUI moveTxt;
+    public TextMeshProUGUI goldTxt;
         
 
     public 
@@ -19,32 +22,58 @@ public class GameMaster : MonoBehaviour
 
     void Update()
     {
+
         ShowNumMove();
-        if (LevelController.instance.NUM_MOVE > 0)
+        ShowGold();
+        if (LevelController.isInitializeComplete)
         {
-            if (LevelController.instance.NUM_PIECES_WORNG <= 0)
+            if (LevelController.instance.NUM_MOVE > 0)
             {
-                WinPhase();
+                if (LevelController.instance.NUM_PIECES_WORNG <= 0)
+                {
+                    WinPhase();
+                }
             }
-        }
-        else 
-        {
-            LosePhase();
+            else
+            {
+                if (LevelController.instance.NUM_MOVE == 0 && LevelController.instance.NUM_PIECES_WORNG == 0)
+                {
+                    WinPhase();
+                }
+                else
+                {
+                    LosePhase();
+                }
+            }
         }
     }
 
-    #region Phase
+    #region PHASE
     void WinPhase()
     {
-        OpenWinPanel();
+        if (!winPanel.activeSelf)
+        {
+            GameData.gold += Config.GOLD_WIN;
+            SoundManager.instance.PlayRandom(TypeSFX.Win);
+            SoundManager.instance.ClearIndexSquential(TypeSFX.True);
+            Debug.Log("<color=yellow> YOU WIN ! </color>");
+            OpenPanel(winPanel);
+            winPanel.GetComponent<WinPanel>().SetImageReview();
+        }
     }
     void LosePhase()
     {
-        OpenLosePanel() ;
+        if (!losePanel.activeSelf)
+        {
+            Debug.Log("<color=red> YOU LOSE ! </color>");
+            OpenPanel(losePanel);
+            losePanel.SetActive(true);
+        }
     }
 
     #endregion
 
+    #region CLOSE-OPEN PANEL
     void OpenPanel(GameObject panel)
     {
         if (!panel.activeSelf)
@@ -66,29 +95,31 @@ public class GameMaster : MonoBehaviour
             });
         }
     }
+    #endregion
+
+    #region UPDATE TEXT
     public void ShowNumMove()
     {
-        moveTxt.text = LevelController.instance.NUM_MOVE > 0 ? LevelController.instance.NUM_MOVE.ToString() : "0";
+        moveTxt.text = LevelController.instance.NUM_MOVE >= 0 ? LevelController.instance.NUM_MOVE.ToString() : "0";
     }
+
+    public void ShowGold()
+    {
+        goldTxt.text = GameData.gold.ToString();
+    }
+
+    #endregion
+
 
     #region OnClick
     void OpenWinPanel()
     {
-        if (!winPanel.activeSelf)
-        {
-            SoundManager.instance.PlayRandom(TypeSFX.Win);
-            SoundManager.instance.ClearIndexSquential(TypeSFX.True);
-            Debug.Log("<color=yellow> YOU WIN ! </color>");
-            OpenPanel(winPanel);
-            winPanel.GetComponent<WinPanel>().SetImageReview();
-        }
+  
     } 
 
     public void OpenLosePanel()
     {
-        Debug.Log("<color=red> YOU LOSE ! </color>");
-        OpenPanel(losePanel);
-        losePanel.SetActive(true);
+      
     }  
     public void OpenSetting()
     {
@@ -114,7 +145,7 @@ public class GameMaster : MonoBehaviour
     public void Replay()
     {
         EventManager.TriggerEvent("DestroyPiece");
-        LevelController.instance.InitializeGame();
+        StartCoroutine(LevelController.instance.InitializeGame());
         CloseWinPanel();
         CloseLosePanel();
     }  
@@ -122,7 +153,7 @@ public class GameMaster : MonoBehaviour
     { 
         GameData.level++;
         EventManager.TriggerEvent("DestroyPiece");
-        LevelController.instance.InitializeGame();
+        StartCoroutine(LevelController.instance.InitializeGame());
         CloseWinPanel();
         CloseLosePanel();
     }
@@ -138,10 +169,14 @@ public class GameMaster : MonoBehaviour
 
    public void OnHintClick()
     {
-        Piece _piece = LevelController.instance.FindIncorrectPiece();
-        if (_piece!=null && !_piece.isCorrect)
+        if (GameData.gold >= Config.COST_HINT)
         {
-            LevelController.instance.SetCorrectPiecePos(_piece.gameObject, _piece.startPosition, 0.5f);
+            GameData.gold -= Config.COST_HINT;
+            Piece _piece = LevelController.instance.FindIncorrectPiece();
+            if (_piece!=null && !_piece.isCorrect)
+            {
+                LevelController.instance.SetCorrectPiecePos(_piece.gameObject, _piece.startPosition, 0.5f);
+            }
         }
         
     }
