@@ -172,19 +172,19 @@ public class Piece : MonoBehaviour
     }
     void SetPositionPiece()
     {
-        Vector3 _pos = new Vector3(Mathf.Clamp(Mathf.RoundToInt(transform.position.x), limitPosX.x, limitPosX.y),
+        Vector3 _pos = new Vector3(Mathf.Clamp((Mathf.RoundToInt(transform.position.x)), limitPosX.x, limitPosX.y),
                                      Mathf.Clamp(Mathf.RoundToInt(transform.position.y), limitPosY.x, limitPosY.y),
                                      transform.position.z);
 
         //Debug.Log(_pos);
         if (_pos != oldPostionOnGridBoard || oldPostionOnGridBoard == Vector3.one * 10000)
         {
-            LevelController.instance.NUM_MOVE--;
             oldPostionOnGridBoard =_pos;
         }
         transform.DOMove(_pos, 0.2f).OnComplete(() =>
                                      {
-                                        isCorrect = new Vector3(id, transform.position.x, transform.position.y) == LevelController.instance.listAnswerForSample[id] ? true:false;
+                                         LevelController.instance.NUM_MOVE--;
+                                         isCorrect = new Vector3(id, transform.position.x, transform.position.y) == LevelController.instance.listAnswerForSample[id] ? true:false;
                                         if (isCorrect)
                                         { 
                                             transform.GetChild(transform.childCount-1).localScale=Vector3.one;

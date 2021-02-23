@@ -2,10 +2,8 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using DG.Tweening;
-using System.Drawing;
-using System.Net.Mail;
+using System.Collections;
 
 public class LevelController : MonoBehaviour
 {
@@ -21,18 +19,18 @@ public class LevelController : MonoBehaviour
     public Stack<int> deleIndexPiece;
     [Space(10)]
     [Header("Data")]
-    public TextMeshProUGUI textDebug;
     public  SampleAnswer curSampleAnswer = new SampleAnswer();
     public ThemeData curThemeData = new ThemeData();
+    public static bool isInitializeComplete=false;
    
 
 
     public static LevelController instance;
-    public static bool isInitializeComplete=false;
     public static int level;
-    LevelData curLevelData;
     public int numPiecesWrong;
+    
     int numMove;
+    LevelData curLevelData;
     GameObject allPieces;
 
     public int NUM_PIECES_WORNG
@@ -57,19 +55,24 @@ public class LevelController : MonoBehaviour
     
     void Start()
     {
-         allPieces = new GameObject("AllPiece");
-         InitializeGame();
-       
+        allPieces = new GameObject("AllPiece");
+        StartCoroutine(InitializeGame());
+
+
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            GameData.gold+=20;
+        }
     }
 
-    public List<Object> LoadTextureFromLevel(int _level, ThemeType _themeType)
+    public List<Object> LoadTextureFromLevel(int _level, ThemeType _themeType, int _sizeLevel)
     {
-        string _path = _themeType.ToString() + "/" + _level.ToString();
-        //Debug.Log(_path);
+        string _path = "Themes/" + _themeType.ToString() + "/"+ _sizeLevel.ToString() + "x" + _sizeLevel.ToString() + "/" + _level.ToString();
+        Debug.Log(_path);
         Object[] _textures = Resources.LoadAll(_path, typeof(Texture2D));
         return _textures.ToList();
     }  
@@ -116,6 +119,7 @@ public class LevelController : MonoBehaviour
 
     public GameObject SpawnRadomPieces(Vector3 _pointSpawn)
     {
+        //Debug.LogError(_pointSpawn);
         if (randIndexPiece.Count > 0)
         {
             int _randIndex = randIndexPiece.Pop();
@@ -127,7 +131,7 @@ public class LevelController : MonoBehaviour
         return null;
     }
 
-    public void InitializeGame()
+    public IEnumerator InitializeGame()
     {
         isInitializeComplete = false;
         
@@ -141,17 +145,18 @@ public class LevelController : MonoBehaviour
             GameData.level = curThemeData.groupLevel.Length - 1;
             curLevelData = curThemeData.groupLevel[curThemeData.groupLevel.Length-1];
         }
-        //sizeLevel = curLevelData.size;
-        //SetCamPosition(sizeLevel);
+
+        sizeLevel = curLevelData.size;
+        SetCamPosition(sizeLevel);
+        yield return new WaitForEndOfFrame();
         curSampleAnswer = DataController.LoadSampleAnswer(curLevelData.sampleIndex);
-        listTexture = LoadTextureFromLevel(curLevelData.index, curThemeData.theme) ;
+        listTexture = LoadTextureFromLevel(curLevelData.index, curThemeData.theme, sizeLevel) ;
         //listSamples = LoadSample(curLevelData.sampleIndex);
 
         listSamples = LoadSample(curSampleAnswer.pieceNames);
 
         numMove = listSamples.Count+ Mathf.CeilToInt(0.3f* listSamples.Count);
         numPiecesWrong = listSamples.Count;
-
 
         listAnswerForSample = CreateAnswerForSample(new Queue<int>(curSampleAnswer.answers));
         randIndexPiece = RandomStackInt(0, listSamples.Count);
@@ -207,9 +212,9 @@ public class LevelController : MonoBehaviour
     }
 
 
-    public Sprite LoadSpriteReview(int _level, ThemeType _themeType)
+    public Sprite LoadSpriteReview(int _level, ThemeType _themeType, int _sizeLevel)
     {
-        string _path = _themeType.ToString() + "/" + _level.ToString() + "/full";
+        string _path ="Themes/"+ _themeType.ToString() + "/" +_sizeLevel.ToString() + "x" + _sizeLevel.ToString()+"/" + _level.ToString() + "/full";
         //Debug.Log(_path);
         Sprite _sprite = Resources.Load<Sprite>(_path);
         //Debug.Log(_sprite.name);
@@ -238,12 +243,12 @@ public class LevelController : MonoBehaviour
         switch (sizeLevel)
         {
             case 5 :
-                Camera.main.transform.position = new Vector3(CameraInfo.POSITION_5x5.x,CameraInfo.POSITION_5x5.y, -10) ;
-                Camera.main.orthographicSize = CameraInfo.POSITION_5x5.z;
+                Camera.main.transform.position = new Vector3(Config.POSITION_5x5.x,Config.POSITION_5x5.y, -10) ;
+                Camera.main.orthographicSize = Config.POSITION_5x5.z;
                 break;  
             case 6 :
-                Camera.main.transform.position = new Vector3(CameraInfo.POSITION_6x6.x, CameraInfo.POSITION_6x6.y);
-                Camera.main.orthographicSize = CameraInfo.POSITION_6x6.z;
+                Camera.main.transform.position = new Vector3(Config.POSITION_6x6.x, Config.POSITION_6x6.y);
+                Camera.main.orthographicSize = Config.POSITION_6x6.z;
                 break;
         }
     }
@@ -251,7 +256,7 @@ public class LevelController : MonoBehaviour
 
 public enum ThemeType
 {
-   Animal,
+   Dog
 }
 
 
