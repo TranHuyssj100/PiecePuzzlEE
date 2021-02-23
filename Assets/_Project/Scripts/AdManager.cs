@@ -18,9 +18,7 @@ public class AdManager : MonoBehaviour
         Gold,
         DoubleReward,
         PentaReward,
-        MoreMove,
-        MorePreview,
-        MoreAutoCorrect
+        MoreMove
     }
 
     public static RewardType rewardType;
