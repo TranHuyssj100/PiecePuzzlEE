@@ -63,7 +63,10 @@ public class LevelController : MonoBehaviour
 
     void Update()
     {
-        //Debug.LogError(points[0].transform.position);
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            GameData.gold+=20;
+        }
     }
 
     public List<Object> LoadTextureFromLevel(int _level, ThemeType _themeType, int _sizeLevel)
