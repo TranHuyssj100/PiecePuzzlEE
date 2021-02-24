@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
-using UnityEngine.SceneManagement;
-using System.Threading;
 
 public class GameMaster : MonoBehaviour
 {
@@ -11,6 +10,7 @@ public class GameMaster : MonoBehaviour
     public GameObject setting;
     public GameObject menu;
     public GameObject levelSelect;
+    public GameObject preview;
     [Header("text")]
     public TextMeshProUGUI moveTxt;
     public TextMeshProUGUI goldTxt;
@@ -168,6 +168,11 @@ public class GameMaster : MonoBehaviour
     {
         ClosePanel(levelSelect);        
     }
+    
+    public void ClosePreview()
+    {
+        ClosePanel(preview);
+    }
 
     public void Replay()
     {
@@ -196,9 +201,9 @@ public class GameMaster : MonoBehaviour
     }
    public void OnReturnMenuClick()
     {
-        //OpenPanel(menu);
+        OpenPanel(menu);
         AdManager.Instance.showInterstitialAd();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
    public void OnHintClick()
@@ -213,6 +218,17 @@ public class GameMaster : MonoBehaviour
             }
         }
         
+    }   
+
+    public void OnPreviewClick()
+    {
+        if(GameData.gold>= Config.COST_PREVIEW)
+        {
+            GameData.gold -= Config.COST_PREVIEW;
+            OpenPanel(preview);
+            preview.transform.Find("Bg").Find("image").GetComponent<Image>().sprite=
+                LevelController.LoadSpriteReview(LevelController.level,(ThemeType) GameData.Theme, LevelController.instance.sizeLevel);
+        }
     }
     #endregion
 
