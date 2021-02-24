@@ -12,8 +12,7 @@ public class GridLevel : MonoBehaviour
     
     void Start()
     {
-        numLevelofTheme = DataController.Instance.themeData.groupLevel.Length;
-        
+        numLevelofTheme = DataController.Instance.themeData.groupLevel.Length;     
         SpawnGridChild(ThemeType.Dog, 5);
     }
 
@@ -36,6 +35,11 @@ public class GridLevel : MonoBehaviour
                 _gridChildClone.transform.GetChild(0).GetComponent<Image>().sprite = _imgSprite;
                 _gridChildClone.transform.localScale = Vector3.zero;
                 _gridChildClone.transform.DOScale(Vector3.one, 0.2f);
+                if (i <= GameData.GetCurrentLevelByTheme(GameData.Theme))
+                    _gridChildClone.GetComponent<GridChild>().isUnlock = true;
+                else
+                    _gridChildClone.GetComponent<GridChild>().isUnlock = false;
+
             }
             else
             {
