@@ -34,11 +34,6 @@ public class PurchaseButton : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-    private void OnDestroy()
-    {
-        if(productType == ProductType.NO_ADS)
-            IAPManager.Instance.onRemoveAds -= HideRemoveAdsButton;
-    }
 
     // Update is called once per frame
     void Update()

@@ -14,7 +14,7 @@ public class GridLevel : MonoBehaviour
     {
         numLevelofTheme = DataController.Instance.themeData.groupLevel.Length;
         
-        //SpawnGridChild(ThemeType.Dog, 5);
+        SpawnGridChild(ThemeType.Dog, 5);
     }
 
     void Update()
