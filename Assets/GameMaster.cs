@@ -9,15 +9,24 @@ public class GameMaster : MonoBehaviour
     public GameObject losePanel;
     public GameObject setting;
     public GameObject menu;
+    public GameObject levelSelect;
     [Header("text")]
     public TextMeshProUGUI moveTxt;
     public TextMeshProUGUI goldTxt;
-        
 
-    public 
+
+    public static GameMaster instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
     void Start()
     {
-        
+        menu.SetActive(true);
     }
 
     void Update()
@@ -95,6 +104,7 @@ public class GameMaster : MonoBehaviour
             });
         }
     }
+    
     #endregion
 
     #region UPDATE TEXT
@@ -142,18 +152,29 @@ public class GameMaster : MonoBehaviour
         ClosePanel(setting);
     }
 
+    public void OpenLevelSelect()
+    {
+        OpenPanel(levelSelect);
+        
+    }
+    public void CloseLevelSelect()
+    {
+        ClosePanel(levelSelect);        
+    }
+
     public void Replay()
     {
-        EventManager.TriggerEvent("DestroyPiece");
-        StartCoroutine(LevelController.instance.InitializeGame());
+        //EventManager.TriggerEvent("DestroyPiece");
+        StartCoroutine(LevelController.instance.InitializeGame(LevelController.level));
         CloseWinPanel();
         CloseLosePanel();
     }  
     public void Next()
-    { 
-        GameData.level++;
-        EventManager.TriggerEvent("DestroyPiece");
-        StartCoroutine(LevelController.instance.InitializeGame());
+    {
+        //GameData.level++;
+        GameData.SetCurrentLevelByTheme(GameData.Theme, ++LevelController.level);
+        //EventManager.TriggerEvent("DestroyPiece");
+        StartCoroutine(LevelController.instance.InitializeGame(GameData.GetCurrentLevelByTheme(GameData.Theme)));
         CloseWinPanel();
         CloseLosePanel();
     }
@@ -161,8 +182,9 @@ public class GameMaster : MonoBehaviour
    public void OnStartClick()
     {
         ClosePanel(menu);
+        StartCoroutine(LevelController.instance.InitializeGame(GameData.GetCurrentLevelByTheme(GameData.Theme)));
     }
-   public void OnReturnClick()
+   public void OnReturnMenuClick()
     {
         OpenPanel(menu);
     }

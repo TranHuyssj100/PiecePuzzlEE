@@ -7,9 +7,6 @@ using System.Collections;
 
 public class LevelController : MonoBehaviour
 {
-    //public int indexSample;
-    //public ThemeType theme;
-    //public int[] arraySample;
     public int sizeLevel;
     public Transform[] points;
     public List<Object> listTexture = new List<Object>();
@@ -56,9 +53,7 @@ public class LevelController : MonoBehaviour
     void Start()
     {
         allPieces = new GameObject("AllPiece");
-        StartCoroutine(InitializeGame());
-
-
+        //StartCoroutine(InitializeGame());
     }
 
     void Update()
@@ -131,18 +126,23 @@ public class LevelController : MonoBehaviour
         return null;
     }
 
-    public IEnumerator InitializeGame()
+    public IEnumerator InitializeGame(int _level)
     {
         isInitializeComplete = false;
-        
-        curThemeData = DataController.LoadThemeData(GameData.Theme);
-        if ( GameData.level < curThemeData.groupLevel.Length)
+        EventManager.TriggerEvent("DestroyPiece");
+        //curThemeData = DataController.LoadThemeData(GameData.Theme);
+        //level = GameData.GetCurrentLevelByTheme(GameData.Theme);
+        level =_level;
+        //Debug.LogError(level);
+        curThemeData = DataController.Instance.themeData;
+        if ( level < curThemeData.groupLevel.Length)
         {
-            curLevelData = curThemeData.groupLevel[GameData.level];
+            curLevelData = curThemeData.groupLevel[level];
         }
         else
         {
-            GameData.level = curThemeData.groupLevel.Length - 1;
+            level = curThemeData.groupLevel.Length - 1;
+            GameData.SetCurrentLevelByTheme(GameData.Theme, level);
             curLevelData = curThemeData.groupLevel[curThemeData.groupLevel.Length-1];
         }
 
@@ -212,7 +212,7 @@ public class LevelController : MonoBehaviour
     }
 
 
-    public Sprite LoadSpriteReview(int _level, ThemeType _themeType, int _sizeLevel)
+    public static Sprite LoadSpriteReview(int _level, ThemeType _themeType, int _sizeLevel)
     {
         string _path ="Themes/"+ _themeType.ToString() + "/" +_sizeLevel.ToString() + "x" + _sizeLevel.ToString()+"/" + _level.ToString() + "/full";
         //Debug.Log(_path);
@@ -256,7 +256,9 @@ public class LevelController : MonoBehaviour
 
 public enum ThemeType
 {
-   Dog
+   Dog,
+   Cat,
+   NUM_OF_THEME
 }
 
 

@@ -17,13 +17,16 @@ public static class GameData
         PREVIEW = PlayerPrefs.GetInt("preview", 0);
         AUTO_CORRECT = PlayerPrefs.GetInt("auto_correct", 0);
         GOLD = PlayerPrefs.GetInt("gold", 0);
+
+
+        CreateCurrentLevelforEachTheme();
     }  
     
-    public static int level
-    {
-        get { return LEVEL; }
-        set { PlayerPrefs.SetInt("level", (LEVEL = value)); }
-    }  
+    //public static int level
+    //{
+    //    get { return LEVEL; }
+    //    set { PlayerPrefs.SetInt("level", (LEVEL = value)); }
+    //}  
     public static int Theme
     {
         get { return THEME; }
@@ -49,5 +52,23 @@ public static class GameData
         get { return GOLD; }
         set { PlayerPrefs.SetInt("gold", (GOLD = value)); }
     }
+
+    public static void CreateCurrentLevelforEachTheme()
+    {
+        for(int i=0; i< (int) ThemeType.NUM_OF_THEME; i++)
+        {
+            if(!PlayerPrefs.HasKey(((ThemeType)i).ToString() + "Level"))
+                PlayerPrefs.SetInt(((ThemeType)i).ToString() + "Level", 0);
+        }
+    }
+    public static int GetCurrentLevelByTheme( int _themeType)
+    {
+        return PlayerPrefs.GetInt(((ThemeType)_themeType).ToString() + "Level");
+    }
+    public static void SetCurrentLevelByTheme( int _themeType, int _value)
+    {
+         PlayerPrefs.SetInt(((ThemeType)_themeType).ToString() + "Level", _value);
+    }
+
 
 }
