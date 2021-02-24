@@ -15,10 +15,9 @@ public class GameMaster : MonoBehaviour
     public TextMeshProUGUI goldTxt;
         
 
-    public 
-    void Start()
+    public void Start()
     {
-        AdManager.instance.onRewardAdClosed += RewardAdClosed;
+        AdManager.Instance.onRewardAdClosed += RewardAdClosed;
     }
 
     void Update()
@@ -153,7 +152,7 @@ public class GameMaster : MonoBehaviour
         StartCoroutine(LevelController.instance.InitializeGame());
         CloseWinPanel();
         CloseLosePanel();
-        AdManager.instance.checkInterAdsCondition();
+        AdManager.Instance.checkInterAdsCondition();
     }
     public void Next()
     { 
@@ -162,18 +161,18 @@ public class GameMaster : MonoBehaviour
         StartCoroutine(LevelController.instance.InitializeGame());
         CloseWinPanel();
         CloseLosePanel();
-        AdManager.instance.checkInterAdsCondition();
+        AdManager.Instance.checkInterAdsCondition();
     }
 
     public void OnStartClick()
     {
         ClosePanel(menu);
-        AdManager.instance.checkInterAdsCondition();
+        AdManager.Instance.checkInterAdsCondition();
     }
    public void OnReturnClick()
     {
         //OpenPanel(menu);
-        AdManager.instance.showInterstitialAd();
+        AdManager.Instance.showInterstitialAd();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -195,7 +194,7 @@ public class GameMaster : MonoBehaviour
     #region Reward
     public void ShowMoreMoveAd()
     {
-        AdManager.instance.showRewardedAd(AdManager.RewardType.MoreMove);
+        AdManager.Instance.showRewardedAd(AdManager.RewardType.MoreMove);
     }
     public void GrantMoreMove()
     {

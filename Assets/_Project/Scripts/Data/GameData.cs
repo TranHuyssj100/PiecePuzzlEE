@@ -5,9 +5,8 @@ public static class GameData
     private static int THEME;
     private static int LEVEL;
     private static int IS_SOUND;
-    private static int PREVIEW;
-    private static int AUTO_CORRECT;
     private static int GOLD;
+    private static int NO_ADS;
 
     static GameData()
     {
@@ -15,6 +14,7 @@ public static class GameData
         THEME=PlayerPrefs.GetInt("theme", 0);
         IS_SOUND = PlayerPrefs.GetInt("sound", 1);
         GOLD = PlayerPrefs.GetInt("gold", 0);
+        NO_ADS = PlayerPrefs.GetInt("no_ads", 0);
     }  
     
     public static int level
@@ -36,5 +36,10 @@ public static class GameData
     {
         get { return GOLD; }
         set { PlayerPrefs.SetInt("gold", (GOLD = value)); }
+    }
+    public static int noAds
+    {
+        get { return NO_ADS; }
+        set { PlayerPrefs.SetInt("no_ads", (NO_ADS = value)); }
     }
 }

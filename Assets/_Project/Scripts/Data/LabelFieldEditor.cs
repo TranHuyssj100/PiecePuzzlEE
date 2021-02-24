@@ -19,6 +19,8 @@ public class LabelFieldEditor : EditorWindow
     {
         GUILayout.Label("PlayerPrefs", EditorStyles.boldLabel);
         EditorGUILayout.LabelField("level", PlayerPrefs.GetInt("level").ToString());
+        EditorGUILayout.LabelField("No Ads", PlayerPrefs.GetInt("no_ads").ToString());
+        EditorGUILayout.LabelField("Gold", PlayerPrefs.GetInt("gold").ToString());
         this.Repaint();
     }
 
