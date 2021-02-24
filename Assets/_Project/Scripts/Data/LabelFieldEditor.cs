@@ -28,7 +28,9 @@ public class LabelFieldEditor : EditorWindow
         GUILayout.Label("PlayerPrefs", EditorStyles.boldLabel);
         EditorGUILayout.LabelField("theme", ((ThemeType) PlayerPrefs.GetInt("theme")).ToString());
         EditorGUILayout.LabelField("level", PlayerPrefs.GetInt("level").ToString());
-        
+        EditorGUILayout.LabelField("No Ads", PlayerPrefs.GetInt("no_ads").ToString());
+        EditorGUILayout.LabelField("Gold", PlayerPrefs.GetInt("gold").ToString());
+
         for(int i=0; i <(int) ThemeType.NUM_OF_THEME; i++)
         {
             EditorGUILayout.LabelField(((ThemeType)i).ToString()+ "Level", PlayerPrefs.GetInt(((ThemeType)i).ToString() + "Level").ToString());

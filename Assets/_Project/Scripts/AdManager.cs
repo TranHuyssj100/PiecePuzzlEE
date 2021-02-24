@@ -4,9 +4,12 @@ using UnityEngine;
 using GoogleMobileAds.Api;
 using System;
 
-public class AdManager : MonoBehaviour
+public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
 {
     public event Action onRewardAdClosed;
+
+    public int stagePlayed = 0;
+    private int stageToShowAd = 3;
 
     public void RewardAdClosed()
     {
@@ -18,16 +21,13 @@ public class AdManager : MonoBehaviour
         Gold,
         DoubleReward,
         PentaReward,
-        MoreMove,
-        MorePreview,
-        MoreAutoCorrect
+        MoreMove
     }
 
     public static RewardType rewardType;
 
 
     public RewardedAd rewardedAd;
-    private bool isSecondChanceRewarded;
 
     public InterstitialAd interstitialAd;
 
@@ -36,14 +36,14 @@ public class AdManager : MonoBehaviour
     string rewardedAdUnitId, interstitialAdUnitId, bannerAdUnitId;
 
 
-    public static AdManager instance;
+    //public static AdManager instance;
     // Start is called before the first frame update
 
     void Start()
     {
-        if (instance == null)
-            instance = this;
-        DontDestroyOnLoad(this);
+        //if (instance == null)
+        //    instance = this;
+        //DontDestroyOnLoad(this);
 #if UNITY_ANDROID
         rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
         interstitialAdUnitId = "ca-app-pub-3940256099942544/8691691433";
@@ -145,7 +145,6 @@ public class AdManager : MonoBehaviour
     }
 
 
-
     //--------------------------------------------------------------------------------------------------------
     void loadBannerAds()
     {
@@ -166,9 +165,19 @@ public class AdManager : MonoBehaviour
         this.interstitialAd.LoadAd(request);
     }
 
+    public void checkInterAdsCondition()
+    {
+        stagePlayed++;
+        if(stagePlayed >= stageToShowAd)
+        {
+            stagePlayed = 0;
+            showInterstitialAd();
+        }    
+    }    
+
     public void showInterstitialAd()
     {
-        if (this.interstitialAd.IsLoaded())
+        if (this.interstitialAd.IsLoaded() && GameData.noAds != 1)
         {
             //FirebaseManager.instance.LogShowInter();
             interstitialAd.Show();
@@ -242,7 +251,6 @@ public void HandleOnAdLeavingApplication(object sender, EventArgs args)
     public void HandleRewardedAdOpening(object sender, EventArgs args)
     {
         Time.timeScale = 0;
-        isSecondChanceRewarded = false;
     }
 
     public void HandleRewardedAdFailedToShow(object sender, AdErrorEventArgs args)

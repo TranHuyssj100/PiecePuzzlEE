@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 using TMPro;
+using UnityEngine.SceneManagement;
 using System.Threading;
 
 public class GameMaster : MonoBehaviour
@@ -24,9 +25,11 @@ public class GameMaster : MonoBehaviour
             instance = this;
         }
     }
-    void Start()
+
+    public void Start()
     {
         menu.SetActive(true);
+        AdManager.Instance.onRewardAdClosed += RewardAdClosed;
     }
 
     void Update()
@@ -97,7 +100,6 @@ public class GameMaster : MonoBehaviour
     {
         if (panel.activeSelf)
         {
-
             panel.transform.DOScale(Vector3.zero, .2f).OnComplete(() => {
                 panel.SetActive(false);
                 panel.transform.localScale = Vector3.one;
@@ -129,7 +131,12 @@ public class GameMaster : MonoBehaviour
 
     public void OpenLosePanel()
     {
-      
+        if (!losePanel.activeSelf)
+        {
+            Debug.Log("<color=red> YOU LOSE ! </color>");
+            OpenPanel(losePanel);
+            losePanel.SetActive(true);
+        }
     }  
     public void OpenSetting()
     {
@@ -168,7 +175,8 @@ public class GameMaster : MonoBehaviour
         StartCoroutine(LevelController.instance.InitializeGame(LevelController.level));
         CloseWinPanel();
         CloseLosePanel();
-    }  
+        AdManager.Instance.checkInterAdsCondition();
+    }
     public void Next()
     {
         //GameData.level++;
@@ -177,16 +185,20 @@ public class GameMaster : MonoBehaviour
         StartCoroutine(LevelController.instance.InitializeGame(GameData.GetCurrentLevelByTheme(GameData.Theme)));
         CloseWinPanel();
         CloseLosePanel();
+        AdManager.Instance.checkInterAdsCondition();
     }
 
-   public void OnStartClick()
+    public void OnStartClick()
     {
         ClosePanel(menu);
         StartCoroutine(LevelController.instance.InitializeGame(GameData.GetCurrentLevelByTheme(GameData.Theme)));
+        AdManager.Instance.checkInterAdsCondition();
     }
    public void OnReturnMenuClick()
     {
-        OpenPanel(menu);
+        //OpenPanel(menu);
+        AdManager.Instance.showInterstitialAd();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
    public void OnHintClick()
@@ -204,6 +216,21 @@ public class GameMaster : MonoBehaviour
     }
     #endregion
 
-    
+    #region Reward
+    public void ShowMoreMoveAd()
+    {
+        AdManager.Instance.showRewardedAd(AdManager.RewardType.MoreMove);
+    }
+    public void GrantMoreMove()
+    {
+        LevelController.instance.NUM_MOVE += 5;
+        CloseLosePanel();
+    }    
+    private void RewardAdClosed()
+    {
+        if (AdManager.rewardType == AdManager.RewardType.MoreMove)
+            GrantMoreMove();
+    }
+    #endregion
 
 }
