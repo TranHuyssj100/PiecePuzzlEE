@@ -11,6 +11,7 @@ public class GameMaster : MonoBehaviour
     public GameObject setting;
     public GameObject menu;
     public GameObject levelSelect;
+    public GameObject shopUI;
     [Header("text")]
     public TextMeshProUGUI moveTxt;
     public TextMeshProUGUI goldTxt;
@@ -168,6 +169,16 @@ public class GameMaster : MonoBehaviour
     {
         ClosePanel(levelSelect);        
     }
+    public void OpenShopUI()
+    {
+        OpenPanel(shopUI);
+
+    }
+    public void CloseShopUI()
+    {
+        ClosePanel(shopUI);
+    }
+
 
     public void Replay()
     {

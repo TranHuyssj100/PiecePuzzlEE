@@ -69,11 +69,6 @@ public class IAPManager : SingletonDontDestroyMonoBehavior<IAPManager>, IStoreLi
         // if the Product ID was configured differently between Apple and Google stores. Also note that
         // one uses the general kProductIDSubscription handle inside the game - the store-specific IDs 
         // must only be referenced here. 
-        builder.AddProduct(kProductIDSubscription, ProductType.Subscription, new IDs(){
-                { kProductNameAppleSubscription, AppleAppStore.Name },
-                { kProductNameGooglePlaySubscription, GooglePlay.Name },
-            });
-
         // Kick off the remainder of the set-up with an asynchrounous call, passing the configuration 
         // and this class' instance. Expect a response either in OnInitialized or OnInitializeFailed.
         UnityPurchasing.Initialize(this, builder);
