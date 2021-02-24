@@ -161,6 +161,7 @@ public class GameMaster : MonoBehaviour
 
     public void OpenLevelSelect()
     {
+        //levelSelect.transform.Find("GridLevel").GetComponent<GridLevel>().
         OpenPanel(levelSelect);
         
     }
@@ -226,7 +227,7 @@ public class GameMaster : MonoBehaviour
         {
             GameData.gold -= Config.COST_PREVIEW;
             OpenPanel(preview);
-            preview.transform.Find("Bg").Find("image").GetComponent<Image>().sprite=
+            preview.transform.Find("Bg").Find("Image").GetComponent<Image>().sprite=
                 LevelController.LoadSpriteReview(LevelController.level,(ThemeType) GameData.Theme, LevelController.instance.sizeLevel);
         }
     }

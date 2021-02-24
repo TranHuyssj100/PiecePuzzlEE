@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class GridLevel : MonoBehaviour
 {
     public GameObject gridChild;
+    public TextMeshProUGUI title; 
 
     int numLevelofTheme;
     
     void Start()
     {
         numLevelofTheme = DataController.Instance.themeData.groupLevel.Length;
-        SpawnGridChild(ThemeType.Dog, 5);
+        
+        //SpawnGridChild(ThemeType.Dog, 5);
     }
 
     void Update()
@@ -20,8 +23,9 @@ public class GridLevel : MonoBehaviour
     }
 
 
-    void SpawnGridChild(ThemeType _type, int _sizeLevel)
+    public void SpawnGridChild(ThemeType _type, int _sizeLevel)
     {
+        title.text = _type.ToString();
         for(int i=0; i< numLevelofTheme; i++)
         {
             Sprite _imgSprite = LevelController.LoadSpriteReview(i, _type, _sizeLevel);

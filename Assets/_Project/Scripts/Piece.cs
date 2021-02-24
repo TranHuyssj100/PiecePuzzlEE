@@ -180,18 +180,18 @@ public class Piece : MonoBehaviour
         if (_pos != oldPostionOnGridBoard || oldPostionOnGridBoard == Vector3.one * 10000)
         {
             oldPostionOnGridBoard =_pos;
+            LevelController.instance.NUM_MOVE--;
         }
         transform.DOMove(_pos, 0.2f).OnComplete(() =>
                                      {
-                                         LevelController.instance.NUM_MOVE--;
                                          isCorrect = new Vector3(id, transform.position.x, transform.position.y) == LevelController.instance.listAnswerForSample[id] ? true:false;
                                         if (isCorrect)
                                         { 
                                             transform.GetChild(transform.childCount-1).localScale=Vector3.one;
                                             transform.GetChild(transform.childCount - 1).localPosition = Vector2.zero;
-                                            LevelController.instance.NUM_PIECES_WORNG--;
                                             LevelController.instance.SpawnRadomPieces(startPosition);
                                             SoundManager.instance.playSequential(TypeSFX.True);
+                                            LevelController.instance.NUM_PIECES_WORNG--;
                                              //Debug.Log(id + "<color=green> is Correctly </color>," + "numMove "+ LevelController.instance.NUM_MOVE);
                                          }
                                         else
@@ -199,6 +199,7 @@ public class Piece : MonoBehaviour
                                             SoundManager.instance.ClearIndexSquential(TypeSFX.True);
                                             SoundManager.instance.PlayRandom(TypeSFX.Wrong);
                                         }
+                                         Debug.LogError(LevelController.instance.NUM_PIECES_WORNG);
 
                                      });
     }
