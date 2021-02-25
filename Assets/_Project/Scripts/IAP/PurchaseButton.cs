@@ -7,6 +7,7 @@ public class PurchaseButton : MonoBehaviour
 
     public enum ProductType
     {
+        GOLD_ADS,
         GOLD_50,
         GOLD_110,
         GOLD_220,
@@ -44,6 +45,9 @@ public class PurchaseButton : MonoBehaviour
     {
         switch(productType)
         {
+            case ProductType.GOLD_ADS:
+                IAPManager.Instance.Buy50GoldWithAds();
+                break;
             case ProductType.GOLD_50:
                 IAPManager.Instance.Buy50Gold();
                 break;
