@@ -12,6 +12,7 @@ public class GameMaster : MonoBehaviour
     public GameObject levelSelect;
     public GameObject preview;
     public GameObject shopUI;
+    public GameObject themeSelect;
     [Header("text")]
     public TextMeshProUGUI moveTxt;
     public TextMeshProUGUI goldTxt;
@@ -185,6 +186,14 @@ public class GameMaster : MonoBehaviour
         ClosePanel(shopUI);
     }
 
+    public void OpenThemeSelect()
+    {
+        OpenPanel(themeSelect);
+    }
+    public void CloseThemeSelect()
+    {
+        ClosePanel(themeSelect);
+    }
 
     public void Replay()
     {
@@ -242,6 +251,7 @@ public class GameMaster : MonoBehaviour
                 LevelController.LoadSpriteReview(LevelController.level,(ThemeType) GameData.Theme, LevelController.instance.sizeLevel);
         }
     }
+
     #endregion
 
     #region Reward

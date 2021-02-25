@@ -26,7 +26,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
         SAVESAMPLE = "jar:file://" + Application.dataPath + "!assets/";
         SAVETHEME =  "jar:file://" + Application.dataPath + "!assets/";
 #endif
-        themeData = LoadThemeData(GameData.Theme);
+        themeData = LoadThemeData(GameData.Theme);        
     }
 
 
@@ -66,6 +66,12 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
         return JsonHelper.FromJson<SampleAnswer>(loadString)[0];
     }
     
+    public static int GetAmountTheme()
+    {
+        //Debug.LogError(SAVETHEME);
+        DirectoryInfo dir = new DirectoryInfo(SAVETHEME);
+        return Mathf.RoundToInt(dir.GetFiles().Length/2);
+    }
     //void CreateDefaultLevelData()
     //{
     //    string _strData;
@@ -131,7 +137,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
 public class ThemeData
 {
     public ThemeType theme;
-    public bool unlock;
+    public int size;
     public LevelData[] groupLevel;
 
 }
@@ -140,7 +146,6 @@ public class ThemeData
 public class LevelData
 {
     public int index;
-    public int size;
     public int sampleIndex;
 }
 
@@ -151,3 +156,5 @@ public class SampleAnswer
     public int [] pieceNames;
     public int [] answers;
 }
+
+

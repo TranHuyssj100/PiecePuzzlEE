@@ -31,9 +31,19 @@ public class LabelFieldEditor : EditorWindow
         EditorGUILayout.LabelField("No Ads", PlayerPrefs.GetInt("no_ads").ToString());
         EditorGUILayout.LabelField("Gold", PlayerPrefs.GetInt("gold").ToString());
 
-        for(int i=0; i <(int) ThemeType.NUM_OF_THEME; i++)
+        EditorGUILayout.Space(10f);
+        GUILayout.Label("Level Completed", EditorStyles.boldLabel);
+        for (int i=0; i <(int) ThemeType.NUM_OF_THEME; i++)
         {
             EditorGUILayout.LabelField(((ThemeType)i).ToString()+ "Level", PlayerPrefs.GetInt(((ThemeType)i).ToString() + "Level").ToString());
+
+        }  
+        
+        EditorGUILayout.Space(10f);
+        GUILayout.Label("Level Unlocked", EditorStyles.boldLabel);
+        for(int i=0; i <(int) ThemeType.NUM_OF_THEME; i++)
+        {
+            EditorGUILayout.LabelField(((ThemeType)i).ToString()+ "Unlock", PlayerPrefs.GetInt(((ThemeType)i).ToString() + "Unlock").ToString());
 
         }
         this.Repaint();

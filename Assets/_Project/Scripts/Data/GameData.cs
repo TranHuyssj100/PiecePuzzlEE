@@ -17,6 +17,7 @@ public static class GameData
         NO_ADS = PlayerPrefs.GetInt("no_ads", 0);
 
         CreateCurrentLevelforEachTheme();
+        CreateStatusTheme();
     }  
     
     //public static int level
@@ -47,7 +48,8 @@ public static class GameData
             if(!PlayerPrefs.HasKey(((ThemeType)i).ToString() + "Level"))
                 PlayerPrefs.SetInt(((ThemeType)i).ToString() + "Level", 0);
         }
-    }
+    }  
+ 
     public static int GetCurrentLevelByTheme( int _themeType)
     {
         return PlayerPrefs.GetInt(((ThemeType)_themeType).ToString() + "Level");
@@ -57,6 +59,23 @@ public static class GameData
          PlayerPrefs.SetInt(((ThemeType)_themeType).ToString() + "Level", _value);
     }
 
+    public static void CreateStatusTheme()
+    {
+        for(int i=0; i< (int) ThemeType.NUM_OF_THEME; i++)
+        {
+            if(!PlayerPrefs.HasKey(((ThemeType)i).ToString() + "Unlock"))
+                PlayerPrefs.SetInt(((ThemeType)i).ToString() + "Unlock", 0);
+        }
+    }
+
+    public static int GetStatusTheme(int _themeType)
+    {
+        return PlayerPrefs.GetInt(((ThemeType)_themeType).ToString() + "Unlock");
+    }
+    public static void SetStatusByTheme(int _themeType, int _value)
+    {
+        PlayerPrefs.SetInt(((ThemeType)_themeType).ToString() + "Unlock", _value);
+    }
 
     public static int noAds
     {
