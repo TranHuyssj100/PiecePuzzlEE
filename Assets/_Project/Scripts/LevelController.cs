@@ -146,7 +146,7 @@ public class LevelController : MonoBehaviour
             curLevelData = curThemeData.groupLevel[curThemeData.groupLevel.Length-1];
         }
 
-        sizeLevel = curLevelData.size;
+        sizeLevel =curThemeData.size;
         SetCamPosition(sizeLevel);
         yield return new WaitForEndOfFrame();
         curSampleAnswer = DataController.LoadSampleAnswer(curLevelData.sampleIndex);
