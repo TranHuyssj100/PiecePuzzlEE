@@ -64,7 +64,7 @@ public class LevelController : MonoBehaviour
         }
     }
 
-    public List<Object> LoadTextureFromLevel(int _level, ThemeType _themeType, int _sizeLevel)
+    public List<Object> LoadTextureFromLevel(int _level, ThemeName _themeType, int _sizeLevel)
     {
         string _path = "Themes/" + _themeType.ToString() + "/"+ _sizeLevel.ToString() + "x" + _sizeLevel.ToString() + "/" + _level.ToString();
         Debug.Log(_path);
@@ -212,7 +212,7 @@ public class LevelController : MonoBehaviour
     }
 
 
-    public static Sprite LoadSpriteReview(int _level, ThemeType _themeType, int _sizeLevel)
+    public static Sprite LoadSpriteReview(int _level, ThemeName _themeType, int _sizeLevel)
     {
         string _path ="Themes/"+ _themeType.ToString() + "/" +_sizeLevel.ToString() + "x" + _sizeLevel.ToString()+"/" + _level.ToString() + "/full";
         //Debug.Log(_path);
@@ -254,7 +254,7 @@ public class LevelController : MonoBehaviour
     }
 }
 
-public enum ThemeType
+public enum ThemeName
 {
    Dog,
    Cat,

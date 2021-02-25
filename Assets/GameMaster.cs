@@ -195,6 +195,7 @@ public class GameMaster : MonoBehaviour
         ClosePanel(themeSelect);
     }
 
+
     public void Replay()
     {
         //EventManager.TriggerEvent("DestroyPiece");
@@ -223,7 +224,7 @@ public class GameMaster : MonoBehaviour
    public void OnReturnMenuClick()
     {
         OpenPanel(menu);
-        AdManager.Instance.showInterstitialAd();
+        //AdManager.Instance.showInterstitialAd();
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -248,7 +249,7 @@ public class GameMaster : MonoBehaviour
             GameData.gold -= Config.COST_PREVIEW;
             OpenPanel(preview);
             preview.transform.Find("Bg").Find("Image").GetComponent<Image>().sprite=
-                LevelController.LoadSpriteReview(LevelController.level,(ThemeType) GameData.Theme, LevelController.instance.sizeLevel);
+                LevelController.LoadSpriteReview(LevelController.level,(ThemeName) GameData.Theme, LevelController.instance.sizeLevel);
         }
     }
 
