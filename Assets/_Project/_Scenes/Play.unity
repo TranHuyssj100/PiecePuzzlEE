@@ -5397,6 +5397,7 @@ MonoBehaviour:
   menu: {fileID: 1634800960}
   levelSelect: {fileID: 520102302}
   preview: {fileID: 554282981}
+  shopUI: {fileID: 1643352076}
   moveTxt: {fileID: 1015837050}
   goldTxt: {fileID: 2072524287}
 --- !u!1 &961127052
@@ -7196,6 +7197,78 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &1401575312 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5990816469011260361, guid: cb5466f3598935d46bb98355eb8de2bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 608929809}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1401575313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1401575312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1401575314}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 885929008}
+        m_MethodName: CloseShopUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1401575314 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6912346971113814350, guid: cb5466f3598935d46bb98355eb8de2bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 608929809}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1401575312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1630894655
 GameObject:
   m_ObjectHideFlags: 0
@@ -7254,6 +7327,12 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 9054840810666590174, guid: 0299505ffc2dd4e4480f4cc95846c960,
     type: 3}
   m_PrefabInstance: {fileID: 9054840811179272863}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1643352076 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8887731782320852213, guid: cb5466f3598935d46bb98355eb8de2bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 608929809}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1654991582
 GameObject:
@@ -7333,6 +7412,7 @@ GameObject:
   - component: {fileID: 1683158505}
   - component: {fileID: 1683158504}
   - component: {fileID: 1683158503}
+  - component: {fileID: 1683158507}
   m_Layer: 5
   m_Name: CanvasPanel
   m_TagString: Untagged
@@ -7426,6 +7506,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1683158507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683158502}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d779fbdb62616425184c3f1a336b32e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1685284926
 GameObject:
   m_ObjectHideFlags: 0
@@ -9014,6 +9106,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054840811275810240, guid: 0299505ffc2dd4e4480f4cc95846c960,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054840811275810240, guid: 0299505ffc2dd4e4480f4cc95846c960,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054840811275810240, guid: 0299505ffc2dd4e4480f4cc95846c960,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054840811275810240, guid: 0299505ffc2dd4e4480f4cc95846c960,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 885929008}
+    - target: {fileID: 9054840811275810240, guid: 0299505ffc2dd4e4480f4cc95846c960,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenShopUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054840811275810240, guid: 0299505ffc2dd4e4480f4cc95846c960,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0299505ffc2dd4e4480f4cc95846c960, type: 3}

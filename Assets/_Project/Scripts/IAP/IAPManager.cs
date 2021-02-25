@@ -41,6 +41,7 @@ public class IAPManager : SingletonDontDestroyMonoBehavior<IAPManager>, IStoreLi
             // Begin to configure our connection to Purchasing
             InitializePurchasing();
         }
+        AdManager.Instance.onRewardAdClosed += RewardAdClosed;
     }
 
     public void InitializePurchasing()
@@ -93,6 +94,15 @@ public class IAPManager : SingletonDontDestroyMonoBehavior<IAPManager>, IStoreLi
 
     // Buy the consumable product using its general identifier. Expect a response either 
     // through ProcessPurchase or OnPurchaseFailed asynchronously.
+    public void Buy50GoldWithAds()
+    {
+        AdManager.Instance.showRewardedAd(AdManager.RewardType.Gold);
+    }
+    private void RewardAdClosed()
+    {
+        if(AdManager.rewardType == AdManager.RewardType.Gold)
+            GameData.gold += 50;
+    }
     public void Buy50Gold()
     {
         BuyProductID(GOLD_50);
