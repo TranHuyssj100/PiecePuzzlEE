@@ -14,7 +14,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
     private static string JsonSuffix = ".json";
 
     //public TextMeshProUGUI txtDebug;
-    //public ThemeData themeData;
+    public ThemeData themeData;
 
     private void Awake()
     {
@@ -26,7 +26,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
         SAVESAMPLE = "jar:file://" + Application.dataPath + "!assets/";
         SAVETHEME =  "jar:file://" + Application.dataPath + "!assets/";
 #endif
-        //themeData = LoadThemeData(0);
+        themeData = LoadThemeData(GameData.Theme);        
     }
 
 
@@ -41,7 +41,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
     {
         string loadString ;
 #if UNITY_EDITOR
-        loadString = File.ReadAllText(Path.Combine(SAVETHEME, ((ThemeType)_type).ToString() + JsonSuffix));
+        loadString = File.ReadAllText(Path.Combine(SAVETHEME, ((ThemeName)_type).ToString() + JsonSuffix));
         //Debug.LogError(Path.Combine(SAVETHEME, ((ThemeType)_type).ToString() + JsonSuffix));
 #elif UNITY_ANDROID
         WWW reader = new WWW(Path.Combine(SAVETHEME, "Json/Themes/" + ((ThemeType)_type).ToString() + JsonSuffix));
@@ -52,20 +52,38 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
     }
 
 
-    public static SampleAnswer LoadSampleAnswer(int _indexSample)
+    public static SampleAnswer LoadSampleAnswer(int _indexSample, int _sizeLevel)
     {
         string loadString;
 #if UNITY_EDITOR
-        loadString = File.ReadAllText(Path.Combine(SAVESAMPLE, _indexSample.ToString() + JsonSuffix));
+        loadString = File.ReadAllText(Path.Combine(SAVESAMPLE,_sizeLevel.ToString()+"x"+ _sizeLevel.ToString()+"/"+ _indexSample.ToString() + JsonSuffix));
         //Debug.LogError(Path.Combine(SAVESAMPLE, _indexSample.ToString() + JsonSuffix));
 #elif UNITY_ANDROID
-        WWW reader = new WWW(Path.Combine(SAVESAMPLE, "Json/Answers/" +_indexSample.ToString() + JsonSuffix));
+        WWW reader = new WWW(Path.Combine(SAVESAMPLE, "Json/Answers/" +_sizeLevel.ToString()+"x"+ _sizeLevel.ToString()+"/"+ _indexSample.ToString()  + JsonSuffix));
         while (!reader.isDone) { }
         loadString = reader.text;
 #endif
         return JsonHelper.FromJson<SampleAnswer>(loadString)[0];
     }
-    
+
+    //public static int GetThemeLevelCount(ThemeName themeName,int size)
+    //{
+    //    //DirectoryInfo dir = new DirectoryInfo("Assets/_Project/Resources/Themes/" + themeName.ToString() + "/" + +size + "x" + size);
+    //    Resources.Load("Themes/ " + themeName.ToString() + " / " + +size + "x" + size).
+    //    return Mathf.RoundToInt(dir.GetFiles().Length);
+    //}
+
+    public static List<string> GetAllTheme()
+    {
+        //Debug.LogError(SAVETHEME);
+        DirectoryInfo dir = new DirectoryInfo(SAVETHEME);
+        FileInfo[] allFile = dir.GetFiles("*.json");
+        List<string> allFileName = new List<string>();
+        for (int i = 0; i < allFile.Length; i++)
+            allFileName.Add(Path.GetFileName(allFile[i].Name.Remove(allFile[i].Name.Length - 5, 5)));
+        return allFileName;
+        //return Mathf.RoundToInt(dir.GetFiles().Length/2);
+    }
     //void CreateDefaultLevelData()
     //{
     //    string _strData;
@@ -130,8 +148,8 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
 [System.Serializable]
 public class ThemeData
 {
-    public ThemeType theme;
-    public bool unlock;
+    public ThemeName theme;
+    public int size;
     public LevelData[] groupLevel;
 
 }
@@ -140,7 +158,6 @@ public class ThemeData
 public class LevelData
 {
     public int index;
-    public int size;
     public int sampleIndex;
 }
 
@@ -151,3 +168,5 @@ public class SampleAnswer
     public int [] pieceNames;
     public int [] answers;
 }
+
+

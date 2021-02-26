@@ -50,7 +50,7 @@ public class BuildLevel : MonoBehaviour
     {
     }
 
-    public List<Object> LoadTextureFromLevel(int _level, ThemeType _themeType)
+    public List<Object> LoadTextureFromLevel(int _level, ThemeName _themeType)
     {
         string _path = _themeType.ToString() + "/" + _level.ToString();
         //Debug.Log(_path);

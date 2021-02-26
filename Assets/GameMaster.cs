@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
-using System.Threading;
 
 public class GameMaster : MonoBehaviour
 {
@@ -9,15 +9,29 @@ public class GameMaster : MonoBehaviour
     public GameObject losePanel;
     public GameObject setting;
     public GameObject menu;
+    public GameObject levelSelect;
+    public GameObject preview;
+    public GameObject shopUI;
+    public GameObject themeSelect;
     [Header("text")]
     public TextMeshProUGUI moveTxt;
     public TextMeshProUGUI goldTxt;
-        
 
-    public 
-    void Start()
+
+    public static GameMaster instance;
+
+    private void Awake()
     {
-        
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
+
+    public void Start()
+    {
+        menu.SetActive(true);
+        AdManager.Instance.onRewardAdClosed += RewardAdClosed;
     }
 
     void Update()
@@ -88,13 +102,13 @@ public class GameMaster : MonoBehaviour
     {
         if (panel.activeSelf)
         {
-
             panel.transform.DOScale(Vector3.zero, .2f).OnComplete(() => {
                 panel.SetActive(false);
                 panel.transform.localScale = Vector3.one;
             });
         }
     }
+    
     #endregion
 
     #region UPDATE TEXT
@@ -119,7 +133,12 @@ public class GameMaster : MonoBehaviour
 
     public void OpenLosePanel()
     {
-      
+        if (!losePanel.activeSelf)
+        {
+            Debug.Log("<color=red> YOU LOSE ! </color>");
+            OpenPanel(losePanel);
+            losePanel.SetActive(true);
+        }
     }  
     public void OpenSetting()
     {
@@ -142,29 +161,71 @@ public class GameMaster : MonoBehaviour
         ClosePanel(setting);
     }
 
-    public void Replay()
+    public void OpenLevelSelect()
     {
-        EventManager.TriggerEvent("DestroyPiece");
-        StartCoroutine(LevelController.instance.InitializeGame());
-        CloseWinPanel();
-        CloseLosePanel();
-    }  
-    public void Next()
-    { 
-        GameData.level++;
-        EventManager.TriggerEvent("DestroyPiece");
-        StartCoroutine(LevelController.instance.InitializeGame());
-        CloseWinPanel();
-        CloseLosePanel();
+        //levelSelect.transform.Find("GridLevel").GetComponent<GridLevel>().
+        OpenPanel(levelSelect);
+        
+    }
+    public void CloseLevelSelect()
+    {
+        ClosePanel(levelSelect);        
+    }
+    
+    public void ClosePreview()
+    {
+        ClosePanel(preview);
+    }
+    public void OpenShopUI()
+    {
+        OpenPanel(shopUI);
+
+    }
+    public void CloseShopUI()
+    {
+        ClosePanel(shopUI);
     }
 
-   public void OnStartClick()
+    public void OpenThemeSelect()
+    {
+        OpenPanel(themeSelect);
+    }
+    public void CloseThemeSelect()
+    {
+        ClosePanel(themeSelect);
+    }
+
+
+    public void Replay()
+    {
+        //EventManager.TriggerEvent("DestroyPiece");
+        StartCoroutine(LevelController.instance.InitializeGame(LevelController.level));
+        CloseWinPanel();
+        CloseLosePanel();
+        AdManager.Instance.checkInterAdsCondition();
+    }
+    public void Next()
+    {
+        //GameData.level++;
+        GameData.SetCurrentLevelByTheme(GameData.Theme, ++LevelController.level);
+        //EventManager.TriggerEvent("DestroyPiece");
+        StartCoroutine(LevelController.instance.InitializeGame(GameData.GetCurrentLevelByTheme(GameData.Theme)));
+        CloseWinPanel();
+        CloseLosePanel();
+        AdManager.Instance.checkInterAdsCondition();
+    }
+
+    public void OnStartClick()
     {
         ClosePanel(menu);
+        StartCoroutine(LevelController.instance.InitializeGame(GameData.GetCurrentLevelByTheme(GameData.Theme)));
+        AdManager.Instance.checkInterAdsCondition();
     }
-   public void OnReturnClick()
+   public void OnReturnMenuClick()
     {
         OpenPanel(menu);
+        //AdManager.Instance.showInterstitialAd();
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
    public void OnHintClick()
@@ -179,9 +240,36 @@ public class GameMaster : MonoBehaviour
             }
         }
         
+    }   
+
+    public void OnPreviewClick()
+    {
+        if(GameData.gold>= Config.COST_PREVIEW)
+        {
+            GameData.gold -= Config.COST_PREVIEW;
+            OpenPanel(preview);
+            preview.transform.Find("Bg").Find("Image").GetComponent<Image>().sprite=
+                LevelController.LoadSpritePreview(LevelController.level,(ThemeName) GameData.Theme, LevelController.instance.sizeLevel);
+        }
     }
+
     #endregion
 
-    
+    #region Reward
+    public void ShowMoreMoveAd()
+    {
+        AdManager.Instance.showRewardedAd(AdManager.RewardType.MoreMove);
+    }
+    public void GrantMoreMove()
+    {
+        LevelController.instance.NUM_MOVE += 5;
+        CloseLosePanel();
+    }    
+    private void RewardAdClosed()
+    {
+        if (AdManager.rewardType == AdManager.RewardType.MoreMove)
+            GrantMoreMove();
+    }
+    #endregion
 
 }

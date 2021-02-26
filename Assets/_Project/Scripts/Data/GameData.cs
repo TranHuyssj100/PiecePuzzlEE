@@ -5,25 +5,26 @@ public static class GameData
     private static int THEME;
     private static int LEVEL;
     private static int IS_SOUND;
-    private static int PREVIEW;
-    private static int AUTO_CORRECT;
     private static int GOLD;
+    private static int NO_ADS;
 
     static GameData()
     {
         LEVEL= PlayerPrefs.GetInt("level", 0);
         THEME=PlayerPrefs.GetInt("theme", 0);
         IS_SOUND = PlayerPrefs.GetInt("sound", 1);
-        PREVIEW = PlayerPrefs.GetInt("preview", 0);
-        AUTO_CORRECT = PlayerPrefs.GetInt("auto_correct", 0);
         GOLD = PlayerPrefs.GetInt("gold", 0);
+        NO_ADS = PlayerPrefs.GetInt("no_ads", 0);
+
+        CreateCurrentLevelforEachTheme();
+        CreateStatusTheme();
     }  
     
-    public static int level
-    {
-        get { return LEVEL; }
-        set { PlayerPrefs.SetInt("level", (LEVEL = value)); }
-    }  
+    //public static int level
+    //{
+    //    get { return LEVEL; }
+    //    set { PlayerPrefs.SetInt("level", (LEVEL = value)); }
+    //}  
     public static int Theme
     {
         get { return THEME; }
@@ -33,16 +34,6 @@ public static class GameData
     {
         get { return IS_SOUND; }
         set { PlayerPrefs.SetInt("sound", (IS_SOUND = value)); }
-    }
-    public static int preview
-    {
-        get { return PREVIEW; }
-        set { PlayerPrefs.SetInt("preview", (PREVIEW = value)); }
-    }
-    public static int auto_correct
-    {
-        get { return AUTO_CORRECT; }
-        set { PlayerPrefs.SetInt("auto_correct", (AUTO_CORRECT = value)); }
     }   
     public static int gold
     {
@@ -50,4 +41,45 @@ public static class GameData
         set { PlayerPrefs.SetInt("gold", (GOLD = value)); }
     }
 
+    public static void CreateCurrentLevelforEachTheme()
+    {
+        for(int i=0; i< (int) ThemeName.NUM_OF_THEME; i++)
+        {
+            if(!PlayerPrefs.HasKey(((ThemeName)i).ToString() + "Level"))
+                PlayerPrefs.SetInt(((ThemeName)i).ToString() + "Level", 0);
+        }
+    }  
+ 
+    public static int GetCurrentLevelByTheme( int _themeType)
+    {
+        return PlayerPrefs.GetInt(((ThemeName)_themeType).ToString() + "Level");
+    }
+    public static void SetCurrentLevelByTheme( int _themeType, int _value)
+    {
+         PlayerPrefs.SetInt(((ThemeName)_themeType).ToString() + "Level", _value);
+    }
+
+    public static void CreateStatusTheme()
+    {
+        for(int i=0; i< (int) ThemeName.NUM_OF_THEME; i++)
+        {
+            if(!PlayerPrefs.HasKey(((ThemeName)i).ToString() + "Unlock"))
+                PlayerPrefs.SetInt(((ThemeName)i).ToString() + "Unlock", 0);
+        }
+    }
+
+    public static int GetStatusTheme(int _themeType)
+    {
+        return PlayerPrefs.GetInt(((ThemeName)_themeType).ToString() + "Unlock");
+    }
+    public static void SetStatusByTheme(int _themeType, int _value)
+    {
+        PlayerPrefs.SetInt(((ThemeName)_themeType).ToString() + "Unlock", _value);
+    }
+
+    public static int noAds
+    {
+        get { return NO_ADS; }
+        set { PlayerPrefs.SetInt("no_ads", (NO_ADS = value)); }
+    }
 }

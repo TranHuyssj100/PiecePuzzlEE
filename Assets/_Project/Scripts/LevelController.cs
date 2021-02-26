@@ -7,9 +7,6 @@ using System.Collections;
 
 public class LevelController : MonoBehaviour
 {
-    //public int indexSample;
-    //public ThemeType theme;
-    //public int[] arraySample;
     public int sizeLevel;
     public Transform[] points;
     public List<Object> listTexture = new List<Object>();
@@ -56,9 +53,7 @@ public class LevelController : MonoBehaviour
     void Start()
     {
         allPieces = new GameObject("AllPiece");
-        StartCoroutine(InitializeGame());
-
-
+        //StartCoroutine(InitializeGame());
     }
 
     void Update()
@@ -69,7 +64,7 @@ public class LevelController : MonoBehaviour
         }
     }
 
-    public List<Object> LoadTextureFromLevel(int _level, ThemeType _themeType, int _sizeLevel)
+    public List<Object> LoadTextureFromLevel(int _level, ThemeName _themeType, int _sizeLevel)
     {
         string _path = "Themes/" + _themeType.ToString() + "/"+ _sizeLevel.ToString() + "x" + _sizeLevel.ToString() + "/" + _level.ToString();
         Debug.Log(_path);
@@ -77,14 +72,6 @@ public class LevelController : MonoBehaviour
         return _textures.ToList();
     }  
 
-
-    //public List<Object> LoadSample(int _indexSample)
-    //{
-    //    string _path = "Samples" + "/" + _indexSample.ToString();
-    //    Debug.Log(_path);
-    //    Object[] _prefabs = Resources.LoadAll(_path);
-    //    return _prefabs.ToList();
-    //}
 
     public List<Object> LoadSample(int[] _samples)
     {
@@ -131,25 +118,33 @@ public class LevelController : MonoBehaviour
         return null;
     }
 
-    public IEnumerator InitializeGame()
+    public IEnumerator InitializeGame(int _level)
     {
         isInitializeComplete = false;
-        
-        curThemeData = DataController.LoadThemeData(GameData.Theme);
-        if ( GameData.level < curThemeData.groupLevel.Length)
+        EventManager.TriggerEvent("DestroyPiece");
+        //curThemeData = DataController.LoadThemeData(GameData.Theme);
+        //level = GameData.GetCurrentLevelByTheme(GameData.Theme);
+        level =_level;
+        //Debug.LogError(level);
+        curThemeData = DataController.Instance.themeData;
+        if ( level < curThemeData.groupLevel.Length)
         {
-            curLevelData = curThemeData.groupLevel[GameData.level];
+            curLevelData = curThemeData.groupLevel[level];
         }
         else
         {
-            GameData.level = curThemeData.groupLevel.Length - 1;
+            level = curThemeData.groupLevel.Length - 1;
+            GameData.SetCurrentLevelByTheme(GameData.Theme, level);
             curLevelData = curThemeData.groupLevel[curThemeData.groupLevel.Length-1];
         }
 
-        sizeLevel = curLevelData.size;
+        sizeLevel =curThemeData.size;
         SetCamPosition(sizeLevel);
         yield return new WaitForEndOfFrame();
-        curSampleAnswer = DataController.LoadSampleAnswer(curLevelData.sampleIndex);
+        curSampleAnswer = DataController.LoadSampleAnswer(curLevelData.sampleIndex, sizeLevel);
+
+        Debug.LogError(curThemeData.theme.ToString());
+
         listTexture = LoadTextureFromLevel(curLevelData.index, curThemeData.theme, sizeLevel) ;
         //listSamples = LoadSample(curLevelData.sampleIndex);
 
@@ -212,10 +207,10 @@ public class LevelController : MonoBehaviour
     }
 
 
-    public Sprite LoadSpriteReview(int _level, ThemeType _themeType, int _sizeLevel)
+    public static Sprite LoadSpritePreview(int _level, ThemeName _themeType, int _sizeLevel)
     {
-        string _path ="Themes/"+ _themeType.ToString() + "/" +_sizeLevel.ToString() + "x" + _sizeLevel.ToString()+"/" + _level.ToString() + "/full";
-        //Debug.Log(_path);
+        string _path ="Themes/"+ _themeType.ToString()+ "/" +_sizeLevel.ToString() + "x" + _sizeLevel.ToString()+"/" + _level.ToString() + "/full";
+        Debug.Log(_path);
         Sprite _sprite = Resources.Load<Sprite>(_path);
         //Debug.Log(_sprite.name);
         return _sprite;
@@ -247,16 +242,19 @@ public class LevelController : MonoBehaviour
                 Camera.main.orthographicSize = Config.POSITION_5x5.z;
                 break;  
             case 6 :
-                Camera.main.transform.position = new Vector3(Config.POSITION_6x6.x, Config.POSITION_6x6.y);
+                Camera.main.transform.position = new Vector3(Config.POSITION_6x6.x, Config.POSITION_6x6.y, -10);
                 Camera.main.orthographicSize = Config.POSITION_6x6.z;
                 break;
         }
     }
 }
 
-public enum ThemeType
+public enum ThemeName
 {
-   Dog
+   Dog,
+   Cat,
+   Dog2,
+   NUM_OF_THEME
 }
 
 
