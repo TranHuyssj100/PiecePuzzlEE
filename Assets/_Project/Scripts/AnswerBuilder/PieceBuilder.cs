@@ -176,24 +176,10 @@ public class PieceBuilder : MonoBehaviour
         });
     }
 
-    //public void AutoCorrectPiece(Vector2 _correctPos, Vector2 _startPos, float _duration)
-    //{
-    //    startPosition = _startPos;
-    //    Transform _sprite = transform.GetChild(transform.childCount - 1);
-    //    Transform _shadow = transform.Find("Shadow");
-    //    LevelController.instance.NUM_PIECES_WORNG--;
-
-    //    isCorrect = true;
-    //    isOnPreSpace = false;
-    //    transform.localScale = Vector2.one;
-    //    _sprite.localScale = Vector2.one;
-    //    _sprite.localPosition = Vector2.zero;
-    //    _shadow.localScale = Vector2.one;
-    //    _shadow.localPosition = Vector2.zero;
-
-    //    transform.DOMove(_correctPos, _duration);
-    //    LevelController.instance.SpawnRadomPieces(startPosition);
-    //}
+    public void AutoCorrectPiece(Vector2 _correctPos,  float _duration)
+    {
+        transform.DOMove(_correctPos, _duration);
+    }
 
 
     public void DestroyPiece()

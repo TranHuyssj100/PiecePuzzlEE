@@ -52,14 +52,14 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
     }
 
 
-    public static SampleAnswer LoadSampleAnswer(int _indexSample)
+    public static SampleAnswer LoadSampleAnswer(int _indexSample, int _sizeLevel)
     {
         string loadString;
 #if UNITY_EDITOR
-        loadString = File.ReadAllText(Path.Combine(SAVESAMPLE, _indexSample.ToString() + JsonSuffix));
+        loadString = File.ReadAllText(Path.Combine(SAVESAMPLE,_sizeLevel.ToString()+"x"+ _sizeLevel.ToString()+"/"+ _indexSample.ToString() + JsonSuffix));
         //Debug.LogError(Path.Combine(SAVESAMPLE, _indexSample.ToString() + JsonSuffix));
 #elif UNITY_ANDROID
-        WWW reader = new WWW(Path.Combine(SAVESAMPLE, "Json/Answers/" +_indexSample.ToString() + JsonSuffix));
+        WWW reader = new WWW(Path.Combine(SAVESAMPLE, "Json/Answers/" +_sizeLevel.ToString()+"x"+ _sizeLevel.ToString()+"/"+ _indexSample.ToString()  + JsonSuffix));
         while (!reader.isDone) { }
         loadString = reader.text;
 #endif

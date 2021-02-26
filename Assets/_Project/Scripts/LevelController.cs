@@ -149,7 +149,7 @@ public class LevelController : MonoBehaviour
         sizeLevel =curThemeData.size;
         SetCamPosition(sizeLevel);
         yield return new WaitForEndOfFrame();
-        curSampleAnswer = DataController.LoadSampleAnswer(curLevelData.sampleIndex);
+        curSampleAnswer = DataController.LoadSampleAnswer(curLevelData.sampleIndex, sizeLevel);
         listTexture = LoadTextureFromLevel(curLevelData.index, curThemeData.theme, sizeLevel) ;
         //listSamples = LoadSample(curLevelData.sampleIndex);
 
