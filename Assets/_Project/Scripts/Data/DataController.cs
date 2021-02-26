@@ -44,7 +44,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
         loadString = File.ReadAllText(Path.Combine(SAVETHEME, ((ThemeName)_type).ToString() + JsonSuffix));
         //Debug.LogError(Path.Combine(SAVETHEME, ((ThemeType)_type).ToString() + JsonSuffix));
 #elif UNITY_ANDROID
-        WWW reader = new WWW(Path.Combine(SAVETHEME, "Json/Themes/" + ((ThemeType)_type).ToString() + JsonSuffix));
+        WWW reader = new WWW(Path.Combine(SAVETHEME, "Json/Themes/" + ((ThemeName)_type).ToString() + JsonSuffix));
         while (!reader.isDone) { }
         loadString = reader.text;
 #endif

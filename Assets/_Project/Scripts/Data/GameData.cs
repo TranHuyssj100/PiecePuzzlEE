@@ -13,7 +13,7 @@ public static class GameData
         LEVEL= PlayerPrefs.GetInt("level", 0);
         THEME=PlayerPrefs.GetInt("theme", 0);
         IS_SOUND = PlayerPrefs.GetInt("sound", 1);
-        GOLD = PlayerPrefs.GetInt("gold", 0);
+        GOLD = PlayerPrefs.GetInt("gold", 300);
         NO_ADS = PlayerPrefs.GetInt("no_ads", 0);
 
         CreateCurrentLevelforEachTheme();

@@ -8,6 +8,7 @@ using System.Collections;
 public class LevelController : MonoBehaviour
 {
     public int sizeLevel;
+    public Transform gridBroad;
     public Transform[] points;
     public List<Object> listTexture = new List<Object>();
     public List<Object> listSamples = new List<Object>();
@@ -99,6 +100,7 @@ public class LevelController : MonoBehaviour
         _spriteObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
         _spriteObject.transform.parent = _sampleClone.transform;
         _sampleClone.GetComponent<Piece>().sizeSprite = _spriteObject.GetComponent<SpriteRenderer>().size;
+        _sampleClone.GetComponent<Piece>().SetLimitPos(sizeLevel);
         //_sampleClone.GetComponent<Piece>().sizeSprite = _spriteObject.Ge
         _spriteObject.transform.localPosition = Vector3.zero;
         return _sampleClone;
@@ -233,9 +235,10 @@ public class LevelController : MonoBehaviour
            return _piece;
     }
 
-    void SetCamPosition(int sizeLevel)
+    void SetCamPosition(int _sizeLevel)
     {
-        switch (sizeLevel)
+        ActiveGridBoardforEachSize(_sizeLevel);
+        switch (_sizeLevel)
         {
             case 5 :
                 Camera.main.transform.position = new Vector3(Config.POSITION_5x5.x,Config.POSITION_5x5.y, -10) ;
@@ -245,6 +248,22 @@ public class LevelController : MonoBehaviour
                 Camera.main.transform.position = new Vector3(Config.POSITION_6x6.x, Config.POSITION_6x6.y, -10);
                 Camera.main.orthographicSize = Config.POSITION_6x6.z;
                 break;
+        }
+    }
+
+    void ActiveGridBoardforEachSize(int _sizeLevel)
+    {
+        for(int i=5; i< gridBroad.childCount+5;i++)
+        {
+            if (i == sizeLevel)
+            {
+                gridBroad.GetChild(i-5).gameObject.SetActive(true);
+            }
+            else
+            {
+                gridBroad.GetChild(i-5).gameObject.SetActive(false);
+
+            }
         }
     }
 }
