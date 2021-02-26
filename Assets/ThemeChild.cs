@@ -17,7 +17,7 @@ public class ThemeChild : MonoBehaviour
     public struct ThemeInfo
     {
         public int index;
-        public string name;
+        public ThemeName name;
         public Sprite image;
         public int price;
         [Range(5,7)] public int size;

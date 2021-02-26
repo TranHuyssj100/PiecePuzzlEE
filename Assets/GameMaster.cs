@@ -249,7 +249,7 @@ public class GameMaster : MonoBehaviour
             GameData.gold -= Config.COST_PREVIEW;
             OpenPanel(preview);
             preview.transform.Find("Bg").Find("Image").GetComponent<Image>().sprite=
-                LevelController.LoadSpriteReview(LevelController.level,(ThemeName) GameData.Theme, LevelController.instance.sizeLevel);
+                LevelController.LoadSpritePreview(LevelController.level,(ThemeName) GameData.Theme, LevelController.instance.sizeLevel);
         }
     }
 

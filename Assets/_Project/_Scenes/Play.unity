@@ -223,11 +223,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 94508257}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.7453174, y: -0.7265924, z: 0}
-  m_LocalScale: {x: 1.4444137, y: 1.4502844, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 191698206}
-  m_RootOrder: 0
+  m_Father: {fileID: 828939560}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!483693784 &94508259
 TilemapRenderer:
@@ -670,7 +670,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &191698206
 Transform:
   m_ObjectHideFlags: 0
@@ -679,10 +679,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 191698205}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.516, y: 0.501, z: 0}
-  m_LocalScale: {x: 0.69232243, y: 0.68952, z: 1}
-  m_Children:
-  - {fileID: 94508258}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
   m_Father: {fileID: 828939560}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -768,7 +767,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 828939560}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &334037437
 MonoBehaviour:
@@ -1447,7 +1446,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 828939560}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &400542201
 MonoBehaviour:
@@ -2405,7 +2404,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
+  near clip plane: 0.01
   far clip plane: 5000
   field of view: 40
   orthographic: 1
@@ -2761,7 +2760,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &613696811
 Transform:
   m_ObjectHideFlags: 0
@@ -2774,7 +2773,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 828939560}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &613696812
 MonoBehaviour:
@@ -2845,7 +2844,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1273906891
   m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0.04000002, y: 0.04000002, z: 0}
   m_MaxChunkCount: 16
@@ -3763,7 +3762,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 828939560}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &773066820
 MonoBehaviour:
@@ -4526,6 +4525,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 191698206}
+  - {fileID: 94508258}
   - {fileID: 613696811}
   - {fileID: 334037436}
   - {fileID: 773066819}
@@ -4880,7 +4880,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 828939560}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &972248480
 MonoBehaviour:
@@ -8233,13 +8233,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7338013786623537520, guid: e1f1a9df38f7147e581580af3c78a0d8,
         type: 3}
-      propertyPath: themes.Array.data[0].size
-      value: 5
+      propertyPath: themes.Array.data[2].name
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7338013786623537520, guid: e1f1a9df38f7147e581580af3c78a0d8,
         type: 3}
-      propertyPath: themes.Array.data[1].size
-      value: 5
+      propertyPath: themes.Array.data[1].name
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7338013786623537522, guid: e1f1a9df38f7147e581580af3c78a0d8,
         type: 3}

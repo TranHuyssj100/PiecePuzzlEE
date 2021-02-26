@@ -23,7 +23,7 @@ public class WinPanel : MonoBehaviour
     public void SetImageReview( )
     {
         int _level = LevelController.level;
-        img.sprite = LevelController.LoadSpriteReview(_level,(ThemeName)GameData.Theme, LevelController.instance.sizeLevel);
+        img.sprite = LevelController.LoadSpritePreview(_level,(ThemeName)GameData.Theme, LevelController.instance.sizeLevel);
     }
 
 }

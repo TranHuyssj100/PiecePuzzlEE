@@ -40,7 +40,7 @@ public class GridLevel : MonoBehaviour
         numLevelofTheme = DataController.Instance.themeData.groupLevel.Length; //GetThemeLevelCount(_type, _sizeLevel);
         for (int i=0; i < numLevelofTheme; i++)
         {
-            Sprite _imgSprite = LevelController.LoadSpriteReview(i, _type, _sizeLevel);
+            Sprite _imgSprite = LevelController.LoadSpritePreview(i, _type, _sizeLevel);
             if (_imgSprite != null)
             {
                 GameObject _gridChildClone = GameObject.Instantiate(gridChild, gameObject.transform);

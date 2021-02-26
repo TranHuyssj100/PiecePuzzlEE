@@ -34,7 +34,11 @@ public class ThemeSelect : MonoBehaviour
             {
                 _themeClone.GetComponent<ThemeChild>().priceTxt.text = "Open";
                 Debug.Log(GridLevel.instance);
-                _themeClone.GetComponent<ThemeChild>().button.onClick.AddListener(() => { GameMaster.instance.OpenLevelSelect(); GridLevel.instance.SpawnGridChild((ThemeName)System.Enum.Parse(typeof(ThemeName), themes[x].name), themes[x].size); });
+                _themeClone.GetComponent<ThemeChild>().button.onClick.AddListener(() => { GameMaster.instance.OpenLevelSelect();
+                                                                                          GridLevel.instance.SpawnGridChild((ThemeName)System.Enum.Parse(typeof(ThemeName), themes[x].name.ToString()), themes[x].size);
+                                                                                          GameMaster.instance.CloseThemeSelect();
+                                                                                          GameMaster.instance.OnStartClick();
+                                                                                         });
             }
         }
     }
@@ -48,7 +52,12 @@ public class ThemeSelect : MonoBehaviour
             GameData.SetStatusByTheme(index, 1);
             content.GetChild(index).GetComponent<ThemeChild>().priceTxt.text = "Open";
             content.GetChild(index).GetComponent<ThemeChild>().button.onClick.RemoveAllListeners();
-           content.GetChild(index).GetComponent<ThemeChild>().button.onClick.AddListener(() => { GameMaster.instance.OpenLevelSelect(); GridLevel.instance.SpawnGridChild((ThemeName)System.Enum.Parse(typeof(ThemeName), themes[index].name), themes[index].size); });
+           content.GetChild(index).GetComponent<ThemeChild>().button.onClick.AddListener(() => { GameMaster.instance.OpenLevelSelect();
+                                                                                                 GridLevel.instance.SpawnGridChild((ThemeName)System.Enum.Parse(typeof(ThemeName), themes[index].name.ToString()), themes[index].size);
+                                                                                                 GameMaster.instance.CloseThemeSelect();
+                                                                                                 GameMaster.instance.OnStartClick();
+
+                                                                                                 });
         }
     }
 }
