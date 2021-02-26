@@ -8,11 +8,13 @@ using TMPro.Examples;
 
 public class AnswerBuilder : MonoBehaviour
 {
-    public int size;
-    public int level;
     public ThemeType theme;
+    public int level;
+    public int size;
+
     [Space()]
     public int nameAnswer;
+    public GameObject fullSpite;
     public List<Object> listTexture;
     public List<GameObject> listSample;
     
@@ -60,6 +62,11 @@ public class AnswerBuilder : MonoBehaviour
         {
             CreatePiece(listTexture[i], listSample[i], transform.position);
         }
+    }
+
+    public void loadPreview()
+    {
+
     }
    
 }
