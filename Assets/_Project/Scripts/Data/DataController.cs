@@ -41,7 +41,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
     {
         string loadString ;
 #if UNITY_EDITOR
-        loadString = File.ReadAllText(Path.Combine(SAVETHEME, ((ThemeType)_type).ToString() + JsonSuffix));
+        loadString = File.ReadAllText(Path.Combine(SAVETHEME, ((ThemeName)_type).ToString() + JsonSuffix));
         //Debug.LogError(Path.Combine(SAVETHEME, ((ThemeType)_type).ToString() + JsonSuffix));
 #elif UNITY_ANDROID
         WWW reader = new WWW(Path.Combine(SAVETHEME, "Json/Themes/" + ((ThemeType)_type).ToString() + JsonSuffix));
@@ -65,12 +65,24 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
 #endif
         return JsonHelper.FromJson<SampleAnswer>(loadString)[0];
     }
-    
-    public static int GetAmountTheme()
+
+    //public static int GetThemeLevelCount(ThemeName themeName,int size)
+    //{
+    //    //DirectoryInfo dir = new DirectoryInfo("Assets/_Project/Resources/Themes/" + themeName.ToString() + "/" + +size + "x" + size);
+    //    Resources.Load("Themes/ " + themeName.ToString() + " / " + +size + "x" + size).
+    //    return Mathf.RoundToInt(dir.GetFiles().Length);
+    //}
+
+    public static List<string> GetAllTheme()
     {
         //Debug.LogError(SAVETHEME);
         DirectoryInfo dir = new DirectoryInfo(SAVETHEME);
-        return Mathf.RoundToInt(dir.GetFiles().Length/2);
+        FileInfo[] allFile = dir.GetFiles("*.json");
+        List<string> allFileName = new List<string>();
+        for (int i = 0; i < allFile.Length; i++)
+            allFileName.Add(Path.GetFileName(allFile[i].Name.Remove(allFile[i].Name.Length - 5, 5)));
+        return allFileName;
+        //return Mathf.RoundToInt(dir.GetFiles().Length/2);
     }
     //void CreateDefaultLevelData()
     //{
@@ -136,7 +148,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
 [System.Serializable]
 public class ThemeData
 {
-    public ThemeType theme;
+    public ThemeName theme;
     public int size;
     public LevelData[] groupLevel;
 

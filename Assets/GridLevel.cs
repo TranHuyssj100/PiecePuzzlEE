@@ -6,14 +6,20 @@ using TMPro;
 public class GridLevel : MonoBehaviour
 {
     public GameObject gridChild;
-    public TextMeshProUGUI title; 
-
+    public TextMeshProUGUI title;
+    public static GridLevel instance;
     int numLevelofTheme;
-    
+    private void Awake()
+    {
+        instance = this;
+
+    }
+
     void Start()
     {
-        numLevelofTheme = DataController.Instance.themeData.groupLevel.Length;     
-        SpawnGridChild(ThemeType.Dog, 5);
+        //numLevelofTheme = DataController.Instance.themeData.groupLevel.Length;
+        numLevelofTheme = DataController.Instance.themeData.groupLevel.Length;
+        //SpawnGridChild(ThemeName.Dog, 5);
     }
 
     void Update()
@@ -22,10 +28,17 @@ public class GridLevel : MonoBehaviour
     }
 
 
-    public void SpawnGridChild(ThemeType _type, int _sizeLevel)
+    public void SpawnGridChild(ThemeName _type, int _sizeLevel)
     {
         title.text = _type.ToString();
-        for(int i=0; i< numLevelofTheme; i++)
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+        Debug.Log(_type);
+        DataController.Instance.themeData = DataController.LoadThemeData((int)_type);
+        numLevelofTheme = DataController.Instance.themeData.groupLevel.Length; //GetThemeLevelCount(_type, _sizeLevel);
+        for (int i=0; i < numLevelofTheme; i++)
         {
             Sprite _imgSprite = LevelController.LoadSpriteReview(i, _type, _sizeLevel);
             if (_imgSprite != null)

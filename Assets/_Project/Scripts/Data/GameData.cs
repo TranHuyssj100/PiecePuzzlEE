@@ -43,38 +43,38 @@ public static class GameData
 
     public static void CreateCurrentLevelforEachTheme()
     {
-        for(int i=0; i< (int) ThemeType.NUM_OF_THEME; i++)
+        for(int i=0; i< (int) ThemeName.NUM_OF_THEME; i++)
         {
-            if(!PlayerPrefs.HasKey(((ThemeType)i).ToString() + "Level"))
-                PlayerPrefs.SetInt(((ThemeType)i).ToString() + "Level", 0);
+            if(!PlayerPrefs.HasKey(((ThemeName)i).ToString() + "Level"))
+                PlayerPrefs.SetInt(((ThemeName)i).ToString() + "Level", 0);
         }
     }  
  
     public static int GetCurrentLevelByTheme( int _themeType)
     {
-        return PlayerPrefs.GetInt(((ThemeType)_themeType).ToString() + "Level");
+        return PlayerPrefs.GetInt(((ThemeName)_themeType).ToString() + "Level");
     }
     public static void SetCurrentLevelByTheme( int _themeType, int _value)
     {
-         PlayerPrefs.SetInt(((ThemeType)_themeType).ToString() + "Level", _value);
+         PlayerPrefs.SetInt(((ThemeName)_themeType).ToString() + "Level", _value);
     }
 
     public static void CreateStatusTheme()
     {
-        for(int i=0; i< (int) ThemeType.NUM_OF_THEME; i++)
+        for(int i=0; i< (int) ThemeName.NUM_OF_THEME; i++)
         {
-            if(!PlayerPrefs.HasKey(((ThemeType)i).ToString() + "Unlock"))
-                PlayerPrefs.SetInt(((ThemeType)i).ToString() + "Unlock", 0);
+            if(!PlayerPrefs.HasKey(((ThemeName)i).ToString() + "Unlock"))
+                PlayerPrefs.SetInt(((ThemeName)i).ToString() + "Unlock", 0);
         }
     }
 
     public static int GetStatusTheme(int _themeType)
     {
-        return PlayerPrefs.GetInt(((ThemeType)_themeType).ToString() + "Unlock");
+        return PlayerPrefs.GetInt(((ThemeName)_themeType).ToString() + "Unlock");
     }
     public static void SetStatusByTheme(int _themeType, int _value)
     {
-        PlayerPrefs.SetInt(((ThemeType)_themeType).ToString() + "Unlock", _value);
+        PlayerPrefs.SetInt(((ThemeName)_themeType).ToString() + "Unlock", _value);
     }
 
     public static int noAds

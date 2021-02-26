@@ -8,7 +8,7 @@ using TMPro.Examples;
 
 public class AnswerBuilder : MonoBehaviour
 {
-    public ThemeType theme;
+    public ThemeName theme;
     public int level;
     public int size;
 
@@ -29,7 +29,7 @@ public class AnswerBuilder : MonoBehaviour
 
     }
 
-    public List<Object> LoadTextureFromLevel(int _level, ThemeType _themeType, int _sizeLevel)
+    public List<Object> LoadTextureFromLevel(int _level, ThemeName _themeType, int _sizeLevel)
     {
         string _path = "Themes/" + _themeType.ToString() + "/" + _sizeLevel.ToString() + "x" + _sizeLevel.ToString() + "/" + _level.ToString();
         Debug.Log(_path);
