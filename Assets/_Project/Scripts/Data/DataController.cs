@@ -32,6 +32,8 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
 #endif
         //themeData = LoadThemeData(GameData.Theme);     
         LoadAllThemeData();
+        GameData.CreateStatusTheme();
+        GameData.CreateCurrentLevelforEachTheme();
     }
 
 
