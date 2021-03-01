@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using System.Collections;
+using TMPro.Examples;
 
 public class LevelController : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class LevelController : MonoBehaviour
     [Space(10)]
     [Header("Data")]
     public  SampleAnswer curSampleAnswer = new SampleAnswer();
-    public ThemeData curThemeData = new ThemeData();
+    //public ThemeData curThemeData = new ThemeData();
     public static bool isInitializeComplete=false;
    
 
@@ -120,25 +121,27 @@ public class LevelController : MonoBehaviour
         return null;
     }
 
-    public IEnumerator InitializeGame(int _level)
+    public IEnumerator InitializeGame(int _idLevel,int _idTheme )
     {
         isInitializeComplete = false;
         EventManager.TriggerEvent("DestroyPiece");
         //curThemeData = DataController.LoadThemeData(GameData.Theme);
         //level = GameData.GetCurrentLevelByTheme(GameData.Theme);
-        level =_level;
+        level =_idLevel;
         //Debug.LogError(level);
-        curThemeData = DataController.Instance.themeData;
-        if ( level < curThemeData.groupLevel.Length)
-        {
-            curLevelData = curThemeData.groupLevel[level];
-        }
-        else
-        {
-            level = curThemeData.groupLevel.Length - 1;
-            GameData.SetCurrentLevelByTheme(GameData.Theme, level);
-            curLevelData = curThemeData.groupLevel[curThemeData.groupLevel.Length-1];
-        }
+        //curThemeData = DataController.Instance.themeData;
+        //if ( level < curThemeData.groupLevel.Length)
+        //{
+        //    curLevelData = curThemeData.groupLevel[level];
+        //}
+        //else
+        //{
+        //    level = curThemeData.groupLevel.Length - 1;
+        //    GameData.SetCurrentLevelByTheme(GameData.Theme, level);
+        //    curLevelData = curThemeData.groupLevel[curThemeData.groupLevel.Length-1];
+        //}
+
+        curLevelData = DataController.LoadLevelData(_idLevel, _idTheme);
 
         sizeLevel =curThemeData.size;
         SetCamPosition(sizeLevel);
@@ -147,7 +150,7 @@ public class LevelController : MonoBehaviour
 
         Debug.LogError(curThemeData.theme.ToString());
 
-        listTexture = LoadTextureFromLevel(curLevelData.index, curThemeData.theme, sizeLevel) ;
+        listTexture = LoadTextureFromLevel(curLevelData.id, curThemeData.theme, sizeLevel) ;
         //listSamples = LoadSample(curLevelData.sampleIndex);
 
         listSamples = LoadSample(curSampleAnswer.pieceNames);

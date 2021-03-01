@@ -104,7 +104,7 @@ public class AnswerBuilder : MonoBehaviour
 
         Debug.LogError(_path);
 
-        _answer.index = level;
+        _answer.idAnswer = level;
         _answer.pieceNames = new int[listSample.Count];
         //_answer.answers = new int[listSample.Count * 3];
         for (int i = 0; i < listSample.Count; i++)
