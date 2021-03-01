@@ -6,11 +6,11 @@ using System.IO;
 
 public class AnswerBuilder : MonoBehaviour
 {
-    public int idTheme;
+    public string nameTheme;
     public int idLevel;
     public int size;
     [Space()]
-    //public int level;
+    public int nameJsonFile;
     public GameObject fullSpite;
     public GameObject allPieces;
     public List<Object> listTexture;
@@ -33,22 +33,22 @@ public class AnswerBuilder : MonoBehaviour
     {
         Clear();
         loadAnswer();
-        listTexture = LoadTextureFromLevel(idLevel, idTheme, size);
+        listTexture = LoadTextureFromLevel(idLevel, nameTheme, size);
         LoadPreview();
         if(listSample.Count>0)
             SpawnPiece(listTexture.Count);
     }
     
-    public List<Object> LoadTextureFromLevel(int _level, int _idTheme, int _sizeLevel)
+    public List<Object> LoadTextureFromLevel(int _level, string _nameTheme, int _sizeLevel)
     {
-        string _path = "Themes/" + DataController.themeData[_idTheme].name + "/" + _sizeLevel.ToString() + "x" + _sizeLevel.ToString() + "/" + _level.ToString();
+        string _path = "Themes/" +_nameTheme + "/" + _sizeLevel.ToString() + "x" + _sizeLevel.ToString() + "/" + _level.ToString();
         Debug.Log(_path);
         Object[] _textures = Resources.LoadAll(_path, typeof(Texture2D));
         return _textures.ToList();
     }
     public void LoadPreview()
     {
-        string _path = "Themes/" + idTheme.ToString() + "/" + size.ToString() + "x" + size.ToString() + "/" + idLevel.ToString() + "/full";
+        string _path = "Themes/" + nameTheme.ToString() + "/" + size.ToString() + "x" + size.ToString() + "/" + idLevel.ToString() + "/full";
         //Debug.Log(_path);
         Sprite _sprite = Resources.Load<Sprite>(_path);
         //fullSpite.GetComponent<SpriteRenderer>().sprite = listTexture[listTexture.Count - 1] as Sprite;
@@ -102,9 +102,9 @@ public class AnswerBuilder : MonoBehaviour
         SampleAnswer _answer = new SampleAnswer();
         string _strData = "[";
 
-        Debug.LogError(_path);
+        //Debug.LogError(_path);
 
-        _answer.idAnswer = idLevel;
+        _answer.idAnswer = nameJsonFile;
         _answer.pieceNames = new int[listSample.Count];
         //_answer.answers = new int[listSample.Count * 3];
         for (int i = 0; i < listSample.Count; i++)
@@ -117,7 +117,7 @@ public class AnswerBuilder : MonoBehaviour
         _answer.answers = _finalAnswers.ToArray();
         _strData += "\n" + JsonUtility.ToJson(_answer, true);
         _strData += "]";
-        Debug.Log(_strData);
+        //Debug.Log(_strData);
         //Directory.CreateDirectory(_path);
         if (!Directory.Exists(_path))
         {
@@ -128,20 +128,20 @@ public class AnswerBuilder : MonoBehaviour
 
         if (!_isOverride)
         {
-            if (!File.Exists(_path + "/" + idLevel + jsonSuffix))
+            if (!File.Exists(_path + "/" + nameJsonFile + jsonSuffix))
             {
-                File.WriteAllText(_path + "/" + idLevel + jsonSuffix, _strData);
-                Debug.Log("<color=green>: CREATE file complete </color>" + idLevel);
+                File.WriteAllText(_path + "/" + nameJsonFile + jsonSuffix, _strData);
+                Debug.Log("<color=green>: CREATE file complete </color>" + nameJsonFile);
             }
             else
             {
-                Debug.Log("<color=red>Exis file: </color>" + size.ToString() + "x" + size.ToString() + "/" + idLevel + ":Try to UPDATE");
+                Debug.Log("<color=red>Exis file: </color>" + size.ToString() + "x" + size.ToString() + "/" + nameJsonFile + ":Try to UPDATE");
             }
         }
         else
         {
-            File.WriteAllText(_path + "/" + idLevel + jsonSuffix, _strData);
-            Debug.Log("<color=green>: UPDATE file complete </color>" + idLevel);
+            File.WriteAllText(_path + "/" + nameJsonFile + jsonSuffix, _strData);
+            Debug.Log("<color=green>: UPDATE file complete </color>" + nameJsonFile);
         }
     }
 
@@ -180,7 +180,7 @@ public class AnswerBuilder : MonoBehaviour
     public SampleAnswer LoadSampleAnswer()
     {
         string _loadString="";
-        string _path = Path.Combine(basePath, size.ToString() + "x" + size.ToString() + "/" + idLevel.ToString() + jsonSuffix);
+        string _path = Path.Combine(basePath, size.ToString() + "x" + size.ToString() + "/" + nameJsonFile.ToString() + jsonSuffix);
         if (File.Exists(_path))
         {
             _loadString = File.ReadAllText(_path);
@@ -216,6 +216,7 @@ public class AnswerBuilder : MonoBehaviour
     
     public void Clear()
     {
+        
         listAnswerForSample.Clear();
         EventManager.TriggerEvent("DestroyPiece");
        
