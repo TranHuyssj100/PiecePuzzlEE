@@ -49,8 +49,8 @@ public class GridLevel : MonoBehaviour
                 _gridChildClone.transform.GetChild(0).GetComponent<Image>().sprite = _imgSprite;
                 _gridChildClone.transform.localScale = Vector3.zero;
                 _gridChildClone.transform.DOScale(Vector3.one, 0.2f);
-                //if (i <= GameData.GetCurrentLevelByTheme(GameData.Theme))
-                //    _gridChildClone.GetComponent<GridChild>().isUnlock = true;
+                if (i <= GameData.GetCurrentLevelByTheme(GameData.Theme))
+                    _gridChildClone.GetComponent<GridChild>().UnlockLevel();
                 //else
                 //    _gridChildClone.GetComponent<GridChild>().isUnlock = false;
 

@@ -6,7 +6,7 @@ public class GridChild : MonoBehaviour
 {
     public int indexLevel;
     public GameObject imgLock;
-    public bool isUnlock;
+    public bool isUnlock = false;
 
     
 
@@ -26,10 +26,17 @@ public class GridChild : MonoBehaviour
 
     public void OnClick()
     {
-        //if (isUnlock)
-        //{
-            StartCoroutine(LevelController.instance.InitializeGame(indexLevel, GameData.Theme));
+        if (isUnlock)
+        {
+            //StartCoroutine(LevelController.instance.InitializeGame(indexLevel, GameData.Theme));
+            GameMaster.instance.OnStartClick();
             GameMaster.instance.CloseLevelSelect();
-        //}
+        }
+    }
+
+    public void UnlockLevel()
+    {
+        isUnlock = true;
+        imgLock.SetActive(false);
     }
 }
