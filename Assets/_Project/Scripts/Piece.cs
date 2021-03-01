@@ -213,7 +213,7 @@ public class Piece : MonoBehaviour
                                             SoundManager.instance.ClearIndexSquential(TypeSFX.True);
                                             SoundManager.instance.PlayRandom(TypeSFX.Wrong);
                                         }
-                                         Debug.LogError(LevelController.instance.NUM_PIECES_WORNG);
+                                         //Debug.LogError(LevelController.instance.NUM_PIECES_WORNG);
 
                                      });
     }

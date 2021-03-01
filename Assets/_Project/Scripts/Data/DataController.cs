@@ -60,8 +60,8 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
     {
         string loadString ;
 #if UNITY_EDITOR
+        Debug.LogError(Path.Combine(Path.Combine(SAVETHEME, "Themes" + JsonSuffix)));
         loadString = File.ReadAllText(Path.Combine(SAVETHEME, "Themes"+ JsonSuffix));
-        //Debug.LogError(Path.Combine(SAVETHEME, ((ThemeType)_type).ToString() + JsonSuffix));
 #elif UNITY_ANDROID
         WWW reader = new WWW(Path.Combine(SAVETHEME, "Json/Themes/" +"Themes"  + JsonSuffix));
         while (!reader.isDone) { }
@@ -76,7 +76,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
         string loadString;
 #if UNITY_EDITOR
         loadString = File.ReadAllText(Path.Combine(SAVELEVEL, themeData[idTheme].name  + "/"+ idLevel + JsonSuffix));
-        //Debug.LogError(Path.Combine(SAVETHEME, ((ThemeType)_type).ToString() + JsonSuffix));
+        Debug.LogError((Path.Combine(SAVELEVEL, themeData[idTheme].name + "/" + idLevel + JsonSuffix)));
 #elif UNITY_ANDROID
         WWW reader = new WWW(Path.Combine(SAVELEVEL, themeData[idTheme].name + "/" + idLevel + JsonSuffix));
         while (!reader.isDone) { }
@@ -189,6 +189,8 @@ public class ThemeData
     public string name;
     public int size;
     public int price;
+    public int levelCount;
+   
     //public LevelData[] groupLevel;
 }
 

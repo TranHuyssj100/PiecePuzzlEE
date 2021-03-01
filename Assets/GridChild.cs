@@ -13,23 +13,23 @@ public class GridChild : MonoBehaviour
     
     private void Update()
     {
-        isUnlock = indexLevel <= GameData.GetCurrentLevelByTheme(GameData.Theme);
-        if (isUnlock)     
-        {
-            if (imgLock.activeSelf) imgLock.SetActive(false);
-        }
-        else
-        {
-            if (!imgLock.activeSelf) imgLock.SetActive(true);
-        }
+        //isUnlock = indexLevel <= GameData.GetCurrentLevelByTheme(GameData.Theme);
+        //if (isUnlock)     
+        //{
+        //    if (imgLock.activeSelf) imgLock.SetActive(false);
+        //}
+        //else
+        //{
+        //    if (!imgLock.activeSelf) imgLock.SetActive(true);
+        //}
     }
 
     public void OnClick()
     {
-        if (isUnlock)
-        {
-            StartCoroutine(LevelController.instance.InitializeGame(indexLevel));
+        //if (isUnlock)
+        //{
+            StartCoroutine(LevelController.instance.InitializeGame(indexLevel, GameData.Theme));
             GameMaster.instance.CloseLevelSelect();
-        }
+        //}
     }
 }

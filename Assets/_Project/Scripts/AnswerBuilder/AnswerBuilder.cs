@@ -6,8 +6,8 @@ using System.IO;
 
 public class AnswerBuilder : MonoBehaviour
 {
-    public ThemeName theme;
-    public int level;
+    public int idTheme;
+    public int idLevel;
     public int size;
     [Space()]
     //public int level;
@@ -33,22 +33,22 @@ public class AnswerBuilder : MonoBehaviour
     {
         Clear();
         loadAnswer();
-        listTexture = LoadTextureFromLevel(level, theme, size);
+        listTexture = LoadTextureFromLevel(idLevel, idTheme, size);
         LoadPreview();
         if(listSample.Count>0)
             SpawnPiece(listTexture.Count);
     }
     
-    public List<Object> LoadTextureFromLevel(int _level, ThemeName _themeType, int _sizeLevel)
+    public List<Object> LoadTextureFromLevel(int _level, int _idTheme, int _sizeLevel)
     {
-        string _path = "Themes/" + _themeType.ToString() + "/" + _sizeLevel.ToString() + "x" + _sizeLevel.ToString() + "/" + _level.ToString();
+        string _path = "Themes/" + DataController.themeData[_idTheme].name + "/" + _sizeLevel.ToString() + "x" + _sizeLevel.ToString() + "/" + _level.ToString();
         Debug.Log(_path);
         Object[] _textures = Resources.LoadAll(_path, typeof(Texture2D));
         return _textures.ToList();
     }
     public void LoadPreview()
     {
-        string _path = "Themes/" + theme.ToString() + "/" + size.ToString() + "x" + size.ToString() + "/" + level.ToString() + "/full";
+        string _path = "Themes/" + idTheme.ToString() + "/" + size.ToString() + "x" + size.ToString() + "/" + idLevel.ToString() + "/full";
         //Debug.Log(_path);
         Sprite _sprite = Resources.Load<Sprite>(_path);
         //fullSpite.GetComponent<SpriteRenderer>().sprite = listTexture[listTexture.Count - 1] as Sprite;
@@ -104,7 +104,7 @@ public class AnswerBuilder : MonoBehaviour
 
         Debug.LogError(_path);
 
-        _answer.idAnswer = level;
+        _answer.idAnswer = idLevel;
         _answer.pieceNames = new int[listSample.Count];
         //_answer.answers = new int[listSample.Count * 3];
         for (int i = 0; i < listSample.Count; i++)
@@ -128,20 +128,20 @@ public class AnswerBuilder : MonoBehaviour
 
         if (!_isOverride)
         {
-            if (!File.Exists(_path + "/" + level + jsonSuffix))
+            if (!File.Exists(_path + "/" + idLevel + jsonSuffix))
             {
-                File.WriteAllText(_path + "/" + level + jsonSuffix, _strData);
-                Debug.Log("<color=green>: CREATE file complete </color>" + level);
+                File.WriteAllText(_path + "/" + idLevel + jsonSuffix, _strData);
+                Debug.Log("<color=green>: CREATE file complete </color>" + idLevel);
             }
             else
             {
-                Debug.Log("<color=red>Exis file: </color>" + size.ToString() + "x" + size.ToString() + "/" + level + ":Try to UPDATE");
+                Debug.Log("<color=red>Exis file: </color>" + size.ToString() + "x" + size.ToString() + "/" + idLevel + ":Try to UPDATE");
             }
         }
         else
         {
-            File.WriteAllText(_path + "/" + level + jsonSuffix, _strData);
-            Debug.Log("<color=green>: UPDATE file complete </color>" + level);
+            File.WriteAllText(_path + "/" + idLevel + jsonSuffix, _strData);
+            Debug.Log("<color=green>: UPDATE file complete </color>" + idLevel);
         }
     }
 
@@ -180,7 +180,7 @@ public class AnswerBuilder : MonoBehaviour
     public SampleAnswer LoadSampleAnswer()
     {
         string _loadString="";
-        string _path = Path.Combine(basePath, size.ToString() + "x" + size.ToString() + "/" + level.ToString() + jsonSuffix);
+        string _path = Path.Combine(basePath, size.ToString() + "x" + size.ToString() + "/" + idLevel.ToString() + jsonSuffix);
         if (File.Exists(_path))
         {
             _loadString = File.ReadAllText(_path);

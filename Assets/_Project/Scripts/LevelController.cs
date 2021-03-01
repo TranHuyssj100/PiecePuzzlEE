@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using System.Collections;
 using TMPro.Examples;
+using System.Security.Cryptography;
 
 public class LevelController : MonoBehaviour
 {
@@ -19,13 +20,14 @@ public class LevelController : MonoBehaviour
     [Space(10)]
     [Header("Data")]
     public  SampleAnswer curSampleAnswer = new SampleAnswer();
-    //public ThemeData curThemeData = new ThemeData();
+    public ThemeData curThemeData = new ThemeData();
     public static bool isInitializeComplete=false;
    
 
 
     public static LevelController instance;
-    public static int level;
+    public static int idLevel;
+    public static int idTheme;
     public int numPiecesWrong;
     
     int numMove;
@@ -62,13 +64,13 @@ public class LevelController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
-            GameData.gold+=20;
+            GameData.gold+=2000;
         }
     }
 
-    public List<Object> LoadTextureFromLevel(int _level, ThemeName _themeType, int _sizeLevel)
+    public List<Object> LoadTextureFromLevel(int _level, string _themeType, int _sizeLevel)
     {
-        string _path = "Themes/" + _themeType.ToString() + "/"+ _sizeLevel.ToString() + "x" + _sizeLevel.ToString() + "/" + _level.ToString();
+        string _path = "Themes/" + _themeType + "/"+ _sizeLevel.ToString() + "x" + _sizeLevel.ToString() + "/" + _level.ToString();
         Debug.Log(_path);
         Object[] _textures = Resources.LoadAll(_path, typeof(Texture2D));
         return _textures.ToList();
@@ -125,9 +127,10 @@ public class LevelController : MonoBehaviour
     {
         isInitializeComplete = false;
         EventManager.TriggerEvent("DestroyPiece");
-        //curThemeData = DataController.LoadThemeData(GameData.Theme);
-        //level = GameData.GetCurrentLevelByTheme(GameData.Theme);
-        level =_idLevel;
+        //curThemeData = DataController.themeData[_idLevel];
+        //idLevel = _idLevel;
+        idLevel = GameData.GetCurrentLevelByTheme(GameData.Theme);
+        idTheme = _idTheme;
         //Debug.LogError(level);
         //curThemeData = DataController.Instance.themeData;
         //if ( level < curThemeData.groupLevel.Length)
@@ -140,17 +143,27 @@ public class LevelController : MonoBehaviour
         //    GameData.SetCurrentLevelByTheme(GameData.Theme, level);
         //    curLevelData = curThemeData.groupLevel[curThemeData.groupLevel.Length-1];
         //}
-
-        curLevelData = DataController.LoadLevelData(_idLevel, _idTheme);
-
-        sizeLevel =curThemeData.size;
+        
+        if (idLevel < DataController.themeData[idTheme].levelCount)
+        {
+            curLevelData = DataController.LoadLevelData(_idTheme, _idLevel);
+        }
+        else
+        {
+            idLevel = DataController.themeData[idLevel].levelCount-1;
+            curLevelData = DataController.LoadLevelData(_idTheme, _idLevel);
+            //    GameData.SetCurrentLevelByTheme(GameData.Theme, level);
+            //    curLevelData = curThemeData.groupLevel[curThemeData.groupLevel.Length-1];
+        }
+        sizeLevel = DataController.themeData[idTheme].size;
         SetCamPosition(sizeLevel);
+
         yield return new WaitForEndOfFrame();
         curSampleAnswer = DataController.LoadSampleAnswer(curLevelData.sampleIndex, sizeLevel);
 
-        Debug.LogError(curThemeData.theme.ToString());
+        Debug.LogError(DataController.themeData[_idTheme].name) ;
 
-        listTexture = LoadTextureFromLevel(curLevelData.id, curThemeData.theme, sizeLevel) ;
+        listTexture = LoadTextureFromLevel(curLevelData.idLevel, DataController.themeData[_idTheme].name, sizeLevel) ;
         //listSamples = LoadSample(curLevelData.sampleIndex);
 
         listSamples = LoadSample(curSampleAnswer.pieceNames);
@@ -212,12 +225,12 @@ public class LevelController : MonoBehaviour
     }
 
 
-    public static Sprite LoadSpritePreview(int _level, ThemeName _themeType, int _sizeLevel)
+    public static Sprite LoadSpritePreview(int _level, string _themeType, int _sizeLevel)
     {
-        string _path ="Themes/"+ _themeType.ToString()+ "/" +_sizeLevel.ToString() + "x" + _sizeLevel.ToString()+"/" + _level.ToString() + "/full";
+        string _path ="Themes/"+ _themeType+ "/" +_sizeLevel.ToString() + "x" + _sizeLevel.ToString()+"/" + _level.ToString() + "/full";
         Debug.Log(_path);
         Sprite _sprite = Resources.Load<Sprite>(_path);
-        //Debug.Log(_sprite.name);
+        Debug.Log(_sprite.name);
         return _sprite;
     }
 
@@ -271,13 +284,13 @@ public class LevelController : MonoBehaviour
     }
 }
 
-public enum ThemeName
-{
-   Dog,
-   Cat,
-   Dog2,
-   NUM_OF_THEME
-}
+//public enum ThemeName
+//{
+//   Dog,
+//   Cat,
+//   Dog2,
+//   NUM_OF_THEME
+//}
 
 
 

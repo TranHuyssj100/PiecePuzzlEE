@@ -22,8 +22,8 @@ public class WinPanel : MonoBehaviour
     }
     public void SetImageReview( )
     {
-        int _level = LevelController.level;
-        img.sprite = LevelController.LoadSpritePreview(_level,(ThemeName)GameData.Theme, LevelController.instance.sizeLevel);
+        int _level = LevelController.idLevel;
+        img.sprite = LevelController.LoadSpritePreview(_level,DataController.themeData[GameData.Theme].name, LevelController.instance.sizeLevel);
     }
 
 }

@@ -50,9 +50,9 @@ public class BuildLevel : MonoBehaviour
     {
     }
 
-    public List<Object> LoadTextureFromLevel(int _level, ThemeName _themeType)
+    public List<Object> LoadTextureFromLevel(int _level, int _idTheme)
     {
-        string _path = _themeType.ToString() + "/" + _level.ToString();
+        string _path = _idTheme.ToString() + "/" + _level.ToString();
         //Debug.Log(_path);
         Object[] _textures = Resources.LoadAll(_path, typeof(Texture2D));
         return _textures.ToList();
