@@ -4,10 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using System.Collections;
+using TMPro.Examples;
+using System.Security.Cryptography;
 
 public class LevelController : MonoBehaviour
 {
     public int sizeLevel;
+    public Transform gridBroad;
     public Transform[] points;
     public List<Object> listTexture = new List<Object>();
     public List<Object> listSamples = new List<Object>();
@@ -23,7 +26,8 @@ public class LevelController : MonoBehaviour
 
 
     public static LevelController instance;
-    public static int level;
+    public static int idLevel;
+    public static int idTheme;
     public int numPiecesWrong;
     
     int numMove;
@@ -60,13 +64,13 @@ public class LevelController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
-            GameData.gold+=20;
+            GameData.gold+=2000;
         }
     }
 
-    public List<Object> LoadTextureFromLevel(int _level, ThemeName _themeType, int _sizeLevel)
+    public List<Object> LoadTextureFromLevel(int _level, string _themeType, int _sizeLevel)
     {
-        string _path = "Themes/" + _themeType.ToString() + "/"+ _sizeLevel.ToString() + "x" + _sizeLevel.ToString() + "/" + _level.ToString();
+        string _path = "Themes/" + _themeType + "/"+ _sizeLevel.ToString() + "x" + _sizeLevel.ToString() + "/" + _level.ToString();
         Debug.Log(_path);
         Object[] _textures = Resources.LoadAll(_path, typeof(Texture2D));
         return _textures.ToList();
@@ -99,6 +103,7 @@ public class LevelController : MonoBehaviour
         _spriteObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
         _spriteObject.transform.parent = _sampleClone.transform;
         _sampleClone.GetComponent<Piece>().sizeSprite = _spriteObject.GetComponent<SpriteRenderer>().size;
+        _sampleClone.GetComponent<Piece>().SetLimitPos(sizeLevel);
         //_sampleClone.GetComponent<Piece>().sizeSprite = _spriteObject.Ge
         _spriteObject.transform.localPosition = Vector3.zero;
         return _sampleClone;
@@ -118,34 +123,47 @@ public class LevelController : MonoBehaviour
         return null;
     }
 
-    public IEnumerator InitializeGame(int _level)
+    public IEnumerator InitializeGame(int _idLevel,int _idTheme )
     {
         isInitializeComplete = false;
         EventManager.TriggerEvent("DestroyPiece");
-        //curThemeData = DataController.LoadThemeData(GameData.Theme);
-        //level = GameData.GetCurrentLevelByTheme(GameData.Theme);
-        level =_level;
+        //curThemeData = DataController.themeData[_idLevel];
+        //idLevel = _idLevel;
+        idLevel = GameData.GetCurrentLevelByTheme(GameData.Theme);
+        idTheme = _idTheme;
         //Debug.LogError(level);
-        curThemeData = DataController.Instance.themeData;
-        if ( level < curThemeData.groupLevel.Length)
+        //curThemeData = DataController.Instance.themeData;
+        //if ( level < curThemeData.groupLevel.Length)
+        //{
+        //    curLevelData = curThemeData.groupLevel[level];
+        //}
+        //else
+        //{
+        //    level = curThemeData.groupLevel.Length - 1;
+        //    GameData.SetCurrentLevelByTheme(GameData.Theme, level);
+        //    curLevelData = curThemeData.groupLevel[curThemeData.groupLevel.Length-1];
+        //}
+        
+        if (idLevel < DataController.themeData[idTheme].levelCount)
         {
-            curLevelData = curThemeData.groupLevel[level];
+            curLevelData = DataController.LoadLevelData(_idTheme, _idLevel);
         }
         else
         {
-            level = curThemeData.groupLevel.Length - 1;
-            GameData.SetCurrentLevelByTheme(GameData.Theme, level);
-            curLevelData = curThemeData.groupLevel[curThemeData.groupLevel.Length-1];
+            idLevel = DataController.themeData[idLevel].levelCount-1;
+            curLevelData = DataController.LoadLevelData(_idTheme, _idLevel);
+            //    GameData.SetCurrentLevelByTheme(GameData.Theme, level);
+            //    curLevelData = curThemeData.groupLevel[curThemeData.groupLevel.Length-1];
         }
-
-        sizeLevel =curThemeData.size;
+        sizeLevel = DataController.themeData[idTheme].size;
         SetCamPosition(sizeLevel);
+
         yield return new WaitForEndOfFrame();
         curSampleAnswer = DataController.LoadSampleAnswer(curLevelData.sampleIndex, sizeLevel);
 
-        Debug.LogError(curThemeData.theme.ToString());
+        Debug.LogError(DataController.themeData[_idTheme].name) ;
 
-        listTexture = LoadTextureFromLevel(curLevelData.index, curThemeData.theme, sizeLevel) ;
+        listTexture = LoadTextureFromLevel(curLevelData.idLevel, DataController.themeData[_idTheme].name, sizeLevel) ;
         //listSamples = LoadSample(curLevelData.sampleIndex);
 
         listSamples = LoadSample(curSampleAnswer.pieceNames);
@@ -207,12 +225,12 @@ public class LevelController : MonoBehaviour
     }
 
 
-    public static Sprite LoadSpritePreview(int _level, ThemeName _themeType, int _sizeLevel)
+    public static Sprite LoadSpritePreview(int _level, string _themeType, int _sizeLevel)
     {
-        string _path ="Themes/"+ _themeType.ToString()+ "/" +_sizeLevel.ToString() + "x" + _sizeLevel.ToString()+"/" + _level.ToString() + "/full";
+        string _path ="Themes/"+ _themeType+ "/" +_sizeLevel.ToString() + "x" + _sizeLevel.ToString()+"/" + _level.ToString() + "/full";
         Debug.Log(_path);
         Sprite _sprite = Resources.Load<Sprite>(_path);
-        //Debug.Log(_sprite.name);
+        Debug.Log(_sprite.name);
         return _sprite;
     }
 
@@ -233,9 +251,10 @@ public class LevelController : MonoBehaviour
            return _piece;
     }
 
-    void SetCamPosition(int sizeLevel)
+    void SetCamPosition(int _sizeLevel)
     {
-        switch (sizeLevel)
+        ActiveGridBoardforEachSize(_sizeLevel);
+        switch (_sizeLevel)
         {
             case 5 :
                 Camera.main.transform.position = new Vector3(Config.POSITION_5x5.x,Config.POSITION_5x5.y, -10) ;
@@ -247,15 +266,31 @@ public class LevelController : MonoBehaviour
                 break;
         }
     }
+
+    void ActiveGridBoardforEachSize(int _sizeLevel)
+    {
+        for(int i=5; i< gridBroad.childCount+5;i++)
+        {
+            if (i == sizeLevel)
+            {
+                gridBroad.GetChild(i-5).gameObject.SetActive(true);
+            }
+            else
+            {
+                gridBroad.GetChild(i-5).gameObject.SetActive(false);
+
+            }
+        }
+    }
 }
 
-public enum ThemeName
-{
-   Dog,
-   Cat,
-   Dog2,
-   NUM_OF_THEME
-}
+//public enum ThemeName
+//{
+//   Dog,
+//   Cat,
+//   Dog2,
+//   NUM_OF_THEME
+//}
 
 
 

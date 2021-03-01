@@ -108,6 +108,20 @@ public class Piece : MonoBehaviour
         }
     }
 
+    public void SetLimitPos(int _sizeLevel)
+    {
+        switch (_sizeLevel)
+        {
+            case 5:
+                limitPosX = Config.LIMIT_POS_X_5X5;
+                limitPosY = Config.LIMIT_POS_Y_5X5;
+                break;
+            case 6:
+                limitPosX = Config.LIMIT_POS_X_6X6;
+                limitPosY = Config.LIMIT_POS_Y_6X6;
+                break;
+        } 
+    }
     void SetScalePieceOnPreSpace()
     {
         Transform _sprite = transform.GetChild(transform.childCount - 1);
@@ -199,7 +213,7 @@ public class Piece : MonoBehaviour
                                             SoundManager.instance.ClearIndexSquential(TypeSFX.True);
                                             SoundManager.instance.PlayRandom(TypeSFX.Wrong);
                                         }
-                                         Debug.LogError(LevelController.instance.NUM_PIECES_WORNG);
+                                         //Debug.LogError(LevelController.instance.NUM_PIECES_WORNG);
 
                                      });
     }

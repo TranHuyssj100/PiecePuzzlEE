@@ -17,8 +17,8 @@ public class AnswerBuilderEditor : Editor
         serializedObject.Update();
         AnswerBuilder answerBuilder = target as AnswerBuilder;
         GUILayout.Label("LEVEL INFOR", EditorStyles.boldLabel);
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("theme"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("level"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("nameTheme"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("idLevel"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("size"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("listTexture"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("listSample"));
@@ -41,7 +41,7 @@ public class AnswerBuilderEditor : Editor
         GUILayout.Space(20);
 
         GUILayout.Label("JSON", EditorStyles.boldLabel);
-        //EditorGUILayout.PropertyField(serializedObject.FindProperty("jsonFileName"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("nameJsonFile"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("listAnswerForSample"));
         GUILayout.BeginVertical();
         //GUILayout.BeginHorizontal();
