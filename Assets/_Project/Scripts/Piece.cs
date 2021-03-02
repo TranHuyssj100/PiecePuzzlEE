@@ -220,6 +220,7 @@ public class Piece : MonoBehaviour
 
     public void AutoCorrectPiece(Vector2 _correctPos,Vector2 _startPos , float _duration)
     {
+        FirebaseManager.instance.LogAutoCorrectHint();
         startPosition = _startPos;
         Transform _sprite = transform.GetChild(transform.childCount - 1);
         Transform _shadow = transform.Find("Shadow");
