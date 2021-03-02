@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using System.Collections;
-using TMPro.Examples;
-using System.Security.Cryptography;
+using System.IO;
 
 public class LevelController : MonoBehaviour
 {

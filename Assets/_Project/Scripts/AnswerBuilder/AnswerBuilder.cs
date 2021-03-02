@@ -3,22 +3,29 @@ using System.Linq;
 using UnityEngine;
 
 using System.IO;
+using UnityEngine.Purchasing.MiniJSON;
 
 public class AnswerBuilder : MonoBehaviour
 {
+   
     public string nameTheme;
+    public int idTheme; 
     public int idLevel;
     public int size;
     [Space()]
-    public int nameJsonFile;
+    public int nameAnswerFile;
     public GameObject fullSpite;
     public GameObject allPieces;
     public List<Object> listTexture;
     public List<GameObject> listSample;
 
 
-    string basePath = Application.streamingAssetsPath + "/Json/Answers";
+    string answerPath = Application.streamingAssetsPath + "/Json/Answers";
+    string levelPath = Application.streamingAssetsPath + "/Json/Levels";
+    string themePath = Application.streamingAssetsPath + "/Json/Themes";
     string jsonSuffix = ".json";
+
+  
 
 
 
@@ -31,14 +38,17 @@ public class AnswerBuilder : MonoBehaviour
 
     public void Intial()
     {
-        Clear();
-        loadAnswer();
+        listAnswerForSample.Clear();
+        EventManager.TriggerEvent("DestroyPiece");
+
+        CreateAnswer();
         listTexture = LoadTextureFromLevel(idLevel, nameTheme, size);
         LoadPreview();
-        if(listSample.Count>0)
-            SpawnPiece(listTexture.Count);
+        if(listSample.Count>0) SpawnPiece(listTexture.Count);
+        if (listTexture.Count <= 0) Debug.LogError("Texture is not Exsit!");
+
     }
-    
+
     public List<Object> LoadTextureFromLevel(int _level, string _nameTheme, int _sizeLevel)
     {
         string _path = "Themes/" +_nameTheme + "/" + _sizeLevel.ToString() + "x" + _sizeLevel.ToString() + "/" + _level.ToString();
@@ -88,23 +98,25 @@ public class AnswerBuilder : MonoBehaviour
 
     public void SpawnPiece(int _numPiece)
     {
+
         for (int i = 0; i < _numPiece - 1; i++)
         {
             CreatePiece(listTexture[i], listSample[i], transform.position);
         }
     }
 
+    #region CREATE ANSWER JSON
 
     public void CreateJson(bool _isOverride)
     {
-        string _path = Path.Combine(basePath, size.ToString() + "x" + size.ToString());
+        string _path = Path.Combine(answerPath, size.ToString() + "x" + size.ToString());
         List<int> _finalAnswers = new List<int>();
         SampleAnswer _answer = new SampleAnswer();
         string _strData = "[";
 
         //Debug.LogError(_path);
 
-        _answer.idAnswer = nameJsonFile;
+        _answer.idAnswer = nameAnswerFile;
         _answer.pieceNames = new int[listSample.Count];
         //_answer.answers = new int[listSample.Count * 3];
         for (int i = 0; i < listSample.Count; i++)
@@ -121,34 +133,38 @@ public class AnswerBuilder : MonoBehaviour
         //Directory.CreateDirectory(_path);
         if (!Directory.Exists(_path))
         {
-            Directory.CreateDirectory(basePath);
+            Directory.CreateDirectory(answerPath);
             Debug.Log("<color=green>Create Directory</color>");
 
         }
 
         if (!_isOverride)
         {
-            if (!File.Exists(_path + "/" + nameJsonFile + jsonSuffix))
+            if (!File.Exists(_path + "/" + nameAnswerFile + jsonSuffix))
             {
-                File.WriteAllText(_path + "/" + nameJsonFile + jsonSuffix, _strData);
-                Debug.Log("<color=green>: CREATE file complete </color>" + nameJsonFile);
+                File.WriteAllText(_path + "/" + nameAnswerFile + jsonSuffix, _strData);
+                Debug.Log("<color=green>: CREATE file complete </color>" + nameAnswerFile);
+                CreateLevelJson(idLevel, idTheme, nameAnswerFile);
             }
             else
             {
-                Debug.Log("<color=red>Exis file: </color>" + size.ToString() + "x" + size.ToString() + "/" + nameJsonFile + ":Try to UPDATE");
+                Debug.Log("<color=red>Exis file: </color>" + size.ToString() + "x" + size.ToString() + "/" + nameAnswerFile + ":Try to UPDATE");
             }
         }
         else
         {
-            File.WriteAllText(_path + "/" + nameJsonFile + jsonSuffix, _strData);
-            Debug.Log("<color=green>: UPDATE file complete </color>" + nameJsonFile);
+            File.WriteAllText(_path + "/" + nameAnswerFile + jsonSuffix, _strData);
+            CreateLevelJson(idLevel, idTheme, nameAnswerFile);
+            Debug.Log("<color=green>: UPDATE file complete </color>" + nameAnswerFile);
         }
     }
+    #endregion
 
 
     #region CHECK_ANSWER
     public List<Vector3> listAnswerForSample;
     SampleAnswer checkSampleAnswer = new SampleAnswer();
+    LevelData levelData = new LevelData();
 
     public void SetCorrectPiecePos(GameObject _pieceObj,int _id , float _duration)
     {
@@ -160,9 +176,9 @@ public class AnswerBuilder : MonoBehaviour
         }
     }
 
-    public List<Vector3> CreateAnswerForSample(Queue<int> _answers)
+    public List<Vector3> UpdateListAnswerforSample(Queue<int> _answers)
     {
-         List<Vector3> _listAnswerforSample = new List<Vector3>();
+        List<Vector3> _listAnswerforSample = new List<Vector3>();
         List<int> _temp = new List<int>(3);
 
         while (_answers.Count > 0)
@@ -177,10 +193,10 @@ public class AnswerBuilder : MonoBehaviour
         return _listAnswerforSample;
     }
 
-    public SampleAnswer LoadSampleAnswer()
+    public SampleAnswer LoadAnswerJson(int _jsonName)
     {
         string _loadString="";
-        string _path = Path.Combine(basePath, size.ToString() + "x" + size.ToString() + "/" + nameJsonFile.ToString() + jsonSuffix);
+        string _path = Path.Combine(answerPath, size.ToString() + "x" + size.ToString() + "/" + _jsonName.ToString() + jsonSuffix);
         if (File.Exists(_path))
         {
             _loadString = File.ReadAllText(_path);
@@ -189,12 +205,19 @@ public class AnswerBuilder : MonoBehaviour
         return null;   
     }
     
-    public void loadAnswer()
+    public void CreateAnswer()
     {
-        checkSampleAnswer = LoadSampleAnswer();
+        levelData = LoadLevelJson(idLevel) ;
+        //Debug.LogError(levelData);
+        if(levelData!=null)
+        {
+            nameAnswerFile = levelData.sampleIndex;
+        }
+
+        checkSampleAnswer = LoadAnswerJson(nameAnswerFile);
         if(checkSampleAnswer!=null)
         {
-            listAnswerForSample = CreateAnswerForSample(new Queue<int>(checkSampleAnswer.answers));
+            listAnswerForSample = UpdateListAnswerforSample(new Queue<int>(checkSampleAnswer.answers));
             listSample = LoadSample(checkSampleAnswer.pieceNames);
         }
         else
@@ -205,7 +228,7 @@ public class AnswerBuilder : MonoBehaviour
     }
     public void CheckAnswer()
     {
-        loadAnswer();
+        CreateAnswer();
         
         for (int i=0; i<allPieces.transform.childCount; i++)
         {
@@ -214,14 +237,106 @@ public class AnswerBuilder : MonoBehaviour
         //listAnswerForSample.Clear();
     }
     
+    #endregion
+
+    public LevelData LoadLevelJson(int _idLevel)
+    {
+        string _loadString = "";
+        string _path = Path.Combine(levelPath, nameTheme + "/" + _idLevel.ToString() + jsonSuffix);
+        //Debug.LogError(_path);
+        if (File.Exists(_path))
+        {
+            _loadString = File.ReadAllText(_path);
+            return JsonUtility.FromJson<LevelData>(_loadString) ;
+        }
+        return null;
+    }
+   
+    public void CreateLevelJson(int _idLevel, int _idTheme, int _sampleIndex)
+    {
+        string _data = "";
+        string _path = Path.Combine(levelPath, nameTheme + "/" + _idLevel.ToString() + jsonSuffix);
+        LevelData _levelData = new LevelData();
+        _levelData.idLevel = _idLevel;
+        _levelData.idTheme = _idTheme;
+        _levelData.sampleIndex = _sampleIndex;
+
+       _data= JsonUtility.ToJson(_levelData,true);
+
+        if(!Directory.Exists(Path.Combine(levelPath, nameTheme)))
+        {
+            Directory.CreateDirectory(Path.Combine(levelPath, nameTheme));    
+        }
+       
+        if (!File.Exists(_path))
+        {
+            File.WriteAllText(_path, _data);
+            Debug.Log("<color=blue> Create level json success: </color>" + _idLevel);
+        }
+        else if (CheckThemeExsit(idTheme))
+        {
+            Debug.LogError("idTheme of level is duplicate, Check and try again");
+        }
+        else
+        {
+            Debug.Log("<color=red> Create level json failed, file is Exsit </color>");
+
+        }
+    }
+
+    public bool CheckThemeExsit(int _idTheme)
+    {
+        string _path = Path.Combine(themePath,"Themes" +jsonSuffix);
+        string _data = "";
+        ThemeData[] _allThemeData;
+        if (File.Exists(_path))
+        {
+            _data= File.ReadAllText(_path);
+            _allThemeData = JsonHelper.FromJson<ThemeData>(_data);
+            if (_allThemeData.ToList().Find(x => x.idTheme == _idTheme) != null)
+                return true;
+        }
+        return false;
+      
+    }
+
+    public void AutoFillNamejsonFile()
+    {
+        string _path = Path.Combine(answerPath, size.ToString() + "x" + size.ToString());
+        //int _amountFile = 0;
+        if (Directory.Exists(_path))
+        {
+           nameAnswerFile= Mathf.RoundToInt(Directory.GetFiles(_path).Length/2);   
+        }
+    } 
+    public void AutoIdTheme()
+    {
+        string _path = Path.Combine(themePath, "Themes" + jsonSuffix);
+        string _data = "";
+        ThemeData[] _allThemeData;
+        if (File.Exists(_path))
+        {
+            _data = File.ReadAllText(_path);
+            _allThemeData = JsonHelper.FromJson<ThemeData>(_data);
+            for (int i = 0; i< _allThemeData.Length; i++)
+            {
+                if(_allThemeData[i].name== nameTheme)
+                {
+                    idTheme = _allThemeData[i].idTheme; 
+                }
+            }
+                
+        }
+    }
+
     public void Clear()
     {
-        
+        listSample.Clear();
         listAnswerForSample.Clear();
         EventManager.TriggerEvent("DestroyPiece");
-       
+        AutoFillNamejsonFile();
+        AutoIdTheme();
     }
-    #endregion
 }
 
 public static class JsonHelper

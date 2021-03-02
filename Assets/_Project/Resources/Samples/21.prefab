@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1903933312643249055}
   - component: {fileID: 1903933312643249052}
   m_Layer: 8
-  m_Name: 19
+  m_Name: 21
   m_TagString: Piece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e27a187a8b6083a4ea16328590aa8a0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 6
+  id: 0
   isOnGridBoard: 0
   isMouseDown: 0
   isOnPreSpace: 1
@@ -57,6 +57,8 @@ MonoBehaviour:
   selectedScale: 1
   selectedPos: 0.1
   sizeSprite: {x: 0, y: 0}
+  startPosition: {x: 0, y: 0, z: 0}
+  oldPostionOnGridBoard: {x: 10000, y: 10000, z: 10000}
 --- !u!60 &1903933312643249055
 PolygonCollider2D:
   m_ObjectHideFlags: 0
