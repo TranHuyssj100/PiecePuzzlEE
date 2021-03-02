@@ -128,8 +128,8 @@ public class LevelController : MonoBehaviour
         isInitializeComplete = false;
         EventManager.TriggerEvent("DestroyPiece");
         //curThemeData = DataController.themeData[_idLevel];
-        //idLevel = _idLevel;
-        idLevel = GameData.GetCurrentLevelByTheme(GameData.Theme);
+        idLevel = _idLevel;
+        //idLevel = GameData.GetCurrentLevelByTheme(GameData.Theme);
         idTheme = _idTheme;
         //Debug.LogError(level);
         //curThemeData = DataController.Instance.themeData;
@@ -229,7 +229,6 @@ public class LevelController : MonoBehaviour
         string _path ="Themes/"+ _themeType+ "/" +_sizeLevel.ToString() + "x" + _sizeLevel.ToString()+"/" + _level.ToString() + "/full";
         Debug.Log(_path);
         Sprite _sprite = Resources.Load<Sprite>(_path);
-        Debug.Log(_sprite.name);
         return _sprite;
     }
 

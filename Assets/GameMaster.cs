@@ -73,6 +73,7 @@ public class GameMaster : MonoBehaviour
             Debug.Log("<color=yellow> YOU WIN ! </color>");
             OpenPanel(winPanel);
             winPanel.GetComponent<WinPanel>().SetImageReview();
+            GameData.SetCurrentLevelByTheme(GameData.Theme, (LevelController.idLevel) < (DataController.themeData[GameData.Theme].levelCount - 1) ? LevelController.idLevel + 1 : LevelController.idLevel);
         }
     }
     void LosePhase()
@@ -209,8 +210,7 @@ public class GameMaster : MonoBehaviour
     public void Next()
     {
         //GameData.level++;
-        GameData.SetCurrentLevelByTheme(GameData.Theme, ++LevelController.idLevel);
-        Debug.Log(LevelController.idLevel);
+        LevelController.idLevel++;
         //EventManager.TriggerEvent("DestroyPiece");
         StartCoroutine(LevelController.instance.InitializeGame(GameData.GetCurrentLevelByTheme(GameData.Theme), GameData.Theme));
         CloseWinPanel();
