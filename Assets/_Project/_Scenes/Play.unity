@@ -1408,13 +1408,15 @@ MonoBehaviour:
   listSamples: []
   listAnswerForSample: []
   curSampleAnswer:
-    index: 0
+    idAnswer: 0
     pieceNames: 
     answers: 
   curThemeData:
-    theme: 0
+    idTheme: 0
+    name: 
     size: 0
-    groupLevel: []
+    price: 0
+    levelCount: 0
   numPiecesWrong: 0
 --- !u!1 &400542199
 GameObject:
@@ -6411,10 +6413,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c885cfbe2eed4041a8082fd27cb70b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  themeData:
-    theme: 0
-    size: 0
-    groupLevel: []
 --- !u!4 &1630894657
 Transform:
   m_ObjectHideFlags: 0
