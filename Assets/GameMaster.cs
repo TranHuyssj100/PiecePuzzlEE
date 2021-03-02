@@ -50,6 +50,7 @@ public class GameMaster : MonoBehaviour
             }
             else
             {
+              
                 if (LevelController.instance.NUM_MOVE == 0 && LevelController.instance.NUM_PIECES_WORNG == 0)
                 {
                     WinPhase();
@@ -197,6 +198,10 @@ public class GameMaster : MonoBehaviour
         ClosePanel(themeSelect);
     }
 
+    public void CloseMenu()
+    {
+        ClosePanel(menu);
+    }
 
     public void Replay()
     {
