@@ -6348,23 +6348,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7e5b7cbd5bb1094783be4834fe32f23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameTheme: Car2
-  idLevel: 1
+  nameTheme: Street 2
+  idTheme: 3
+  idLevel: 3
   size: 6
-  nameJsonFile: 6
+  nameAnswerFile: 13
   fullSpite: {fileID: 1738169253}
   allPieces: {fileID: 1944984782}
-  listTexture: []
+  listTexture:
+  - {fileID: 2800000, guid: 6f9b9f248175a2341869af089b3663a8, type: 3}
+  - {fileID: 2800000, guid: 809556297025dbf4d81e44f896516471, type: 3}
+  - {fileID: 2800000, guid: 39dea610764398d43816d7043a073177, type: 3}
+  - {fileID: 2800000, guid: f436db495bddb20409af4844f076658f, type: 3}
+  - {fileID: 2800000, guid: 67625116d5f3eff4a87b7469425c71ba, type: 3}
+  - {fileID: 2800000, guid: 8cf633ee3aa3f4446a42f49276b324cb, type: 3}
+  - {fileID: 2800000, guid: 61d5d86c9a4557b43a4456231a29b941, type: 3}
+  - {fileID: 2800000, guid: 4db7eb233f5aff24e9275bb73998e245, type: 3}
+  - {fileID: 2800000, guid: 39b18d32b00e0aa44acf703d7ec0ef0f, type: 3}
+  - {fileID: 2800000, guid: 476f9f73c0e67f04d9ca5473c6968a5c, type: 3}
+  - {fileID: 2800000, guid: 0168206ccfe6e1345b4034aeb59f0d4d, type: 3}
   listSample:
-  - {fileID: 1252532200685731980, guid: 453080df04ea98642b53a32bc0f32eed, type: 3}
-  - {fileID: 7772679678180258920, guid: ae36778fa1a7cae409394300c20005d2, type: 3}
-  - {fileID: 3012865443729144243, guid: b9a7b558a4da7ec4b9176933d90df777, type: 3}
-  - {fileID: 3012865443729144243, guid: b9a7b558a4da7ec4b9176933d90df777, type: 3}
-  - {fileID: 3326481947624277709, guid: a49ddda51c76c974a8646ea53f22caa5, type: 3}
+  - {fileID: 3012865443729144243, guid: 53cb5c834a35bc941b5de5fbf2e7dcd6, type: 3}
+  - {fileID: 3326481947624277709, guid: 629033ebe1acd0042aebdbd98a22e70d, type: 3}
   - {fileID: 3326481947624277709, guid: aa807ce0c6c6a8d4f9cf243dd1ce9d14, type: 3}
-  - {fileID: 4236490608723414067, guid: 3b9fed7c61ac00142b110ac4892944cc, type: 3}
-  - {fileID: 4236490608723414067, guid: 3b9fed7c61ac00142b110ac4892944cc, type: 3}
-  - {fileID: 3326481947624277709, guid: 2e7d30b1b2cb3684fb4ec7c969d86d2b, type: 3}
+  - {fileID: 1903933312643249050, guid: da611e8e3e1356f448448997ce009446, type: 3}
+  - {fileID: 1903933312643249050, guid: 88aafb72d6a2eae448f18dbaeea577ad, type: 3}
+  - {fileID: 3326481947624277709, guid: eb5b3a66c8c418d419289d1fcd34ab58, type: 3}
+  - {fileID: 1252532200685731980, guid: e53acc8a0a71f604190a20aba0929e7f, type: 3}
+  - {fileID: 1252532200685731980, guid: 1762373776f02594ea51334beed9effc, type: 3}
+  - {fileID: 7772679678180258920, guid: ae36778fa1a7cae409394300c20005d2, type: 3}
   - {fileID: 1252532200685731980, guid: 63964f31343a6ec469c3bea7f5569566, type: 3}
   listAnswerForSample: []
 --- !u!1 &1581493334
@@ -6882,7 +6894,7 @@ SpriteRenderer:
   m_SortingLayerID: -2119690609
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e32075a55d7f9174fa3ff20883e3f2a7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0168206ccfe6e1345b4034aeb59f0d4d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.29803923}
   m_FlipX: 0
   m_FlipY: 0
@@ -6890,7 +6902,7 @@ SpriteRenderer:
   m_Size: {x: 6, y: 6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1738169255
