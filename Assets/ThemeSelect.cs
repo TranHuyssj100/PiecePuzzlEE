@@ -45,6 +45,7 @@ public class ThemeSelect : MonoBehaviour
                 _themeClone.GetComponent<ThemeChild>().UnlockTheme();
                 //_themeClone.GetComponent<ThemeChild>().priceTxt.text = "Open";
                 _themeClone.GetComponent<ThemeChild>().progressBtn.onClick.AddListener(() => { GameMaster.instance.OpenLevelSelect();
+                                                                                          GameData.Theme = x;
                                                                                           GridLevel.instance.SpawnGridChild(x, themes[x].size);
                                                                                           GameMaster.instance.CloseThemeSelect();
                                                                                           //GameMaster.instance.OnStartClick();
