@@ -82,6 +82,7 @@ public class GameMaster : MonoBehaviour
             Debug.Log("<color=red> YOU LOSE ! </color>");
             OpenPanel(losePanel);
             losePanel.SetActive(true);
+            FirebaseManager.instance.LogLoseLevel(GameData.GetCurrentLevelByTheme(GameData.Theme), DataController.themeData[GameData.Theme].name);
         }
     }
 
@@ -199,6 +200,7 @@ public class GameMaster : MonoBehaviour
     public void Replay()
     {
         //EventManager.TriggerEvent("DestroyPiece");
+        FirebaseManager.instance.LogResetLevel(LevelController.idLevel, DataController.themeData[GameData.Theme].name);
         StartCoroutine(LevelController.instance.InitializeGame(LevelController.idLevel, GameData.Theme));
         CloseWinPanel();
         CloseLosePanel();
@@ -249,6 +251,7 @@ public class GameMaster : MonoBehaviour
         {
             GameData.gold -= Config.COST_PREVIEW;
             OpenPanel(preview);
+            FirebaseManager.instance.LogPreviewHint();
             preview.transform.Find("Bg").Find("Image").GetComponent<Image>().sprite=
                 LevelController.LoadSpritePreview(LevelController.idLevel,DataController.themeData[GameData.Theme].name, LevelController.instance.sizeLevel);
         }

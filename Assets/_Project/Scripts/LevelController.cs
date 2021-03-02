@@ -124,6 +124,7 @@ public class LevelController : MonoBehaviour
 
     public IEnumerator InitializeGame(int _idLevel,int _idTheme )
     {
+        FirebaseManager.instance.LogStartLevel(_idLevel, DataController.themeData[_idTheme].name);
         isInitializeComplete = false;
         EventManager.TriggerEvent("DestroyPiece");
         //curThemeData = DataController.themeData[_idLevel];
@@ -160,7 +161,6 @@ public class LevelController : MonoBehaviour
         yield return new WaitForEndOfFrame();
         curSampleAnswer = DataController.LoadSampleAnswer(curLevelData.sampleIndex, sizeLevel);
 
-        Debug.LogError(DataController.themeData[_idTheme].name) ;
 
         listTexture = LoadTextureFromLevel(curLevelData.idLevel, DataController.themeData[_idTheme].name, sizeLevel) ;
         //listSamples = LoadSample(curLevelData.sampleIndex);

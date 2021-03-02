@@ -78,7 +78,7 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
         MobileAds.SetRequestConfiguration(requestConfiguration);
 
         loadRewardedAd();
-
+        loadBannerAds();
         loadInterstitialAd();
 
         //// Called when an ad request has successfully loaded.
@@ -146,11 +146,13 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
 
 
     //--------------------------------------------------------------------------------------------------------
+    #region banner
     void loadBannerAds()
     {
         AdRequest request = new AdRequest.Builder().Build();
         bannerView = new BannerView(bannerAdUnitId, AdSize.Banner, AdPosition.Bottom);
     }
+    #endregion
     //--------------------------------------------------------------------------------------------------------
     #region InterstitialAd
     void loadInterstitialAd()
@@ -179,7 +181,7 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
     {
         if (this.interstitialAd.IsLoaded() && GameData.noAds != 1)
         {
-            //FirebaseManager.instance.LogShowInter();
+            FirebaseManager.instance.LogShowInter();
             interstitialAd.Show();
         }
     }
@@ -230,7 +232,7 @@ public void HandleOnAdLeavingApplication(object sender, EventArgs args)
         {
             isRewarded = false;
             rewardType = _rewardType;
-            //FirebaseManager.instance.LogShowReward();
+            FirebaseManager.instance.LogShowReward(rewardType.ToString());
             this.rewardedAd.Show();
         }
     }
@@ -269,8 +271,9 @@ public void HandleOnAdLeavingApplication(object sender, EventArgs args)
     public void HandleUserEarnedReward(object sender, Reward args)
     {
         isRewarded = true;
-        //FirebaseManager.instance.LogRewarded(rewardType.ToString());
+        FirebaseManager.instance.LogRewarded(rewardType.ToString());
     }
+
     #endregion
 
 }
