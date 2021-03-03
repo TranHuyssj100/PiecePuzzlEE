@@ -7,10 +7,14 @@ public class GridChild : MonoBehaviour
     public int indexLevel;
     public GameObject imgLock;
     public bool isUnlock = false;
+    public TMPro.TextMeshProUGUI levelIndexTxt;
 
-    
 
-    
+    private void Start()
+    {
+        levelIndexTxt.text = (indexLevel+1).ToString();
+    }
+
     private void Update()
     {
         //isUnlock = indexLevel <= GameData.GetCurrentLevelByTheme(GameData.Theme);
