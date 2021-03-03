@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 
@@ -6,83 +7,278 @@ public class GameMaster : MonoBehaviour
 {
     public GameObject winPanel; 
     public GameObject losePanel;
+    public GameObject setting;
+    public GameObject menu;
+    public GameObject levelSelect;
+    public GameObject preview;
+    public GameObject shopUI;
+    public GameObject themeSelect;
+    [Header("text")]
     public TextMeshProUGUI moveTxt;
-        
+    public TextMeshProUGUI goldTxt;
 
-    public 
-    void Start()
+
+    public static GameMaster instance;
+
+    private void Awake()
     {
-        
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
+
+    public void Start()
+    {
+        menu.SetActive(true);
+        AdManager.Instance.onRewardAdClosed += RewardAdClosed;
     }
 
     void Update()
     {
+
         ShowNumMove();
-        if (LevelController.instance.NUM_MOVE >=0)
+        ShowGold();
+        if (LevelController.isInitializeComplete)
         {
-            if (LevelController.instance.NUM_PIECES_WORNG <= 0)
+            if (LevelController.instance.NUM_MOVE > 0)
             {
-                WinPhase();
+                if (LevelController.instance.NUM_PIECES_WORNG <= 0)
+                {
+                    WinPhase();
+                }
             }
-        }
-        else
-        {
-            LosePhase();
+            else
+            {
+              
+                if (LevelController.instance.NUM_MOVE == 0 && LevelController.instance.NUM_PIECES_WORNG == 0)
+                {
+                    WinPhase();
+                }
+                else
+                {
+                    LosePhase();
+                }
+            }
         }
     }
 
-
+    #region PHASE
     void WinPhase()
     {
-        OpenWinPanel();
-        Debug.Log("<color=yellow> YOU WIN ! </color>");
+        if (!winPanel.activeSelf)
+        {
+            GameData.gold += Config.GOLD_WIN;
+            SoundManager.instance.PlayRandom(TypeSFX.Win);
+            SoundManager.instance.ClearIndexSquential(TypeSFX.True);
+            Debug.Log("<color=yellow> YOU WIN ! </color>");
+            OpenPanel(winPanel);
+            winPanel.GetComponent<WinPanel>().SetImageReview();
+            GameData.SetCurrentLevelByTheme(GameData.Theme, (LevelController.idLevel) < (DataController.themeData[GameData.Theme].levelCount - 1) ? LevelController.idLevel + 1 : LevelController.idLevel);
+        }
     }
     void LosePhase()
     {
-        OpenLosePanel();
-        Debug.Log("<color=red> YOU LOSE ! </color>");
+        if (!losePanel.activeSelf)
+        {
+            Debug.Log("<color=red> YOU LOSE ! </color>");
+            OpenPanel(losePanel);
+            losePanel.SetActive(true);
+            FirebaseManager.instance.LogLoseLevel(GameData.GetCurrentLevelByTheme(GameData.Theme), DataController.themeData[GameData.Theme].name);
+        }
     }
 
+    #endregion
 
-   void OpenWinPanel()
+    #region CLOSE-OPEN PANEL
+    void OpenPanel(GameObject panel)
     {
-        winPanel.transform.localScale = Vector3.zero;
-        winPanel.SetActive(true);
-        winPanel.transform.DOScale(Vector3.one, .2f);
+        if (!panel.activeSelf)
+        {
+
+            panel.transform.localScale = Vector3.zero;
+            panel.SetActive(true);
+            panel.transform.DOScale(Vector3.one, .2f);
+        }
+    }  
+    void ClosePanel(GameObject panel)
+    {
+        if (panel.activeSelf)
+        {
+            panel.transform.DOScale(Vector3.zero, .2f).OnComplete(() => {
+                panel.SetActive(false);
+                panel.transform.localScale = Vector3.one;
+            });
+        }
+    }
+    
+    #endregion
+
+    #region UPDATE TEXT
+    public void ShowNumMove()
+    {
+        moveTxt.text = LevelController.instance.NUM_MOVE >= 0 ? LevelController.instance.NUM_MOVE.ToString() : "0";
+    }
+
+    public void ShowGold()
+    {
+        goldTxt.text = GameData.gold.ToString();
+    }
+
+    #endregion
+
+
+    #region OnClick
+    void OpenWinPanel()
+    {
+  
     } 
+
+    public void OpenLosePanel()
+    {
+        if (!losePanel.activeSelf)
+        {
+            Debug.Log("<color=red> YOU LOSE ! </color>");
+            OpenPanel(losePanel);
+            losePanel.SetActive(true);
+        }
+    }  
+    public void OpenSetting()
+    {
+        OpenPanel(setting);
+    }
 
     public void CloseWinPanel()
     {
-        winPanel.transform.DOScale(Vector3.zero, .2f).OnComplete(()=> {
-            winPanel.SetActive(false);
-            winPanel.transform.localScale = Vector3.one;
-        });
-    }
-    public void OpenLosePanel()
-    {
-        losePanel.transform.localScale = Vector3.zero;
-        losePanel.transform.DOScale(Vector3.one, .2f);
-        losePanel.SetActive(true);
+        if (winPanel.activeSelf)
+        { 
+            ClosePanel(winPanel);
+        }
     }
     public void CloseLosePanel()
     {
-        losePanel.transform.DOScale(Vector3.zero, .2f).OnComplete(()=> {
-            losePanel.SetActive(false);
-            losePanel.transform.localScale = Vector3.one;
-        });
+        ClosePanel(losePanel);
+    }   
+    public void CloseSetting()
+    {
+        ClosePanel(setting);
     }
 
-    public void ShowNumMove()
+    public void OpenLevelSelect()
     {
-        moveTxt.text = LevelController.instance.NUM_MOVE.ToString();
+        //levelSelect.transform.Find("GridLevel").GetComponent<GridLevel>().
+        OpenPanel(levelSelect);
+        
+    }
+    public void CloseLevelSelect()
+    {
+        ClosePanel(levelSelect);        
     }
     
+    public void ClosePreview()
+    {
+        ClosePanel(preview);
+    }
+    public void OpenShopUI()
+    {
+        OpenPanel(shopUI);
+
+    }
+    public void CloseShopUI()
+    {
+        ClosePanel(shopUI);
+    }
+
+    public void OpenThemeSelect()
+    {
+        OpenPanel(themeSelect);
+    }
+    public void CloseThemeSelect()
+    {
+        ClosePanel(themeSelect);
+    }
+
+    public void CloseMenu()
+    {
+        ClosePanel(menu);
+    }
 
     public void Replay()
-    { 
-        EventManager.TriggerEvent("DestroyPiece");
-        LevelController.instance.InitializeGame();
+    {
+        //EventManager.TriggerEvent("DestroyPiece");
+        FirebaseManager.instance.LogResetLevel(LevelController.idLevel, DataController.themeData[GameData.Theme].name);
+        StartCoroutine(LevelController.instance.InitializeGame(LevelController.idLevel, GameData.Theme));
         CloseWinPanel();
         CloseLosePanel();
+        AdManager.Instance.checkInterAdsCondition();
     }
+    public void Next()
+    {
+        //GameData.level++;
+        LevelController.idLevel++;
+        //EventManager.TriggerEvent("DestroyPiece");
+        StartCoroutine(LevelController.instance.InitializeGame(GameData.GetCurrentLevelByTheme(GameData.Theme), GameData.Theme));
+        CloseWinPanel();
+        CloseLosePanel();
+        AdManager.Instance.checkInterAdsCondition();
+    }
+
+    public void OnStartClick()
+    {
+        ClosePanel(menu);
+        StartCoroutine(LevelController.instance.InitializeGame(GameData.GetCurrentLevelByTheme(GameData.Theme),GameData.Theme));
+        AdManager.Instance.checkInterAdsCondition();
+    }
+   public void OnReturnMenuClick()
+    {
+        OpenPanel(menu);
+        //AdManager.Instance.showInterstitialAd();
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+   public void OnHintClick()
+    {
+        if (GameData.gold >= Config.COST_HINT)
+        {
+            GameData.gold -= Config.COST_HINT;
+            Piece _piece = LevelController.instance.FindIncorrectPiece();
+            if (_piece!=null && !_piece.isCorrect)
+            {
+                LevelController.instance.SetCorrectPiecePos(_piece.gameObject, _piece.startPosition, 0.5f);
+            }
+        }
+        
+    }   
+
+    public void OnPreviewClick()
+    {
+        if(GameData.gold>= Config.COST_PREVIEW)
+        {
+            GameData.gold -= Config.COST_PREVIEW;
+            OpenPanel(preview);
+            FirebaseManager.instance.LogPreviewHint();
+            preview.transform.Find("Bg").Find("Image").GetComponent<Image>().sprite=
+                LevelController.LoadSpritePreview(LevelController.idLevel,DataController.themeData[GameData.Theme].name, LevelController.instance.sizeLevel);
+        }
+    }
+
+    #endregion
+
+    #region Reward
+    public void ShowMoreMoveAd()
+    {
+        AdManager.Instance.showRewardedAd(AdManager.RewardType.MoreMove);
+    }
+    public void GrantMoreMove()
+    {
+        LevelController.instance.NUM_MOVE += 5;
+        CloseLosePanel();
+    }    
+    private void RewardAdClosed()
+    {
+        if (AdManager.rewardType == AdManager.RewardType.MoreMove)
+            GrantMoreMove();
+    }
+    #endregion
+
 }
