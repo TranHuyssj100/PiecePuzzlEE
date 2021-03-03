@@ -38,7 +38,6 @@ public class GridLevel : MonoBehaviour
         //DataController.Instance.themeData = DataController.LoadThemeData((int)_idTheme);
         //numLevelofTheme = DataController.Instance.themeData.groupLevel.Length; //GetThemeLevelCount(_type, _sizeLevel);
         numLevelofTheme = DataController.themeData[GameData.Theme].levelCount;
-        Debug.Log(numLevelofTheme);
         for (int i=0; i < numLevelofTheme; i++)
         {
             Sprite _imgSprite = LevelController.LoadSpritePreview(i, DataController.themeData[GameData.Theme].name, _sizeLevel);

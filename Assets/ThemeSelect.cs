@@ -8,6 +8,8 @@ public class ThemeSelect : MonoBehaviour
     public GameObject themeChild;
     private int amountTheme;
     public ThemeData[] themes;
+
+    
     private void Start()
     {
         //allTheme = DataController.GetAllTheme();
@@ -18,20 +20,20 @@ public class ThemeSelect : MonoBehaviour
 
     private void OnEnable()
     {
-        CreateThemeChild();
+        //CreateThemeChild();
     }
 
     public void CreateThemeChild()
     {
-        foreach(Transform child in content)
-        {
-            Destroy(child.gameObject);
-        }
+        //foreach(Transform child in content)
+        //{
+        //    Debug.Log(child.name);
+        //    Destroy(child.gameObject);
+        //}
         for (int i = 0; i < amountTheme; i++)
         {
             GameObject _themeClone = GameObject.Instantiate(themeChild, content);
             _themeClone.GetComponent<ThemeChild>().index = themes[i].idTheme;
-            Debug.Log(_themeClone.GetComponent<ThemeChild>().index);
             _themeClone.GetComponent<ThemeChild>().titleTxt.text = themes[i].name;/*allTheme[i]*/ /*((ThemeName)i).ToString()*/;
             _themeClone.GetComponent<ThemeChild>().image.sprite = LevelController.LoadSpritePreview(0, themes[i].name, themes[i].size);
             int x = i;

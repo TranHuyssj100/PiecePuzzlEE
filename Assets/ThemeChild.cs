@@ -17,7 +17,6 @@ public class ThemeChild : MonoBehaviour
     {
         GameData.UnlockTheme(index);
         buyBtn.gameObject.SetActive(false);
-        Debug.Log(DataController.themeData[index].levelCount);
         progressTxt.text = (GameData.GetCurrentLevelByTheme(index) + 1).ToString() + "/" + DataController.themeData[index].levelCount.ToString();
     }
 }
