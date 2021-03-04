@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if UNITY_EITOR
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -32,3 +33,4 @@ public class ImageCutterUI : Editor
 
 
 }
+#endif
