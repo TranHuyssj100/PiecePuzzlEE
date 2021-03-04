@@ -163,6 +163,7 @@ public enum TypeSFX
     Wrong,
     Win,
     BGM,
+    Lose,
     NUM_OF_TYPE
 }
 
