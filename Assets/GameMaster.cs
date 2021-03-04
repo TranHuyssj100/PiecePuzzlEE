@@ -102,6 +102,7 @@ public class GameMaster : MonoBehaviour
         if (!losePanel.activeSelf && !isWin)
         {
             Debug.Log("<color=red> YOU LOSE ! </color>");
+            SoundManager.instance.PlayRandom(TypeSFX.Lose);
             OpenPanel(losePanel);
             losePanel.SetActive(true);
             FirebaseManager.instance.LogLoseLevel(GameData.GetCurrentLevelByTheme(GameData.Theme), DataController.themeData[GameData.Theme].name);
@@ -159,6 +160,7 @@ public class GameMaster : MonoBehaviour
         if (!losePanel.activeSelf)
         {
             Debug.Log("<color=red> YOU LOSE ! </color>");
+            SoundManager.instance.PlayRandom(TypeSFX.Lose);
             OpenPanel(losePanel);
             losePanel.SetActive(true);
         }
@@ -237,7 +239,12 @@ public class GameMaster : MonoBehaviour
         //GameData.level++;
         LevelController.idLevel++;
         //EventManager.TriggerEvent("DestroyPiece");
-        StartCoroutine(LevelController.instance.InitializeGame(GameData.GetCurrentLevelByTheme(GameData.Theme), GameData.Theme));
+        if (LevelController.idLevel >= DataController.themeData[GameData.Theme].levelCount)
+        {
+            OpenThemeSelect();
+        }
+        else
+            StartCoroutine(LevelController.instance.InitializeGame(GameData.GetCurrentLevelByTheme(GameData.Theme), GameData.Theme));
         CloseWinPanel();
         CloseLosePanel();
         AdManager.Instance.checkInterAdsCondition();
