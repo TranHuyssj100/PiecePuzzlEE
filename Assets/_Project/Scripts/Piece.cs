@@ -79,7 +79,7 @@ public class Piece : MonoBehaviour
         }
         else
         {
-            Debug.Log(id + "<color=green> was Correctly </color>");
+            Debug.Log(id + "<color=green> was Correct </color>");
         }
     }
 
@@ -101,6 +101,7 @@ public class Piece : MonoBehaviour
             {
                 //LevelController.indexSpawn--;
                 SetPositionPiece();
+                GameMaster.instance.PiecePlaced();
             }
             else
             {
