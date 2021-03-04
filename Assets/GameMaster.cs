@@ -274,6 +274,7 @@ public class GameMaster : MonoBehaviour
             if (_piece!=null && !_piece.isCorrect)
             {
                 LevelController.instance.SetCorrectPiecePos(_piece.gameObject, _piece.startPosition, 0.5f);
+                if (_piece.isPieceTutorial) _piece.TutorialPieceOnMouseDown();
             }
         }
         StartCoroutine(CorountineCheckPiece());
@@ -281,7 +282,7 @@ public class GameMaster : MonoBehaviour
 
     IEnumerator CorountineCheckPiece()
     {
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.1f);
         EventManager.TriggerEvent("CheckTriggerPiece");
 
     }
