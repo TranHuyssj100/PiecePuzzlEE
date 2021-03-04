@@ -12,7 +12,14 @@ public class ImageCutterUI : Editor
         base.OnInspectorGUI();
 
         ImageCutter image = (ImageCutter)target;
-
+        GUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("Path", GUILayout.MaxWidth(40));
+        image.path = EditorGUILayout.TextField(image.path);
+        if (GUILayout.Button("Create Directory"))
+        {
+            image.CreateFolder();
+        }
+        GUILayout.EndHorizontal();
         if (GUILayout.Button("SpawnGO"))
         {
             image.SpawnGObj();
@@ -21,10 +28,7 @@ public class ImageCutterUI : Editor
         {
             image.RemoveAllGObj();
         }
-        if (GUILayout.Button("Save Prefab"))
-        {
-            image.SaveSelectedAsPrefab();
-        }
+        
     }
 
 
