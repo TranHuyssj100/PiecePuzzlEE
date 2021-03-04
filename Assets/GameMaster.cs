@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 using System;
+using System.Collections;
 
 public class GameMaster : MonoBehaviour
 {
@@ -50,10 +51,10 @@ public class GameMaster : MonoBehaviour
 
         ShowNumMove();
         ShowGold();
-        if (LevelController.isInitializeComplete)
-        {
+        //if (LevelController.isInitializeComplete)
+        //{
             
-        }
+        //}
     }
 
     private void checkEndGame()
@@ -275,8 +276,15 @@ public class GameMaster : MonoBehaviour
                 LevelController.instance.SetCorrectPiecePos(_piece.gameObject, _piece.startPosition, 0.5f);
             }
         }
-        
+        StartCoroutine(CorountineCheckPiece());
     }   
+
+    IEnumerator CorountineCheckPiece()
+    {
+        yield return new WaitForSeconds(0.05f);
+        EventManager.TriggerEvent("CheckTriggerPiece");
+
+    }
 
     public void OnPreviewClick()
     {

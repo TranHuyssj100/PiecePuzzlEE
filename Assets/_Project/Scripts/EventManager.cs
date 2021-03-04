@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
+using System.Collections;
 
 public class EventManager : SingletonDontDestroyMonoBehavior<EventManager>
 {
@@ -72,4 +73,5 @@ public class EventManager : SingletonDontDestroyMonoBehavior<EventManager>
             thisEvent.Invoke();
         }
     }
+
 }

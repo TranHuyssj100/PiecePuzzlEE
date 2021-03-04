@@ -11,6 +11,7 @@ public class Piece : MonoBehaviour
     public bool isOnPreSpace = true;
     public bool canSetPosition=true;
     public bool isPieceTutorial=false;
+    public bool isTriggerOtherPiece = false;
 
     [Space()]
     public bool isCorrect = false;
@@ -35,10 +36,12 @@ public class Piece : MonoBehaviour
     private void OnEnable()
     {
         EventManager.StartListening("DestroyPiece", DestroyPiece);
+        EventManager.StartListening("CheckTriggerPiece", CheckTriggerPiece);
     }
     private void OnDisable()
     {
         EventManager.StopListening("DestroyPiece", DestroyPiece);
+        EventManager.StopListening("CheckTriggerPiece", CheckTriggerPiece);
         
     }
 
@@ -67,11 +70,11 @@ public class Piece : MonoBehaviour
     private void OnMouseDown()
     {
         //Debug.Log("OnMouseDown");
+            isMouseDown = true;
         if (!isCorrect)
         {
             if (isPieceTutorial) TutorialPieceOnMouseDown();
             OnPieceSelect();
-            isMouseDown = true;
             if (isOnPreSpace)
             {
                 oldPostionOnGridBoard = startPosition;
@@ -93,10 +96,10 @@ public class Piece : MonoBehaviour
     private void OnMouseUp()
     {
         //Debug.Log("OnMouseUp");
+            isMouseDown = false;
         if (!isCorrect)
         {
             OnPieceUnselect();
-            isMouseDown = false;
             if (isOnGridBoard && canSetPosition && !isOnPreSpace)
             {
                 //LevelController.indexSpawn--;
@@ -114,6 +117,7 @@ public class Piece : MonoBehaviour
         else
         {
             if (isPieceTutorial) TutorialPieceOnMouseUp();
+      
         }
     }
 
@@ -221,7 +225,8 @@ public class Piece : MonoBehaviour
                                         {
                                             SoundManager.instance.ClearIndexSquential(TypeSFX.True);
                                             SoundManager.instance.PlayRandom(TypeSFX.Wrong);
-                                        }
+                                            EventManager.TriggerEvent("CheckTriggerPiece");
+                                         }
                                          //Debug.LogError(LevelController.instance.NUM_PIECES_WORNG);
 
                                      });
@@ -267,6 +272,16 @@ public class Piece : MonoBehaviour
         _tutPrefap.gameObject.SetActive(true);
     }
 
+   public void CheckTriggerPiece()
+    {
+            Debug.LogError("Check TRigger");
+        if (isTriggerOtherPiece && !isCorrect)
+        {
+            canSetPosition = true;
+            transform.DOMove(startPosition, 0.5f);
+            transform.DOScale(Vector3.one * startScale, .2f);
+        }
+    }
 
     public void DestroyPiece()
     {
