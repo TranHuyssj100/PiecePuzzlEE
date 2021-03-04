@@ -1523,7 +1523,8 @@ MonoBehaviour:
   listTexture: []
   listSamples: []
   listAnswerForSample: []
-  tutorial_anim: {fileID: 0}
+  tutorialAnim: {fileID: 6453220756769305996, guid: f1991794568034e4fa6f7b8510ed35a6,
+    type: 3}
   curSampleAnswer:
     idAnswer: 0
     pieceNames: 
@@ -8017,7 +8018,7 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -8622,6 +8623,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LosePanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3218302223670875901, guid: ee3d45027ec7daf4a9288095bb18f0bb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3218302224711942770, guid: ee3d45027ec7daf4a9288095bb18f0bb,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3218302224711942770, guid: ee3d45027ec7daf4a9288095bb18f0bb,
+        type: 3}
+      propertyPath: m_Maskable
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee3d45027ec7daf4a9288095bb18f0bb, type: 3}

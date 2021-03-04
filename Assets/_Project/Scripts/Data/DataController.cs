@@ -62,7 +62,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
     {
         string loadString ;
 #if UNITY_EDITOR
-        Debug.LogError(Path.Combine(Path.Combine(SAVETHEME, "Themes" + JsonSuffix)));
+        //Debug.LogError(Path.Combine(Path.Combine(SAVETHEME, "Themes" + JsonSuffix)));
         loadString = File.ReadAllText(Path.Combine(SAVETHEME, "Themes"+ JsonSuffix));
 #elif UNITY_ANDROID
         WWW reader = new WWW(Path.Combine(SAVETHEME, "Json/Themes/" +"Themes"  + JsonSuffix));
