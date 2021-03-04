@@ -97,6 +97,7 @@ public class Piece : MonoBehaviour
             {
                 //LevelController.indexSpawn--;
                 SetPositionPiece();
+                GameMaster.instance.PiecePlaced();
             }
             else
             {

@@ -20,7 +20,7 @@ public class SoundManager : MonoBehaviour
     }
     private void Start()
     {
-
+        Play(TypeSFX.BGM, "BGM");
     }
     
     public void Play(TypeSFX _type, string _name)
@@ -34,7 +34,7 @@ public class SoundManager : MonoBehaviour
                 Sound _sound = _objectSound.track.Find(y => (y.name == _name));
                 if (_sound != null && !_sound.source.isPlaying)
                 {
-                    _sound.source.PlayOneShot(_sound.source.clip);
+                    _sound.source.Play();
                 }
             }
         }
@@ -162,6 +162,7 @@ public enum TypeSFX
     True,
     Wrong,
     Win,
+    BGM,
     NUM_OF_TYPE
 }
 

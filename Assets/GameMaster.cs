@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
+using System;
 
 public class GameMaster : MonoBehaviour
 {
@@ -18,7 +19,16 @@ public class GameMaster : MonoBehaviour
     public TextMeshProUGUI goldTxt;
 
 
+
     public static GameMaster instance;
+
+
+    public event Action onPiecePlace;
+    public void PiecePlaced()
+    {
+        if (onPiecePlace != null)
+            onPiecePlace();
+    }
 
     private void Awake()
     {
@@ -32,38 +42,48 @@ public class GameMaster : MonoBehaviour
     {
         menu.SetActive(true);
         AdManager.Instance.onRewardAdClosed += RewardAdClosed;
+        onPiecePlace += OnPiecePlaced;
     }
 
-    void Update()
+    void FixedUpdate()
     {
 
         ShowNumMove();
         ShowGold();
         if (LevelController.isInitializeComplete)
         {
-            if (LevelController.instance.NUM_MOVE > 0)
-            {
-                if (LevelController.instance.NUM_PIECES_WORNG <= 0)
-                {
-                    WinPhase();
-                }
-            }
-            else
-            {
-              
-                if (LevelController.instance.NUM_MOVE == 0 && LevelController.instance.NUM_PIECES_WORNG == 0)
-                {
-                    WinPhase();
-                }
-                else
-                {
-                    LosePhase();
-                }
-            }
+            
         }
     }
 
+    private void checkEndGame()
+    {
+        if (LevelController.instance.NUM_MOVE > 0)
+        {
+            if (LevelController.instance.NUM_PIECES_WORNG <= 0)
+            {
+                WinPhase();
+            }
+        }
+        else
+        {
+
+            if (LevelController.instance.NUM_MOVE == 0 && LevelController.instance.NUM_PIECES_WORNG == 0)
+            {
+                WinPhase();
+            }
+            else
+            {
+                LosePhase();
+            }
+        }
+    }
+    private void OnPiecePlaced()
+    {
+        Invoke("checkEndGame", .5f);
+    }
     #region PHASE
+    private bool isWin;
     void WinPhase()
     {
         if (!winPanel.activeSelf)
@@ -79,7 +99,7 @@ public class GameMaster : MonoBehaviour
     }
     void LosePhase()
     {
-        if (!losePanel.activeSelf)
+        if (!losePanel.activeSelf && !isWin)
         {
             Debug.Log("<color=red> YOU LOSE ! </color>");
             OpenPanel(losePanel);
