@@ -8,7 +8,7 @@ public class ImageCutter : MonoBehaviour
 {
     public Sprite[] sprite;
     private GameObject[] all;
-    public string path = "Assets/_Project/Testing/";
+    [HideInInspector] public string path = "Assets/_Project/Testing/";
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +19,8 @@ public class ImageCutter : MonoBehaviour
     void Update()
     {
         SelectObject();
+        if (Input.GetKeyDown(KeyCode.Return))
+            SaveSelectedAsPrefab();
     }
 
     public void SpawnGObj()
@@ -35,6 +37,7 @@ public class ImageCutter : MonoBehaviour
             GO.transform.parent = transform;
             GO.name = sprite[i].name;
             GO.AddComponent<SpriteRenderer>().sprite = sprite[i];
+            GO.GetComponent<SpriteRenderer>().sortingLayerName = "Piece";
             if (i % size == 0)
             {
                 incrementX = 0;
@@ -92,5 +95,10 @@ public class ImageCutter : MonoBehaviour
         selectedPieces.Clear();
         DestroyImmediate(gObject);
 
+    }
+
+    public void CreateFolder()
+    {
+        System.IO.Directory.CreateDirectory(path);
     }
 }
