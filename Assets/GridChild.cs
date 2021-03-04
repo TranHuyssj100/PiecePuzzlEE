@@ -32,8 +32,8 @@ public class GridChild : MonoBehaviour
     {
         if (isUnlock)
         {
-            //StartCoroutine(LevelController.instance.InitializeGame(indexLevel, GameData.Theme));
-            GameMaster.instance.OnStartClick();
+            StartCoroutine(LevelController.instance.InitializeGame(indexLevel, GameData.Theme));
+            //GameMaster.instance.OnStartClick();
             GameMaster.instance.CloseLevelSelect();
         }
     }

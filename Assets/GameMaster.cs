@@ -260,6 +260,7 @@ public class GameMaster : MonoBehaviour
     {
         if (GameData.gold >= Config.COST_HINT)
         {
+            PiecePlaced();
             GameData.gold -= Config.COST_HINT;
             Piece _piece = LevelController.instance.FindIncorrectPiece();
             if (_piece!=null && !_piece.isCorrect)
