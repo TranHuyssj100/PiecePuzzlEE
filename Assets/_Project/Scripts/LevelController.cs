@@ -17,9 +17,10 @@ public class LevelController : MonoBehaviour
     public Stack<int> randIndexPiece;
     public Stack<int> deleIndexPiece;
     [Space(10)]
+    public GameObject tutorialAnim;
     [Header("Data")]
     public  SampleAnswer curSampleAnswer = new SampleAnswer();
-    public ThemeData curThemeData = new ThemeData();
+    //public ThemeData curThemeData = new ThemeData();
     public static bool isInitializeComplete=false;
    
 
@@ -171,12 +172,13 @@ public class LevelController : MonoBehaviour
         numPiecesWrong = listSamples.Count;
 
         listAnswerForSample = CreateAnswerForSample(new Queue<int>(curSampleAnswer.answers));
-        randIndexPiece = RandomStackInt(0, listSamples.Count);
+        randIndexPiece = idLevel==0?new Stack<int>(Enumerable.Range(0, listSamples.Count).ToArray()) : RandomStackInt(0, listSamples.Count);
         SetCorrectPiecePos(SpawnRadomPieces(points[0].position),points[0].position,0);
         for (int i=1; i < 3; i++)
         {
             SpawnRadomPieces(points[i].position);
         }
+        Tutorial();
         isInitializeComplete = true;
         //WinPanel.instance.SetImageReview(listTexture[listTexture.Count - 1]);
     }
@@ -280,6 +282,49 @@ public class LevelController : MonoBehaviour
             }
         }
     }
+
+    public void Tutorial()
+    {
+        Piece _aniPiece=null;
+        if (idLevel == 0 && idTheme==0)
+        {
+            for (int i = 1; i < listSamples.Count-1; i++)
+            {
+                Piece _piece = FindIncorrectPiece();
+                if (_piece != null && !_piece.isCorrect)
+                {
+                    if (i == listSamples.Count - 4)
+                    {
+                        SetCorrectPiecePos(_piece.gameObject, points[0].transform.position, 0);
+                    }
+                    else if (i == listSamples.Count - 5)
+                    {
+                        SetCorrectPiecePos(_piece.gameObject, points[1].transform.position, 0);
+
+                    }
+                    else if (i == listSamples.Count - 2)
+                    {
+                        _aniPiece = _piece;
+                        _aniPiece.startPosition = points[1].transform.position;
+                    }
+                    else
+                    {
+                        SetCorrectPiecePos(_piece.gameObject, _piece.startPosition, 0);
+                    }
+                }
+            }
+            if (_aniPiece != null)
+            {
+               GameObject _tutAnimtion= GameObject.Instantiate(tutorialAnim, _aniPiece.transform);
+                _tutAnimtion.transform.SetAsFirstSibling();
+                _aniPiece.isPieceTutorial = true;
+               
+            }
+
+
+        }
+    }
+
 }
 
 //public enum ThemeName

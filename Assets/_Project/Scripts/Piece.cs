@@ -10,6 +10,7 @@ public class Piece : MonoBehaviour
     public bool isMouseDown = false;
     public bool isOnPreSpace = true;
     public bool canSetPosition=true;
+    public bool isPieceTutorial=false;
 
     [Space()]
     public bool isCorrect = false;
@@ -27,6 +28,8 @@ public class Piece : MonoBehaviour
     Vector2 limitPosY= new Vector2(-2,3);
 
     int _indexTrueSound = 0;
+
+
 
 
     private void OnEnable()
@@ -66,6 +69,7 @@ public class Piece : MonoBehaviour
         //Debug.Log("OnMouseDown");
         if (!isCorrect)
         {
+            if (isPieceTutorial) TutorialPieceOnMouseDown();
             OnPieceSelect();
             isMouseDown = true;
             if (isOnPreSpace)
@@ -105,6 +109,10 @@ public class Piece : MonoBehaviour
                 transform.DOMove(startPosition, 0.5f);
                 transform.DOScale(Vector3.one * startScale, .2f);
             }
+        }
+        else
+        {
+            if (isPieceTutorial) TutorialPieceOnMouseUp();
         }
     }
 
@@ -239,6 +247,26 @@ public class Piece : MonoBehaviour
     }
 
    
+    public void TutorialPieceOnMouseDown()
+    {
+        Transform _shadow = transform.Find("Shadow");
+        Transform _sprite = transform.GetChild(transform.childCount - 1);
+        Transform _tutPrefap = transform.GetChild(0);
+        _shadow.localScale = Vector3.one;
+        _sprite.localScale = Vector3.one;
+        _tutPrefap.gameObject.SetActive(false);  
+    }
+   public void TutorialPieceOnMouseUp()
+    {
+        Transform _shadow = transform.Find("Shadow");
+        Transform _sprite = transform.GetChild(transform.childCount - 1);
+        Transform _tutPrefap = transform.GetChild(0);
+        _shadow.localScale = Vector3.zero;
+        _sprite.localScale = Vector3.zero;
+        _tutPrefap.gameObject.SetActive(true);
+    }
+
+
     public void DestroyPiece()
     {
         Destroy(gameObject);

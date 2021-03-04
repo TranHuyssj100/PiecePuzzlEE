@@ -13,7 +13,7 @@ public class Config
    public static Vector2 LIMIT_POS_X_6X6 = new Vector2(-3,2);
 
    public static Vector2 LIMIT_POS_Y_5X5 = new Vector2(-2, 3);
-    public static Vector2 LIMIT_POS_Y_6X6 = new Vector2(-3, 4);
+    public static Vector2 LIMIT_POS_Y_6X6 = new Vector2(-3, 3);
 
 
     public static int GOLD_WIN = 20;
