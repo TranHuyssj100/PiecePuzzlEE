@@ -75,7 +75,7 @@ public class Piece : MonoBehaviour
         }
         else
         {
-            Debug.Log(id + "<color=green> was Correctly </color>");
+            Debug.Log(id + "<color=green> was Correct </color>");
         }
     }
 
