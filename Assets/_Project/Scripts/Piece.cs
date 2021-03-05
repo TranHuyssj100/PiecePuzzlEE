@@ -47,14 +47,14 @@ public class Piece : MonoBehaviour
 
     private void Start()
     {
-        //startScale = .55f;
-        //selectedScale = 1f;
-        //selectedPos = 0.1f;
+        startScale = .55f;
+        selectedScale = 1f;
+        selectedPos = 0.1f;
 
         canSetPosition = true;
         startPosition = transform.position;
 
-        //transform.DOScale(Vector3.one * startScale,0.2f);
+        //transform.localScale= Vector3.one*startScale;
         //SetScalePieceOnPreSpace();
 
         //limitPosX += new Vector2(0, -1 * (sizeSprite.x - 1));
@@ -69,21 +69,9 @@ public class Piece : MonoBehaviour
 
     private void OnMouseDown()
     {
-        //Debug.Log("OnMouseDown");
         isMouseDown = true;
-        //if (!isCorrect)
-        //{
-            //if (isPieceTutorial) TutorialPieceOnMouseDown();
-            OnPieceSelect();
-            //if (isOnPreSpace)
-            //{
-            //    oldPostionOnGridBoard = startPosition;
-            //}
-        //}
-        //else
-        //{
-        //    Debug.Log(id + "<color=green> was Correct </color>");
-        //}
+        OnPieceSelect();
+         
     }
 
     private void OnMouseDrag()
@@ -95,30 +83,11 @@ public class Piece : MonoBehaviour
     }
     private void OnMouseUp()
     {
-        //Debug.Log("OnMouseUp");
         isMouseDown = false;
         if (!isCorrect)
         {
-            OnPieceUnselect();
-            //if (isOnGridBoard && canSetPosition && !isOnPreSpace)
-            //{
-            //    //LevelController.indexSpawn--;
-                SetPositionPiece();
-            //    GameMaster.instance.PiecePlaced();
-            //}
-            //else
-            //{
-            //    canSetPosition = true;
-            //    //SetScalePieceOnPreSpace();
-            //    transform.DOMove(startPosition, 0.5f);
-            //    transform.DOScale(Vector3.one * startScale, .2f);
-            //}
+            SetPositionPiece();
         }
-        //else
-        //{
-        //    if (isPieceTutorial) TutorialPieceOnMouseUp();
-
-        //}
     }
 
     public void SetLimitPos(int _sizeLevel)
@@ -154,21 +123,21 @@ public class Piece : MonoBehaviour
 
     public void OnPieceSelect()
     {
-        //Transform _sprite = transform.GetChild(transform.childCount - 1);
-        //Transform _shadown = transform.Find("Shadow");
-        //if (_sprite != null)
-        //{
 
-        //    Sequence _seq = DOTween.Sequence();
-        //    _seq.Append(transform.DOScale(Vector3.one, .1f));
+        transform.DOScale(selectedScale, 0f);
+        if (transform.localScale != Vector3.one)
+        {
+            Vector3 offset = Vector3.zero;
+            foreach (Transform grid in transform)
+            {
+                offset += grid.position;
+            }
+            offset /= transform.childCount;
+            offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
+            transform.position += new Vector3 (offset.x, offset.y*2f,0);
+        }
+        //transform.localScale = selectedScale* Vector3.one;
 
-        //    _sprite.localPosition = new Vector2(_sprite.localPosition.x + selectedPos, _sprite.localPosition.y + selectedPos);
-        //    _sprite.localScale = Vector2.one * selectedScale;
-        //    _shadown.localScale = Vector2.one * selectedScale;
-
-        //    _sprite.GetComponent<SpriteRenderer>().sortingOrder++;
-        //    _shadown.GetComponent<SpriteRenderer>().sortingOrder++;
-        //}
         foreach (Transform grid in transform)
         {
             for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
@@ -189,22 +158,8 @@ public class Piece : MonoBehaviour
     }
     public void OnPieceUnselect()
     {
-        //Transform _sprite = transform.GetChild(transform.childCount - 1);
-        //Transform _shadown = transform.Find("Shadow");
-        //if (_sprite != null)
-        //{
-        //    _sprite.localPosition = Vector2.zero;
-
-        //    Sequence _seq = DOTween.Sequence();
-        //    _seq.Append(transform.DOScale(Vector3.one, .1f))
-        //        .OnComplete(()=> {
-        //        _sprite.GetComponent<SpriteRenderer>().sortingOrder--;
-        //        _shadown.GetComponent<SpriteRenderer>().sortingOrder--;
-        //    });
-           
-        //    _sprite.localScale = isOnPreSpace ?Vector2.one*1f:Vector2.one;
-        //    _shadown.localScale = isOnPreSpace ?Vector2.one*1f:Vector2.one;
-        //}
+        transform.DOMove(startPosition, 0.2f);
+        transform.DOScale(startScale, 0.2f);
     }
     bool CheckAvailableSpace(Vector2 space)
     {
@@ -232,7 +187,7 @@ public class Piece : MonoBehaviour
         {
             if (!CheckAvailableSpace(TestLevelCtr.instance.allPiece.transform.InverseTransformPoint(grid.position)))
             {
-                transform.position = startPosition;
+                OnPieceUnselect();
                 return;
             }
         }

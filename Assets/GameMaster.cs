@@ -70,7 +70,7 @@ public class GameMaster : MonoBehaviour
         {
 
             if (LevelController.instance.NUM_MOVE == 0 && LevelController.instance.NUM_PIECES_WORNG == 0)
-            {
+            {   
                 WinPhase();
             }
             else

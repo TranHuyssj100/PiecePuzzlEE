@@ -50,7 +50,7 @@ public class TestLevelCtr : MonoBehaviour
         GameObject randomPiece = listPieces[randomIndex];
         listPieces.Remove(randomPiece);
         GameObject pieceClone = GameObject.Instantiate(randomPiece, allPiece.transform);
-        //pieceClone.transform.localScale = Vector3.one * .5f;
+        pieceClone.transform.localScale = Vector3.one * .5f;
         pieceClone.transform.position = _pointSpawn;
         Vector3 offset = Vector3.zero;
         foreach(Transform grid in pieceClone.transform)
