@@ -6,30 +6,40 @@ using UnityEngine;
 
 public class TestLevelCtr : MonoBehaviour
 {
+    [System.Serializable]
+    public struct Grid
+    {
+        public Vector2 position;
+        public bool available;
+    }
+
     public List<GameObject> listPieces = new List<GameObject>();
-    public  List<Vector2>  availableSpaceList = new List<Vector2>();
+    public  Grid[] availableSpace;
 
     public GameObject allPiece;
     public GameObject[] point;
-
+    public int size;
     public static TestLevelCtr instance;
 
     private void Start()
     {
+        availableSpace = new Grid[size * size];
         CreateAvailableSpaceList();
         IntializeGame();
         instance = this;
-
     }
 
 
     public void CreateAvailableSpaceList()
     {
+        int index = 0;
         for (int i = 0; i < 5; i++)
         {
             for (int j = 0; j > -5; j--)
             {
-                availableSpaceList.Add(new Vector2(i, j));
+                availableSpace[index].position = new Vector2(i, j);
+                availableSpace[index].available = true;
+                index++;
             }
         }
     }

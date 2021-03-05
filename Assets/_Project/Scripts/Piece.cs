@@ -169,6 +169,15 @@ public class Piece : MonoBehaviour
         //    _sprite.GetComponent<SpriteRenderer>().sortingOrder++;
         //    _shadown.GetComponent<SpriteRenderer>().sortingOrder++;
         //}
+        foreach (Transform grid in transform)
+        {
+            for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
+            {
+                if (TestLevelCtr.instance.availableSpace[i].position == (Vector2)TestLevelCtr.instance.allPiece.transform.InverseTransformPoint((Vector2)grid.position))
+                    TestLevelCtr.instance.availableSpace[i].available = true;
+            }
+
+        }
         oldMousePos = Input.mousePosition;
        
     }
@@ -199,22 +208,23 @@ public class Piece : MonoBehaviour
     }
     bool CheckAvailableSpace(Vector2 space)
     {
-        Debug.LogError(space);
-        Debug.LogError(TestLevelCtr.instance.availableSpaceList.Exists(x => x.x == space.x && x.y== space.y));
-        if (TestLevelCtr.instance.availableSpaceList.Exists(x => x == space))
-            return true;
-        return false;
+        if (space.x < 0 || space.x > (Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1) || space.y > 0 || space.y < -(Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1))
+            return false;
+        for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
+        {
+            if (TestLevelCtr.instance.availableSpace[i].position == space && !TestLevelCtr.instance.availableSpace[i].available)
+                return false;
+        }
+        return true;
     }
     void SetPositionPiece()
     {
-        transform.position = new Vector3(Mathf.Round(transform.position.x),
-                                         Mathf.Round(transform.position.y));
-        transform.position +=  new Vector3(-.5f, .5f);
-        Debug.Log(transform.position);
-        foreach(Transform grid in transform)
+        transform.localPosition = new Vector3(Mathf.Round(transform.localPosition.x),
+                                         Mathf.Round(transform.localPosition.y));
+        //transform.position += new Vector3(-.5f, .5f);
+        foreach (Transform grid in transform)
         {
-            //Debug.Log(grid.transform.position);
-
+            Debug.Log(grid.transform.position);
             if (!CheckAvailableSpace(TestLevelCtr.instance.allPiece.transform.InverseTransformPoint(grid.position)))
             {
                 transform.position = startPosition;
@@ -223,13 +233,19 @@ public class Piece : MonoBehaviour
         }
         foreach(Transform grid in transform)
         {
-            if (TestLevelCtr.instance.availableSpaceList.Exists(x => x == (Vector2)TestLevelCtr.instance.allPiece.transform.InverseTransformPoint(grid.position)))
+            for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
             {
-                Debug.Log((Vector2)TestLevelCtr.instance.allPiece.transform.InverseTransformPoint(grid.position));
-                TestLevelCtr.instance.availableSpaceList.Remove(TestLevelCtr.instance.allPiece.transform.InverseTransformPoint((Vector2)grid.position));
-
+                if (TestLevelCtr.instance.availableSpace[i].position == (Vector2)TestLevelCtr.instance.allPiece.transform.InverseTransformPoint((Vector2)grid.position))
+                    TestLevelCtr.instance.availableSpace[i].available = false;
             }
 
+        }
+        if((Vector2)transform.localPosition == Vector2.zero)
+        {
+                isCorrect = true;
+                Collider2D[] colliders = GetComponents<Collider2D>();
+                foreach (Collider2D collider in colliders)
+                    Destroy(collider);
         }
         //TestLevelCtr.instance.availableSpaceList.Remove(TestLevelCtr.instance.allPiece.transform.InverseTransformPoint(grid.position));
 
