@@ -673,6 +673,7 @@ GameObject:
   - component: {fileID: 2555208218794076434}
   - component: {fileID: 2954844366758490662}
   - component: {fileID: 4877223342346598420}
+  - component: {fileID: 4291923222824543840}
   m_Layer: 0
   m_Name: 0
   m_TagString: Untagged
@@ -802,3 +803,29 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &4291923222824543840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7772153862104040988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e27a187a8b6083a4ea16328590aa8a0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  isOnGridBoard: 0
+  isMouseDown: 0
+  isOnPreSpace: 1
+  canSetPosition: 1
+  isPieceTutorial: 0
+  isTriggerOtherPiece: 0
+  isCorrect: 0
+  startScale: 0.6
+  selectedScale: 1.2
+  selectedPos: 0.3
+  sizeSprite: {x: 0, y: 0}
+  startPosition: {x: 0, y: 0, z: 0}
+  oldPostionOnGridBoard: {x: 10000, y: 10000, z: 10000}

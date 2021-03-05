@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
 using System.IO;
-using UnityEngine.Purchasing.MiniJSON;
 
 public class AnswerBuilder : MonoBehaviour
 {
