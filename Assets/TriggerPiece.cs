@@ -20,7 +20,7 @@ public class TriggerPiece : MonoBehaviour
         if (collision.tag == "TriggerPiece")
         {
             GetComponentInParent<Piece>().canSetPosition = true;
-            GetComponentInParent<Piece>().isTriggerOtherPiece = false   ;
+            GetComponentInParent<Piece>().isTriggerOtherPiece = false;
         }
         if (collision.tag == "PreSpace")
             GetComponentInParent<Piece>().isOnPreSpace = false;

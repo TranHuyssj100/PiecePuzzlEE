@@ -202,6 +202,7 @@ public class LevelData
     public int idLevel;
     public int idTheme;
     public int sampleIndex;
+    public int pieceDefault;
 }
 
 [System.Serializable]
