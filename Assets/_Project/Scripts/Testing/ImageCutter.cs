@@ -1,8 +1,7 @@
-﻿#if  UNITY_EDITOR
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+
 
 [ExecuteInEditMode]
 public class ImageCutter : MonoBehaviour
@@ -101,9 +100,13 @@ public class ImageCutter : MonoBehaviour
             shadow.GetComponent<SpriteRenderer>().color = new Color(0,0,0,.7f);
             shadow.GetComponent<SpriteRenderer>().sortingLayerName = "Piece";
             shadow.GetComponent<SpriteRenderer>().sortingOrder = 0;
+            DestroyImmediate(piece.GetComponent<BoxCollider2D>());
+            sprite.AddComponent<BoxCollider2D>().offset = piece.transform.localPosition;
         }
         sprite.name = index++.ToString();
-        PrefabUtility.SaveAsPrefabAsset(sprite, savePath);
+#if UNITY_EDITOR
+        UnityEditor.PrefabUtility.SaveAsPrefabAsset(sprite, savePath);
+#endif
         selectedPieces.Clear();
         DestroyImmediate(sprite);
 
@@ -114,4 +117,3 @@ public class ImageCutter : MonoBehaviour
         System.IO.Directory.CreateDirectory(path);
     }
 }
-#endif
