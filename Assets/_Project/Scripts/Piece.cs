@@ -55,10 +55,10 @@ public class Piece : MonoBehaviour
         startPosition = transform.position;
 
         //transform.DOScale(Vector3.one * startScale,0.2f);
-        SetScalePieceOnPreSpace();
+        //SetScalePieceOnPreSpace();
 
-        limitPosX += new Vector2(0, -1 * (sizeSprite.x - 1));
-        limitPosY -= new Vector2(0, (sizeSprite.y));
+        //limitPosX += new Vector2(0, -1 * (sizeSprite.x - 1));
+        //limitPosY -= new Vector2(0, (sizeSprite.y));
     }
 
 
