@@ -39,6 +39,7 @@ public class ImageCutter : MonoBehaviour
             GO.name = sprite[i].name;
             GO.AddComponent<SpriteRenderer>().sprite = sprite[i];
             GO.GetComponent<SpriteRenderer>().sortingLayerName = "Piece";
+            GO.GetComponent<SpriteRenderer>().sortingOrder = 1;
             if (i % size == 0)
             {
                 incrementX = 0;
@@ -69,7 +70,8 @@ public class ImageCutter : MonoBehaviour
             if (hit.collider != null)
             {
                 GameObject objectOnMouse = hit.collider.gameObject;
-                selectedPieces.Add(objectOnMouse);
+                if(!selectedPieces.Contains(objectOnMouse))
+                    selectedPieces.Add(objectOnMouse);
                 objectOnMouse.GetComponent<SpriteRenderer>().color = Color.red;
             }
         }
@@ -77,24 +79,33 @@ public class ImageCutter : MonoBehaviour
     private int index;
     public void SaveSelectedAsPrefab()
     {
-        GameObject gObject = new GameObject();
+        GameObject sprite = new GameObject();
         //Vector3 meanPos = Vector2.zero;
         string savePath = path + "/" + index + ".prefab";
         //foreach (GameObject piece in selectedPieces)
         //    meanPos += piece.transform.position;
         //meanPos /= selectedPieces.Count;
         //gObject.transform.position = meanPos;
-        gObject.transform.parent = transform;
-        gObject.transform.localPosition = Vector3.zero;
+        sprite.transform.parent = transform;
+        sprite.transform.localPosition = Vector3.zero;
+        sprite.name = "Sprite";
         foreach (GameObject piece in selectedPieces)
         {
-            piece.transform.parent = gObject.transform;
+            GameObject shadow = new GameObject();
+            piece.transform.parent = sprite.transform;
             piece.GetComponent<SpriteRenderer>().color = Color.white;
+            shadow.transform.parent = piece.transform;
+            shadow.name = "Shadow";
+            shadow.transform.localPosition = Vector3.zero + new Vector3(.1f,-.1f);
+            shadow.AddComponent<SpriteRenderer>().sprite = piece.GetComponent<SpriteRenderer>().sprite;
+            shadow.GetComponent<SpriteRenderer>().color = new Color(0,0,0,.7f);
+            shadow.GetComponent<SpriteRenderer>().sortingLayerName = "Piece";
+            shadow.GetComponent<SpriteRenderer>().sortingOrder = 0;
         }
-        gObject.name = index++.ToString();
-        PrefabUtility.SaveAsPrefabAsset(gObject, savePath);
+        sprite.name = index++.ToString();
+        PrefabUtility.SaveAsPrefabAsset(sprite, savePath);
         selectedPieces.Clear();
-        DestroyImmediate(gObject);
+        DestroyImmediate(sprite);
 
     }
 
