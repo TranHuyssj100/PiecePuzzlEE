@@ -208,12 +208,18 @@ public class Piece : MonoBehaviour
     }
     bool CheckAvailableSpace(Vector2 space)
     {
+        Debug.Log(space);
         if (space.x < 0 || space.x > (Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1) || space.y > 0 || space.y < -(Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1))
+        {
             return false;
+        }
         for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
         {
             if (TestLevelCtr.instance.availableSpace[i].position == space && !TestLevelCtr.instance.availableSpace[i].available)
+            {
+                Debug.Log(i + " " + !TestLevelCtr.instance.availableSpace[i].available);
                 return false;
+            }
         }
         return true;
     }
@@ -224,7 +230,6 @@ public class Piece : MonoBehaviour
         //transform.position += new Vector3(-.5f, .5f);
         foreach (Transform grid in transform)
         {
-            Debug.Log(grid.transform.position);
             if (!CheckAvailableSpace(TestLevelCtr.instance.allPiece.transform.InverseTransformPoint(grid.position)))
             {
                 transform.position = startPosition;

@@ -205,7 +205,7 @@ GameObject:
   m_Component:
   - component: {fileID: 59797003}
   m_Layer: 10
-  m_Name: AllPieces
+  m_Name: AllPieces5x5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -254,7 +254,7 @@ Transform:
   m_GameObject: {fileID: 94508257}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.4285713, y: 1.4285713, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 59797003}
   m_Father: {fileID: 191698206}
@@ -711,7 +711,7 @@ Transform:
   m_GameObject: {fileID: 191698205}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 94508258}
   m_Father: {fileID: 828939560}
@@ -2429,7 +2429,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: -0.5, z: -10}
+  m_LocalPosition: {x: -0.08, y: -0.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2847,7 +2847,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &613696811
 Transform:
   m_ObjectHideFlags: 0
@@ -2858,7 +2858,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1392811784}
   m_Father: {fileID: 828939560}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2884,7 +2885,7 @@ TilemapCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 613696810}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -6509,6 +6510,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1392811783
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1392811784}
+  m_Layer: 10
+  m_Name: AllPieces6x6
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1392811784
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392811783}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.4999998, y: 2.4999998, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 613696811}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1630894655
 GameObject:
   m_ObjectHideFlags: 0
@@ -7485,19 +7516,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   listPieces:
-  - {fileID: 7772153862104040988, guid: c6f8e865bef424547bf2cc6c62969777, type: 3}
-  - {fileID: 3688426907254353086, guid: e02a75b3ee943496fa3482dec433874a, type: 3}
-  - {fileID: 8141986171984476844, guid: bc81175fa9f944542b11af15aa221a0c, type: 3}
-  - {fileID: 7000616448096393897, guid: 699712c7939884d0d8aeac1519fb9049, type: 3}
-  - {fileID: 5588420686190177678, guid: e65a15344efe343f18ede12d6ee1feaf, type: 3}
-  - {fileID: 8134009678246319285, guid: 1312d5bab925d4d4498b220825558fe7, type: 3}
+  - {fileID: 2673024099148944314, guid: 29e8a026d25bd485692af8fbdaaf93c0, type: 3}
+  - {fileID: 98732872642240535, guid: 7d32cd8675ad14a6d9b708178ff602ca, type: 3}
+  - {fileID: 7980495919515272619, guid: 0721759fdeddf4ef0b86861e38e11e60, type: 3}
+  - {fileID: 5253914844523059823, guid: 41f5f87eb1cb741d58049def7c05ba19, type: 3}
+  - {fileID: 3181206538303303396, guid: cc15d1a52b43a43c6b62639a677816af, type: 3}
+  - {fileID: 1666866561846718676, guid: d9c830a24bfd4425b80ee4da7d7e36e6, type: 3}
+  - {fileID: 1331341577367185265, guid: 7af2cbe36a9a84574afba13b709c3a19, type: 3}
+  - {fileID: 5889414254046493542, guid: 6568ea2333baf4a539b8e6be319faccd, type: 3}
+  - {fileID: 3847443623049601169, guid: b80807b53eded4038b489e2fad568180, type: 3}
+  - {fileID: 6900358501542387128, guid: a1ef886ec9c364763be0ae5a257e6780, type: 3}
   availableSpace: []
-  allPiece: {fileID: 59797002}
+  allPiece: {fileID: 1392811783}
   point:
   - {fileID: 1935325398}
   - {fileID: 763913882}
   - {fileID: 1059671116}
-  size: 5
+  size: 6
 --- !u!4 &2065198314
 Transform:
   m_ObjectHideFlags: 0

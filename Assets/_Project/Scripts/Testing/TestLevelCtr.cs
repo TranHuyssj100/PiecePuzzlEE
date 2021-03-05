@@ -33,9 +33,9 @@ public class TestLevelCtr : MonoBehaviour
     public void CreateAvailableSpaceList()
     {
         int index = 0;
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < size; i++)
         {
-            for (int j = 0; j > -5; j--)
+            for (int j = 0; j > -size; j--)
             {
                 availableSpace[index].position = new Vector2(i, j);
                 availableSpace[index].available = true;
