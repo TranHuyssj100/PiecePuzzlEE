@@ -44,29 +44,34 @@ public class TestLevelCtr : MonoBehaviour
         }
     }
 
-    public void SpawnPiece( Vector3 _pointSpawn)
+    public void SpawnPiece(int index)
     {
-        int randomIndex = UnityEngine.Random.Range(0, listPieces.Count);
-        GameObject randomPiece = listPieces[randomIndex];
-        listPieces.Remove(randomPiece);
-        GameObject pieceClone = GameObject.Instantiate(randomPiece, allPiece.transform);
-        pieceClone.transform.localScale = Vector3.one * .5f;
-        pieceClone.transform.position = _pointSpawn;
-        Vector3 offset = Vector3.zero;
-        foreach(Transform grid in pieceClone.transform)
+        if (listPieces.Count > 0)
         {
-            offset += grid.position;
+            int randomIndex = UnityEngine.Random.Range(0, listPieces.Count);
+            GameObject randomPiece = listPieces[randomIndex];
+            listPieces.Remove(randomPiece);
+            GameObject pieceClone = GameObject.Instantiate(randomPiece, allPiece.transform);
+            pieceClone.transform.localScale = Vector3.one * .5f;
+            pieceClone.transform.position = point[index].transform.position;
+            pieceClone.GetComponent<Piece>().startPointIndex = index;
+            //Debug.LogError(_pointSpawn);
+            //Vector3 offset = Vector3.zero;
+            //foreach(Transform grid in pieceClone.transform)
+            //{
+            //    offset += grid.position;
+            //}
+            //offset /= pieceClone.transform.childCount;
+            //offset = (pieceClone.transform.position - offset)/* * pieceClone.transform.localScale.x*/;
+            //pieceClone.transform.position += offset;
         }
-        offset /= pieceClone.transform.childCount;
-        offset = (pieceClone.transform.position - offset)/* * pieceClone.transform.localScale.x*/;
-        pieceClone.transform.position += offset;
     }
 
     public void IntializeGame()
     {
         for(int i=0; i<3; i++)
         {
-            SpawnPiece(point[i].transform.position);
+            SpawnPiece(i);
         }
     }
 

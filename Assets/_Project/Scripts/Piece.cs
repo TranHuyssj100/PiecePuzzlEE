@@ -20,6 +20,7 @@ public class Piece : MonoBehaviour
     public float selectedPos = 0.3f;
     public Vector2 sizeSprite;
     public Vector3 startPosition;
+    public int startPointIndex;
     public Vector3 oldPostionOnGridBoard=Vector3.one*10000;
 
 
@@ -52,13 +53,15 @@ public class Piece : MonoBehaviour
         selectedPos = 0.1f;
 
         canSetPosition = true;
+        Vector3 offset = Vector3.zero;
+        foreach (Transform grid in transform)
+        {
+            offset += grid.position;
+        }
+        offset /=transform.childCount;
+        offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
+        transform.position += offset;
         startPosition = transform.position;
-
-        //transform.localScale= Vector3.one*startScale;
-        //SetScalePieceOnPreSpace();
-
-        //limitPosX += new Vector2(0, -1 * (sizeSprite.x - 1));
-        //limitPosY -= new Vector2(0, (sizeSprite.y));
     }
 
 
@@ -134,9 +137,9 @@ public class Piece : MonoBehaviour
             }
             offset /= transform.childCount;
             offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
-            transform.position += new Vector3 (offset.x, offset.y*2f,0);
+            transform.position += new Vector3(offset.x, offset.y * 2f, 0);
         }
-        //transform.localScale = selectedScale* Vector3.one;
+        transform.localScale = selectedScale * Vector3.one;
 
         foreach (Transform grid in transform)
         {
@@ -158,8 +161,23 @@ public class Piece : MonoBehaviour
     }
     public void OnPieceUnselect()
     {
-        transform.DOMove(startPosition, 0.2f);
         transform.DOScale(startScale, 0.2f);
+        if (transform.localScale != Vector3.one)
+        {
+            Vector3 offset = Vector3.zero;
+            foreach (Transform grid in transform)
+            {
+                offset += grid.position;
+            }
+            offset /= transform.childCount;
+            offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
+            transform.position += new Vector3(offset.x, offset.y, 0);
+        }
+        transform.DOMove(startPosition, 0.2f).OnComplete(() => { 
+        
+        });
+        
+
     }
     bool CheckAvailableSpace(Vector2 space)
     {
@@ -203,6 +221,8 @@ public class Piece : MonoBehaviour
         if((Vector2)transform.localPosition == Vector2.zero)
         {
                 isCorrect = true;
+
+                TestLevelCtr.instance.SpawnPiece(startPointIndex);
                 Collider2D[] colliders = GetComponents<Collider2D>();
                 foreach (Collider2D collider in colliders)
                     Destroy(collider);
