@@ -331,7 +331,7 @@ public class LevelController : MonoBehaviour
             }
             if (_aniPiece != null)
             {
-               GameObject _tutAnimtion= GameObject.Instantiate(tutorialAnim, _aniPiece.transform);
+                GameObject _tutAnimtion= GameObject.Instantiate(tutorialAnim, _aniPiece.transform);
                 _tutAnimtion.transform.SetAsFirstSibling();
                 _aniPiece.isPieceTutorial = true;
                

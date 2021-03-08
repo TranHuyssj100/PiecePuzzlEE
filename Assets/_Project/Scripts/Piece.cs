@@ -15,9 +15,9 @@ public class Piece : MonoBehaviour
 
     [Space()]
     public bool isCorrect = false;
-    public float startScale = .6f; 
-    public float selectedScale = 1.2f;
-    public float selectedPos = 0.3f;
+    public float startScale;
+    public float selectedScale;
+    public float selectedPos;
     public Vector2 sizeSprite;
     public Vector3 startPosition;
     public Vector3 oldPostionOnGridBoard=Vector3.one*10000;
@@ -143,10 +143,10 @@ public class Piece : MonoBehaviour
         if (isOnPreSpace)
         {
             transform.localScale = Vector3.zero;
-            transform.localScale = Vector3.zero;
-            transform.DOScale(Vector3.one * startScale, 0.2f);
-            _sprite.localScale = Vector2.one* 0.8f;
+            transform.DOComplete();
+            transform.DOScale(Vector3.one * startScale, 0.2f);           
             _sprite.localPosition = Vector2.zero;
+            _sprite.localScale = Vector2.one* 0.8f;
             _shadow.localScale = Vector2.one* 0.8f;
             _shadow.localPosition = Vector2.zero;
         }
@@ -185,16 +185,15 @@ public class Piece : MonoBehaviour
         if (_sprite != null)
         {
             _sprite.localPosition = Vector2.zero;
-
+            transform.DOComplete();
             Sequence _seq = DOTween.Sequence();
             _seq.Append(transform.DOScale(Vector3.one, .1f))
                 .OnComplete(()=> {
                 _sprite.GetComponent<SpriteRenderer>().sortingOrder--;
                 _shadown.GetComponent<SpriteRenderer>().sortingOrder--;
-            });
-           
-            _sprite.localScale = isOnPreSpace ?Vector2.one*1f:Vector2.one;
-            _shadown.localScale = isOnPreSpace ?Vector2.one*1f:Vector2.one;
+                });
+                _sprite.localScale = isOnPreSpace ? Vector2.one * 0.8f : Vector2.one;
+                _shadown.localScale = isOnPreSpace ? Vector2.one * 0.8f : Vector2.one;
         }
     }
     void SetPositionPiece()
@@ -277,9 +276,17 @@ public class Piece : MonoBehaviour
             Debug.LogError("Check TRigger");
         if (isTriggerOtherPiece && !isCorrect)
         {
+            Transform _shadow = transform.Find("Shadow");
+            Transform _sprite = transform.GetChild(transform.childCount - 1);
             canSetPosition = true;
+            transform.DOComplete();
             transform.DOMove(startPosition, 0.5f);
-            transform.DOScale(Vector3.one * startScale, .2f);
+            transform.DOScale(Vector3.one * startScale, .2f).OnComplete(()=> {
+                _sprite.localScale = Vector2.one * 0.8f;
+                _shadow.localScale = Vector2.one * 0.8f;
+            });
+
+
         }
     }
 
