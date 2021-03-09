@@ -21,6 +21,8 @@ public class GameMaster : MonoBehaviour
 
 
 
+
+
     public static GameMaster instance;
 
 
@@ -316,6 +318,27 @@ public class GameMaster : MonoBehaviour
         if (AdManager.rewardType == AdManager.RewardType.MoreMove)
             GrantMoreMove();
     }
+    #endregion
+
+
+    #region Sound
+    public void toggleSFX()
+    {
+        GameData.isSFX = GameData.isSFX == 0 ? 1 : 0;
+        SoundManager.instance.Btn_SFX.GetComponent<Image>().sprite = SoundManager.instance.SFX[GameData.isSFX];
+    }
+    public void toggleBGM()
+    {
+        GameData.isBGM = GameData.isBGM == 0 ? 1 : 0;
+        SoundManager.instance.Btn_BGM.GetComponent<Image>().sprite = SoundManager.instance.BGM[GameData.isBGM];
+
+        if (GameData.isBGM == 0)
+            SoundManager.instance.Stop(TypeSFX.BGM, "BGM");
+        else
+            SoundManager.instance.PlayBGM(TypeSFX.BGM, "BGM");
+
+    }
+
     #endregion
 
 }
