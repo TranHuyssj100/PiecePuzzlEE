@@ -88,6 +88,7 @@ public class ImageCutter : MonoBehaviour
         sprite.transform.parent = transform;
         sprite.transform.localPosition = Vector3.zero;
         sprite.name = "Sprite";
+        sprite.AddComponent<Piece>();
         foreach (GameObject piece in selectedPieces)
         {
             GameObject shadow = new GameObject();

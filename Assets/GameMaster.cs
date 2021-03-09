@@ -41,7 +41,7 @@ public class GameMaster : MonoBehaviour
 
     public void Start()
     {
-        menu.SetActive(true);
+        //menu.SetActive(true);
         AdManager.Instance.onRewardAdClosed += RewardAdClosed;
         onPiecePlace += OnPiecePlaced;
     }
@@ -59,9 +59,10 @@ public class GameMaster : MonoBehaviour
 
     private void checkEndGame()
     {
-        if (LevelController.instance.NUM_MOVE > 0)
+        Debug.LogError("NUM_PIECES_WORNG: " + TestLevelCtr.instance.NUM_PIECES_WORNG);
+        if (TestLevelCtr.instance.NUM_MOVE > 0)
         {
-            if (LevelController.instance.NUM_PIECES_WORNG <= 0)
+            if (TestLevelCtr.instance.NUM_PIECES_WORNG <= 0)
             {
                 WinPhase();
             }
@@ -69,7 +70,7 @@ public class GameMaster : MonoBehaviour
         else
         {
 
-            if (LevelController.instance.NUM_MOVE == 0 && LevelController.instance.NUM_PIECES_WORNG == 0)
+            if (TestLevelCtr.instance.NUM_MOVE == 0 && TestLevelCtr.instance.NUM_PIECES_WORNG == 0)
             {   
                 WinPhase();
             }
@@ -139,7 +140,7 @@ public class GameMaster : MonoBehaviour
     #region UPDATE TEXT
     public void ShowNumMove()
     {
-        moveTxt.text = LevelController.instance.NUM_MOVE >= 0 ? LevelController.instance.NUM_MOVE.ToString() : "0";
+        moveTxt.text = TestLevelCtr.instance.NUM_MOVE >= 0 ? TestLevelCtr.instance.NUM_MOVE.ToString() : "0";
     }
 
     public void ShowGold()
@@ -228,9 +229,10 @@ public class GameMaster : MonoBehaviour
 
     public void Replay()
     {
-        //EventManager.TriggerEvent("DestroyPiece");
-        FirebaseManager.instance.LogResetLevel(LevelController.idLevel, DataController.themeData[GameData.Theme].name);
-        StartCoroutine(LevelController.instance.InitializeGame(LevelController.idLevel, GameData.Theme));
+        EventManager.TriggerEvent("DestroyPiece");
+        //FirebaseManager.instance.LogResetLevel(LevelController.idLevel, DataController.themeData[GameData.Theme].name);
+        //StartCoroutine(LevelController.instance.InitializeGame(LevelController.idLevel, GameData.Theme));
+        TestLevelCtr.instance.IntializeGame();
         CloseWinPanel();
         CloseLosePanel();
         AdManager.Instance.checkInterAdsCondition();
@@ -270,11 +272,13 @@ public class GameMaster : MonoBehaviour
         {
             PiecePlaced();
             GameData.gold -= Config.COST_HINT;
-            Piece _piece = LevelController.instance.FindIncorrectPiece();
+            Piece _piece = TestLevelCtr.instance.FindIncorrectPiece();
+            Debug.LogError(_piece);
             if (_piece!=null && !_piece.isCorrect)
             {
-                LevelController.instance.SetCorrectPiecePos(_piece.gameObject, _piece.startPosition, 0.5f);
-                if (_piece.isPieceTutorial) _piece.TutorialPieceOnMouseDown();
+                TestLevelCtr.instance.SetCorrectPiecePos(_piece.gameObject, 0.2f);
+                //LevelController.instance.SetCorrectPiecePos(_piece.gameObject, _piece.startPosition, 0.5f);
+                //if (_piece.isPieceTutorial) _piece.TutorialPieceOnMouseDown();
             }
         }
         StartCoroutine(CorountineCheckPiece());

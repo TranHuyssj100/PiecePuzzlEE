@@ -15,9 +15,9 @@ public class Piece : MonoBehaviour
 
     [Space()]
     public bool isCorrect = false;
-    public float startScale = .6f; 
-    public float selectedScale = 1.2f;
-    public float selectedPos = 0.3f;
+    public float startScale;
+    public float selectedScale;
+    public float selectedPos;
     public Vector2 sizeSprite;
     public Vector3 startPosition;
     public int startPointIndex;
@@ -53,6 +53,7 @@ public class Piece : MonoBehaviour
         selectedPos = 0.1f;
 
         canSetPosition = true;
+
         Vector3 offset = Vector3.zero;
         foreach (Transform grid in transform)
         {
@@ -62,6 +63,10 @@ public class Piece : MonoBehaviour
         offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
         transform.position += offset;
         startPosition = transform.position;
+
+        transform.localScale = Vector3.zero;
+        transform.DOScale(Vector3.one * .5f, 0.2f);
+
     }
 
 
@@ -107,22 +112,22 @@ public class Piece : MonoBehaviour
                 break;
         } 
     }
-    void SetScalePieceOnPreSpace()
-    {
-        Transform _sprite = transform.GetChild(transform.childCount - 1);
-        Transform _shadow = transform.Find("Shadow");
+    //void SetScalePieceOnPreSpace()
+    //{
+    //    Transform _sprite = transform.GetChild(transform.childCount - 1);
+    //    Transform _shadow = transform.Find("Shadow");
        
-        if (isOnPreSpace)
-        {
-            transform.localScale = Vector3.zero;
-            transform.localScale = Vector3.zero;
-            transform.DOScale(Vector3.one * startScale, 0.2f);
-            _sprite.localScale = Vector2.one* 0.8f;
-            _sprite.localPosition = Vector2.zero;
-            _shadow.localScale = Vector2.one* 0.8f;
-            _shadow.localPosition = Vector2.zero;
-        }
-    }
+    //    if (isOnPreSpace)
+    //    {
+    //        transform.localScale = Vector3.zero;
+    //        transform.localScale = Vector3.zero;
+    //        transform.DOScale(Vector3.one * startScale, 0.2f);
+    //        _sprite.localScale = Vector2.one* 0.8f;
+    //        _sprite.localPosition = Vector2.zero;
+    //        _shadow.localScale = Vector2.one* 0.8f;
+    //        _shadow.localPosition = Vector2.zero;
+    //    }
+    //}
 
     public void OnPieceSelect()
     {
@@ -145,7 +150,7 @@ public class Piece : MonoBehaviour
         {
             for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
             {
-                if (TestLevelCtr.instance.availableSpace[i].position == (Vector2)TestLevelCtr.instance.allPiece.transform.InverseTransformPoint((Vector2)grid.position))
+                if (TestLevelCtr.instance.availableSpace[i].position == (Vector2)TestLevelCtr.instance.allPieces.transform.InverseTransformPoint((Vector2)grid.position))
                     TestLevelCtr.instance.availableSpace[i].available = true;
             }
 
@@ -171,7 +176,7 @@ public class Piece : MonoBehaviour
             }
             offset /= transform.childCount;
             offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
-            transform.position += new Vector3(offset.x, offset.y, 0);
+            transform.position += new Vector3(offset.x, offset.y*2f, 0);
         }
         transform.DOMove(startPosition, 0.2f).OnComplete(() => { 
         
@@ -181,7 +186,7 @@ public class Piece : MonoBehaviour
     }
     bool CheckAvailableSpace(Vector2 space)
     {
-        Debug.Log(space);
+        //Debug.Log(space);
         if (space.x < 0 || space.x > (Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1) || space.y > 0 || space.y < -(Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1))
         {
             return false;
@@ -201,19 +206,28 @@ public class Piece : MonoBehaviour
         transform.localPosition = new Vector3(Mathf.Round(transform.localPosition.x),
                                          Mathf.Round(transform.localPosition.y));
         //transform.position += new Vector3(-.5f, .5f);
+
+        GameMaster.instance.PiecePlaced();
+       
         foreach (Transform grid in transform)
         {
-            if (!CheckAvailableSpace(TestLevelCtr.instance.allPiece.transform.InverseTransformPoint(grid.position)))
+            if (!CheckAvailableSpace(TestLevelCtr.instance.allPieces.transform.InverseTransformPoint(grid.position)))
             {
                 OnPieceUnselect();
                 return;
             }
         }
-        foreach(Transform grid in transform)
+        if (transform.localPosition != oldPostionOnGridBoard)
+        {
+            TestLevelCtr.instance.NUM_MOVE--;
+            oldPostionOnGridBoard = transform.localPosition;
+
+        }
+        foreach (Transform grid in transform)
         {
             for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
             {
-                if (TestLevelCtr.instance.availableSpace[i].position == (Vector2)TestLevelCtr.instance.allPiece.transform.InverseTransformPoint((Vector2)grid.position))
+                if (TestLevelCtr.instance.availableSpace[i].position == (Vector2)TestLevelCtr.instance.allPieces.transform.InverseTransformPoint((Vector2)grid.position))
                     TestLevelCtr.instance.availableSpace[i].available = false;
             }
 
@@ -221,7 +235,7 @@ public class Piece : MonoBehaviour
         if((Vector2)transform.localPosition == Vector2.zero)
         {
                 isCorrect = true;
-
+                TestLevelCtr.instance.NUM_PIECES_WORNG--;
                 TestLevelCtr.instance.SpawnPiece(startPointIndex);
                 Collider2D[] colliders = GetComponents<Collider2D>();
                 foreach (Collider2D collider in colliders)
@@ -262,24 +276,41 @@ public class Piece : MonoBehaviour
         //                             });
     }
 
-    public void AutoCorrectPiece(Vector2 _correctPos,Vector2 _startPos , float _duration)
+    //public void AutoCorrectPiece(Vector2 _correctPos,Vector2 _startPos , float _duration)
+    //{
+    //    FirebaseManager.instance.LogAutoCorrectHint();
+    //    startPosition = _startPos;
+    //    Transform _sprite = transform.GetChild(transform.childCount - 1);
+    //    Transform _shadow = transform.Find("Shadow");
+    //    LevelController.instance.NUM_PIECES_WORNG--;
+
+    //    isCorrect = true;
+    //    isOnPreSpace = false;
+    //    transform.localScale = Vector2.one;
+    //    _sprite.localScale  = Vector2.one;
+    //    _sprite.localPosition = Vector2.zero;    
+    //    _shadow.localScale  = Vector2.one;
+    //    _shadow.localPosition = Vector2.zero;
+
+    //    transform.DOMove(_correctPos, _duration);
+    //    LevelController.instance.SpawnRadomPieces(startPosition);   
+    //} 
+    public void AutoCorrectPiece(int _startPos, float _duration)
     {
         FirebaseManager.instance.LogAutoCorrectHint();
-        startPosition = _startPos;
-        Transform _sprite = transform.GetChild(transform.childCount - 1);
-        Transform _shadow = transform.Find("Shadow");
-        LevelController.instance.NUM_PIECES_WORNG--;
-
         isCorrect = true;
-        isOnPreSpace = false;
-        transform.localScale = Vector2.one;
-        _sprite.localScale  = Vector2.one;
-        _sprite.localPosition = Vector2.zero;    
-        _shadow.localScale  = Vector2.one;
-        _shadow.localPosition = Vector2.zero;
+        startPointIndex =  _startPos;
+        TestLevelCtr.instance.NUM_PIECES_WORNG--;
+        TestLevelCtr.instance.SpawnPiece(_startPos);
 
-        transform.DOMove(_correctPos, _duration);
-        LevelController.instance.SpawnRadomPieces(startPosition);   
+
+        transform.DOLocalMove(Vector3.zero, _duration);
+        transform.DOScale(Vector3.one, _duration);
+        //transform.localScale = selectedScale * Vector3.one;
+
+        //transform.DOComplete();
+        //transform.DOMove(Vector3.zero, _duration);
+
     }
 
    
@@ -304,7 +335,7 @@ public class Piece : MonoBehaviour
 
    public void CheckTriggerPiece()
     {
-            Debug.LogError("Check TRigger");
+            //Debug.LogError("Check TRigger");
         if (isTriggerOtherPiece && !isCorrect)
         {
             canSetPosition = true;

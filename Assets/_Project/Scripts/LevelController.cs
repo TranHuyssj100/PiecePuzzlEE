@@ -221,7 +221,7 @@ public class LevelController : MonoBehaviour
         Vector3 _correctPos = listAnswerForSample.Find(a => a.x == _piece.id);
         if (_correctPos != null)
         {
-            _piece.AutoCorrectPiece(new Vector2(_correctPos.y, _correctPos.z), _startPos, _duration);
+            //_piece.AutoCorrectPiece(new Vector2(_correctPos.y, _correctPos.z), _startPos, _duration);
         }
     }
 
