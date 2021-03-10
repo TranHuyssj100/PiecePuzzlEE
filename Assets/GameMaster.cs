@@ -340,8 +340,7 @@ public class GameMaster : MonoBehaviour
     public void toggleBGM()
     {
         GameData.isBGM = GameData.isBGM == 0 ? 1 : 0;
-        GetComponent<Image>().sprite = BGM[GameData.isBGM];
-
+        Btn_BGM.GetComponent<Image>().sprite = BGM[GameData.isBGM];
         if (GameData.isBGM == 0)
             SoundManager.instance.Stop(TypeSFX.BGM, "BGM");
         else

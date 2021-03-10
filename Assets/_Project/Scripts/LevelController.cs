@@ -64,10 +64,12 @@ public class LevelController : MonoBehaviour
 
     void Update()
     {
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.W))
         {
             GameData.gold+=2000;
         }
+#endif
     }
 
     public List<Object> LoadTextureFromLevel(int _level, string _themeType, int _sizeLevel)
