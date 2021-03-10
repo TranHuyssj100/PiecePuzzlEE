@@ -10,6 +10,7 @@ public class ImageCutter : MonoBehaviour
     public Sprite[] sprite;
     private GameObject[] all;
     [HideInInspector] public string path;
+    [HideInInspector] public string theme;
     int levelIndex;
     // Start is called before the first frame update
     void Start()
@@ -94,7 +95,7 @@ public class ImageCutter : MonoBehaviour
     {
         GameObject sprite = new GameObject();
         //Vector3 meanPos = Vector2.zero;
-        string savePath = path + levelIndex + "/" + index + ".prefab";
+        string savePath = path + theme + "/" + levelIndex + "/" + index + ".prefab";
         Debug.Log(savePath);
         //foreach (GameObject piece in selectedPieces)
         //    meanPos += piece.transform.position;
@@ -126,8 +127,8 @@ public class ImageCutter : MonoBehaviour
         sprite.name = index++.ToString();
         sprite.AddComponent<Piece>();
 #if UNITY_EDITOR
-        if (!System.IO.Directory.Exists(path + levelIndex))
-            System.IO.Directory.CreateDirectory(path + levelIndex);
+        if (!System.IO.Directory.Exists(path + theme + "/" + levelIndex))
+            System.IO.Directory.CreateDirectory(path + theme + "/" + levelIndex);
         UnityEditor.PrefabUtility.SaveAsPrefabAsset(sprite, savePath);
 #endif
         selectedPieces.Clear();
@@ -141,7 +142,7 @@ public class ImageCutter : MonoBehaviour
         for (int i = 0; i < answerPreset.Count; i++)
         {
             GameObject sprite = new GameObject();
-            string savePath = path + levelIndex + "/" + index + ".prefab";
+            string savePath = path + theme + "/" + levelIndex + "/" + index + ".prefab";
             sprite.transform.parent = transform;
             sprite.transform.localPosition = Vector3.zero;
             for(int j = 0; j < answerPreset[i].gridIndex.Count;j++)
@@ -163,8 +164,8 @@ public class ImageCutter : MonoBehaviour
             sprite.name = index++.ToString();
             sprite.AddComponent<Piece>();
 #if UNITY_EDITOR
-            if (!System.IO.Directory.Exists(path + levelIndex))
-                System.IO.Directory.CreateDirectory(path + levelIndex);
+            if (!System.IO.Directory.Exists(path + theme + "/" + levelIndex))
+                System.IO.Directory.CreateDirectory(path + theme + "/" + levelIndex);
             UnityEditor.PrefabUtility.SaveAsPrefabAsset(sprite, savePath);
 #endif
             selectedPieces.Clear();
@@ -172,18 +173,20 @@ public class ImageCutter : MonoBehaviour
         }
     }
 
-    public void SaveSampleToJson()
+    public void SavePresetToJson()
     {
         DataController.SaveAnswerPreset(answerPreset, (int)Mathf.Sqrt(sprite.Length));
     }
 
     public void CreateFolder()
     {
-        System.IO.Directory.CreateDirectory(path);
+        System.IO.Directory.CreateDirectory(path + theme + "/");
     }
     public int GetLevelIndexByTheme()
     {
-        return System.IO.Directory.GetFiles(path).Length;
+        if (!System.IO.Directory.Exists(path + theme + "/"))
+            System.IO.Directory.CreateDirectory(path + theme + "/");
+        return System.IO.Directory.GetFiles(path + theme +"/").Length;
     }
 
     [System.Serializable]

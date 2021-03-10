@@ -105,7 +105,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
     }
 
 #if UNITY_EDITOR
-    static string AnswerSamplePath = "Assets/_Project/Testing/AnswerSample/";
+    static string AnswerPresetPath = "Assets/_Project/Testing/AnswerPreset/";
     public static void SaveAnswerPreset(List<ImageCutter.AnswerPreset> _answerPreset,int _size)
     {
         string _strData;
@@ -126,7 +126,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
         }
         _strData += "]";
         Debug.Log(_strData);
-        File.WriteAllText(Path.Combine(AnswerSamplePath + size, Directory.GetFiles(AnswerSamplePath + size).Length / 2 + JsonSuffix), _strData);
+        File.WriteAllText(Path.Combine(AnswerPresetPath + size, Directory.GetFiles(AnswerPresetPath + size).Length / 2 + JsonSuffix), _strData);
     }
     public static List<ImageCutter.AnswerPreset> ReadAnswerPreset(int _size)
     {
@@ -134,8 +134,8 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
         string size;
         size = _size + "x" + _size;
         List<ImageCutter.AnswerPreset> answerPreset = new List<ImageCutter.AnswerPreset>();
-        int randomPreset = Random.Range(0, Directory.GetFiles(AnswerSamplePath + size).Length / 2);
-        loadString = File.ReadAllText(Path.Combine(AnswerSamplePath + size, randomPreset + JsonSuffix));
+        int randomPreset = Random.Range(0, Directory.GetFiles(AnswerPresetPath + size).Length / 2);
+        loadString = File.ReadAllText(Path.Combine(AnswerPresetPath + size, randomPreset + JsonSuffix));
         foreach(ImageCutter.AnswerPreset answer in JsonHelper.FromJson<ImageCutter.AnswerPreset>(loadString))
         {
             answerPreset.Add(answer);

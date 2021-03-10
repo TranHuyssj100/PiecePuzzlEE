@@ -19,10 +19,14 @@ public class ImageCutterEditor : Editor
         GUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("Path", GUILayout.MaxWidth(40));
         image.path = EditorGUILayout.TextField(image.path);
-        if (GUILayout.Button("Create Directory"))
-        {
-            image.CreateFolder();
-        }
+        GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("Theme", GUILayout.MaxWidth(40));
+        image.theme = EditorGUILayout.TextField(image.theme);
+        //if (GUILayout.Button("Create Theme"))
+        //{
+        //    image.CreateFolder();
+        //}
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("SpawnGO"))
@@ -35,9 +39,9 @@ public class ImageCutterEditor : Editor
         }
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
-        if (GUILayout.Button("Save Sample"))
+        if (GUILayout.Button("Save Preset"))
         {
-            image.SaveSampleToJson();
+            image.SavePresetToJson();
         }
         if (GUILayout.Button("Cut With Preset"))
         {
