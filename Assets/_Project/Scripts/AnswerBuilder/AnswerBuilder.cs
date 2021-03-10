@@ -39,7 +39,7 @@ public class AnswerBuilder : MonoBehaviour
         listAnswerForSample.Clear();
         EventManager.TriggerEvent("DestroyPiece");
 
-        CreateAnswer();
+        //CreateAnswer();
         listTexture = LoadTextureFromLevel(idLevel, nameTheme, size);
         LoadPreview();
         if(listSample.Count>0) SpawnPiece(listTexture.Count);
@@ -105,63 +105,63 @@ public class AnswerBuilder : MonoBehaviour
 
     #region CREATE ANSWER JSON
 
-    public void CreateJson(bool _isOverride)
-    {
-        string _path = Path.Combine(answerPath, size.ToString() + "x" + size.ToString());
-        List<int> _finalAnswers = new List<int>();
-        SampleAnswer _answer = new SampleAnswer();
-        string _strData = "[";
+    //public void CreateJson(bool _isOverride)
+    //{
+    //    string _path = Path.Combine(answerPath, size.ToString() + "x" + size.ToString());
+    //    List<int> _finalAnswers = new List<int>();
+    //    SampleAnswer _answer = new SampleAnswer();
+    //    string _strData = "[";
 
-        //Debug.LogError(_path);
+    //    //Debug.LogError(_path);
 
-        _answer.idAnswer = nameAnswerFile;
-        _answer.pieceNames = new int[listSample.Count];
-        //_answer.answers = new int[listSample.Count * 3];
-        for (int i = 0; i < listSample.Count; i++)
-        {
-            _answer.pieceNames[i] = System.Int32.Parse(listSample[i].name);
-            _finalAnswers.Add(i);
-            _finalAnswers.Add(Mathf.RoundToInt(allPieces.transform.GetChild(i).position.x));
-            _finalAnswers.Add(Mathf.RoundToInt(allPieces.transform.GetChild(i).position.y));
-        }
-        _answer.answers = _finalAnswers.ToArray();
-        _strData += "\n" + JsonUtility.ToJson(_answer, true);
-        _strData += "]";
-        //Debug.Log(_strData);
-        //Directory.CreateDirectory(_path);
-        if (!Directory.Exists(_path))
-        {
-            Directory.CreateDirectory(answerPath);
-            Debug.Log("<color=green>Create Directory</color>");
+    //    _answer.idAnswer = nameAnswerFile;
+    //    _answer.pieceNames = new int[listSample.Count];
+    //    //_answer.answers = new int[listSample.Count * 3];
+    //    for (int i = 0; i < listSample.Count; i++)
+    //    {
+    //        _answer.pieceNames[i] = System.Int32.Parse(listSample[i].name);
+    //        _finalAnswers.Add(i);
+    //        _finalAnswers.Add(Mathf.RoundToInt(allPieces.transform.GetChild(i).position.x));
+    //        _finalAnswers.Add(Mathf.RoundToInt(allPieces.transform.GetChild(i).position.y));
+    //    }
+    //    _answer.answers = _finalAnswers.ToArray();
+    //    _strData += "\n" + JsonUtility.ToJson(_answer, true);
+    //    _strData += "]";
+    //    //Debug.Log(_strData);
+    //    //Directory.CreateDirectory(_path);
+    //    if (!Directory.Exists(_path))
+    //    {
+    //        Directory.CreateDirectory(answerPath);
+    //        Debug.Log("<color=green>Create Directory</color>");
 
-        }
+    //    }
 
-        if (!_isOverride)
-        {
-            if (!File.Exists(_path + "/" + nameAnswerFile + jsonSuffix))
-            {
-                File.WriteAllText(_path + "/" + nameAnswerFile + jsonSuffix, _strData);
-                Debug.Log("<color=green>: CREATE file complete </color>" + nameAnswerFile);
-                CreateLevelJson(idLevel, idTheme, nameAnswerFile);
-            }
-            else
-            {
-                Debug.Log("<color=red>Exis file: </color>" + size.ToString() + "x" + size.ToString() + "/" + nameAnswerFile + ":Try to UPDATE");
-            }
-        }
-        else
-        {
-            File.WriteAllText(_path + "/" + nameAnswerFile + jsonSuffix, _strData);
-            CreateLevelJson(idLevel, idTheme, nameAnswerFile);
-            Debug.Log("<color=green>: UPDATE file complete </color>" + nameAnswerFile);
-        }
-    }
+    //    if (!_isOverride)
+    //    {
+    //        if (!File.Exists(_path + "/" + nameAnswerFile + jsonSuffix))
+    //        {
+    //            File.WriteAllText(_path + "/" + nameAnswerFile + jsonSuffix, _strData);
+    //            Debug.Log("<color=green>: CREATE file complete </color>" + nameAnswerFile);
+    //            CreateLevelJson(idLevel, idTheme, nameAnswerFile);
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("<color=red>Exis file: </color>" + size.ToString() + "x" + size.ToString() + "/" + nameAnswerFile + ":Try to UPDATE");
+    //        }
+    //    }
+    //    else
+    //    {
+    //        File.WriteAllText(_path + "/" + nameAnswerFile + jsonSuffix, _strData);
+    //        CreateLevelJson(idLevel, idTheme, nameAnswerFile);
+    //        Debug.Log("<color=green>: UPDATE file complete </color>" + nameAnswerFile);
+    //    }
+    //}
     #endregion
 
 
     #region CHECK_ANSWER
     public List<Vector3> listAnswerForSample;
-    SampleAnswer checkSampleAnswer = new SampleAnswer();
+    //SampleAnswer checkSampleAnswer = new SampleAnswer();
     LevelData levelData = new LevelData();
 
     public void SetCorrectPiecePos(GameObject _pieceObj,int _id , float _duration)
@@ -191,49 +191,49 @@ public class AnswerBuilder : MonoBehaviour
         return _listAnswerforSample;
     }
 
-    public SampleAnswer LoadAnswerJson(int _jsonName)
-    {
-        string _loadString="";
-        string _path = Path.Combine(answerPath, size.ToString() + "x" + size.ToString() + "/" + _jsonName.ToString() + jsonSuffix);
-        if (File.Exists(_path))
-        {
-            _loadString = File.ReadAllText(_path);
-            return JsonHelper.FromJson<SampleAnswer>(_loadString)[0];
-        }
-        return null;   
-    }
+    //public SampleAnswer LoadAnswerJson(int _jsonName)
+    //{
+    //    string _loadString="";
+    //    string _path = Path.Combine(answerPath, size.ToString() + "x" + size.ToString() + "/" + _jsonName.ToString() + jsonSuffix);
+    //    if (File.Exists(_path))
+    //    {
+    //        _loadString = File.ReadAllText(_path);
+    //        return JsonHelper.FromJson<SampleAnswer>(_loadString)[0];
+    //    }
+    //    return null;   
+    //}
     
-    public void CreateAnswer()
-    {
-        levelData = LoadLevelJson(idLevel) ;
-        //Debug.LogError(levelData);
-        if(levelData!=null)
-        {
-            nameAnswerFile = levelData.sampleIndex;
-        }
+    //public void CreateAnswer()
+    //{
+    //    levelData = LoadLevelJson(idLevel) ;
+    //    //Debug.LogError(levelData);
+    //    if(levelData!=null)
+    //    {
+    //        nameAnswerFile = levelData.sampleIndex;
+    //    }
 
-        checkSampleAnswer = LoadAnswerJson(nameAnswerFile);
-        if(checkSampleAnswer!=null)
-        {
-            listAnswerForSample = UpdateListAnswerforSample(new Queue<int>(checkSampleAnswer.answers));
-            listSample = LoadSample(checkSampleAnswer.pieceNames);
-        }
-        else
-        {
-            Debug.LogError("Not Exist json");
-            return;
-        }
-    }
-    public void CheckAnswer()
-    {
-        CreateAnswer();
+    //    checkSampleAnswer = LoadAnswerJson(nameAnswerFile);
+    //    if(checkSampleAnswer!=null)
+    //    {
+    //        listAnswerForSample = UpdateListAnswerforSample(new Queue<int>(checkSampleAnswer.answers));
+    //        listSample = LoadSample(checkSampleAnswer.pieceNames);
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("Not Exist json");
+    //        return;
+    //    }
+    //}
+    //public void CheckAnswer()
+    //{
+    //    CreateAnswer();
         
-        for (int i=0; i<allPieces.transform.childCount; i++)
-        {
-            SetCorrectPiecePos(allPieces.transform.GetChild(i).gameObject, i,0.5f);
-        }
-        //listAnswerForSample.Clear();
-    }
+    //    for (int i=0; i<allPieces.transform.childCount; i++)
+    //    {
+    //        SetCorrectPiecePos(allPieces.transform.GetChild(i).gameObject, i,0.5f);
+    //    }
+    //    //listAnswerForSample.Clear();
+    //}
     
     #endregion
 
@@ -257,7 +257,7 @@ public class AnswerBuilder : MonoBehaviour
         LevelData _levelData = new LevelData();
         _levelData.idLevel = _idLevel;
         _levelData.idTheme = _idTheme;
-        _levelData.sampleIndex = _sampleIndex;
+        //_levelData.sampleIndex = _sampleIndex;
 
        _data= JsonUtility.ToJson(_levelData,true);
 

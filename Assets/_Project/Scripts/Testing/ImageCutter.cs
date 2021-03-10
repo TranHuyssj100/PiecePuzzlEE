@@ -68,8 +68,16 @@ public class ImageCutter : MonoBehaviour
 
     public void RemoveAllGObj()
     {
-        foreach (GameObject gObj in all)
-            DestroyImmediate(gObj);
+        if (!Application.isPlaying)
+        {
+            foreach (Transform gObj in transform)
+                DestroyImmediate(gObj.gameObject);
+        }
+        else
+        {
+            foreach (Transform gObj in transform)
+                Destroy(gObj.gameObject);
+        }
     }
     private List<GameObject> selectedPieces;
 
@@ -186,7 +194,11 @@ public class ImageCutter : MonoBehaviour
     {
         if (!System.IO.Directory.Exists(path + theme + "/"))
             System.IO.Directory.CreateDirectory(path + theme + "/");
-        return System.IO.Directory.GetFiles(path + theme +"/").Length;
+
+        if (System.IO.Directory.GetFiles(path + theme + "/").Length - 1 >= 0)
+            return System.IO.Directory.GetFiles(path + theme + "/").Length-1;
+        else
+            return 0;
     }
 
     [System.Serializable]

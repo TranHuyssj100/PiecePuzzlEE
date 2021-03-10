@@ -20,7 +20,7 @@ public class LevelController : MonoBehaviour
     [Space(10)]
     public GameObject tutorialAnim;
     [Header("Data")]
-    public  SampleAnswer curSampleAnswer = new SampleAnswer();
+    //public  SampleAnswer curSampleAnswer = new SampleAnswer();
     //public ThemeData curThemeData = new ThemeData();
     public static bool isInitializeComplete=false;
    
@@ -113,8 +113,6 @@ public class LevelController : MonoBehaviour
 
     public GameObject SpawnRadomPieces(Vector3 _pointSpawn)
     {
-
-
         if (randIndexPiece.Count > 0)
         {
             int _randIndex = randIndexPiece.Pop();
@@ -163,18 +161,18 @@ public class LevelController : MonoBehaviour
         SetCamPosition(sizeLevel);
 
         yield return new WaitForEndOfFrame();
-        curSampleAnswer = DataController.LoadSampleAnswer(curLevelData.sampleIndex, sizeLevel);
+        //curSampleAnswer = DataController.LoadSampleAnswer(curLevelData.sampleIndex, sizeLevel);
 
 
         listTexture = LoadTextureFromLevel(curLevelData.idLevel, DataController.themeData[_idTheme].name, sizeLevel) ;
         //listSamples = LoadSample(curLevelData.sampleIndex);
 
-        listSamples = LoadSample(curSampleAnswer.pieceNames);
+        //listSamples = LoadSample(curSampleAnswer.pieceNames);
 
         numMove = listSamples.Count+ Mathf.CeilToInt(0.3f* listSamples.Count);
         numPiecesWrong = listSamples.Count;
 
-        listAnswerForSample = CreateAnswerForSample(new Queue<int>(curSampleAnswer.answers));
+        //listAnswerForSample = CreateAnswerForSample(new Queue<int>(curSampleAnswer.answers));
         randIndexPiece = idLevel==0?new Stack<int>(Enumerable.Range(0, listSamples.Count).ToArray()) : RandomStackInt(0, listSamples.Count);
 
         if (curLevelData != null)

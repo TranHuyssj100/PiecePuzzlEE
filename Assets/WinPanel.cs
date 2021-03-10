@@ -20,11 +20,11 @@ public class WinPanel : MonoBehaviour
     {
 
     }
-    public void SetImageReview( )
+    public void SetImageReview()
     {
         int _level = LevelController.idLevel;
         Debug.Log(_level);
-        img.sprite = LevelController.LoadSpritePreview(_level,DataController.themeData[GameData.Theme].name, LevelController.instance.sizeLevel);
+        img.sprite = DataController.LoadSpritePreview(TestLevelCtr.instance.idTheme, TestLevelCtr.instance.idLevel, TestLevelCtr.instance.sizeLevel);
     }
 
 }

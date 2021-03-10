@@ -1,31 +1,33 @@
 ﻿using DG.Tweening;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Serialization;
 using UnityEngine;
 
 public class TestLevelCtr : MonoBehaviour
 {
+    [Header("CUSTOM LEVEL")]
+    public int idLevel;
+    public int idTheme;
+    public int sizeLevel;
+    public float difficultParam;
+    [Space(5f)]
+    public Transform gridBroad;
+    public GameObject allPieces;
+    public LevelData curLevelData;
+    public List<GameObject> listPieces = new List<GameObject>();
+    public List<Object> listTest = new List<Object>();
+    public GameObject[] point;
+    public  Grid[] availableSpace;
+
     [System.Serializable]
     public struct Grid
     {
         public Vector2 position;
         public bool available;
     }
-
-    [Header("CUSTOM LEVEL")]
-    public List<GameObject> listPieces = new List<GameObject>();
-    public  Grid[] availableSpace;
-    public GameObject allPieces;
-    public GameObject[] point;
-    public int size;
-    public float difficultParam;
-    [Space(10)]
     public static TestLevelCtr instance;
 
-
+    [SerializeField]
     int numPiecesWrong;
     int numMove;
     Stack<int> sequenceIndex;
@@ -44,7 +46,7 @@ public class TestLevelCtr : MonoBehaviour
     private void Start()
     {
        
-        IntializeGame();
+        //IntializeGame(idTheme, idLevel);
         instance = this;
        
     }
@@ -59,9 +61,9 @@ public class TestLevelCtr : MonoBehaviour
     public void CreateAvailableSpaceList()
     {
         int index = 0;
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < sizeLevel; i++)
         {
-            for (int j = 0; j > -size; j--)
+            for (int j = 0; j > -sizeLevel; j--)
             {
                 availableSpace[index].position = new Vector2(i, j);
                 availableSpace[index].available = true;
@@ -70,7 +72,7 @@ public class TestLevelCtr : MonoBehaviour
         }
     }
 
-    public void SpawnPiece(int index)
+    public void SpawnPiece(int index, bool autoCorrect)
     {
 
         if (sequenceIndex.Count > 0)
@@ -79,19 +81,27 @@ public class TestLevelCtr : MonoBehaviour
             GameObject randomPiece = listPieces[randomIndex];
             //listPieces.Remove(randomPiece);
             GameObject pieceClone = GameObject.Instantiate(randomPiece, allPieces.transform);
-            pieceClone.transform.localScale = Vector3.one * .5f;
-            pieceClone.transform.position = point[index].transform.position;
-            pieceClone.GetComponent<Piece>().startPointIndex = index;
-  
+            if (autoCorrect)
+            {
+                SetCorrectPiecePos(pieceClone, 0);
+            }
+            else
+            {
+                if (index > 2)index = 0;
+                Debug.LogError("index: " + index);
+                pieceClone.transform.position = point[index].transform.position;
+                pieceClone.transform.localScale = Vector3.one * .5f;
+                pieceClone.GetComponent<Piece>().startPointIndex = index;
+                Vector3 offset = Vector3.zero;
+                foreach (Transform grid in pieceClone.transform)
+                {
+                    offset += grid.position;
+                }
+                offset /= pieceClone.transform.childCount;
+                offset = (pieceClone.transform.position - offset)/* * pieceClone.transform.localScale.x*/;
+                pieceClone.transform.position += offset;
+            } 
             //Debug.LogError(_pointSpawn);
-            //Vector3 offset = Vector3.zero;
-            //foreach(Transform grid in pieceClone.transform)
-            //{
-            //    offset += grid.position;
-            //}
-            //offset /= pieceClone.transform.childCount;
-            //offset = (pieceClone.transform.position - offset)/* * pieceClone.transform.localScale.x*/;
-            //pieceClone.transform.position += offset;
         }
     }
 
@@ -116,23 +126,87 @@ public class TestLevelCtr : MonoBehaviour
         _piece.GetComponent<Piece>().AutoCorrectPiece(_piece.GetComponent<Piece>().startPointIndex, _duration);
     }
 
-    public void IntializeGame()
+    public void InitalizeGame(int _idTheme, int _idLevel)
     {
-        sequenceIndex = new Stack<int>(Enumerable.Range(0, listPieces.Count).ToArray());
+        EventManager.TriggerEvent("DestroyPiece");
 
-        availableSpace = new Grid[size * size];
-        CreateAvailableSpaceList();
+        idLevel = _idLevel;
+        idTheme = _idTheme;
 
-
-        for (int i=0; i<3; i++)
+        if (_idLevel <= DataController.themeData[idTheme].levelCount)
         {
-            SpawnPiece(i);
+            
+            //GameData.SetCurrentLevelByTheme(idTheme,idLevel);
+            curLevelData = DataController.LoadLevelData(idTheme, idLevel);
         }
+        else
+        {
+            curLevelData = DataController.LoadLevelData(idTheme, idLevel);
+            //GameData.SetCurrentLevelByTheme(GameData.Theme, level);
+            //    curLevelData = curThemeData.groupLevel[curThemeData.groupLevel.Length-1];
+        }
+
+        listPieces.Clear();
+        listPieces = DataController.LoadPiece(idTheme, idLevel);
+        sizeLevel = DataController.themeData[idTheme].size;
         numPiecesWrong = listPieces.Count;
         numMove = Mathf.RoundToInt(listPieces.Count + 0.5f * 1 / difficultParam * listPieces.Count * 1);
+
+        SetCamPosition(sizeLevel);
+
+        availableSpace = new Grid[sizeLevel * sizeLevel];
+        sequenceIndex = new Stack<int>(Enumerable.Range(0, listPieces.Count).ToArray());
+        sequenceIndex = SwapValuetoTopStack(sequenceIndex, curLevelData.pieceDefault);
+        CreateAvailableSpaceList();
+
+        SpawnPiece(0, true);
+        for (int i = 1; i < 3; i++)
+        {
+            SpawnPiece(i, false);
+        }
         Debug.LogError(numPiecesWrong);
         Debug.LogError(numMove);
     }
 
+    public static Stack<int> SwapValuetoTopStack(Stack<int> _stack, int _value)
+    {
+       
+        List<int> _temp = _stack.ToList();
+        _temp.Remove(_value);
+        _temp.Add(_value);
+        return new Stack<int>(_temp);
+    }
+
+    void SetCamPosition(int _sizeLevel)
+    {
+        ActiveGridBoardforEachSize(_sizeLevel);
+        switch (_sizeLevel)
+        {
+            case 5:
+                Camera.main.transform.position = new Vector3(Config.POSITION_5x5.x, Config.POSITION_5x5.y, -10);
+                Camera.main.orthographicSize = Config.POSITION_5x5.z;
+                break;
+            case 6:
+                Camera.main.transform.position = new Vector3(Config.POSITION_6x6.x, Config.POSITION_6x6.y, -10);
+                Camera.main.orthographicSize = Config.POSITION_6x6.z;
+                break;
+        }
+    }
+
+    void ActiveGridBoardforEachSize(int _sizeLevel)
+    {
+        for (int i = 5; i < gridBroad.childCount + 5; i++)
+        {
+            if (i == sizeLevel)
+            {
+                gridBroad.GetChild(i - 5).gameObject.SetActive(true);
+            }
+            else
+            {
+                gridBroad.GetChild(i - 5).gameObject.SetActive(false);
+
+            }
+        }
+    }
 
 }

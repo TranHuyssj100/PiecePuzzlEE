@@ -54,18 +54,18 @@ public class Piece : MonoBehaviour
 
         canSetPosition = true;
 
-        Vector3 offset = Vector3.zero;
-        foreach (Transform grid in transform)
-        {
-            offset += grid.position;
-        }
-        offset /=transform.childCount;
-        offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
-        transform.position += offset;
-        startPosition = transform.position;
+        //Vector3 offset = Vector3.zero;
+        //foreach (Transform grid in transform)
+        //{
+        //    offset += grid.position;
+        //}
+        //offset /=transform.childCount;
+        //offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
+        //transform.position += offset;
 
-        transform.localScale = Vector3.zero;
-        transform.DOScale(Vector3.one * .5f, 0.2f);
+        //transform.localScale = Vector3.zero;
+        //transform.DOScale(Vector3.one * .5f, 0.2f);
+        startPosition = transform.position;
 
     }
 
@@ -236,7 +236,7 @@ public class Piece : MonoBehaviour
         {
                 isCorrect = true;
                 TestLevelCtr.instance.NUM_PIECES_WORNG--;
-                TestLevelCtr.instance.SpawnPiece(startPointIndex);
+                TestLevelCtr.instance.SpawnPiece(startPointIndex,false);
                 Collider2D[] colliders = GetComponents<Collider2D>();
                 foreach (Collider2D collider in colliders)
                     Destroy(collider);
@@ -301,7 +301,7 @@ public class Piece : MonoBehaviour
         isCorrect = true;
         startPointIndex =  _startPos;
         TestLevelCtr.instance.NUM_PIECES_WORNG--;
-        TestLevelCtr.instance.SpawnPiece(_startPos);
+        TestLevelCtr.instance.SpawnPiece(_startPos,false);
 
 
         transform.DOLocalMove(Vector3.zero, _duration);

@@ -37,7 +37,7 @@ public class AnswerBuilderEditor : Editor
         }
         if (GUILayout.Button("Check"))
         {
-            answerBuilder.CheckAnswer();
+            //answerBuilder.CheckAnswer();
         }
         GUILayout.EndHorizontal();
         if (GUILayout.Button("Clear"))
@@ -54,11 +54,11 @@ public class AnswerBuilderEditor : Editor
         //GUILayout.BeginHorizontal();
         if (GUILayout.Button("Create"))
         {
-            answerBuilder.CreateJson(false);
+            //answerBuilder.CreateJson(false);
         }
         if(GUILayout.Button("Update"))
         {
-            answerBuilder.CreateJson(true);
+            //answerBuilder.CreateJson(true);
         }
         //GUILayout.EndHorizontal();
         GUILayout.EndVertical();

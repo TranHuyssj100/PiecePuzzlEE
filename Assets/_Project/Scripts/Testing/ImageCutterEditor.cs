@@ -9,13 +9,21 @@ public class ImageCutterEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        base.OnInspectorGUI();
-
+        //base.OnInspectorGUI();
+        serializedObject.Update();
         ImageCutter image = (ImageCutter)target;
-        if (GUILayout.Button("Clear Sprite"))
+
+        GUILayout.Label("SPRITE CUSTOMIZE", EditorStyles.boldLabel);
+        GUILayout.BeginVertical();
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("sprite"));
+        if (GUILayout.Button("CLEAR"))
         {
             image.ClearSprite();
         }
+        GUILayout.EndVertical();
+        GUILayout.Space(10f);
+
+        GUILayout.Label("PREFAP CREATER", EditorStyles.boldLabel);
         GUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("Path", GUILayout.MaxWidth(40));
         image.path = EditorGUILayout.TextField(image.path);
@@ -28,26 +36,32 @@ public class ImageCutterEditor : Editor
         //    image.CreateFolder();
         //}
         GUILayout.EndHorizontal();
+        GUILayout.Space(5f);
+
         GUILayout.BeginHorizontal();
-        if (GUILayout.Button("SpawnGO"))
+        if (GUILayout.Button("SPAWN"))
         {
             image.SpawnGObj();
         }
-        if (GUILayout.Button("Delete"))
+        if (GUILayout.Button("DELETE"))
         {
             image.RemoveAllGObj();
         }
         GUILayout.EndHorizontal();
-        GUILayout.BeginHorizontal();
-        if (GUILayout.Button("Save Preset"))
+        GUILayout.Space(10f);
+
+        GUILayout.Label("SAMPLE CREATER", EditorStyles.boldLabel);
+        GUILayout.BeginVertical();
+        if (GUILayout.Button("SAVE"))
         {
             image.SavePresetToJson();
         }
-        if (GUILayout.Button("Cut With Preset"))
+        if (GUILayout.Button("CUT BY SAMPLE"))
         {
             image.CutImageWithPreset();
         }
-        GUILayout.EndHorizontal();
+        GUILayout.EndVertical();
+        serializedObject.ApplyModifiedProperties();
     }
 
 
