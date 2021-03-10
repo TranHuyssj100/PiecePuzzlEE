@@ -45,9 +45,9 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
         //    instance = this;
         //DontDestroyOnLoad(this);
 #if UNITY_ANDROID
-        rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
-        interstitialAdUnitId = "ca-app-pub-3940256099942544/8691691433";
-        bannerAdUnitId = "ca-app-pub-3940256099942544/6300978111";
+        rewardedAdUnitId = "ca-app-pub-9179752697212712/9650286780";
+        interstitialAdUnitId = "ca-app-pub-9179752697212712/7215695137";
+        bannerAdUnitId = "ca-app-pub-9179752697212712/2320437582";
 #elif UNITY_IOS
             //rewardedAdUnitId = "ca-app-pub-9179752697212712/7094033959";
             //interstitialAdUnitId = "ca-app-pub-9179752697212712/7828686655";
@@ -149,8 +149,24 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
     #region banner
     void loadBannerAds()
     {
+    //    AdRequest request = new AdRequest.Builder().Build();
+    //    bannerView = new BannerView(bannerAdUnitId, AdSize.Banner, AdPosition.Bottom);
+#if UNITY_ANDROID
+        string adUnitId = bannerAdUnitId;
+#elif UNITY_IPHONE
+            string adUnitId = "ca-app-pub-3940256099942544/2934735716";
+#else
+            string adUnitId = "unexpected_platform";
+#endif
+
+        // Create a 320x50 banner at the top of the screen.
+        this.bannerView = new BannerView(adUnitId, AdSize.Banner, AdPosition.Bottom);
+
+        // Create an empty ad request.
         AdRequest request = new AdRequest.Builder().Build();
-        bannerView = new BannerView(bannerAdUnitId, AdSize.Banner, AdPosition.Bottom);
+
+        // Load the banner with the request.
+        this.bannerView.LoadAd(request);
     }
     #endregion
     //--------------------------------------------------------------------------------------------------------

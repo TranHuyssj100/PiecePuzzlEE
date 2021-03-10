@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if UNITY_EDITOR
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,11 +9,14 @@ public class ImageCutter : MonoBehaviour
 {
     public Sprite[] sprite;
     private GameObject[] all;
-    [HideInInspector] public string path = "Assets/_Project/Testing/";
+    [HideInInspector] public string path;
+    [HideInInspector] public string theme;
+    int levelIndex;
     // Start is called before the first frame update
     void Start()
     {
         selectedPieces = new List<GameObject>();
+        answerPreset = new List<AnswerPreset>();
     }
 
     // Update is called once per frame
@@ -23,9 +27,17 @@ public class ImageCutter : MonoBehaviour
             SaveSelectedAsPrefab();
     }
 
+    public void ClearSprite()
+    {
+        sprite = new Sprite[0];
+    }
+
     public void SpawnGObj()
     {
         index = 0;
+        selectedPieces.Clear();
+        answerPreset.Clear();
+        levelIndex = GetLevelIndexByTheme();
         Vector2 origin = Vector2.zero;
         int incrementX = 0;
         int incrementY = 0;
@@ -39,6 +51,7 @@ public class ImageCutter : MonoBehaviour
             GO.AddComponent<SpriteRenderer>().sprite = sprite[i];
             GO.GetComponent<SpriteRenderer>().sortingLayerName = "Piece";
             GO.GetComponent<SpriteRenderer>().sortingOrder = 1;
+            GO.name = i.ToString();
             if (i % size == 0)
             {
                 incrementX = 0;
@@ -76,45 +89,111 @@ public class ImageCutter : MonoBehaviour
         }
     }
     private int index;
+    private List<AnswerPreset> answerPreset;
+
     public void SaveSelectedAsPrefab()
     {
         GameObject sprite = new GameObject();
         //Vector3 meanPos = Vector2.zero;
-        string savePath = path + "/" + index + ".prefab";
+        string savePath = path + theme + "/" + levelIndex + "/" + index + ".prefab";
+        Debug.Log(savePath);
         //foreach (GameObject piece in selectedPieces)
         //    meanPos += piece.transform.position;
         //meanPos /= selectedPieces.Count;
         //gObject.transform.position = meanPos;
         sprite.transform.parent = transform;
         sprite.transform.localPosition = Vector3.zero;
-        sprite.name = "Sprite";
-        sprite.AddComponent<Piece>();
-        foreach (GameObject piece in selectedPieces)
+        answerPreset.Add(new AnswerPreset()
+        {
+            blockIndex = index,
+            gridIndex = new List<int>()
+        });
+        foreach (GameObject grid in selectedPieces)
         {
             GameObject shadow = new GameObject();
-            piece.transform.parent = sprite.transform;
-            piece.GetComponent<SpriteRenderer>().color = Color.white;
-            shadow.transform.parent = piece.transform;
+            answerPreset[index].gridIndex.Add(int.Parse(grid.name));
+            grid.transform.parent = sprite.transform;
+            grid.GetComponent<SpriteRenderer>().color = Color.white;
+            shadow.transform.parent = grid.transform;
             shadow.name = "Shadow";
             shadow.transform.localPosition = Vector3.zero + new Vector3(.1f,-.1f);
-            shadow.AddComponent<SpriteRenderer>().sprite = piece.GetComponent<SpriteRenderer>().sprite;
+            shadow.AddComponent<SpriteRenderer>().sprite = grid.GetComponent<SpriteRenderer>().sprite;
             shadow.GetComponent<SpriteRenderer>().color = new Color(0,0,0,.7f);
             shadow.GetComponent<SpriteRenderer>().sortingLayerName = "Piece";
             shadow.GetComponent<SpriteRenderer>().sortingOrder = 0;
-            DestroyImmediate(piece.GetComponent<BoxCollider2D>());
-            sprite.AddComponent<BoxCollider2D>().offset = piece.transform.localPosition;
+            DestroyImmediate(grid.GetComponent<BoxCollider2D>());
+            sprite.AddComponent<BoxCollider2D>().offset = grid.transform.localPosition;
         }
         sprite.name = index++.ToString();
+        sprite.AddComponent<Piece>();
 #if UNITY_EDITOR
+        if (!System.IO.Directory.Exists(path + theme + "/" + levelIndex))
+            System.IO.Directory.CreateDirectory(path + theme + "/" + levelIndex);
         UnityEditor.PrefabUtility.SaveAsPrefabAsset(sprite, savePath);
 #endif
         selectedPieces.Clear();
         DestroyImmediate(sprite);
+    }
 
+    public void CutImageWithPreset()
+    {
+        index = 0;
+        answerPreset = DataController.ReadAnswerPreset((int)Mathf.Sqrt(sprite.Length));
+        for (int i = 0; i < answerPreset.Count; i++)
+        {
+            GameObject sprite = new GameObject();
+            string savePath = path + theme + "/" + levelIndex + "/" + index + ".prefab";
+            sprite.transform.parent = transform;
+            sprite.transform.localPosition = Vector3.zero;
+            for(int j = 0; j < answerPreset[i].gridIndex.Count;j++)
+            {
+                GameObject shadow = new GameObject();
+                GameObject grid = transform.Find(answerPreset[i].gridIndex[j].ToString()).gameObject;
+                grid.transform.parent = sprite.transform;
+                grid.GetComponent<SpriteRenderer>().color = Color.white;
+                shadow.transform.parent = grid.transform;
+                shadow.name = "Shadow";
+                shadow.transform.localPosition = Vector3.zero + new Vector3(.1f, -.1f);
+                shadow.AddComponent<SpriteRenderer>().sprite = grid.GetComponent<SpriteRenderer>().sprite;
+                shadow.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, .7f);
+                shadow.GetComponent<SpriteRenderer>().sortingLayerName = "Piece";
+                shadow.GetComponent<SpriteRenderer>().sortingOrder = 0;
+                DestroyImmediate(grid.GetComponent<BoxCollider2D>());
+                sprite.AddComponent<BoxCollider2D>().offset = grid.transform.localPosition;
+            }
+            sprite.name = index++.ToString();
+            sprite.AddComponent<Piece>();
+#if UNITY_EDITOR
+            if (!System.IO.Directory.Exists(path + theme + "/" + levelIndex))
+                System.IO.Directory.CreateDirectory(path + theme + "/" + levelIndex);
+            UnityEditor.PrefabUtility.SaveAsPrefabAsset(sprite, savePath);
+#endif
+            selectedPieces.Clear();
+            DestroyImmediate(sprite);
+        }
+    }
+
+    public void SavePresetToJson()
+    {
+        DataController.SaveAnswerPreset(answerPreset, (int)Mathf.Sqrt(sprite.Length));
     }
 
     public void CreateFolder()
     {
-        System.IO.Directory.CreateDirectory(path);
+        System.IO.Directory.CreateDirectory(path + theme + "/");
+    }
+    public int GetLevelIndexByTheme()
+    {
+        if (!System.IO.Directory.Exists(path + theme + "/"))
+            System.IO.Directory.CreateDirectory(path + theme + "/");
+        return System.IO.Directory.GetFiles(path + theme +"/").Length;
+    }
+
+    [System.Serializable]
+    public struct AnswerPreset
+    {
+        public int blockIndex;
+        public List<int> gridIndex;
     }
 }
+#endif

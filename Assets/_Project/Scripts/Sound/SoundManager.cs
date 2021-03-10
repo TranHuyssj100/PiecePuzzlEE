@@ -6,6 +6,12 @@ using UnityEngine;
 [System.Serializable]
 public class SoundManager : MonoBehaviour
 {
+    [Space(10)]
+    [Header("SoundButton")]
+    public Sprite[] SFX;
+    public Sprite[] BGM;
+    public UnityEngine.UI.Button Btn_SFX;
+    public UnityEngine.UI.Button Btn_BGM;
     public List<ObjectSound> listObject= new List<ObjectSound>();
     public static SoundManager instance;
    
@@ -20,12 +26,14 @@ public class SoundManager : MonoBehaviour
     }
     private void Start()
     {
-        Play(TypeSFX.BGM, "BGM");
+        PlayBGM(TypeSFX.BGM, "BGM");
+        //Btn_BGM.GetComponent<UnityEngine.UI.Image>().sprite = BGM[GameData.isBGM];
+        //Btn_SFX.GetComponent<UnityEngine.UI.Image>().sprite = SFX[GameData.isSFX];
     }
     
-    public void Play(TypeSFX _type, string _name)
+    public void PlayBGM(TypeSFX _type, string _name)
     {
-        if (GameData.isSound == 1)
+        if (GameData.isBGM == 1)
         {
             //Debug.Log("PLAY SFX");
             ObjectSound _objectSound= listObject.Find(x => (x.type == _type));
@@ -41,7 +49,7 @@ public class SoundManager : MonoBehaviour
     }
     public void PlayRandom(TypeSFX _type)
     {
-        if (GameData.isSound == 1)
+        if (GameData.isSFX == 1)
         {
             ObjectSound obj = listObject.Find(x => (x.type == _type));
             if (obj != null)
@@ -53,18 +61,21 @@ public class SoundManager : MonoBehaviour
     }
     public void playSequential(TypeSFX _type)
     {
-        ObjectSound _objectSound = listObject.Find(x => (x.type == _type));
-        int _index = PlayerPrefs.GetInt(_type.ToString(), 0);
-        //Debug.LogError(_index);
-        if (_objectSound != null)
+        if (GameData.isSFX == 1)
         {
-            if (_index >=_objectSound.track.Count) PlayerPrefs.SetInt(_type.ToString(), _index=0);
-            Sound _sound = _objectSound.track[_index];
-            if (_sound != null && !_sound.source.isPlaying)
+            ObjectSound _objectSound = listObject.Find(x => (x.type == _type));
+            int _index = PlayerPrefs.GetInt(_type.ToString(), 0);
+            //Debug.LogError(_index);
+            if (_objectSound != null)
             {
-                _sound.source.PlayOneShot(_sound.source.clip);
-                //Debug.LogError(_sound.name);
-                PlayerPrefs.SetInt(_type.ToString(), ++_index);
+                if (_index >= _objectSound.track.Count) PlayerPrefs.SetInt(_type.ToString(), _index = 0);
+                Sound _sound = _objectSound.track[_index];
+                if (_sound != null && !_sound.source.isPlaying)
+                {
+                    _sound.source.PlayOneShot(_sound.source.clip);
+                    //Debug.LogError(_sound.name);
+                    PlayerPrefs.SetInt(_type.ToString(), ++_index);
+                }
             }
         }
     }
@@ -73,14 +84,14 @@ public class SoundManager : MonoBehaviour
          PlayerPrefs.SetInt(_type.ToString(), 0);
     }
     public void Stop(TypeSFX _type, string _name)
-    {   
-        if (GameData.isSound == 1)
-        {
+    {
+        //if (GameData.isSFX == 1)
+        //{
             ObjectSound _objectSound= listObject.Find(x => (x.type == _type));
             Sound _sound = _objectSound.track.Find(y => (y.name == _name));
             if(_sound!=null)
                 _sound.source.Stop();
-        }
+        //}
     }
     public void MuteAll()
     {

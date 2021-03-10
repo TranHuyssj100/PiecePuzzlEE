@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using System.Collections;
 using System.IO;
+using UnityEngine.U2D;
 
 public class LevelController : MonoBehaviour
 {
@@ -33,6 +34,7 @@ public class LevelController : MonoBehaviour
     int numMove;
     LevelData curLevelData;
     GameObject allPieces;
+
 
     public int NUM_PIECES_WORNG
     {
@@ -111,7 +113,8 @@ public class LevelController : MonoBehaviour
 
     public GameObject SpawnRadomPieces(Vector3 _pointSpawn)
     {
-        //Debug.LogError(_pointSpawn);
+
+
         if (randIndexPiece.Count > 0)
         {
             int _randIndex = randIndexPiece.Pop();
@@ -173,6 +176,11 @@ public class LevelController : MonoBehaviour
 
         listAnswerForSample = CreateAnswerForSample(new Queue<int>(curSampleAnswer.answers));
         randIndexPiece = idLevel==0?new Stack<int>(Enumerable.Range(0, listSamples.Count).ToArray()) : RandomStackInt(0, listSamples.Count);
+
+        if (curLevelData != null)
+        {
+            randIndexPiece = SwapValuetoTopStack(randIndexPiece, curLevelData.pieceDefault);
+        }
         SetCorrectPiecePos(SpawnRadomPieces(points[0].position),points[0].position,0);
         for (int i=1; i < 3; i++)
         {
@@ -185,17 +193,25 @@ public class LevelController : MonoBehaviour
     
     public Stack<int> RandomStackInt( int _min, int _max)
     {
-        Stack<int> _randIntStack = new Stack<int>();
-        while (_randIntStack.Count < _max)
-        {
-            int _randInt = Random.Range(_min, _max);
-            if (!_randIntStack.Contains(_randInt))
-            {
-                //Debug.Log(_randInt);
-                _randIntStack.Push(_randInt);
-            }
-        }
+        int[] intArray = Enumerable.Range(_min, _max).ToArray();
+        Stack<int> _randIntStack = new Stack<int>(intArray);
+        //while (_randIntStack.Count < _max)
+        //{
+        //    int _randInt = Random.Range(_min, _max);
+        //    if (!_randIntStack.Contains(_randInt))
+        //    {
+        //        //Debug.Log(_randInt);
+        //        _randIntStack.Push(_randInt);
+        //    }
+        //} 
         return _randIntStack;
+    }
+    public static Stack<int> SwapValuetoTopStack( Stack<int> _stack, int _value)
+    {
+        List<int> _temp = _stack.ToList();  
+        _temp.Remove(_value);
+        _temp.Add(_value);      
+        return new Stack<int>(_temp);
     }
 
     public List<Vector3> CreateAnswerForSample(Queue<int>_answers)
@@ -315,7 +331,7 @@ public class LevelController : MonoBehaviour
             }
             if (_aniPiece != null)
             {
-               GameObject _tutAnimtion= GameObject.Instantiate(tutorialAnim, _aniPiece.transform);
+                GameObject _tutAnimtion= GameObject.Instantiate(tutorialAnim, _aniPiece.transform);
                 _tutAnimtion.transform.SetAsFirstSibling();
                 _aniPiece.isPieceTutorial = true;
                

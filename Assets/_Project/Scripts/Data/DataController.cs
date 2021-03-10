@@ -104,6 +104,46 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
         return JsonHelper.FromJson<SampleAnswer>(loadString)[0];
     }
 
+#if UNITY_EDITOR
+    static string AnswerPresetPath = "Assets/_Project/Testing/AnswerPreset/";
+    public static void SaveAnswerPreset(List<ImageCutter.AnswerPreset> _answerPreset,int _size)
+    {
+        string _strData;
+        string size;
+        size = _size + "x" + _size;
+        _strData = "[";
+        for (int i = 0; i< _answerPreset.Count;i++)
+        {
+            ImageCutter.AnswerPreset block = new ImageCutter.AnswerPreset
+            {
+                gridIndex = _answerPreset[i].gridIndex,
+                blockIndex = _answerPreset[i].blockIndex
+            };
+            _strData += (i!=0?"\n":"") + JsonUtility.ToJson(block, true);
+            if (i == _answerPreset.Count - 1)
+                break;
+            _strData += ",";
+        }
+        _strData += "]";
+        Debug.Log(_strData);
+        File.WriteAllText(Path.Combine(AnswerPresetPath + size, Directory.GetFiles(AnswerPresetPath + size).Length / 2 + JsonSuffix), _strData);
+    }
+    public static List<ImageCutter.AnswerPreset> ReadAnswerPreset(int _size)
+    {
+        string loadString;
+        string size;
+        size = _size + "x" + _size;
+        List<ImageCutter.AnswerPreset> answerPreset = new List<ImageCutter.AnswerPreset>();
+        int randomPreset = Random.Range(0, Directory.GetFiles(AnswerPresetPath + size).Length / 2);
+        loadString = File.ReadAllText(Path.Combine(AnswerPresetPath + size, randomPreset + JsonSuffix));
+        foreach(ImageCutter.AnswerPreset answer in JsonHelper.FromJson<ImageCutter.AnswerPreset>(loadString))
+        {
+            answerPreset.Add(answer);
+        }
+        return answerPreset;
+    }
+#endif
+
     //public static int GetThemeLevelCount(ThemeName themeName,int size)
     //{
     //    //DirectoryInfo dir = new DirectoryInfo("Assets/_Project/Resources/Themes/" + themeName.ToString() + "/" + +size + "x" + size);
@@ -153,7 +193,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
 
 
 
-#region JSONHELPER
+    #region JSONHELPER
     //----------------------------JsonHelp---------DONT TOUCH------------------
     public static class JsonHelper
     {
@@ -202,6 +242,7 @@ public class LevelData
     public int idLevel;
     public int idTheme;
     public int sampleIndex;
+    public int pieceDefault;
 }
 
 [System.Serializable]

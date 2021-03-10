@@ -4,7 +4,8 @@ public static class GameData
 {
     private static int THEME;
     private static int LEVEL;
-    private static int IS_SOUND;
+    private static int IS_BGM;
+    private static int IS_SFX;
     private static int GOLD;
     private static int NO_ADS;
 
@@ -12,7 +13,8 @@ public static class GameData
     {
         LEVEL= PlayerPrefs.GetInt("level", 0);
         THEME=PlayerPrefs.GetInt("theme", 0);
-        IS_SOUND = PlayerPrefs.GetInt("sound", 1);
+        IS_BGM = PlayerPrefs.GetInt("bgm", 1);
+        IS_SFX = PlayerPrefs.GetInt("sfx", 1);
         GOLD = PlayerPrefs.GetInt("gold", 300);
         NO_ADS = PlayerPrefs.GetInt("no_ads", 0);
 
@@ -30,11 +32,16 @@ public static class GameData
         get { return THEME; }
         set { PlayerPrefs.SetInt("theme", (THEME = value)); }
     }
-    public static int isSound
+    public static int isBGM
     {
-        get { return IS_SOUND; }
-        set { PlayerPrefs.SetInt("sound", (IS_SOUND = value)); }
-    }   
+        get { return IS_BGM; }
+        set { PlayerPrefs.SetInt("bgm", (IS_BGM = value)); }
+    }
+    public static int isSFX
+    {
+        get { return IS_SFX; }
+        set { PlayerPrefs.SetInt("sfx", (IS_SFX = value)); }
+    }
     public static int gold
     {
         get { return GOLD; }
