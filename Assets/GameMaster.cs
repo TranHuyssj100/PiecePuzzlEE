@@ -61,10 +61,10 @@ public class GameMaster : MonoBehaviour
 
     private void checkEndGame()
     {
-        Debug.LogError("NUM_PIECES_WORNG: " + TestLevelCtr.instance.NUM_PIECES_WORNG);
+        Debug.LogError("NUM_PIECES_WORNG: " + TestLevelCtr.instance.NUM_PIECES_WRONG);
         if (TestLevelCtr.instance.NUM_MOVE > 0)
         {
-            if (TestLevelCtr.instance.NUM_PIECES_WORNG <= 0)
+            if (TestLevelCtr.instance.NUM_PIECES_WRONG <= 0)
             {
                 WinPhase();
             }
@@ -72,7 +72,7 @@ public class GameMaster : MonoBehaviour
         else
         {
 
-            if (TestLevelCtr.instance.NUM_MOVE == 0 && TestLevelCtr.instance.NUM_PIECES_WORNG == 0)
+            if (TestLevelCtr.instance.NUM_MOVE == 0 && TestLevelCtr.instance.NUM_PIECES_WRONG == 0)
             {   
                 WinPhase();
             }
@@ -272,18 +272,16 @@ public class GameMaster : MonoBehaviour
     {
         if (GameData.gold >= Config.COST_HINT)
         {
-            PiecePlaced();
             GameData.gold -= Config.COST_HINT;
             Piece _piece = TestLevelCtr.instance.FindIncorrectPiece();
-            Debug.LogError(_piece);
             if (_piece!=null && !_piece.isCorrect)
             {
-                TestLevelCtr.instance.SetCorrectPiecePos(_piece.gameObject, 0.2f);
+                TestLevelCtr.instance.SetCorrectPiecePos(_piece.gameObject, 0.3f);
                 //LevelController.instance.SetCorrectPiecePos(_piece.gameObject, _piece.startPosition, 0.5f);
                 //if (_piece.isPieceTutorial) _piece.TutorialPieceOnMouseDown();
             }
         }
-        StartCoroutine(CorountineCheckPiece());
+        //StartCoroutine(CorountineCheckPiece());
     }   
 
     IEnumerator CorountineCheckPiece()
