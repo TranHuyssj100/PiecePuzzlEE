@@ -186,7 +186,7 @@ public class Piece : MonoBehaviour
     }
     bool CheckAvailableSpace(Vector2 space)
     {
-        //Debug.Log(space);
+        Debug.Log(space);
         if (space.x < 0 || space.x > (Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1) || space.y > 0 || space.y < -(Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1))
         {
             return false;
