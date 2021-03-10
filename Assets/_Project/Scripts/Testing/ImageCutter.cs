@@ -96,7 +96,6 @@ public class ImageCutter : MonoBehaviour
         GameObject sprite = new GameObject();
         //Vector3 meanPos = Vector2.zero;
         string savePath = path + theme + "/" + levelIndex + "/" + index + ".prefab";
-        Debug.Log(savePath);
         //foreach (GameObject piece in selectedPieces)
         //    meanPos += piece.transform.position;
         //meanPos /= selectedPieces.Count;

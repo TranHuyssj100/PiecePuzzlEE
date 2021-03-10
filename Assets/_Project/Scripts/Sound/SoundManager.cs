@@ -7,11 +7,6 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     [Space(10)]
-    [Header("SoundButton")]
-    public Sprite[] SFX;
-    public Sprite[] BGM;
-    public UnityEngine.UI.Button Btn_SFX;
-    public UnityEngine.UI.Button Btn_BGM;
     public List<ObjectSound> listObject= new List<ObjectSound>();
     public static SoundManager instance;
    
@@ -27,8 +22,6 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         PlayBGM(TypeSFX.BGM, "BGM");
-        Btn_BGM.GetComponent<UnityEngine.UI.Image>().sprite = BGM[GameData.isBGM];
-        Btn_SFX.GetComponent<UnityEngine.UI.Image>().sprite = SFX[GameData.isSFX];
     }
     
     public void PlayBGM(TypeSFX _type, string _name)

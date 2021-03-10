@@ -19,6 +19,12 @@ public class GameMaster : MonoBehaviour
     public TextMeshProUGUI moveTxt;
     public TextMeshProUGUI goldTxt;
 
+    [Space(10)]
+    [Header("Sound Buttons")]
+    public Sprite[] SFX;
+    public Sprite[] BGM;
+    public Button Btn_SFX;
+    public Button Btn_BGM;
 
 
 
@@ -46,6 +52,10 @@ public class GameMaster : MonoBehaviour
         menu.SetActive(true);
         AdManager.Instance.onRewardAdClosed += RewardAdClosed;
         onPiecePlace += OnPiecePlaced;
+
+        Btn_BGM.GetComponent<UnityEngine.UI.Image>().sprite = BGM[GameData.isBGM];
+        Btn_SFX.GetComponent<UnityEngine.UI.Image>().sprite = SFX[GameData.isSFX];
+
     }
 
     void FixedUpdate()
@@ -325,12 +335,12 @@ public class GameMaster : MonoBehaviour
     public void toggleSFX()
     {
         GameData.isSFX = GameData.isSFX == 0 ? 1 : 0;
-        SoundManager.instance.Btn_SFX.GetComponent<Image>().sprite = SoundManager.instance.SFX[GameData.isSFX];
+        Btn_SFX.GetComponent<Image>().sprite = SFX[GameData.isSFX];
     }
     public void toggleBGM()
     {
         GameData.isBGM = GameData.isBGM == 0 ? 1 : 0;
-        SoundManager.instance.Btn_BGM.GetComponent<Image>().sprite = SoundManager.instance.BGM[GameData.isBGM];
+        GetComponent<Image>().sprite = BGM[GameData.isBGM];
 
         if (GameData.isBGM == 0)
             SoundManager.instance.Stop(TypeSFX.BGM, "BGM");
