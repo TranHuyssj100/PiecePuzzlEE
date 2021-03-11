@@ -30,7 +30,7 @@ public class TestLevelCtr : MonoBehaviour
     [SerializeField]
     int numPiecesWrong;
     int numMove;
-    Stack<int> sequenceIndex;
+    Queue<int> sequenceIndex;
 
     public int NUM_PIECES_WRONG
     {
@@ -77,18 +77,20 @@ public class TestLevelCtr : MonoBehaviour
 
         if (sequenceIndex.Count > 0)
         {
-            int randomIndex = sequenceIndex.Pop();
+            int randomIndex = sequenceIndex.Dequeue();
             GameObject randomPiece = listPieces[randomIndex];
-            //listPieces.Remove(randomPiece);
             GameObject pieceClone = GameObject.Instantiate(randomPiece, allPieces.transform);
             if (autoCorrect)
             {
-                SetCorrectPiecePos(pieceClone, 0);
+                SetCorrectPiecePos(pieceClone, 0.3f);
+                foreach (Transform grid in pieceClone.transform)
+                {
+                    Debug.LogError(grid.position);
+                }
             }
             else
             {
-                if (index > 2)index = 0;
-                Debug.LogError("index: " + index);
+
                 pieceClone.transform.position = point[index].transform.position;
                 pieceClone.transform.localScale = Vector3.one * .5f;
                 pieceClone.GetComponent<Piece>().startPointIndex = index;
@@ -98,10 +100,10 @@ public class TestLevelCtr : MonoBehaviour
                     offset += grid.position;
                 }
                 offset /= pieceClone.transform.childCount;
-                offset = (pieceClone.transform.position - offset)/* * pieceClone.transform.localScale.x*/;
+                offset = (pieceClone.transform.position - offset);
                 pieceClone.transform.position += offset;
             } 
-            //Debug.LogError(_pointSpawn);
+
         }
     }
 
@@ -136,14 +138,12 @@ public class TestLevelCtr : MonoBehaviour
         if (_idLevel <= DataController.themeData[idTheme].levelCount)
         {
             
-            //GameData.SetCurrentLevelByTheme(idTheme,idLevel);
             curLevelData = DataController.LoadLevelData(idTheme, idLevel);
         }
         else
         {
-            curLevelData = DataController.LoadLevelData(idTheme, idLevel);
-            //GameData.SetCurrentLevelByTheme(GameData.Theme, level);
-            //    curLevelData = curThemeData.groupLevel[curThemeData.groupLevel.Length-1];
+            idLevel = DataController.themeData[idLevel].levelCount - 1;
+            curLevelData = DataController.LoadLevelData(_idTheme, _idLevel);           ;
         }
 
         listPieces.Clear();
@@ -155,8 +155,7 @@ public class TestLevelCtr : MonoBehaviour
         SetCamPosition(sizeLevel);
 
         availableSpace = new Grid[sizeLevel * sizeLevel];
-        sequenceIndex = new Stack<int>(Enumerable.Range(0, listPieces.Count).ToArray());
-        sequenceIndex = SwapValuetoTopStack(sequenceIndex, curLevelData.pieceDefault);
+        sequenceIndex = new Queue<int>(Enumerable.Range(0, listPieces.Count).ToArray());
         CreateAvailableSpaceList();
 
         SpawnPiece(0, true);

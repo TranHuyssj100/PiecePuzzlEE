@@ -82,10 +82,8 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
    public static List<GameObject> LoadPiece(int idTheme, int idLevel)
     {
         string loadString;
-#if UNITY_EDITOR
         loadString ="Themes/"+ themeData[idTheme].name + "/" + idLevel;
         Debug.LogError(loadString);
-#endif
         GameObject[] _result = Resources.LoadAll<GameObject>(loadString);
         Debug.LogError(_result.Length);
         return _result.ToList();
@@ -152,45 +150,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
     //    return Mathf.RoundToInt(dir.GetFiles().Length);
     //}
 
-    //public static List<string> GetAllTheme()
-    //{
-    //    //Debug.LogError(SAVETHEME);
-    //    DirectoryInfo dir = new DirectoryInfo(SAVETHEME);
-    //    FileInfo[] allFile = dir.GetFiles("*.json");
-    //    List<string> allFileName = new List<string>();
-    //    for (int i = 0; i < allFile.Length; i++)
-    //        allFileName.Add(Path.GetFileName(allFile[i].Name.Remove(allFile[i].Name.Length - 5, 5)));
-    //    return allFileName;
-    //    //return Mathf.RoundToInt(dir.GetFiles().Length/2);
-    //}
-    //void CreateDefaultLevelData()
-    //{
-    //    string _strData;
-    //    _strData = "[";
-    //    LevelData _levelData = new LevelData();
-    //    _levelData.index = 0;
-    //    _levelData.sampleIndex = 0;
-    //    _levelData.theme = ThemeType.Animal;
-    //    _strData += "\n" + JsonUtility.ToJson(_levelData, true);
-    //    _strData += "]";
-    //    Directory.CreateDirectory(SAVELEVEL);
-    //    File.WriteAllText(Path.Combine(SAVELEVEL, "0" + JsonSuffix), _strData);
-    //}
 
-    //void CreateSampleAnswer(int _index, int _numPiece, int [] _answer)
-    //{
-    //    string _strData;
-    //    _strData = "[";
-    //    SampleAnswer _sample = new SampleAnswer();
-    //    _sample.index = _index;
-    //    //_sample.numPiece = _numPiece;
-    //    _sample.answers = _answer;
-    //    _strData += "\n" + JsonUtility.ToJson(_sample, true);
-    //    _strData += "]";
-    //    Directory.CreateDirectory(SAVESAMPLE);
-    //    File.WriteAllText(Path.Combine(SAVESAMPLE, "0" + JsonSuffix), _strData);
-
-    //}
 
 
 

@@ -225,6 +225,7 @@ public class Piece : MonoBehaviour
         {
             for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
             {
+                Debug.LogError(grid.position);
                 if (Vector2.Distance(TestLevelCtr.instance.availableSpace[i].position,(Vector2)TestLevelCtr.instance.allPieces.transform.InverseTransformPoint((Vector2)grid.position)) < .1f)
                 {
                     TestLevelCtr.instance.availableSpace[i].available = false;
@@ -242,71 +243,17 @@ public class Piece : MonoBehaviour
                 foreach (Collider2D collider in colliders)
                     Destroy(collider);
         }
-        //TestLevelCtr.instance.availableSpaceList.Remove(TestLevelCtr.instance.allPiece.transform.InverseTransformPoint(grid.position));
-
-        //Vector3 _pos = new Vector3(Mathf.Clamp((Mathf.RoundToInt(transform.position.x)), limitPosX.x, limitPosX.y),
-        //                             Mathf.Clamp(Mathf.RoundToInt(transform.position.y), limitPosY.x, limitPosY.y),
-        //                             transform.position.z);
-
-        ////Debug.Log(_pos);
-        //if (_pos != oldPostionOnGridBoard || oldPostionOnGridBoard == Vector3.one * 10000)
-        //{
-        //    oldPostionOnGridBoard =_pos;
-        //    //LevelController.instance.NUM_MOVE--;
-        //}
-        //transform.DOMove(_pos, 0.2f).OnComplete(() =>
-        //                             {
-        //                                 isCorrect = new Vector3(id, transform.position.x, transform.position.y) == LevelController.instance.listAnswerForSample[id] ? true:false;
-        //                                if (isCorrect)
-        //                                { 
-        //                                    transform.GetChild(transform.childCount-1).localScale=Vector3.one;
-        //                                    transform.GetChild(transform.childCount - 1).localPosition = Vector2.zero;
-        //                                    LevelController.instance.SpawnRadomPieces(startPosition);
-        //                                    SoundManager.instance.playSequential(TypeSFX.True);
-        //                                    LevelController.instance.NUM_PIECES_WORNG--;
-        //                                     //Debug.Log(id + "<color=green> is Correctly </color>," + "numMove "+ LevelController.instance.NUM_MOVE);
-        //                                 }
-        //                                else
-        //                                {
-        //                                    SoundManager.instance.ClearIndexSquential(TypeSFX.True);
-        //                                    SoundManager.instance.PlayRandom(TypeSFX.Wrong);
-        //                                    EventManager.TriggerEvent("CheckTriggerPiece");
-        //                                 }
-        //                                 //Debug.LogError(LevelController.instance.NUM_PIECES_WORNG);
-
-        //                             });
+     
     }
 
-    //public void AutoCorrectPiece(Vector2 _correctPos,Vector2 _startPos , float _duration)
-    //{
-    //    FirebaseManager.instance.LogAutoCorrectHint();
-    //    startPosition = _startPos;
-    //    Transform _sprite = transform.GetChild(transform.childCount - 1);
-    //    Transform _shadow = transform.Find("Shadow");
-    //    LevelController.instance.NUM_PIECES_WORNG--;
-
-    //    isCorrect = true;
-    //    isOnPreSpace = false;
-    //    transform.localScale = Vector2.one;
-    //    _sprite.localScale  = Vector2.one;
-    //    _sprite.localPosition = Vector2.zero;    
-    //    _shadow.localScale  = Vector2.one;
-    //    _shadow.localPosition = Vector2.zero;
-
-    //    transform.DOMove(_correctPos, _duration);
-    //    LevelController.instance.SpawnRadomPieces(startPosition);   
-    //} 
     public void AutoCorrectPiece(int _startPos, float _duration)
     {
         OnPieceSelect();
         FirebaseManager.instance.LogAutoCorrectHint();
         isCorrect = true;
-        startPointIndex =  _startPos;
-        TestLevelCtr.instance.NUM_PIECES_WRONG--;
-        TestLevelCtr.instance.SpawnPiece(_startPos,false);
-
-
-
+        //startPointIndex =  _startPos;
+        //TestLevelCtr.instance.NUM_PIECES_WRONG--;
+        ////TestLevelCtr.instance.SpawnPiece(_startPos,false);
         transform.DOLocalMove(Vector3.zero, _duration).OnStart(() => CheckAutoCorrect())
                                                       .OnComplete(() => SetPositionPiece(true));
         transform.DOScale(Vector3.one, _duration);
