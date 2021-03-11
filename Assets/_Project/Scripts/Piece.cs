@@ -185,6 +185,8 @@ public class Piece : MonoBehaviour
         if (_sprite != null)
         {
             _sprite.localPosition = Vector2.zero;
+            _sprite.localScale = isOnPreSpace ? Vector2.one * 0.8f : Vector2.one;
+            _shadown.localScale = isOnPreSpace ? Vector2.one * 0.8f : Vector2.one;
             transform.DOComplete();
             Sequence _seq = DOTween.Sequence();
             _seq.Append(transform.DOScale(Vector3.one, .1f))
@@ -192,8 +194,7 @@ public class Piece : MonoBehaviour
                 _sprite.GetComponent<SpriteRenderer>().sortingOrder--;
                 _shadown.GetComponent<SpriteRenderer>().sortingOrder--;
                 });
-                _sprite.localScale = isOnPreSpace ? Vector2.one * 0.8f : Vector2.one;
-                _shadown.localScale = isOnPreSpace ? Vector2.one * 0.8f : Vector2.one;
+              
         }
     }
     void SetPositionPiece()

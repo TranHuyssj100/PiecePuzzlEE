@@ -1,11 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
-using DG.Tweening;
 using System.Collections;
-using System.IO;
-using UnityEngine.U2D;
 
 public class LevelController : MonoBehaviour
 {
