@@ -58,6 +58,11 @@ public class GameMaster : MonoBehaviour
 
     }
 
+    private void OnDestroy()
+    {
+        AdManager.Instance.onRewardAdClosed -= RewardAdClosed;
+    }
+
     void FixedUpdate()
     {
 
