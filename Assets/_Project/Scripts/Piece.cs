@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using DG.Tweening;
-
+using System.Collections.Generic;
 
 public class Piece : MonoBehaviour
 {
@@ -94,7 +94,7 @@ public class Piece : MonoBehaviour
         isMouseDown = false;
         if (!isCorrect)
         {
-            SetPositionPiece();
+            SetPositionPiece(false);
         }
     }
 
@@ -163,10 +163,11 @@ public class Piece : MonoBehaviour
         Vector2 _directionMouse = Camera.main.ScreenToWorldPoint( Input.mousePosition) - Camera.main.ScreenToWorldPoint(oldMousePos);
         oldMousePos = Input.mousePosition;
         transform.position += (Vector3) _directionMouse;
+
     }
     public void OnPieceUnselect()
     {
-        transform.DOScale(startScale, 0.2f);
+        transform.DOScale(startScale, 0.3f);
         if (transform.localScale != Vector3.one)
         {
             Vector3 offset = Vector3.zero;
@@ -178,7 +179,7 @@ public class Piece : MonoBehaviour
             offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
             transform.position += new Vector3(offset.x, offset.y*2f, 0);
         }
-        transform.DOMove(startPosition, 0.2f).OnComplete(() => { 
+        transform.DOMove(startPosition, 0.3f).OnComplete(() => { 
         
         });
         
@@ -186,7 +187,6 @@ public class Piece : MonoBehaviour
     }
     bool CheckAvailableSpace(Vector2 space)
     {
-        Debug.Log(space);
         if (space.x < 0 || space.x > (Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1) || space.y > 0 || space.y < -(Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1))
         {
             return false;
@@ -195,13 +195,12 @@ public class Piece : MonoBehaviour
         {
             if (TestLevelCtr.instance.availableSpace[i].position == space && !TestLevelCtr.instance.availableSpace[i].available)
             {
-                Debug.Log(i + " " + !TestLevelCtr.instance.availableSpace[i].available);
                 return false;
             }
         }
         return true;
     }
-    void SetPositionPiece()
+    void SetPositionPiece(bool _autoCorrect)
     {
         transform.localPosition = new Vector3(Mathf.Round(transform.localPosition.x),
                                          Mathf.Round(transform.localPosition.y));
@@ -217,26 +216,28 @@ public class Piece : MonoBehaviour
                 return;
             }
         }
-        if (transform.localPosition != oldPostionOnGridBoard)
+        if (transform.localPosition != oldPostionOnGridBoard && !_autoCorrect)
         {
             TestLevelCtr.instance.NUM_MOVE--;
             oldPostionOnGridBoard = transform.localPosition;
-
         }
         foreach (Transform grid in transform)
         {
             for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
             {
-                if (TestLevelCtr.instance.availableSpace[i].position == (Vector2)TestLevelCtr.instance.allPieces.transform.InverseTransformPoint((Vector2)grid.position))
+                if (Vector2.Distance(TestLevelCtr.instance.availableSpace[i].position,(Vector2)TestLevelCtr.instance.allPieces.transform.InverseTransformPoint((Vector2)grid.position)) < .1f)
+                {
                     TestLevelCtr.instance.availableSpace[i].available = false;
+                }
             }
 
         }
         if((Vector2)transform.localPosition == Vector2.zero)
         {
                 isCorrect = true;
-                TestLevelCtr.instance.NUM_PIECES_WORNG--;
+                TestLevelCtr.instance.NUM_PIECES_WRONG--;
                 TestLevelCtr.instance.SpawnPiece(startPointIndex,false);
+
                 Collider2D[] colliders = GetComponents<Collider2D>();
                 foreach (Collider2D collider in colliders)
                     Destroy(collider);
@@ -297,22 +298,44 @@ public class Piece : MonoBehaviour
     //} 
     public void AutoCorrectPiece(int _startPos, float _duration)
     {
+        OnPieceSelect();
         FirebaseManager.instance.LogAutoCorrectHint();
         isCorrect = true;
         startPointIndex =  _startPos;
-        TestLevelCtr.instance.NUM_PIECES_WORNG--;
+        TestLevelCtr.instance.NUM_PIECES_WRONG--;
         TestLevelCtr.instance.SpawnPiece(_startPos,false);
 
 
-        transform.DOLocalMove(Vector3.zero, _duration);
+
+        transform.DOLocalMove(Vector3.zero, _duration).OnStart(() => CheckAutoCorrect())
+                                                      .OnComplete(() => SetPositionPiece(true));
         transform.DOScale(Vector3.one, _duration);
         //transform.localScale = selectedScale * Vector3.one;
 
         //transform.DOComplete();
         //transform.DOMove(Vector3.zero, _duration);
-
     }
-
+    public Collider2D[] others;
+    private void CheckAutoCorrect()
+    {
+        foreach (Transform grid in transform)
+        {
+            for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
+            {
+                if (Vector2.Distance(TestLevelCtr.instance.availableSpace[i].position, grid.localPosition) < .1f && TestLevelCtr.instance.availableSpace[i].available == false)
+                {
+                    TestLevelCtr.instance.availableSpace[i].available = true;
+                }
+            }
+        }
+        Piece[] allPieces = GameObject.FindObjectsOfType<Piece>();
+        foreach (Piece piece in allPieces)
+            if (!piece.isCorrect && piece != this && piece.transform.localScale == Vector3.one)
+            {
+                piece.OnPieceSelect();
+                piece.OnPieceUnselect();
+            }
+    }
    
     public void TutorialPieceOnMouseDown()
     {

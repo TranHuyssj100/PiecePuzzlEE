@@ -32,7 +32,7 @@ public class TestLevelCtr : MonoBehaviour
     int numMove;
     Stack<int> sequenceIndex;
 
-    public int NUM_PIECES_WORNG
+    public int NUM_PIECES_WRONG
     {
         get { return numPiecesWrong; }
         set { numPiecesWrong = value; }
