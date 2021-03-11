@@ -12,20 +12,22 @@ public class MeshCreator : MonoBehaviour
     Vector3[] vertices;
     Vector2[] uv;
     int[] triangles;
+    Mesh mesh;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        mesh = new Mesh();
         vertices = new Vector3[6];
         uv = new Vector2[6];
         triangles = new int[12];
 
-        
+        GetComponent<MeshFilter>().mesh = mesh;
+
     }
 
     private void FixedUpdate()
     {
-        Mesh mesh = new Mesh();
 
         //vertices[0] = bottomLeft.localPosition + leftGroup.localPosition;
         //vertices[1] = upperLeft.localPosition + leftGroup.localPosition;
@@ -69,7 +71,6 @@ public class MeshCreator : MonoBehaviour
         mesh.RecalculateNormals();
 
 
-        GetComponent<MeshFilter>().mesh = mesh;
         //GetComponent<MeshRenderer>().sortingLayerName = "UI_Behind";
     }
 }

@@ -46,7 +46,8 @@ public class IAPManager : SingletonDontDestroyMonoBehavior<IAPManager>, IStoreLi
 
     private void OnDestroy()
     {
-        AdManager.Instance.onRewardAdClosed -= RewardAdClosed;
+        if(AdManager.Instance != null)
+            AdManager.Instance.onRewardAdClosed -= RewardAdClosed;
     }
 
     public void InitializePurchasing()

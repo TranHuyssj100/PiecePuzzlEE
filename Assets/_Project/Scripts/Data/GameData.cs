@@ -9,6 +9,15 @@ public static class GameData
     private static int GOLD;
     private static int NO_ADS;
 
+
+    public static event System.Action onGoldValueChanged;
+    public static void GoldValueChanged()
+    {
+        if (onGoldValueChanged != null)
+            onGoldValueChanged();
+    }
+
+
     static GameData()
     {
         LEVEL= PlayerPrefs.GetInt("level", 0);
@@ -45,7 +54,9 @@ public static class GameData
     public static int gold
     {
         get { return GOLD; }
-        set { PlayerPrefs.SetInt("gold", (GOLD = value)); }
+        set { PlayerPrefs.SetInt("gold", (GOLD = value));
+            GoldValueChanged();
+        }
     }
 
 

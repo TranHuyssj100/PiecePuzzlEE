@@ -52,6 +52,7 @@ public class GameMaster : MonoBehaviour
         menu.SetActive(true);
         AdManager.Instance.onRewardAdClosed += RewardAdClosed;
         onPiecePlace += OnPiecePlaced;
+        GameData.onGoldValueChanged += ShowGold;
 
         Btn_BGM.GetComponent<UnityEngine.UI.Image>().sprite = BGM[GameData.isBGM];
         Btn_SFX.GetComponent<UnityEngine.UI.Image>().sprite = SFX[GameData.isSFX];
@@ -60,17 +61,20 @@ public class GameMaster : MonoBehaviour
 
     private void OnDestroy()
     {
-        AdManager.Instance.onRewardAdClosed -= RewardAdClosed;
+        if(AdManager.Instance != null)
+            AdManager.Instance.onRewardAdClosed -= RewardAdClosed;
+        GameData.onGoldValueChanged -= ShowGold;
+        onPiecePlace -= OnPiecePlaced;
     }
 
     void FixedUpdate()
     {
 
-        ShowNumMove();
-        ShowGold();
+        //ShowNumMove();
+        //ShowGold();
         //if (LevelController.isInitializeComplete)
         //{
-            
+
         //}
     }
 
@@ -98,6 +102,7 @@ public class GameMaster : MonoBehaviour
     }
     private void OnPiecePlaced()
     {
+        ShowNumMove();
         Invoke("checkEndGame", .5f);
     }
     #region PHASE
