@@ -12,7 +12,7 @@ public class BuildLevel : MonoBehaviour
     public Stack<int> deleIndexPiece;
     [Space(10)]
     [Header("Data")]
-    public SampleAnswer curSampleAnswer = new SampleAnswer();
+    //public SampleAnswer curSampleAnswer = new SampleAnswer();
     public ThemeData curThemeData = new ThemeData();
 
 

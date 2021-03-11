@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-using TMPro;
-using System.Globalization;
-using UnityEngine.Purchasing.MiniJSON;
+using System.Linq;
+using UnityEditor;
 
 public class DataController : SingletonDontDestroyMonoBehavior<DataController>
 {
 
-    private static string SAVESAMPLE;
+    //private static string SAVEPIECE;
     private static string SAVETHEME;
     private static string SAVELEVEL;
     private static string LEVEL = "Level";
@@ -22,11 +21,11 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
     {
         base.Awake();
 #if UNITY_EDITOR
-        SAVESAMPLE = Application.streamingAssetsPath +"/Json/Answers";
+        //SAVEPIECE = Application.streamingAssetsPath +"/Json/Answers";
         SAVETHEME = Application.streamingAssetsPath + "/Json/Themes";
         SAVELEVEL = Application.streamingAssetsPath + "/Json/Levels";
 #elif UNITY_ANDROID
-        SAVESAMPLE = "jar:file://" + Application.dataPath + "!assets/";
+        //SAVEPIECE = "jar:file://" + Application.dataPath + "!assets/";
         SAVETHEME =  "jar:file://" + Application.dataPath + "!assets/";
         SAVELEVEL =  "jar:file://" + Application.dataPath + "!assets/";
 #endif
@@ -34,13 +33,6 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
         LoadAllThemeData();
         GameData.CreateStatusTheme();
         GameData.CreateCurrentLevelforEachTheme();
-    }
-
-
-
-    private void Update()
-    {
-
     }
 
 
@@ -86,26 +78,31 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
 #endif
         return JsonUtility.FromJson<LevelData>(loadString);
     }
-
-
-
-
-    public static SampleAnswer LoadSampleAnswer(int _indexSample, int _sizeLevel)
+    
+   public static List<GameObject> LoadPiece(int idTheme, int idLevel)
     {
         string loadString;
 #if UNITY_EDITOR
-        loadString = File.ReadAllText(Path.Combine(SAVESAMPLE,_sizeLevel.ToString()+"x"+ _sizeLevel.ToString()+"/"+ _indexSample.ToString() + JsonSuffix));
-        //Debug.LogError(Path.Combine(SAVESAMPLE, _indexSample.ToString() + JsonSuffix));
-#elif UNITY_ANDROID
-        WWW reader = new WWW(Path.Combine(SAVESAMPLE, "Json/Answers/" +_sizeLevel.ToString()+"x"+ _sizeLevel.ToString()+"/"+ _indexSample.ToString()  + JsonSuffix));
-        while (!reader.isDone) { }
-        loadString = reader.text;
+        loadString ="Themes/"+ themeData[idTheme].name + "/" + idLevel;
+        Debug.LogError(loadString);
 #endif
-        return JsonHelper.FromJson<SampleAnswer>(loadString)[0];
+        GameObject[] _result = Resources.LoadAll<GameObject>(loadString);
+        Debug.LogError(_result.Length);
+        return _result.ToList();
     }
 
+    public static Sprite LoadSpritePreview(int _idTheme, int _idLevel, int _sizeLevel)
+    {
+        string _path = "Themes/" +themeData[_idTheme].name + "/Full/" +_idLevel.ToString();
+        Sprite[] _sprite = Resources.LoadAll<Sprite>(_path);
+        Debug.Log(_path);
+        //Sprite _sprite = Resources.Load<Sprite>(_path);
+        return _sprite[_sizeLevel*_sizeLevel];
+    }
+
+
 #if UNITY_EDITOR
-    static string AnswerPresetPath = "Assets/_Project/Testing/AnswerPreset/";
+    static string AnswerPresetPath = "Assets/_Project/Resources/AnswerPreset/";
     public static void SaveAnswerPreset(List<ImageCutter.AnswerPreset> _answerPreset,int _size)
     {
         string _strData;
@@ -126,6 +123,10 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
         }
         _strData += "]";
         Debug.Log(_strData);
+        if (!Directory.Exists(AnswerPresetPath + size))
+        {
+            Directory.CreateDirectory(AnswerPresetPath + size);
+        }
         File.WriteAllText(Path.Combine(AnswerPresetPath + size, Directory.GetFiles(AnswerPresetPath + size).Length / 2 + JsonSuffix), _strData);
     }
     public static List<ImageCutter.AnswerPreset> ReadAnswerPreset(int _size)
@@ -226,14 +227,12 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
 [System.Serializable]
 public class ThemeData
 {
-    //public ThemeName theme;
     public int idTheme;
     public string name;
     public int size;
     public int price;
     public int levelCount;
    
-    //public LevelData[] groupLevel;
 }
 
 [System.Serializable]
@@ -241,16 +240,15 @@ public class LevelData
 {
     public int idLevel;
     public int idTheme;
-    public int sampleIndex;
     public int pieceDefault;
 }
 
-[System.Serializable]
-public class SampleAnswer
-{
-    public int idAnswer;
-    public int [] pieceNames;
-    public int [] answers;
-}
+//[System.Serializable]
+//public class SampleAnswer
+//{
+//    public int idAnswer;
+//    public int [] pieceNames;
+//    public int [] answers;
+//}
 
 

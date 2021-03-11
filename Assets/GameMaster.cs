@@ -43,7 +43,7 @@ public class GameMaster : MonoBehaviour
 
     public void Start()
     {
-        //menu.SetActive(true);
+        menu.SetActive(true);
         AdManager.Instance.onRewardAdClosed += RewardAdClosed;
         onPiecePlace += OnPiecePlaced;
     }
@@ -98,7 +98,7 @@ public class GameMaster : MonoBehaviour
             Debug.Log("<color=yellow> YOU WIN ! </color>");
             OpenPanel(winPanel);
             winPanel.GetComponent<WinPanel>().SetImageReview();
-            GameData.SetCurrentLevelByTheme(GameData.Theme, (LevelController.idLevel) < (DataController.themeData[GameData.Theme].levelCount - 1) ? LevelController.idLevel + 1 : LevelController.idLevel);
+            GameData.SetCurrentLevelByTheme(GameData.Theme, (TestLevelCtr.instance.idLevel) < (DataController.themeData[GameData.Theme].levelCount - 1) ? TestLevelCtr.instance.idLevel + 1 : TestLevelCtr.instance.idLevel);
         }
     }
     void LosePhase()
@@ -234,7 +234,7 @@ public class GameMaster : MonoBehaviour
         EventManager.TriggerEvent("DestroyPiece");
         //FirebaseManager.instance.LogResetLevel(LevelController.idLevel, DataController.themeData[GameData.Theme].name);
         //StartCoroutine(LevelController.instance.InitializeGame(LevelController.idLevel, GameData.Theme));
-        TestLevelCtr.instance.IntializeGame();
+        TestLevelCtr.instance.InitalizeGame(TestLevelCtr.instance.idTheme, TestLevelCtr.instance.idLevel);
         CloseWinPanel();
         CloseLosePanel();
         AdManager.Instance.checkInterAdsCondition();
@@ -242,14 +242,15 @@ public class GameMaster : MonoBehaviour
     public void Next()
     {
         //GameData.level++;
-        LevelController.idLevel++;
-        //EventManager.TriggerEvent("DestroyPiece");
-        if (LevelController.idLevel >= DataController.themeData[GameData.Theme].levelCount)
+   
+        EventManager.TriggerEvent("DestroyPiece");
+        if (TestLevelCtr.instance.idLevel >= DataController.themeData[GameData.Theme].levelCount)
         {
             OpenThemeSelect();
         }
         else
-            StartCoroutine(LevelController.instance.InitializeGame(GameData.GetCurrentLevelByTheme(GameData.Theme), GameData.Theme));
+            //StartCoroutine(LevelController.instance.InitializeGame(GameData.GetCurrentLevelByTheme(GameData.Theme), GameData.Theme));
+            TestLevelCtr.instance.InitalizeGame(GameData.Theme, GameData.GetCurrentLevelByTheme(GameData.Theme));
         CloseWinPanel();
         CloseLosePanel();
         AdManager.Instance.checkInterAdsCondition();
@@ -258,13 +259,14 @@ public class GameMaster : MonoBehaviour
     public void OnStartClick()
     {
         ClosePanel(menu);
-        StartCoroutine(LevelController.instance.InitializeGame(GameData.GetCurrentLevelByTheme(GameData.Theme),GameData.Theme));
+        TestLevelCtr.instance.InitalizeGame(GameData.Theme, GameData.GetCurrentLevelByTheme(GameData.Theme));
+        //StartCoroutine(LevelController.instance.InitializeGame(GameData.GetCurrentLevelByTheme(GameData.Theme), GameData.Theme));
         AdManager.Instance.checkInterAdsCondition();
     }
    public void OnReturnMenuClick()
     {
         OpenPanel(menu);
-        //AdManager.Instance.showInterstitialAd();
+        AdManager.Instance.showInterstitialAd();
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -298,8 +300,9 @@ public class GameMaster : MonoBehaviour
             GameData.gold -= Config.COST_PREVIEW;
             OpenPanel(preview);
             FirebaseManager.instance.LogPreviewHint();
-            preview.transform.Find("Bg").Find("Image").GetComponent<Image>().sprite=
-                LevelController.LoadSpritePreview(LevelController.idLevel,DataController.themeData[GameData.Theme].name, LevelController.instance.sizeLevel);
+            preview.transform.Find("Bg").Find("Image").GetComponent<Image>().sprite =
+                DataController.LoadSpritePreview(TestLevelCtr.instance.idTheme, TestLevelCtr.instance.idLevel, TestLevelCtr.instance.sizeLevel);
+                //LevelController.LoadSpritePreview(LevelController.idLevel,DataController.themeData[GameData.Theme].name, LevelController.instance.sizeLevel);
         }
     }
 
