@@ -285,6 +285,7 @@ public class GameMaster : MonoBehaviour
             Piece _piece = LevelController.instance.FindIncorrectPiece();
             if (_piece!=null && !_piece.isCorrect)
             {
+                FirebaseManager.instance.LogAutoCorrectHint();
                 LevelController.instance.SetCorrectPiecePos(_piece.gameObject, _piece.startPosition, 0.5f);
                 if (_piece.isPieceTutorial) _piece.TutorialPieceOnMouseDown();
             }
