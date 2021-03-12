@@ -71,5 +71,9 @@ public class ThemeSelect : MonoBehaviour
                                                                                                  //GameMaster.instance.OnStartClick();
                                                                                                  });
         }
+        else
+        {
+            GameMaster.instance.OpenShopUI();
+        }
     }
 }

@@ -53,7 +53,7 @@ public class GameMaster : MonoBehaviour
         AdManager.Instance.onRewardAdClosed += RewardAdClosed;
         onPiecePlace += OnPiecePlaced;
         GameData.onGoldValueChanged += ShowGold;
-
+        ShowGold();
         Btn_BGM.GetComponent<UnityEngine.UI.Image>().sprite = BGM[GameData.isBGM];
         Btn_SFX.GetComponent<UnityEngine.UI.Image>().sprite = SFX[GameData.isSFX];
 
