@@ -83,10 +83,6 @@ public class TestLevelCtr : MonoBehaviour
             if (autoCorrect)
             {
                 SetCorrectPiecePos(pieceClone, 0.3f);
-                foreach (Transform grid in pieceClone.transform)
-                {
-                    Debug.LogError(grid.position);
-                }
             }
             else
             {

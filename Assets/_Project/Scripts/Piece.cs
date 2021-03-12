@@ -133,9 +133,9 @@ public class Piece : MonoBehaviour
     public void OnPieceSelect()
     {
 
-        transform.DOScale(selectedScale, 0f);
         if (transform.localScale != Vector3.one)
         {
+        transform.DOScale(selectedScale, 0.1f);
             Vector3 offset = Vector3.zero;
             foreach (Transform grid in transform)
             {
@@ -253,6 +253,10 @@ public class Piece : MonoBehaviour
     public void AutoCorrectPiece(int _startPos, float _duration)
     {
         OnPieceSelect();
+        foreach (Transform grid in transform)
+        {
+            Debug.LogError(grid.position);
+        }
         FirebaseManager.instance.LogAutoCorrectHint();
         isCorrect = true;
         //startPointIndex =  _startPos;
