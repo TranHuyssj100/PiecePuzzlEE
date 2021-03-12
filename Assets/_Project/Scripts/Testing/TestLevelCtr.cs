@@ -83,7 +83,7 @@ public class TestLevelCtr : MonoBehaviour
             GameObject pieceClone = GameObject.Instantiate(randomPiece, curAllPieces.transform);
             if (autoCorrect)
             {
-                SetCorrectPiecePos(pieceClone, 0.3f);
+                SetCorrectPiecePos(pieceClone, 0f);
             }
             else
             {

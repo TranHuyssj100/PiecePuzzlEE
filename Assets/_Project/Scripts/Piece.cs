@@ -132,10 +132,10 @@ public class Piece : MonoBehaviour
 
     public void OnPieceSelect()
     {
-
+        transform.DOComplete();
+        transform.DOScale(Vector3.one, 0.2f).OnComplete(() => transform.localScale = selectedScale * Vector3.one);
         if (transform.localScale != Vector3.one)
         {
-        transform.DOScale(selectedScale, 0.1f);
             Vector3 offset = Vector3.zero;
             foreach (Transform grid in transform)
             {
@@ -145,8 +145,7 @@ public class Piece : MonoBehaviour
             offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
             transform.position += new Vector3(offset.x, offset.y * 2f, 0);
         }
-        transform.localScale = selectedScale * Vector3.one;
-
+        //transform.localScale = selectedScale * Vector3.one;
         foreach (Transform grid in transform)
         {
             for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
@@ -184,7 +183,7 @@ public class Piece : MonoBehaviour
         
         });
     }
-    public TestLevelCtr.Grid[] preState;
+    TestLevelCtr.Grid[] preState;
     bool CheckAvailableSpace(Vector2 space)
     {
         if (space.x < 0 || space.x > (Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1) || space.y > 0 || space.y < -(Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1))
@@ -253,10 +252,6 @@ public class Piece : MonoBehaviour
     public void AutoCorrectPiece(int _startPos, float _duration)
     {
         OnPieceSelect();
-        foreach (Transform grid in transform)
-        {
-            Debug.LogError(grid.position);
-        }
         FirebaseManager.instance.LogAutoCorrectHint();
         isCorrect = true;
         //startPointIndex =  _startPos;
@@ -264,7 +259,7 @@ public class Piece : MonoBehaviour
         ////TestLevelCtr.instance.SpawnPiece(_startPos,false);
         transform.DOLocalMove(Vector3.zero, _duration).OnStart(() => CheckAutoCorrect())
                                                       .OnComplete(() => SetPositionPiece(true));
-        transform.DOScale(Vector3.one, _duration);
+        //transform.DOScale(Vector3.one, _duration);
         //transform.localScale = selectedScale * Vector3.one;
 
         //transform.DOComplete();
