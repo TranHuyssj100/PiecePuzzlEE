@@ -80,14 +80,14 @@ public class TestLevelCtr : MonoBehaviour
         {
             int randomIndex = sequenceIndex.Dequeue();
             GameObject randomPiece = listPieces[randomIndex];
-            GameObject pieceClone = GameObject.Instantiate(randomPiece, curAllPieces.transform);
+            GameObject pieceClone =  Instantiate(randomPiece, curAllPieces.transform);            
             if (autoCorrect)
             {
                 SetCorrectPiecePos(pieceClone, 0f);
             }
             else
             {
-
+               
                 pieceClone.transform.position = point[index].transform.position;
                 pieceClone.transform.localScale = Vector3.one * Config.PIECE_START_SCALE;
                 pieceClone.GetComponent<Piece>().startPointIndex = index;
@@ -127,8 +127,9 @@ public class TestLevelCtr : MonoBehaviour
 
     public void InitalizeGame(int _idTheme, int _idLevel)
     {
+        int _delay = 0;
         EventManager.TriggerEvent("DestroyPiece");
-
+        
         idLevel = _idLevel;
         idTheme = _idTheme;
 
@@ -154,15 +155,21 @@ public class TestLevelCtr : MonoBehaviour
 
         SetCamPosition(sizeLevel);
 
-        availableSpace = new Grid[sizeLevel * sizeLevel];
-        sequenceIndex = new Queue<int>(Enumerable.Range(0, listPieces.Count).ToArray());
-        CreateAvailableSpaceList();
+        DOVirtual.Float(_delay, 0.05f, 0, (x) => {
+            if (x >= 0.05f)
+            {
+                availableSpace = new Grid[sizeLevel * sizeLevel];
+                sequenceIndex = new Queue<int>(Enumerable.Range(0, listPieces.Count).ToArray());
+                CreateAvailableSpaceList();
 
-        SpawnPiece(0, true);
-        for (int i = 1; i < 3; i++)
-        {
-            SpawnPiece(i, false);
-        }
+                SpawnPiece(0, true);
+                for (int i = 1; i < 3; i++)
+                {
+                    SpawnPiece(i, false);
+                }
+            }
+        });
+      
     }
 
     public static Stack<int> SwapValuetoTopStack(Stack<int> _stack, int _value)
