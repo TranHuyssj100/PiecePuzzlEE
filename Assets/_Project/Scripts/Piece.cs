@@ -48,8 +48,8 @@ public class Piece : MonoBehaviour
 
     private void Start()
     {
-        startScale = .55f;
-        selectedScale = 1f;
+        startScale = Config.PIECE_START_SCALE;
+        selectedScale = Config.PIECE_SELECTED_SCALE;
         selectedPos = 0.1f;
 
         canSetPosition = true;
