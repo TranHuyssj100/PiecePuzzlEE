@@ -163,8 +163,6 @@ public class TestLevelCtr : MonoBehaviour
         {
             SpawnPiece(i, false);
         }
-        Debug.LogError(numPiecesWrong);
-        Debug.LogError(numMove);
     }
 
     public static Stack<int> SwapValuetoTopStack(Stack<int> _stack, int _value)
