@@ -2843,7 +2843,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &613696811
 Transform:
   m_ObjectHideFlags: 0
@@ -2853,11 +2853,11 @@ Transform:
   m_GameObject: {fileID: 613696810}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.4285713, y: 1.4285713, z: 1}
   m_Children:
   - {fileID: 1667116518}
-  m_Father: {fileID: 828939560}
-  m_RootOrder: 1
+  m_Father: {fileID: 1977694962}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &613696812
 MonoBehaviour:
@@ -4583,7 +4583,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 191698206}
-  - {fileID: 613696811}
+  - {fileID: 1977694962}
   - {fileID: 334037436}
   - {fileID: 773066819}
   - {fileID: 400542200}
@@ -7214,12 +7214,13 @@ MonoBehaviour:
   idTheme: 0
   sizeLevel: 0
   difficultParam: 0
+  curAllPieces: {fileID: 0}
   gridBroad: {fileID: 0}
-  allPieces: {fileID: 0}
   curLevelData:
     idLevel: 0
     idTheme: 0
     pieceDefault: 0
+  arrAllPieces: []
   listPieces:
   - {fileID: 7772153862104040988, guid: c6f8e865bef424547bf2cc6c62969777, type: 3}
   - {fileID: 3688426907254353086, guid: e02a75b3ee943496fa3482dec433874a, type: 3}
@@ -7230,6 +7231,89 @@ MonoBehaviour:
   listTest: []
   point: []
   availableSpace: []
+  numPiecesWrong: 0
+--- !u!1 &1977694961
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1977694962}
+  - component: {fileID: 1977694963}
+  m_Layer: 10
+  m_Name: Border (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1977694962
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1977694961}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
+  m_Children:
+  - {fileID: 613696811}
+  m_Father: {fileID: 828939560}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1977694963
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1977694961}
+  m_Enabled: 0
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 917945979
+  m_SortingLayer: 2
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 1f99144434e0bde4f9b717e3f76c89ff, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 8.01, y: 8.03}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &2032273575
 GameObject:
   m_ObjectHideFlags: 0
@@ -7398,12 +7482,15 @@ MonoBehaviour:
   idTheme: 0
   sizeLevel: 0
   difficultParam: 1
+  curAllPieces: {fileID: 0}
   gridBroad: {fileID: 828939560}
-  allPieces: {fileID: 59797002}
   curLevelData:
     idLevel: 0
     idTheme: 0
     pieceDefault: 0
+  arrAllPieces:
+  - {fileID: 59797003}
+  - {fileID: 1667116518}
   listPieces: []
   listTest: []
   point:
@@ -7411,6 +7498,7 @@ MonoBehaviour:
   - {fileID: 763913882}
   - {fileID: 1059671116}
   availableSpace: []
+  numPiecesWrong: 0
 --- !u!4 &2065198314
 Transform:
   m_ObjectHideFlags: 0
@@ -8874,6 +8962,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1683158506}
     m_Modifications:
+    - target: {fileID: 7338013786623537520, guid: e1f1a9df38f7147e581580af3c78a0d8,
+        type: 3}
+      propertyPath: themes.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7338013786623537520, guid: e1f1a9df38f7147e581580af3c78a0d8,
         type: 3}
       propertyPath: amountTheme

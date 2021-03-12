@@ -151,7 +151,7 @@ public class Piece : MonoBehaviour
         {
             for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
             {
-                if (TestLevelCtr.instance.availableSpace[i].position == (Vector2)TestLevelCtr.instance.allPieces.transform.InverseTransformPoint((Vector2)grid.position))
+                if (TestLevelCtr.instance.availableSpace[i].position == (Vector2)TestLevelCtr.instance.curAllPieces.transform.InverseTransformPoint((Vector2)grid.position))
                     TestLevelCtr.instance.availableSpace[i].available = true;
             }
 
@@ -213,7 +213,7 @@ public class Piece : MonoBehaviour
         GameMaster.instance.PiecePlaced(); 
         foreach (Transform grid in transform)
         {
-            if (!CheckAvailableSpace(TestLevelCtr.instance.allPieces.transform.InverseTransformPoint(grid.position)))
+            if (!CheckAvailableSpace(TestLevelCtr.instance.curAllPieces.transform.InverseTransformPoint(grid.position)))
             {
                 TestLevelCtr.instance.availableSpace = preState;
                 OnPieceUnselect();

@@ -35,7 +35,8 @@ public class ThemeSelect : MonoBehaviour
             GameObject _themeClone = GameObject.Instantiate(themeChild, content);
             _themeClone.GetComponent<ThemeChild>().index = themes[i].idTheme;
             _themeClone.GetComponent<ThemeChild>().titleTxt.text = themes[i].name;/*allTheme[i]*/ /*((ThemeName)i).ToString()*/;
-            _themeClone.GetComponent<ThemeChild>().image.sprite = LevelController.LoadSpritePreview(0, themes[i].name, themes[i].size);
+            //_themeClone.GetComponent<ThemeChild>().image.sprite = LevelController.LoadSpritePreview(0, themes[i].name, themes[i].size);
+            _themeClone.GetComponent<ThemeChild>().image.sprite = DataController.LoadSpritePreview(themes[i].idTheme, 0, themes[i].size);
             int x = i;
             if (GameData.GetThemeStatus(i) == 0)
             {

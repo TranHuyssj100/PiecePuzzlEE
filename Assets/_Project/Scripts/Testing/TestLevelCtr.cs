@@ -11,9 +11,10 @@ public class TestLevelCtr : MonoBehaviour
     public int sizeLevel;
     public float difficultParam;
     [Space(5f)]
+    public GameObject curAllPieces;
     public Transform gridBroad;
-    public GameObject allPieces;
     public LevelData curLevelData;
+    public Transform[] arrAllPieces;
     public List<GameObject> listPieces = new List<GameObject>();
     public List<Object> listTest = new List<Object>();
     public GameObject[] point;
@@ -79,7 +80,7 @@ public class TestLevelCtr : MonoBehaviour
         {
             int randomIndex = sequenceIndex.Dequeue();
             GameObject randomPiece = listPieces[randomIndex];
-            GameObject pieceClone = GameObject.Instantiate(randomPiece, allPieces.transform);
+            GameObject pieceClone = GameObject.Instantiate(randomPiece, curAllPieces.transform);
             if (autoCorrect)
             {
                 SetCorrectPiecePos(pieceClone, 0.3f);
@@ -106,9 +107,9 @@ public class TestLevelCtr : MonoBehaviour
     public Piece FindIncorrectPiece()
     {
         Piece _piece = null;
-        if (allPieces != null)
+        if (curAllPieces != null)
         {
-            foreach (Transform child in allPieces.transform)
+            foreach (Transform child in curAllPieces.transform)
             {
                 if (!child.GetComponent<Piece>().isCorrect)
                 {
@@ -131,18 +132,21 @@ public class TestLevelCtr : MonoBehaviour
         idLevel = _idLevel;
         idTheme = _idTheme;
 
-        if (_idLevel <= DataController.themeData[idTheme].levelCount)
-        {
+        //if (_idLevel <= DataController.themeData[idTheme].levelCount)
+        //{
             
-            curLevelData = DataController.LoadLevelData(idTheme, idLevel);
-        }
-        else
-        {
-            idLevel = DataController.themeData[idLevel].levelCount - 1;
-            curLevelData = DataController.LoadLevelData(_idTheme, _idLevel);           ;
-        }
-
+        //    curLevelData = DataController.LoadLevelData(idTheme, idLevel);
+        //}
+        //else
+        //{
+        //    idLevel = DataController.themeData[idLevel].levelCount - 1;
+        //    curLevelData = DataController.LoadLevelData(_idTheme, _idLevel);           ;
+        //}
         listPieces.Clear();
+        if (_idLevel > DataController.themeData[idTheme].levelCount)
+        { 
+            idLevel = DataController.themeData[idLevel].levelCount - 1;
+        }
         listPieces = DataController.LoadPiece(idTheme, idLevel);
         sizeLevel = DataController.themeData[idTheme].size;
         numPiecesWrong = listPieces.Count;
@@ -193,6 +197,7 @@ public class TestLevelCtr : MonoBehaviour
             if (i == sizeLevel)
             {
                 gridBroad.GetChild(i - 5).gameObject.SetActive(true);
+                curAllPieces = arrAllPieces[i - 5].gameObject;
             }
             else
             {
