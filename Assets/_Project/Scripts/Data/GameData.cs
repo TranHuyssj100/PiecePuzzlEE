@@ -51,12 +51,7 @@ public static class GameData
 
     public static void CreateCurrentLevelforEachTheme()
     {
-        //for (int i = 0; i < (int)ThemeName.NUM_OF_THEME; i++)
-        //{
-        //    if (!PlayerPrefs.HasKey(((ThemeName)i).ToString() + "Level"))
-        //        PlayerPrefs.SetInt(((ThemeName)i).ToString() + "Level", 0);
-        //}
-
+    
         for (int i = 0; i < DataController.themeData.Length; i++)
         {
             if (!PlayerPrefs.HasKey(DataController.themeData[i].name + "Level"))
