@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 using System.Collections.Generic;
+using System.Collections;
 
 public class Piece : MonoBehaviour
 {
@@ -182,9 +183,8 @@ public class Piece : MonoBehaviour
         transform.DOMove(startPosition, 0.3f).OnComplete(() => { 
         
         });
-        
-
     }
+    public TestLevelCtr.Grid[] preState;
     bool CheckAvailableSpace(Vector2 space)
     {
         if (space.x < 0 || space.x > (Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1) || space.y > 0 || space.y < -(Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1))
@@ -193,9 +193,12 @@ public class Piece : MonoBehaviour
         }
         for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
         {
-            if (TestLevelCtr.instance.availableSpace[i].position == space && !TestLevelCtr.instance.availableSpace[i].available)
+            if (TestLevelCtr.instance.availableSpace[i].position == space)
             {
-                return false;
+                if (TestLevelCtr.instance.availableSpace[i].available)
+                    TestLevelCtr.instance.availableSpace[i].available = false;
+                else
+                    return false;
             }
         }
         return true;
@@ -205,13 +208,14 @@ public class Piece : MonoBehaviour
         transform.localPosition = new Vector3(Mathf.Round(transform.localPosition.x),
                                          Mathf.Round(transform.localPosition.y));
         //transform.position += new Vector3(-.5f, .5f);
-
-        GameMaster.instance.PiecePlaced();
-       
+        preState = new TestLevelCtr.Grid[(int)Mathf.Pow(TestLevelCtr.instance.sizeLevel, 2)];
+        TestLevelCtr.instance.availableSpace.CopyTo(preState,0);
+        GameMaster.instance.PiecePlaced(); 
         foreach (Transform grid in transform)
         {
             if (!CheckAvailableSpace(TestLevelCtr.instance.allPieces.transform.InverseTransformPoint(grid.position)))
             {
+                TestLevelCtr.instance.availableSpace = preState;
                 OnPieceUnselect();
                 return;
             }
@@ -221,19 +225,19 @@ public class Piece : MonoBehaviour
             TestLevelCtr.instance.NUM_MOVE--;
             oldPostionOnGridBoard = transform.localPosition;
         }
-        foreach (Transform grid in transform)
-        {
-            for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
-            {
-                Debug.LogError(grid.position);
-                if (Vector2.Distance(TestLevelCtr.instance.availableSpace[i].position,(Vector2)TestLevelCtr.instance.allPieces.transform.InverseTransformPoint((Vector2)grid.position)) < .1f)
-                {
-                    TestLevelCtr.instance.availableSpace[i].available = false;
-                }
-            }
-
-        }
-        if((Vector2)transform.localPosition == Vector2.zero)
+        //foreach (Transform grid in transform)
+        //{
+        //    for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
+        //    {
+        //        Debug.LogError(grid.position);
+        //        if (Vector2.Distance(TestLevelCtr.instance.availableSpace[i].position, (Vector2)TestLevelCtr.instance.allPieces.transform.InverseTransformPoint((Vector2)grid.position)) < .1f)
+        //        {
+        //            TestLevelCtr.instance.availableSpace[i].available = false;
+        //            break;
+        //        }
+        //    }
+        //}
+        if ((Vector2)transform.localPosition == Vector2.zero)
         {
                 isCorrect = true;
                 TestLevelCtr.instance.NUM_PIECES_WRONG--;
@@ -262,7 +266,6 @@ public class Piece : MonoBehaviour
         //transform.DOComplete();
         //transform.DOMove(Vector3.zero, _duration);
     }
-    public Collider2D[] others;
     private void CheckAutoCorrect()
     {
         foreach (Transform grid in transform)
