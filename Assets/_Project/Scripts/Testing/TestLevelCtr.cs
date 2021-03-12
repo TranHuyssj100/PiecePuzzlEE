@@ -92,7 +92,7 @@ public class TestLevelCtr : MonoBehaviour
             {
 
                 pieceClone.transform.position = point[index].transform.position;
-                pieceClone.transform.localScale = Vector3.one * .5f;
+                pieceClone.transform.localScale = Vector3.one * Config.PIECE_START_SCALE;
                 pieceClone.GetComponent<Piece>().startPointIndex = index;
                 Vector3 offset = Vector3.zero;
                 foreach (Transform grid in pieceClone.transform)
