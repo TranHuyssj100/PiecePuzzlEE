@@ -32,6 +32,8 @@ public class Piece : MonoBehaviour
 
     int _indexTrueSound = 0;
 
+    bool onceDO = true; 
+
 
 
 
@@ -135,8 +137,6 @@ public class Piece : MonoBehaviour
     public void OnPieceSelect()
     {
         transform.DOComplete();
-        //transform.DOScale(Vector3.one, 0.2f).OnComplete(() => transform.localScale = selectedScale * Vector3.one);
-        transform.DOScale(Vector3.one, 0f).OnComplete(() => transform.localScale = selectedScale * Vector3.one);
         if (transform.localScale != Vector3.one)
         {
             Vector3 offset = Vector3.zero;
@@ -146,8 +146,11 @@ public class Piece : MonoBehaviour
             }
             offset /= transform.childCount;
             offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
-            transform.position += new Vector3(offset.x*1.5f, offset.y+2f, 0);
+            Vector3 _temp= transform.position += new Vector3(offset.x*1.5f, offset.y+2f, 0);
+            transform.DOMove(_temp, 0.1f);
         }
+        transform.localScale= Vector3.one;
+
         //transform.localScale = selectedScale * Vector3.one;
         foreach (Transform grid in transform)
         {
@@ -224,7 +227,6 @@ public class Piece : MonoBehaviour
     {
         transform.localPosition = new Vector3(Mathf.Round(transform.localPosition.x),
                                          Mathf.Round(transform.localPosition.y));
-        //transform.position += new Vector3(-.5f, .5f);
         preState = new TestLevelCtr.Grid[(int)Mathf.Pow(TestLevelCtr.instance.sizeLevel, 2)];
         TestLevelCtr.instance.availableSpace.CopyTo(preState,0);
         GameMaster.instance.PiecePlaced(); 

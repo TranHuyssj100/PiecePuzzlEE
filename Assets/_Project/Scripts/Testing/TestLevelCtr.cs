@@ -161,8 +161,7 @@ public class TestLevelCtr : MonoBehaviour
             SpawnPiece(i, false);
         }
         //_delay = 0;
-    
-      
+
     }
 
     public static Stack<int> SwapValuetoTopStack(Stack<int> _stack, int _value)
