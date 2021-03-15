@@ -146,7 +146,7 @@ public class Piece : MonoBehaviour
             }
             offset /= transform.childCount;
             offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
-            transform.position += new Vector3(offset.x, offset.y * 2f, 0);
+            transform.position += new Vector3(offset.x*1.5f, offset.y+2f, 0);
         }
         //transform.localScale = selectedScale * Vector3.one;
         foreach (Transform grid in transform)
