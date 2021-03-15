@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Firebase.Analytics;
 using Firebase;
 using UnityEngine;
+using System;
+using System.Linq;
 
 public class FirebaseManager : MonoBehaviour
 {
@@ -23,7 +25,6 @@ public class FirebaseManager : MonoBehaviour
 		{
 			FirebaseAnalytics.SetAnalyticsCollectionEnabled(true);
 		});
-
         //Firebase.Messaging.FirebaseMessaging.TokenReceived += OnTokenReceived;
         //Firebase.Messaging.FirebaseMessaging.MessageReceived += OnMessageReceived;
     }
@@ -55,14 +56,17 @@ public class FirebaseManager : MonoBehaviour
 
     public void LogStartLevel(int level,string theme)
     {
+        string trimmed = String.Concat(theme.Where(c => !Char.IsWhiteSpace(c)));
         FirebaseAnalytics.LogEvent("Start_Level_" + theme + "_" + (level + 1).ToString("00"));
     }
     public void LogLoseLevel(int level, string theme)
     {
+        string trimmed = String.Concat(theme.Where(c => !Char.IsWhiteSpace(c)));
         FirebaseAnalytics.LogEvent("Lose_Level_" + theme + "_" + (level + 1).ToString("00"));
     }
     public void LogResetLevel(int level, string theme)
     {
+        string trimmed = String.Concat(theme.Where(c => !Char.IsWhiteSpace(c)));
         FirebaseAnalytics.LogEvent("Reset_Level_" + theme + "_" + (level + 1).ToString("00"));
     }
     public void LogPreviewHint()
