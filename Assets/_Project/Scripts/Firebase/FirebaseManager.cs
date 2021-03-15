@@ -57,17 +57,17 @@ public class FirebaseManager : MonoBehaviour
     public void LogStartLevel(int level,string theme)
     {
         string trimmed = String.Concat(theme.Where(c => !Char.IsWhiteSpace(c)));
-        FirebaseAnalytics.LogEvent("Start_Level_" + theme + "_" + (level + 1).ToString("00"));
+        FirebaseAnalytics.LogEvent("Start_Level_" + trimmed + "_" + (level + 1).ToString("00"));
     }
     public void LogLoseLevel(int level, string theme)
     {
         string trimmed = String.Concat(theme.Where(c => !Char.IsWhiteSpace(c)));
-        FirebaseAnalytics.LogEvent("Lose_Level_" + theme + "_" + (level + 1).ToString("00"));
+        FirebaseAnalytics.LogEvent("Lose_Level_" + trimmed + "_" + (level + 1).ToString("00"));
     }
     public void LogResetLevel(int level, string theme)
     {
         string trimmed = String.Concat(theme.Where(c => !Char.IsWhiteSpace(c)));
-        FirebaseAnalytics.LogEvent("Reset_Level_" + theme + "_" + (level + 1).ToString("00"));
+        FirebaseAnalytics.LogEvent("Reset_Level_" + trimmed + "_" + (level + 1).ToString("00"));
     }
     public void LogPreviewHint()
     {
