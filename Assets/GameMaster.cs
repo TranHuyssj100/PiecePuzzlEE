@@ -50,7 +50,6 @@ public class GameMaster : MonoBehaviour
 
     void FixedUpdate()
     {
-
         ShowNumMove();
         ShowGold();
         //if (LevelController.isInitializeComplete)

@@ -23,7 +23,7 @@ public class ImageCutterEditor : Editor
         GUILayout.EndVertical();
         GUILayout.Space(10f);
 
-        GUILayout.Label("PREFAP CREATER", EditorStyles.boldLabel);
+        GUILayout.Label("PREFAB CREATER", EditorStyles.boldLabel);
         GUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("Path", GUILayout.MaxWidth(40));
         image.path = EditorGUILayout.TextField(image.path);
