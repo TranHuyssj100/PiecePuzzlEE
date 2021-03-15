@@ -82,7 +82,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
    public static List<GameObject> LoadPiece(int idTheme, int idLevel)
     {
         string loadString;
-        loadString ="Themes/"+ themeData[idTheme].name + "/" + idLevel;
+        loadString ="Themes/"+ themeData[idTheme].name.Replace(" ", "") + "/" + idLevel.ToString();
         Debug.LogError(loadString);
         GameObject[] _result = Resources.LoadAll<GameObject>(loadString);
         Debug.LogError(_result.Length);
@@ -91,7 +91,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
 
     public static Sprite LoadSpritePreview(int _idTheme, int _idLevel, int _sizeLevel)
     {
-        string _path = "Themes/" +themeData[_idTheme].name + "/Full/" +_idLevel.ToString();
+        string _path = "Themes/" +themeData[_idTheme].name.Replace(" ", "") + "/Full/" +_idLevel.ToString();
         Sprite[] _sprite = Resources.LoadAll<Sprite>(_path);
         Debug.Log(_path);
         //Sprite _sprite = Resources.Load<Sprite>(_path);

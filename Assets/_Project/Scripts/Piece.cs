@@ -79,6 +79,7 @@ public class Piece : MonoBehaviour
     private void OnMouseDown()
     {
         isMouseDown = true;
+        InCreaseSortingLayer(1);
         OnPieceSelect();
          
     }
@@ -93,6 +94,7 @@ public class Piece : MonoBehaviour
     private void OnMouseUp()
     {
         isMouseDown = false;
+        DecreaseSortingLayer(1);
         if (!isCorrect)
         {
             SetPositionPiece(false);
@@ -133,7 +135,8 @@ public class Piece : MonoBehaviour
     public void OnPieceSelect()
     {
         transform.DOComplete();
-        transform.DOScale(Vector3.one, 0.2f).OnComplete(() => transform.localScale = selectedScale * Vector3.one);
+        //transform.DOScale(Vector3.one, 0.2f).OnComplete(() => transform.localScale = selectedScale * Vector3.one);
+        transform.DOScale(Vector3.one, 0f).OnComplete(() => transform.localScale = selectedScale * Vector3.one);
         if (transform.localScale != Vector3.one)
         {
             Vector3 offset = Vector3.zero;
@@ -184,6 +187,21 @@ public class Piece : MonoBehaviour
         });
     }
     TestLevelCtr.Grid[] preState;
+    
+    void InCreaseSortingLayer(int _value)
+    {
+        foreach(Transform child in transform)
+        {
+            child.GetComponent<SpriteRenderer>().sortingOrder += _value;
+        }
+    }
+    void DecreaseSortingLayer(int _value)
+    {
+        foreach(Transform child in transform)
+        {
+            child.GetComponent<SpriteRenderer>().sortingOrder -= _value;
+        }
+    }
     bool CheckAvailableSpace(Vector2 space)
     {
         if (space.x < 0 || space.x > (Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1) || space.y > 0 || space.y < -(Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1))

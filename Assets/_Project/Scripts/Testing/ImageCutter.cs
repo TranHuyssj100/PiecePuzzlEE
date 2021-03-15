@@ -23,6 +23,7 @@ public class ImageCutter : MonoBehaviour
     void Update()
     {
         SelectObject();
+        UnSelectObject();
         if (Input.GetKeyDown(KeyCode.Return))
             SaveSelectedAsPrefab();
     }
@@ -95,6 +96,20 @@ public class ImageCutter : MonoBehaviour
                 objectOnMouse.GetComponent<SpriteRenderer>().color = Color.red;
             }
         }
+    } 
+    void UnSelectObject()
+    {
+        if (Input.GetMouseButton(1))
+        {
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+            if (hit.collider != null)
+            {
+                GameObject objectOnMouse = hit.collider.gameObject;
+                if(selectedPieces.Contains(objectOnMouse))
+                    selectedPieces.Remove(objectOnMouse);
+                objectOnMouse.GetComponent<SpriteRenderer>().color = Color.white;
+            }
+        }
     }
     private int index;
     private List<AnswerPreset> answerPreset;
@@ -103,7 +118,7 @@ public class ImageCutter : MonoBehaviour
     {
         GameObject sprite = new GameObject();
         //Vector3 meanPos = Vector2.zero;
-        string savePath = path + theme + "/" + levelIndex + "/" + index + ".prefab";
+        string savePath = path + theme.Replace(" ", "") + "/" + levelIndex + "/" + index + ".prefab";
         Debug.Log(savePath);
         //foreach (GameObject piece in selectedPieces)
         //    meanPos += piece.transform.position;
@@ -135,8 +150,8 @@ public class ImageCutter : MonoBehaviour
         sprite.name = index++.ToString();
         sprite.AddComponent<Piece>();
 #if UNITY_EDITOR
-        if (!System.IO.Directory.Exists(path + theme + "/" + levelIndex))
-            System.IO.Directory.CreateDirectory(path + theme + "/" + levelIndex);
+        if (!System.IO.Directory.Exists(path + theme.Replace(" ", "") + "/" + levelIndex))
+            System.IO.Directory.CreateDirectory(path + theme.Replace(" ", "") + "/" + levelIndex);
         UnityEditor.PrefabUtility.SaveAsPrefabAsset(sprite, savePath);
 #endif
         selectedPieces.Clear();
@@ -150,7 +165,7 @@ public class ImageCutter : MonoBehaviour
         for (int i = 0; i < answerPreset.Count; i++)
         {
             GameObject sprite = new GameObject();
-            string savePath = path + theme + "/" + levelIndex + "/" + index + ".prefab";
+            string savePath = path + theme.Replace(" ", "") + "/" + levelIndex + "/" + index + ".prefab";
             sprite.transform.parent = transform;
             sprite.transform.localPosition = Vector3.zero;
             for(int j = 0; j < answerPreset[i].gridIndex.Count;j++)
@@ -172,8 +187,8 @@ public class ImageCutter : MonoBehaviour
             sprite.name = index++.ToString();
             sprite.AddComponent<Piece>();
 #if UNITY_EDITOR
-            if (!System.IO.Directory.Exists(path + theme + "/" + levelIndex))
-                System.IO.Directory.CreateDirectory(path + theme + "/" + levelIndex);
+            if (!System.IO.Directory.Exists(path + theme.Replace(" ", "") + "/" + levelIndex))
+                System.IO.Directory.CreateDirectory(path + theme.Replace(" ", "") + "/" + levelIndex);
             UnityEditor.PrefabUtility.SaveAsPrefabAsset(sprite, savePath);
 #endif
             selectedPieces.Clear();
@@ -188,15 +203,16 @@ public class ImageCutter : MonoBehaviour
 
     public void CreateFolder()
     {
-        System.IO.Directory.CreateDirectory(path + theme + "/");
+        System.IO.Directory.CreateDirectory(path + theme.Replace(" ", "") + "/");
     }
     public int GetLevelIndexByTheme()
     {
-        if (!System.IO.Directory.Exists(path + theme + "/"))
-            System.IO.Directory.CreateDirectory(path + theme + "/");
-
-        if (System.IO.Directory.GetFiles(path + theme + "/").Length - 1 >= 0)
-            return System.IO.Directory.GetFiles(path + theme + "/").Length-1;
+        if (!System.IO.Directory.Exists(path + theme.Replace(" ", "") + "/"))
+            System.IO.Directory.CreateDirectory(path + theme.Replace(" ", "") + "/");
+        Debug.LogError(path + theme.Replace(" ", ""));
+        Debug.LogError(System.IO.Directory.GetFiles(path + theme.Replace(" ", "") + "/").Length - 1);
+        if (System.IO.Directory.GetFiles(path + theme.Replace(" ", "") + "/").Length - 1 >= 0)
+            return System.IO.Directory.GetFiles(path + theme.Replace(" ", "") + "/").Length-1;
         else
             return 0;
     }

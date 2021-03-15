@@ -87,7 +87,6 @@ public class TestLevelCtr : MonoBehaviour
             }
             else
             {
-               
                 pieceClone.transform.position = point[index].transform.position;
                 pieceClone.transform.localScale = Vector3.one * Config.PIECE_START_SCALE;
                 pieceClone.GetComponent<Piece>().startPointIndex = index;
@@ -100,7 +99,6 @@ public class TestLevelCtr : MonoBehaviour
                 offset = (pieceClone.transform.position - offset);
                 pieceClone.transform.position += offset;
             } 
-
         }
     }
 
@@ -133,16 +131,6 @@ public class TestLevelCtr : MonoBehaviour
         idLevel = _idLevel;
         idTheme = _idTheme;
 
-        //if (_idLevel <= DataController.themeData[idTheme].levelCount)
-        //{
-            
-        //    curLevelData = DataController.LoadLevelData(idTheme, idLevel);
-        //}
-        //else
-        //{
-        //    idLevel = DataController.themeData[idLevel].levelCount - 1;
-        //    curLevelData = DataController.LoadLevelData(_idTheme, _idLevel);           ;
-        //}
         listPieces.Clear();
         if (_idLevel > DataController.themeData[idTheme].levelCount)
         { 
@@ -155,8 +143,9 @@ public class TestLevelCtr : MonoBehaviour
 
         SetCamPosition(sizeLevel);
 
-        DOVirtual.Float(_delay, 0.05f, 0, (x) => {
-            if (x >= 0.05f)
+        DOVirtual.Float(_delay, 0.1f, 0.1f, (x) => {
+            //Debug.LogError(x);
+            if (x >= 0.1f)
             {
                 availableSpace = new Grid[sizeLevel * sizeLevel];
                 sequenceIndex = new Queue<int>(Enumerable.Range(0, listPieces.Count).ToArray());
@@ -167,6 +156,7 @@ public class TestLevelCtr : MonoBehaviour
                 {
                     SpawnPiece(i, false);
                 }
+                _delay = 0;
             }
         });
       
