@@ -233,7 +233,7 @@ public class GameMaster : MonoBehaviour
         EventManager.TriggerEvent("DestroyPiece");
         FirebaseManager.instance.LogResetLevel(LevelController.idLevel, DataController.themeData[GameData.Theme].name);
         //StartCoroutine(LevelController.instance.InitializeGame(LevelController.idLevel, GameData.Theme));
-        TestLevelCtr.instance.InitalizeGame(TestLevelCtr.instance.idTheme, TestLevelCtr.instance.idLevel);
+        StartCoroutine(TestLevelCtr.instance.InitalizeGame(TestLevelCtr.instance.idTheme, TestLevelCtr.instance.idLevel));
         CloseWinPanel();
         CloseLosePanel();
         AdManager.Instance.checkInterAdsCondition();
@@ -249,7 +249,7 @@ public class GameMaster : MonoBehaviour
         }
         else
             //StartCoroutine(LevelController.instance.InitializeGame(GameData.GetCurrentLevelByTheme(GameData.Theme), GameData.Theme));
-            TestLevelCtr.instance.InitalizeGame(GameData.Theme, GameData.GetCurrentLevelByTheme(GameData.Theme));
+            StartCoroutine(TestLevelCtr.instance.InitalizeGame(GameData.Theme, GameData.GetCurrentLevelByTheme(GameData.Theme)));
         CloseWinPanel();
         CloseLosePanel();
         AdManager.Instance.checkInterAdsCondition();
@@ -258,7 +258,7 @@ public class GameMaster : MonoBehaviour
     public void OnStartClick()
     {
         ClosePanel(menu);
-        TestLevelCtr.instance.InitalizeGame(GameData.Theme, GameData.GetCurrentLevelByTheme(GameData.Theme));
+        StartCoroutine(TestLevelCtr.instance.InitalizeGame(GameData.Theme, GameData.GetCurrentLevelByTheme(GameData.Theme)));
         //StartCoroutine(LevelController.instance.InitializeGame(GameData.GetCurrentLevelByTheme(GameData.Theme), GameData.Theme));
         AdManager.Instance.checkInterAdsCondition();
     }

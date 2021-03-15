@@ -1,12 +1,11 @@
 ﻿using DG.Tweening;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
 public class TestLevelCtr : MonoBehaviour
 {
-    public UnityEngine.UI.Text fpsCounter;
-
     [Header("CUSTOM LEVEL")]
     public int idLevel;
     public int idTheme;
@@ -53,12 +52,8 @@ public class TestLevelCtr : MonoBehaviour
         instance = this;
        
     }
-
-    float deltaTime;
     private void Update()
     {
-        deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;
-        fpsCounter.text = "FPS: " + Mathf.Round(1 / deltaTime);
         if (Input.GetKeyDown(KeyCode.W))
         {
             GameData.gold += 2000;
@@ -129,9 +124,10 @@ public class TestLevelCtr : MonoBehaviour
         _piece.GetComponent<Piece>().AutoCorrectPiece(_piece.GetComponent<Piece>().startPointIndex, _duration);
     }
 
-    public void InitalizeGame(int _idTheme, int _idLevel)
+    public IEnumerator InitalizeGame(int _idTheme, int _idLevel)
     {
-        int _delay = 0;
+        //int _delay = 0;
+        FirebaseManager.instance.LogStartLevel(_idLevel, DataController.themeData[_idTheme].name);
         EventManager.TriggerEvent("DestroyPiece");
         
         idLevel = _idLevel;
@@ -149,22 +145,18 @@ public class TestLevelCtr : MonoBehaviour
 
         SetCamPosition(sizeLevel);
 
-        DOVirtual.Float(_delay, 0.1f, 0.1f, (x) => {
-            //Debug.LogError(x);
-            if (x >= 0.1f)
-            {
-                availableSpace = new Grid[sizeLevel * sizeLevel];
-                sequenceIndex = new Queue<int>(Enumerable.Range(0, listPieces.Count).ToArray());
-                CreateAvailableSpaceList();
+        yield return new WaitForEndOfFrame();
+        availableSpace = new Grid[sizeLevel * sizeLevel];
+        sequenceIndex = new Queue<int>(Enumerable.Range(0, listPieces.Count).ToArray());
+        CreateAvailableSpaceList();
 
-                SpawnPiece(0, true);
-                for (int i = 1; i < 3; i++)
-                {
-                    SpawnPiece(i, false);
-                }
-                _delay = 0;
-            }
-        });
+        SpawnPiece(0, true);
+        for (int i = 1; i < 3; i++)
+        {
+            SpawnPiece(i, false);
+        }
+        //_delay = 0;
+    
       
     }
 
