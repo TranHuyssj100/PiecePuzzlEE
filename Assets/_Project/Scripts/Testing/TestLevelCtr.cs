@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class TestLevelCtr : MonoBehaviour
 {
+    public UnityEngine.UI.Text fpsCounter;
     [Header("CUSTOM LEVEL")]
     public int idLevel;
     public int idTheme;
@@ -52,8 +53,12 @@ public class TestLevelCtr : MonoBehaviour
         instance = this;
        
     }
+
+    float deltaTime;
     private void Update()
     {
+        deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;
+        fpsCounter.text = "FPS: " + Mathf.Round(1 / deltaTime);
         if (Input.GetKeyDown(KeyCode.W))
         {
             GameData.gold += 2000;
