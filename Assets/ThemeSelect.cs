@@ -20,16 +20,15 @@ public class ThemeSelect : MonoBehaviour
 
     private void OnEnable()
     {
-        //CreateThemeChild();
+        CreateThemeChild();
     }
 
     public void CreateThemeChild()
     {
-        //foreach(Transform child in content)
-        //{
-        //    Debug.Log(child.name);
-        //    Destroy(child.gameObject);
-        //}
+        foreach (Transform child in content)
+        {
+            Destroy(child.gameObject);
+        }
         for (int i = 0; i < amountTheme; i++)
         {
             GameObject _themeClone = GameObject.Instantiate(themeChild, content);
@@ -72,6 +71,10 @@ public class ThemeSelect : MonoBehaviour
                                                                                                  GameMaster.instance.CloseThemeSelect();
                                                                                                  //GameMaster.instance.OnStartClick();
                                                                                                  });
+        }
+        else
+        {
+            GameMaster.instance.OpenShopUI();
         }
     }
 }

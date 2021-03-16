@@ -19,6 +19,12 @@ public class GameMaster : MonoBehaviour
     public TextMeshProUGUI moveTxt;
     public TextMeshProUGUI goldTxt;
 
+    [Space(10)]
+    [Header("Sound Buttons")]
+    public Sprite[] SFX;
+    public Sprite[] BGM;
+    public Button Btn_SFX;
+    public Button Btn_BGM;
 
 
 
@@ -46,16 +52,25 @@ public class GameMaster : MonoBehaviour
         menu.SetActive(true);
         AdManager.Instance.onRewardAdClosed += RewardAdClosed;
         onPiecePlace += OnPiecePlaced;
+        GameData.onGoldValueChanged += ShowGold;
+        ShowGold();
+        Btn_BGM.GetComponent<UnityEngine.UI.Image>().sprite = BGM[GameData.isBGM];
+        Btn_SFX.GetComponent<UnityEngine.UI.Image>().sprite = SFX[GameData.isSFX];
+
+    }
+
+    private void OnDestroy()
+    {
+        if(AdManager.Instance != null)
+            AdManager.Instance.onRewardAdClosed -= RewardAdClosed;
+        GameData.onGoldValueChanged -= ShowGold;
+        onPiecePlace -= OnPiecePlaced;
     }
 
     void FixedUpdate()
     {
         ShowNumMove();
         ShowGold();
-        //if (LevelController.isInitializeComplete)
-        //{
-            
-        //}
     }
 
     private void checkEndGame()
@@ -83,6 +98,7 @@ public class GameMaster : MonoBehaviour
     }
     private void OnPiecePlaced()
     {
+        ShowNumMove();
         Invoke("checkEndGame", .5f);
     }
     #region PHASE
@@ -278,9 +294,11 @@ public class GameMaster : MonoBehaviour
             Piece _piece = TestLevelCtr.instance.FindIncorrectPiece();
             if (_piece!=null && !_piece.isCorrect)
             {
+                FirebaseManager.instance.LogAutoCorrectHint();
                 TestLevelCtr.instance.SetCorrectPiecePos(_piece.gameObject, 0.3f);
                 //LevelController.instance.SetCorrectPiecePos(_piece.gameObject, _piece.startPosition, 0.5f);
                 //if (_piece.isPieceTutorial) _piece.TutorialPieceOnMouseDown();
+
             }
         }
         //StartCoroutine(CorountineCheckPiece());
@@ -330,13 +348,12 @@ public class GameMaster : MonoBehaviour
     public void toggleSFX()
     {
         GameData.isSFX = GameData.isSFX == 0 ? 1 : 0;
-        SoundManager.instance.Btn_SFX.GetComponent<Image>().sprite = SoundManager.instance.SFX[GameData.isSFX];
+        Btn_SFX.GetComponent<Image>().sprite = SFX[GameData.isSFX];
     }
     public void toggleBGM()
     {
         GameData.isBGM = GameData.isBGM == 0 ? 1 : 0;
-        SoundManager.instance.Btn_BGM.GetComponent<Image>().sprite = SoundManager.instance.BGM[GameData.isBGM];
-
+        Btn_BGM.GetComponent<Image>().sprite = BGM[GameData.isBGM];
         if (GameData.isBGM == 0)
             SoundManager.instance.Stop(TypeSFX.BGM, "BGM");
         else

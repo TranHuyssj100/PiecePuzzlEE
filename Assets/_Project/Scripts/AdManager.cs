@@ -9,7 +9,7 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
     public event Action onRewardAdClosed;
 
     public int stagePlayed = 0;
-    private int stageToShowAd = 3;
+    private int stageToShowAd = 2;
 
     public void RewardAdClosed()
     {

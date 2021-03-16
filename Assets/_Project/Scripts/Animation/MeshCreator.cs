@@ -13,6 +13,7 @@ public class MeshCreator : MonoBehaviour
     Vector2[] uv;
     int[] triangles;
     Mesh mesh;
+
     // Start is called before the first frame update
     void Start()
     {

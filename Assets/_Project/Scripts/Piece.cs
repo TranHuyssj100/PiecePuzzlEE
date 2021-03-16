@@ -184,6 +184,7 @@ public class Piece : MonoBehaviour
             offset /= transform.childCount;
             offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
             transform.position += new Vector3(offset.x, offset.y*2f, 0);
+
         }
         transform.DOMove(startPosition, 0.3f).OnComplete(() => { 
         
