@@ -243,13 +243,14 @@ public class GameMaster : MonoBehaviour
         //GameData.level++;
    
         EventManager.TriggerEvent("DestroyPiece");
-        if (TestLevelCtr.instance.idLevel >= DataController.themeData[GameData.Theme].levelCount)
+        if (TestLevelCtr.instance.idLevel >= DataController.themeData[GameData.Theme].levelCount-1)
         {
             OpenThemeSelect();
         }
         else
-            //StartCoroutine(LevelController.instance.InitializeGame(GameData.GetCurrentLevelByTheme(GameData.Theme), GameData.Theme));
+        {
             StartCoroutine(TestLevelCtr.instance.InitalizeGame(GameData.Theme, GameData.GetCurrentLevelByTheme(GameData.Theme)));
+        }
         CloseWinPanel();
         CloseLosePanel();
         AdManager.Instance.checkInterAdsCondition();
