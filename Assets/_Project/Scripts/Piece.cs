@@ -40,12 +40,12 @@ public class Piece : MonoBehaviour
     private void OnEnable()
     {
         EventManager.StartListening("DestroyPiece", DestroyPiece);
-        EventManager.StartListening("CheckTriggerPiece", CheckTriggerPiece);
+        //EventManager.StartListening("CheckTriggerPiece", CheckTriggerPiece);
     }
     private void OnDisable()
     {
         EventManager.StopListening("DestroyPiece", DestroyPiece);
-        EventManager.StopListening("CheckTriggerPiece", CheckTriggerPiece);
+        //EventManager.StopListening("CheckTriggerPiece", CheckTriggerPiece);
         
     }
 
@@ -75,7 +75,7 @@ public class Piece : MonoBehaviour
 
     private void Update()
     {
-
+        
     }
 
     private void OnMouseDown()
@@ -83,7 +83,8 @@ public class Piece : MonoBehaviour
         isMouseDown = true;
         InCreaseSortingLayer(1);
         OnPieceSelect();
-         
+
+        TestLevelCtr.instance.DeativeTutorial();
     }
 
     private void OnMouseDrag()
@@ -100,6 +101,7 @@ public class Piece : MonoBehaviour
         if (!isCorrect)
         {
             SetPositionPiece(false);
+            //TestLevelCtr.instance.ActiveTutorial();
         }
     }
 
@@ -117,22 +119,7 @@ public class Piece : MonoBehaviour
                 break;
         } 
     }
-    //void SetScalePieceOnPreSpace()
-    //{
-    //    Transform _sprite = transform.GetChild(transform.childCount - 1);
-    //    Transform _shadow = transform.Find("Shadow");
-       
-    //    if (isOnPreSpace)
-    //    {
-    //        transform.localScale = Vector3.zero;
-    //        transform.localScale = Vector3.zero;
-    //        transform.DOScale(Vector3.one * startScale, 0.2f);
-    //        _sprite.localScale = Vector2.one* 0.8f;
-    //        _sprite.localPosition = Vector2.zero;
-    //        _shadow.localScale = Vector2.one* 0.8f;
-    //        _shadow.localPosition = Vector2.zero;
-    //    }
-    //}
+
 
     public void OnPieceSelect()
     {
@@ -246,18 +233,7 @@ public class Piece : MonoBehaviour
             TestLevelCtr.instance.NUM_MOVE--;
             oldPostionOnGridBoard = transform.localPosition;
         }
-        //foreach (Transform grid in transform)
-        //{
-        //    for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
-        //    {
-        //        Debug.LogError(grid.position);
-        //        if (Vector2.Distance(TestLevelCtr.instance.availableSpace[i].position, (Vector2)TestLevelCtr.instance.allPieces.transform.InverseTransformPoint((Vector2)grid.position)) < .1f)
-        //        {
-        //            TestLevelCtr.instance.availableSpace[i].available = false;
-        //            break;
-        //        }
-        //    }
-        //}
+
         if ((Vector2)transform.localPosition == Vector2.zero)
         {
                 isCorrect = true;
@@ -273,6 +249,7 @@ public class Piece : MonoBehaviour
         else
         {
             SoundManager.instance.PlayRandom(TypeSFX.Wrong);
+
         }
 
     }
@@ -313,35 +290,35 @@ public class Piece : MonoBehaviour
             }
     }
    
-    public void TutorialPieceOnMouseDown()
-    {
-        Transform _shadow = transform.Find("Shadow");
-        Transform _sprite = transform.GetChild(transform.childCount - 1);
-        Transform _tutPrefap = transform.GetChild(0);
-        _shadow.localScale = Vector3.one;
-        _sprite.localScale = Vector3.one;
-        _tutPrefap.gameObject.SetActive(false);  
-    }
-   public void TutorialPieceOnMouseUp()
-    {
-        Transform _shadow = transform.Find("Shadow");
-        Transform _sprite = transform.GetChild(transform.childCount - 1);
-        Transform _tutPrefap = transform.GetChild(0);
-        _shadow.localScale = Vector3.zero;
-        _sprite.localScale = Vector3.zero;
-        _tutPrefap.gameObject.SetActive(true);
-    }
+    //public void TutorialPieceOnMouseDown()
+    //{
+    //    Transform _shadow = transform.Find("Shadow");
+    //    Transform _sprite = transform.GetChild(transform.childCount - 1);
+    //    Transform _tutPrefap = transform.GetChild(0);
+    //    _shadow.localScale = Vector3.one;
+    //    _sprite.localScale = Vector3.one;
+    //    _tutPrefap.gameObject.SetActive(false);  
+    //}
+   //public void TutorialPieceOnMouseUp()
+   // {
+   //     Transform _shadow = transform.Find("Shadow");
+   //     Transform _sprite = transform.GetChild(transform.childCount - 1);
+   //     Transform _tutPrefap = transform.GetChild(0);
+   //     _shadow.localScale = Vector3.zero;
+   //     _sprite.localScale = Vector3.zero;
+   //     _tutPrefap.gameObject.SetActive(true);
+   // }
 
-   public void CheckTriggerPiece()
-    {
-            //Debug.LogError("Check TRigger");
-        if (isTriggerOtherPiece && !isCorrect)
-        {
-            canSetPosition = true;
-            transform.DOMove(startPosition, 0.5f);
-            transform.DOScale(Vector3.one * startScale, .2f);
-        }
-    }
+   //public void CheckTriggerPiece()
+   // {
+   //         //Debug.LogError("Check TRigger");
+   //     if (isTriggerOtherPiece && !isCorrect)
+   //     {
+   //         canSetPosition = true;
+   //         transform.DOMove(startPosition, 0.5f);
+   //         transform.DOScale(Vector3.one * startScale, .2f);
+   //     }
+   // }
 
     public void DestroyPiece()
     {

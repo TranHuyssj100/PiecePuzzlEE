@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using TMPro;
 
 public class TestLevelCtr : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class TestLevelCtr : MonoBehaviour
     public int sizeLevel;
     public float difficultParam;
     [Space(5f)]
+    public GameObject tutorialObj;
     public GameObject curAllPieces;
     public Transform gridBroad;
     public LevelData curLevelData;
@@ -37,6 +39,8 @@ public class TestLevelCtr : MonoBehaviour
     int numPiecesWrong;
     int numMove;
     Queue<int> sequenceIndex;
+    GameObject tutClone;
+    bool isOnTutorial=false;
 
     public int NUM_PIECES_WRONG
     {
@@ -66,6 +70,10 @@ public class TestLevelCtr : MonoBehaviour
         {
             GameData.gold += 2000;
         }
+        //if(idLevel==0 && idTheme == 0)
+        //{
+        //    TutorialControl();
+        //}
     }
 
     public void CreateAvailableSpaceList()
@@ -161,12 +169,14 @@ public class TestLevelCtr : MonoBehaviour
         //tutorial
         if (idLevel == 0 && idTheme == 0)
         {
+          
             int j = 0;
             for (int i = 0; i < listPieces.Count - 1; i++)
             {
                 j= i % 3;
                 SpawnPiece(j, true);
             }
+            Tutorial();
         }
         else
         {
@@ -224,7 +234,31 @@ public class TestLevelCtr : MonoBehaviour
 
     public void Tutorial()
     {
-      
+        isOnTutorial = true;
+        tutorialObj = Instantiate(tutorialObj, curAllPieces.transform);
     }
+
+    public void ActiveTutorial()
+    {
+        if(isOnTutorial)
+            tutorialObj.SetActive(true);
+    }
+
+    public void DeativeTutorial()
+    {
+        if(isOnTutorial)
+            tutorialObj.SetActive(false);
+    }
+
+    //public void TutorialControl()
+    //{
+    //   GameObject _tutPiece = listPieces[listPieces.Count - 1];
+    //    if (_tutPiece.GetComponent<Piece>().isMouseDown)
+    //    {
+    //        DeativeTutorial();
+    //    }
+    //}
+    
+   
 
 }
