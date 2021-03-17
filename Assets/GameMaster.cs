@@ -75,7 +75,7 @@ public class GameMaster : MonoBehaviour
 
     private void checkEndGame()
     {
-        Debug.LogError("NUM_PIECES_WORNG: " + TestLevelCtr.instance.NUM_PIECES_WRONG);
+        //Debug.LogError("NUM_PIECES_WORNG: " + TestLevelCtr.instance.NUM_PIECES_WRONG);
         if (TestLevelCtr.instance.NUM_MOVE > 0)
         {
             if (TestLevelCtr.instance.NUM_PIECES_WRONG <= 0)
