@@ -161,9 +161,10 @@ public class TestLevelCtr : MonoBehaviour
         //tutorial
         if (idLevel == 0 && idTheme == 0)
         {
+            int j = 0;
             for (int i = 0; i < listPieces.Count - 1; i++)
             {
-                int j = i % 3;
+                j= i % 3;
                 SpawnPiece(j, true);
             }
         }

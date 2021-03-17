@@ -262,7 +262,7 @@ public class Piece : MonoBehaviour
         {
                 isCorrect = true;
                 SoundManager.instance.PlayRandom(TypeSFX.True);
-                Handheld.Vibrate();
+                //Handheld.Vibrate();
                 TestLevelCtr.instance.NUM_PIECES_WRONG--;
                 TestLevelCtr.instance.SpawnPiece(startPointIndex,false);
 
