@@ -75,7 +75,7 @@ public class GameMaster : MonoBehaviour
 
     private void checkEndGame()
     {
-        Debug.LogError("NUM_PIECES_WORNG: " + TestLevelCtr.instance.NUM_PIECES_WRONG);
+        //Debug.LogError("NUM_PIECES_WORNG: " + TestLevelCtr.instance.NUM_PIECES_WRONG);
         if (TestLevelCtr.instance.NUM_MOVE > 0)
         {
             if (TestLevelCtr.instance.NUM_PIECES_WRONG <= 0)
@@ -110,10 +110,15 @@ public class GameMaster : MonoBehaviour
             GameData.gold += Config.GOLD_WIN;
             SoundManager.instance.PlayRandom(TypeSFX.Win);
             SoundManager.instance.ClearIndexSquential(TypeSFX.True);
-            Debug.Log("<color=yellow> YOU WIN ! </color>");
+            //Debug.Log("<color=yellow> YOU WIN ! </color>");
             OpenPanel(winPanel);
             winPanel.GetComponent<WinPanel>().SetImageReview();
-            GameData.SetCurrentLevelByTheme(GameData.Theme, (TestLevelCtr.instance.idLevel) < (DataController.themeData[GameData.Theme].levelCount - 1) ? TestLevelCtr.instance.idLevel + 1 : TestLevelCtr.instance.idLevel);
+            if (TestLevelCtr.instance.idLevel >= GameData.GetCurrentLevelByTheme(GameData.Theme) && TestLevelCtr.instance.idLevel < DataController.themeData[GameData.Theme].levelCount - 1)
+            {
+                GameData.level++;
+                FirebaseManager.instance.LogUnlockLevel(GameData.level,DataController.themeData[GameData.Theme].name);
+                GameData.SetCurrentLevelByTheme(GameData.Theme, (TestLevelCtr.instance.idLevel) < (DataController.themeData[GameData.Theme].levelCount - 1) ? TestLevelCtr.instance.idLevel + 1 : TestLevelCtr.instance.idLevel);
+            }
         }
     }
     void LosePhase()
@@ -304,12 +309,11 @@ public class GameMaster : MonoBehaviour
         //StartCoroutine(CorountineCheckPiece());
     }   
 
-    IEnumerator CorountineCheckPiece()
-    {
-        yield return new WaitForSeconds(0.2f);
-        EventManager.TriggerEvent("CheckTriggerPiece");
-
-    }
+    //IEnumerator CorountineCheckPiece()
+    //{
+    //    yield return new WaitForSeconds(0.2f);
+    //    EventManager.TriggerEvent("CheckTriggerPiece");
+    //}
 
     public void OnPreviewClick()
     {

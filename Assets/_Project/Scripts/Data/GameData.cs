@@ -20,7 +20,7 @@ public static class GameData
 
     static GameData()
     {
-        LEVEL= PlayerPrefs.GetInt("level", 0);
+        LEVEL= PlayerPrefs.GetInt("level", 1);
         THEME=PlayerPrefs.GetInt("theme", 0);
         IS_BGM = PlayerPrefs.GetInt("bgm", 1);
         IS_SFX = PlayerPrefs.GetInt("sfx", 1);
@@ -29,13 +29,13 @@ public static class GameData
 
         //CreateCurrentLevelforEachTheme();
         //CreateStatusTheme();
-    }  
-    
-    //public static int level
-    //{
-    //    get { return LEVEL; }
-    //    set { PlayerPrefs.SetInt("level", (LEVEL = value)); }
-    //}  
+    }
+
+    public static int level
+    {
+        get { return LEVEL; }
+        set { PlayerPrefs.SetInt("level", (LEVEL = value)); }
+    }
     public static int Theme
     {
         get { return THEME; }
