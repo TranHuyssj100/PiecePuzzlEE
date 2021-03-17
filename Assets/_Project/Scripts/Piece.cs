@@ -279,7 +279,6 @@ public class Piece : MonoBehaviour
     public void AutoCorrectPiece(int _startPos, float _duration)
     {
         OnPieceSelect();
-        FirebaseManager.instance.LogAutoCorrectHint();
         isCorrect = true;
         //startPointIndex =  _startPos;
         //TestLevelCtr.instance.NUM_PIECES_WRONG--;

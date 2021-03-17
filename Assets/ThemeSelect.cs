@@ -62,6 +62,8 @@ public class ThemeSelect : MonoBehaviour
         if (GameData.gold >= themes[index].price)
         {
             GameData.gold -= themes[index].price;
+            GameData.level++;
+            FirebaseManager.instance.LogUnlockLevel(GameData.level, DataController.themeData[GameData.Theme].name);
             content.GetChild(index).GetComponent<ThemeChild>().UnlockTheme();
             //content.GetChild(index).GetComponent<ThemeChild>().priceTxt.text = "Open";
             content.GetChild(index).GetComponent<ThemeChild>().buyBtn.onClick.RemoveAllListeners();

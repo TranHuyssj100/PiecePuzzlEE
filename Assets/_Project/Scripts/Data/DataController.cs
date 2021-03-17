@@ -33,6 +33,13 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
         LoadAllThemeData();
         GameData.CreateStatusTheme();
         GameData.CreateCurrentLevelforEachTheme();
+        GameData.level = 0;
+        for (int i = 0; i < themeData.Length; i++)
+        {
+            if(GameData.GetThemeStatus(i) == 1)
+                GameData.level += GameData.GetCurrentLevelByTheme(i) + 1;
+        }
+        Debug.Log(GameData.level);
     }
 
 
