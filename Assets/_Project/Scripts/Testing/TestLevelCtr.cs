@@ -167,6 +167,10 @@ public class TestLevelCtr : MonoBehaviour
         CreateAvailableSpaceList();
 
         //tutorial
+        if (curAllPieces.transform.childCount > 0)
+        {
+            Destroy(curAllPieces.transform.GetChild(0).gameObject);
+        }
         if (idLevel == 0 && idTheme == 0)
         {
           
@@ -180,6 +184,7 @@ public class TestLevelCtr : MonoBehaviour
         }
         else
         {
+            isOnTutorial = false;
             SpawnPiece(0, true);
             for (int i = 1; i < 3; i++)
             {
@@ -250,13 +255,10 @@ public class TestLevelCtr : MonoBehaviour
             tutorialObj.SetActive(false);
     }
 
-    //public void TutorialControl()
+    //public void DestroyTutorial()
     //{
-    //   GameObject _tutPiece = listPieces[listPieces.Count - 1];
-    //    if (_tutPiece.GetComponent<Piece>().isMouseDown)
-    //    {
-    //        DeativeTutorial();
-    //    }
+    //   GameObject _tut= curAllPieces.transform.Find("Tutorial(Clone)").gameObject!=null ? curAllPieces.transform.Find("Tutorial(Clone)").gameObject :null;
+    //    if (_tut != null) Destroy(_tut);
     //}
     
    
