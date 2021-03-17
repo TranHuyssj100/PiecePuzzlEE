@@ -242,6 +242,7 @@ public class Piece : MonoBehaviour
         }
         if (transform.localPosition != oldPostionOnGridBoard && !_autoCorrect)
         {
+
             TestLevelCtr.instance.NUM_MOVE--;
             oldPostionOnGridBoard = transform.localPosition;
         }
@@ -260,6 +261,7 @@ public class Piece : MonoBehaviour
         if ((Vector2)transform.localPosition == Vector2.zero)
         {
                 isCorrect = true;
+                SoundManager.instance.PlayRandom(TypeSFX.True);
                 TestLevelCtr.instance.NUM_PIECES_WRONG--;
                 TestLevelCtr.instance.SpawnPiece(startPointIndex,false);
 
@@ -267,7 +269,11 @@ public class Piece : MonoBehaviour
                 foreach (Collider2D collider in colliders)
                     Destroy(collider);
         }
-     
+        else
+        {
+            SoundManager.instance.PlayRandom(TypeSFX.Wrong);
+        }
+
     }
 
     public void AutoCorrectPiece(int _startPos, float _duration)

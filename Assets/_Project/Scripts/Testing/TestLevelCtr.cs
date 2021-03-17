@@ -158,13 +158,26 @@ public class TestLevelCtr : MonoBehaviour
         sequenceIndex = new Queue<int>(Enumerable.Range(0, listPieces.Count).ToArray());
         CreateAvailableSpaceList();
 
-        SpawnPiece(0, true);
-        for (int i = 1; i < 3; i++)
+
+        if (idLevel == 0 && idTheme == 0)
         {
-            SpawnPiece(i, false);
+
+            for (int i = 0; i < listPieces.Count - 1; i++)
+            {
+                int j = i % 3;
+                SpawnPiece(j, true);
+            }
+        }
+        else
+        {
+            SpawnPiece(0, true);
+            for (int i = 1; i < 3; i++)
+            {
+                SpawnPiece(i, false);
+            }
         }
         //_delay = 0;
-
+        //Tutorial();
     }
 
     public static Stack<int> SwapValuetoTopStack(Stack<int> _stack, int _value)
@@ -207,6 +220,11 @@ public class TestLevelCtr : MonoBehaviour
 
             }
         }
+    }
+
+    public void Tutorial()
+    {
+      
     }
 
 }
