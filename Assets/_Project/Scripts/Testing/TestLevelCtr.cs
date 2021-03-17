@@ -158,10 +158,9 @@ public class TestLevelCtr : MonoBehaviour
         sequenceIndex = new Queue<int>(Enumerable.Range(0, listPieces.Count).ToArray());
         CreateAvailableSpaceList();
 
-
+        //tutorial
         if (idLevel == 0 && idTheme == 0)
         {
-
             for (int i = 0; i < listPieces.Count - 1; i++)
             {
                 int j = i % 3;
