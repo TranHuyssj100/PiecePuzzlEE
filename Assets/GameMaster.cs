@@ -270,7 +270,8 @@ public class GameMaster : MonoBehaviour
         }
         else
         {
-            StartCoroutine(TestLevelCtr.instance.InitalizeGame(GameData.Theme, GameData.GetCurrentLevelByTheme(GameData.Theme)));
+            //StartCoroutine(TestLevelCtr.instance.InitalizeGame(GameData.Theme, GameData.GetCurrentLevelByTheme(GameData.Theme)));
+            StartCoroutine(TestLevelCtr.instance.InitalizeGame(GameData.Theme, ++TestLevelCtr.instance.idLevel));
         }
         CloseWinPanel();
         CloseLosePanel();
