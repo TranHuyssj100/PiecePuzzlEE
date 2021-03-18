@@ -9,7 +9,7 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
     public event Action onRewardAdClosed;
 
     public int stagePlayed = 0;
-    private int stageToShowAd = 2;
+    private static int stageToShowAd = 2;
 
     public void RewardAdClosed()
     {
@@ -81,6 +81,8 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
         loadBannerAds();
         loadInterstitialAd();
 
+
+        stagePlayed = 0;
         //// Called when an ad request has successfully loaded.
         //this.rewardedAd.OnAdLoaded += HandleRewardedAdLoaded;
         //// Called when an ad request failed to load.
