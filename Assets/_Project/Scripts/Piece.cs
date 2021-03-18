@@ -103,6 +103,7 @@ public class Piece : MonoBehaviour
             SetPositionPiece(false);
             //TestLevelCtr.instance.ActiveTutorial();
         }
+        GameMaster.instance.PiecePlaced();
     }
 
     public void SetLimitPos(int _sizeLevel)
@@ -123,7 +124,18 @@ public class Piece : MonoBehaviour
 
     public void OnPieceSelect()
     {
+
         transform.DOComplete();
+        foreach (Transform grid in transform)
+        {
+            for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
+            {
+                if (TestLevelCtr.instance.availableSpace[i].position == (Vector2)TestLevelCtr.instance.curAllPieces.transform.InverseTransformPoint((Vector2)grid.position))
+                    TestLevelCtr.instance.availableSpace[i].available = true;
+            }
+
+        }
+
         if (transform.localScale != Vector3.one)
         {
             Vector3 offset = Vector3.zero;
@@ -136,18 +148,14 @@ public class Piece : MonoBehaviour
             Vector3 _temp= transform.position += new Vector3(offset.x*1.5f, offset.y+2f, 0);
             transform.DOMove(_temp, 0.1f);
         }
+        else if (isMouseDown)
+        {
+            transform.position += new Vector3(0,0.5f, 0);
+        }
         transform.localScale= Vector3.one;
 
         //transform.localScale = selectedScale * Vector3.one;
-        foreach (Transform grid in transform)
-        {
-            for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
-            {
-                if (TestLevelCtr.instance.availableSpace[i].position == (Vector2)TestLevelCtr.instance.curAllPieces.transform.InverseTransformPoint((Vector2)grid.position))
-                    TestLevelCtr.instance.availableSpace[i].available = true;
-            }
-
-        }
+    
         oldMousePos = Input.mousePosition;
        
     }
@@ -241,7 +249,6 @@ public class Piece : MonoBehaviour
                 //Handheld.Vibrate();
                 TestLevelCtr.instance.NUM_PIECES_WRONG--;
                 TestLevelCtr.instance.SpawnPiece(startPointIndex,false);
-
                 Collider2D[] colliders = GetComponents<Collider2D>();
                 foreach (Collider2D collider in colliders)
                     Destroy(collider);

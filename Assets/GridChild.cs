@@ -10,6 +10,10 @@ public class GridChild : MonoBehaviour
     public TMPro.TextMeshProUGUI levelIndexTxt;
 
 
+    private void OnEnable()
+    {
+    }
+
     private void Start()
     {
         levelIndexTxt.text = (indexLevel+1).ToString();
@@ -17,15 +21,7 @@ public class GridChild : MonoBehaviour
 
     private void Update()
     {
-        //isUnlock = indexLevel <= GameData.GetCurrentLevelByTheme(GameData.Theme);
-        //if (isUnlock)     
-        //{
-        //    if (imgLock.activeSelf) imgLock.SetActive(false);
-        //}
-        //else
-        //{
-        //    if (!imgLock.activeSelf) imgLock.SetActive(true);
-        //}
+    
     }
 
     public void OnClick()
