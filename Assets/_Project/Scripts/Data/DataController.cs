@@ -132,7 +132,10 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
         {
             Directory.CreateDirectory(AnswerPresetPath + size);
         }
+        //Debug.Log(AnswerPresetPath + size);
+        AssetDatabase.Refresh();
         File.WriteAllText(Path.Combine(AnswerPresetPath + size, Directory.GetFiles(AnswerPresetPath + size).Length / 2 + JsonSuffix), _strData);
+        Debug.Log("<color=green>Saved successful to: </color>" + AnswerPresetPath + size +"/" + Directory.GetFiles(AnswerPresetPath + size).Length / 2 + JsonSuffix);
     }
     public static List<ImageCutter.AnswerPreset> ReadAnswerPreset(int _size)
     {
