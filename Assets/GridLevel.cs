@@ -1,14 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 using TMPro;
+using System.Collections.Generic ;
+using System;
+using System.Collections;
 
-public class GridLevel : MonoBehaviour
+public class GridLevel : CoroutineQueue
 {
     public GameObject gridChild;
     public TextMeshProUGUI title;
     public static GridLevel instance;
     int numLevelofTheme;
+
+    protected Queue<IEnumerator> coroutineQueue = new Queue<IEnumerator>();
+
     private void Awake()
     {
         instance = this;
@@ -35,31 +40,27 @@ public class GridLevel : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        //DataController.Instance.themeData = DataController.LoadThemeData((int)_idTheme);
-        //numLevelofTheme = DataController.Instance.themeData.groupLevel.Length; //GetThemeLevelCount(_type, _sizeLevel);
         numLevelofTheme = DataController.themeData[GameData.Theme].levelCount;
         for (int i=0; i < numLevelofTheme; i++)
         {
-            //Sprite _imgSprite = LevelController.LoadSpritePreview(i, DataController.themeData[GameData.Theme].name, _sizeLevel);
             Sprite _imgSprite = DataController.LoadSpritePreview( DataController.themeData[GameData.Theme].idTheme,i, _sizeLevel);
             if (_imgSprite != null)
             {
                 GameObject _gridChildClone = GameObject.Instantiate(gridChild, gameObject.transform);
+                
                 _gridChildClone.GetComponent<GridChild>().indexLevel = i;
                 _gridChildClone.transform.GetChild(0).GetComponent<Image>().sprite = _imgSprite;
-                _gridChildClone.transform.localScale = Vector3.zero;
-                _gridChildClone.transform.DOScale(Vector3.one, 0.2f);
                 if (i <= GameData.GetCurrentLevelByTheme(GameData.Theme))
                     _gridChildClone.GetComponent<GridChild>().UnlockLevel();
-                //else
-                //    _gridChildClone.GetComponent<GridChild>().isUnlock = false;
-
+               
+                coroutineQueue.Enqueue(ShowObject(_gridChildClone.transform, 0.01f));
             }
             else
             {
                 Debug.LogError("Sprite Null");
-            }
+            } 
         }
+        StartCoroutine(CoroutineCoordinator(coroutineQueue));
     }
 
 

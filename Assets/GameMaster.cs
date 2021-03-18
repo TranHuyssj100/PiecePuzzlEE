@@ -47,6 +47,10 @@ public class GameMaster : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        onPiecePlace += OnPiecePlaced;
+    }
     public void Start()
     {
         if (GameData.firstTimeInGame == 1)
@@ -54,17 +58,15 @@ public class GameMaster : MonoBehaviour
             GameData.firstTimeInGame = 0;
             Debug.LogError(GameData.firstTimeInGame);
             StartCoroutine( TestLevelCtr.instance.InitalizeGame(0, 0));
-        }
-            
-       else  menu.SetActive(true);
+        }      
+        else  menu.SetActive(true);
 
         AdManager.Instance.onRewardAdClosed += RewardAdClosed;
-        onPiecePlace += OnPiecePlaced;
+        //onPiecePlace += OnPiecePlaced;
         GameData.onGoldValueChanged += ShowGold;
         ShowGold();
         Btn_BGM.GetComponent<UnityEngine.UI.Image>().sprite = BGM[GameData.isBGM];
         Btn_SFX.GetComponent<UnityEngine.UI.Image>().sprite = SFX[GameData.isSFX];
-
     }
 
     private void OnDestroy()
@@ -77,7 +79,7 @@ public class GameMaster : MonoBehaviour
 
     void FixedUpdate()
     {
-        ShowNumMove();
+        //ShowNumMove();
         ShowGold();
     }
 
@@ -171,6 +173,7 @@ public class GameMaster : MonoBehaviour
     public void ShowNumMove()
     {
         moveTxt.text = TestLevelCtr.instance.NUM_MOVE >= 0 ? TestLevelCtr.instance.NUM_MOVE.ToString() : "0";
+        TweenCustom.ZoomOutandIn(moveTxt.transform, 1.2f ,  0.3f);
     }
 
     public void ShowGold()

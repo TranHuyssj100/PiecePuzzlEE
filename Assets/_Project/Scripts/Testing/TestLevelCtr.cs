@@ -164,6 +164,7 @@ public class TestLevelCtr : MonoBehaviour
         sizeLevel = DataController.themeData[idTheme].size;
         numPiecesWrong = listPieces.Count;
         numMove = Mathf.RoundToInt(listPieces.Count + 0.5f * 1 / difficultParam * listPieces.Count * 1);
+        GameMaster.instance.moveTxt.text = numMove.ToString();
 
         SetCamPosition(sizeLevel);
 
