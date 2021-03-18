@@ -9,6 +9,8 @@ public static class GameData
     private static int GOLD;
     private static int NO_ADS;
 
+    private static int FIRST_TIME_IN_GAME;
+
 
     public static event System.Action onGoldValueChanged;
     public static void GoldValueChanged()
@@ -26,6 +28,7 @@ public static class GameData
         IS_SFX = PlayerPrefs.GetInt("sfx", 1);
         GOLD = PlayerPrefs.GetInt("gold", 300);
         NO_ADS = PlayerPrefs.GetInt("no_ads", 0);
+        FIRST_TIME_IN_GAME = PlayerPrefs.GetInt("first_time_in_game", 1);
 
         //CreateCurrentLevelforEachTheme();
         //CreateStatusTheme();
@@ -57,6 +60,11 @@ public static class GameData
         set { PlayerPrefs.SetInt("gold", (GOLD = value));
             GoldValueChanged();
         }
+    } 
+    public static int firstTimeInGame
+    {
+        get { return FIRST_TIME_IN_GAME; }
+        set { PlayerPrefs.SetInt("first_time_in_game", (FIRST_TIME_IN_GAME = value));}
     }
 
 

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using TMPro;
+using System.Runtime.Versioning;
 
 public class TestLevelCtr : MonoBehaviour
 {
@@ -39,6 +40,7 @@ public class TestLevelCtr : MonoBehaviour
     int numPiecesWrong;
     int numMove;
     Queue<int> sequenceIndex;
+    [SerializeField] 
     GameObject tutClone;
     bool isOnTutorial=false;
 
@@ -53,12 +55,18 @@ public class TestLevelCtr : MonoBehaviour
         set { numMove = value; }
     }
 
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+    }
+
     private void Start()
     {
-       
-        //IntializeGame(idTheme, idLevel);
-        instance = this;
-       
+        if (GameData.firstTimeInGame == 1)
+        {
+          
+        }
     }
 
 
@@ -126,7 +134,7 @@ public class TestLevelCtr : MonoBehaviour
         {
             foreach (Transform child in curAllPieces.transform)
             {
-                if (!child.GetComponent<Piece>().isCorrect)
+                if (child.GetComponent<Piece>()!=null && !child.GetComponent<Piece>().isCorrect)
                 {
                     _piece = child.GetComponent<Piece>();
                     break;
@@ -142,8 +150,6 @@ public class TestLevelCtr : MonoBehaviour
 
     public IEnumerator InitalizeGame(int _idTheme, int _idLevel)
     {
-        //int _delay = 0;
-        FirebaseManager.instance.LogStartLevel(_idLevel, DataController.themeData[_idTheme].name);
         EventManager.TriggerEvent("DestroyPiece");
         
         idLevel = _idLevel;
@@ -167,10 +173,11 @@ public class TestLevelCtr : MonoBehaviour
         CreateAvailableSpaceList();
 
         //tutorial
-        if (curAllPieces.transform.childCount > 0)
-        {
-            Destroy(curAllPieces.transform.GetChild(0).gameObject);
-        }
+        //if (curAllPieces.transform.childCount > 0)
+        //{
+        //    Destroy(curAllPieces.transform.GetChild(0).gameObject);
+        //}
+        DestroyTutorialObj();
         if (idLevel == 0 && idTheme == 0)
         {
           
@@ -191,6 +198,8 @@ public class TestLevelCtr : MonoBehaviour
                 SpawnPiece(i, false);
             }
         }
+        yield return new WaitForEndOfFrame();
+        FirebaseManager.instance.LogStartLevel(_idLevel, DataController.themeData[_idTheme].name);
         //_delay = 0;
         //Tutorial();
     }
@@ -240,27 +249,24 @@ public class TestLevelCtr : MonoBehaviour
     public void Tutorial()
     {
         isOnTutorial = true;
-        tutorialObj = Instantiate(tutorialObj, curAllPieces.transform);
+        tutClone = Instantiate(tutorialObj, curAllPieces.transform);
     }
 
     public void ActiveTutorial()
     {
         if(isOnTutorial)
-            tutorialObj.SetActive(true);
+            tutClone.SetActive(true);
     }
 
     public void DeativeTutorial()
     {
         if(isOnTutorial)
-            tutorialObj.SetActive(false);
+            tutClone.SetActive(false);
     }
-
-    //public void DestroyTutorial()
-    //{
-    //   GameObject _tut= curAllPieces.transform.Find("Tutorial(Clone)").gameObject!=null ? curAllPieces.transform.Find("Tutorial(Clone)").gameObject :null;
-    //    if (_tut != null) Destroy(_tut);
-    //}
-    
+    public void DestroyTutorialObj()
+    {
+        if (tutClone != null)
+            Destroy(tutClone);
+    }
    
-
 }
