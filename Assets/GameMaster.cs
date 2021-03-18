@@ -283,16 +283,14 @@ public class GameMaster : MonoBehaviour
         ClosePanel(menu);
         StartCoroutine(TestLevelCtr.instance.InitalizeGame(GameData.Theme, GameData.GetCurrentLevelByTheme(GameData.Theme)));
         //StartCoroutine(LevelController.instance.InitializeGame(GameData.GetCurrentLevelByTheme(GameData.Theme), GameData.Theme));
-        AdManager.Instance.checkInterAdsCondition();
+        //AdManager.Instance.checkInterAdsCondition();
     }
    public void OnReturnMenuClick()
     {
         OpenPanel(menu);
-        AdManager.Instance.showInterstitialAd();
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-
-   public void OnHintClick()
+    public void OnHintClick()
     {
         if (GameData.gold >= Config.COST_HINT)
         {
