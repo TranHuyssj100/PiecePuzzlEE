@@ -193,7 +193,7 @@ public class TestLevelCtr : MonoBehaviour
                 SpawnPiece(i, false);
             }
         }
-
+        GameMaster.instance.AnimatePlayUI();
         yield return new WaitForSeconds(1);
         FirebaseManager.instance.LogStartLevel(_idLevel, DataController.themeData[_idTheme].name);
         //_delay = 0;

@@ -133,7 +133,7 @@ public class Piece : MonoBehaviour
             }
             offset /= transform.childCount;
             offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
-            Vector3 _temp= transform.position += new Vector3(offset.x*1.5f, offset.y+2f, 0);
+            Vector3 _temp= transform.position += new Vector3(offset.x, offset.y+2f, 0);
             transform.DOMove(_temp, 0.1f);
         }
         else if (isMouseDown)
@@ -253,16 +253,8 @@ public class Piece : MonoBehaviour
     {
         OnPieceSelect();
         isCorrect = true;
-        //startPointIndex =  _startPos;
-        //TestLevelCtr.instance.NUM_PIECES_WRONG--;
-        ////TestLevelCtr.instance.SpawnPiece(_startPos,false);
         transform.DOLocalMove(Vector3.zero, _duration).OnStart(() => CheckAutoCorrect())
                                                       .OnComplete(() => SetPositionPiece(true));
-        //transform.DOScale(Vector3.one, _duration);
-        //transform.localScale = selectedScale * Vector3.one;
-
-        //transform.DOComplete();
-        //transform.DOMove(Vector3.zero, _duration);
     }
     private void CheckAutoCorrect()
     {
