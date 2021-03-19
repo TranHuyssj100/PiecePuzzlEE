@@ -53,20 +53,23 @@ public class GameMaster : MonoBehaviour
     }
     public void Start()
     {
+        Application.targetFrameRate = 60;
         if (GameData.firstTimeInGame == 1)
         {
             GameData.firstTimeInGame = 0;
             Debug.LogError(GameData.firstTimeInGame);
-            StartCoroutine( TestLevelCtr.instance.InitalizeGame(0, 0));
-        }      
-        else  menu.SetActive(true);
-
+            //StartCoroutine(TestLevelCtr.instance.InitalizeGame(0, 0));
+            OnStartClick();
+        }
+        else
+            menu.SetActive(true);
         AdManager.Instance.onRewardAdClosed += RewardAdClosed;
         //onPiecePlace += OnPiecePlaced;
         GameData.onGoldValueChanged += ShowGold;
         ShowGold();
         Btn_BGM.GetComponent<UnityEngine.UI.Image>().sprite = BGM[GameData.isBGM];
         Btn_SFX.GetComponent<UnityEngine.UI.Image>().sprite = SFX[GameData.isSFX];
+        
     }
 
     private void OnDestroy()
