@@ -54,8 +54,6 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
         interstitialAdUnitId = "ca-app-pub-9179752697212712/7215695137";
         bannerAdUnitId = "ca-app-pub-9179752697212712/2320437582";
 #elif UNITY_IOS
-            //rewardedAdUnitId = "ca-app-pub-9179752697212712/7094033959";
-            //interstitialAdUnitId = "ca-app-pub-9179752697212712/7828686655";
             rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
             interstitialAdUnitId = "ca-app-pub-3940256099942544/8691691433";
             bannerAdUnitId = "ca-app-pub-3940256099942544/6300978111";

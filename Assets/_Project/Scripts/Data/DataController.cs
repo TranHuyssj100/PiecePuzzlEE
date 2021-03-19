@@ -28,6 +28,9 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
         //SAVEPIECE = "jar:file://" + Application.dataPath + "!assets/";
         SAVETHEME =  "jar:file://" + Application.dataPath + "!assets/";
         SAVELEVEL =  "jar:file://" + Application.dataPath + "!assets/";
+#elif UNITY_IOS
+        SAVETHEME =  Application.dataPath + "/Raw/Json/Themes";
+        SAVELEVEL =  Application.dataPath + "/Raw/Levels";
 #endif
         //themeData = LoadThemeData(GameData.Theme);     
         LoadAllThemeData();
@@ -60,7 +63,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
     public static void LoadAllThemeData()
     {
         string loadString ;
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_IOS
         //Debug.LogError(Path.Combine(Path.Combine(SAVETHEME, "Themes" + JsonSuffix)));
         loadString = File.ReadAllText(Path.Combine(SAVETHEME, "Themes"+ JsonSuffix));
 #elif UNITY_ANDROID
@@ -75,7 +78,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
     public static LevelData LoadLevelData(int idTheme, int idLevel)
     {
         string loadString;
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_IOS
         loadString = File.ReadAllText(Path.Combine(SAVELEVEL, themeData[idTheme].name  + "/"+ idLevel + JsonSuffix));
         //Debug.LogError((Path.Combine(SAVELEVEL, themeData[idTheme].name + "/" + idLevel + JsonSuffix)));
 #elif UNITY_ANDROID
