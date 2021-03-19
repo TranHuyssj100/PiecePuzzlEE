@@ -7,7 +7,7 @@ using System.Collections;
 
 public class GameMaster : MonoBehaviour
 {
-    public GameObject winPanel; 
+    public GameObject winPanel;
     public GameObject losePanel;
     public GameObject setting;
     public GameObject menu;
@@ -15,6 +15,13 @@ public class GameMaster : MonoBehaviour
     public GameObject preview;
     public GameObject shopUI;
     public GameObject themeSelect;
+    [Space(10)]
+    [Header("PlayUI")]
+    public GameObject playHeader;
+    public GameObject gridBoard;
+    public GameObject preSpace;
+    public GameObject playFooter;
+    [Space(10)]
     [Header("text")]
     public TextMeshProUGUI moveTxt;
     public TextMeshProUGUI goldTxt;
@@ -58,6 +65,7 @@ public class GameMaster : MonoBehaviour
         {
             GameData.firstTimeInGame = 0;
             Debug.LogError(GameData.firstTimeInGame);
+
             //StartCoroutine(TestLevelCtr.instance.InitalizeGame(0, 0));
             OnStartClick();
         }
@@ -153,17 +161,16 @@ public class GameMaster : MonoBehaviour
     {
         if (!panel.activeSelf)
         {
-
             panel.transform.localScale = Vector3.zero;
             panel.SetActive(true);
-            panel.transform.DOScale(Vector3.one, .2f);
+            panel.transform.DOScale(Vector3.one, .35f);
         }
     }  
     void ClosePanel(GameObject panel)
     {
         if (panel.activeSelf)
         {
-            panel.transform.DOScale(Vector3.zero, .2f).OnComplete(() => {
+            panel.transform.DOScale(Vector3.zero, .35f).OnComplete(() => {
                 panel.SetActive(false);
                 panel.transform.localScale = Vector3.one;
             });
@@ -176,7 +183,7 @@ public class GameMaster : MonoBehaviour
     public void ShowNumMove()
     {
         moveTxt.text = TestLevelCtr.instance.NUM_MOVE >= 0 ? TestLevelCtr.instance.NUM_MOVE.ToString() : "0";
-        TweenCustom.ZoomOutandIn(moveTxt.transform, 1.2f ,  0.3f);
+        TweenCustom.ZoomOutandIn(moveTxt.transform, 0.2f ,  0.3f);
     }
 
     public void ShowGold()
@@ -184,6 +191,16 @@ public class GameMaster : MonoBehaviour
         goldTxt.text = GameData.gold.ToString();
     }
 
+    #endregion
+
+    #region Animation
+    public void AnimatePlayUI()
+    {
+        DOTween.CompleteAll();
+        TweenCustom.ToBottom(playHeader.transform, 2f, 0.6f);
+        TweenCustom.ToUpper(playFooter.transform, 2f, 0.6f);
+        TweenCustom.ZoomOutandIn(gridBoard.transform, 0.1f, 0.3f);
+    }
     #endregion
 
 
