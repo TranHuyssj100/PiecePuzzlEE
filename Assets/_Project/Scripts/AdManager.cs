@@ -8,6 +8,9 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
 {
     public event Action onRewardAdClosed;
 
+
+    bool isDay0;
+
     public int stagePlayed = 0;
     private static int stageToShowAd = 2;
 
@@ -41,9 +44,11 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
 
     void Start()
     {
-        //if (instance == null)
-        //    instance = this;
-        //DontDestroyOnLoad(this);
+        if (CheckIsDay0())
+            stageToShowAd = 3;
+        else
+            stageToShowAd = 2;
+
 #if UNITY_ANDROID
         rewardedAdUnitId = "ca-app-pub-9179752697212712/9650286780";
         interstitialAdUnitId = "ca-app-pub-9179752697212712/7215695137";
@@ -83,6 +88,8 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
 
 
         stagePlayed = 0;
+
+        
         //// Called when an ad request has successfully loaded.
         //this.rewardedAd.OnAdLoaded += HandleRewardedAdLoaded;
         //// Called when an ad request failed to load.
@@ -114,6 +121,20 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
 
 
     }
+
+    bool CheckIsDay0()
+    {
+        if (!PlayerPrefs.HasKey("Day0"))
+        {
+            PlayerPrefs.SetString("Day0", DateTime.Now.Date.ToString());
+            return true;
+        }
+        if (DateTime.Now.Date > DateTime.Parse(PlayerPrefs.GetString("Day0", DateTime.Now.Date.ToString())))
+            return false;
+        else
+            return true;
+    }
+
 
     public void rewardedAdEventSubscribe()
     {
