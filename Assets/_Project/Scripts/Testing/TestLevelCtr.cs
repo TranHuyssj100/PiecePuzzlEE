@@ -172,12 +172,6 @@ public class TestLevelCtr : MonoBehaviour
         availableSpace = new Grid[sizeLevel * sizeLevel];
         sequenceIndex = new Queue<int>(Enumerable.Range(0, listPieces.Count).ToArray());
         CreateAvailableSpaceList();
-
-        //tutorial
-        //if (curAllPieces.transform.childCount > 0)
-        //{
-        //    Destroy(curAllPieces.transform.GetChild(0).gameObject);
-        //}
         DestroyTutorialObj();
         if (idLevel == 0 && idTheme == 0)
         {
@@ -199,6 +193,7 @@ public class TestLevelCtr : MonoBehaviour
                 SpawnPiece(i, false);
             }
         }
+        GameMaster.instance.AnimatePlayUI();
         yield return new WaitForEndOfFrame();
         FirebaseManager.instance.LogStartLevel(_idLevel, DataController.themeData[_idTheme].name);
         //_delay = 0;

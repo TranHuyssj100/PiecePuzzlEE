@@ -56,18 +56,6 @@ public class Piece : MonoBehaviour
         selectedPos = 0.1f;
 
         canSetPosition = true;
-
-        //Vector3 offset = Vector3.zero;
-        //foreach (Transform grid in transform)
-        //{
-        //    offset += grid.position;
-        //}
-        //offset /=transform.childCount;
-        //offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
-        //transform.position += offset;
-
-        //transform.localScale = Vector3.zero;
-        //transform.DOScale(Vector3.one * .5f, 0.2f);
         startPosition = transform.position;
 
     }

@@ -3767,7 +3767,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -19.999939}
+  m_AnchoredPosition: {x: 0, y: -14}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &773066818
@@ -4715,6 +4715,7 @@ MonoBehaviour:
   shopUI: {fileID: 1684707326}
   themeSelect: {fileID: 589011816}
   playHeader: {fileID: 685391840}
+  gridBoard: {fileID: 828939558}
   preSpace: {fileID: 1817508243}
   playFooter: {fileID: 1227087082}
   moveTxt: {fileID: 1015837050}
@@ -6122,7 +6123,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -146.66669, y: -19.999939}
+  m_AnchoredPosition: {x: -146.66669, y: -14}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1163666833
@@ -7096,7 +7097,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 146.66669, y: -19.999939}
+  m_AnchoredPosition: {x: 146.66669, y: -14}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1946821513
@@ -8866,26 +8867,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1683158506}
     m_Modifications:
-    - target: {fileID: 7338013786623537520, guid: e1f1a9df38f7147e581580af3c78a0d8,
-        type: 3}
-      propertyPath: themes.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7338013786623537520, guid: e1f1a9df38f7147e581580af3c78a0d8,
-        type: 3}
-      propertyPath: amountTheme
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7338013786623537520, guid: e1f1a9df38f7147e581580af3c78a0d8,
-        type: 3}
-      propertyPath: themes.Array.data[2].name
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7338013786623537520, guid: e1f1a9df38f7147e581580af3c78a0d8,
-        type: 3}
-      propertyPath: themes.Array.data[1].name
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7338013786623537522, guid: e1f1a9df38f7147e581580af3c78a0d8,
         type: 3}
       propertyPath: m_Name
@@ -9001,16 +8982,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 7338013786752756955, guid: e1f1a9df38f7147e581580af3c78a0d8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7338013787097958336, guid: e1f1a9df38f7147e581580af3c78a0d8,
-        type: 3}
-      propertyPath: m_Name
-      value: AllThemesScroll
-      objectReference: {fileID: 0}
     - target: {fileID: 7338013787234151660, guid: e1f1a9df38f7147e581580af3c78a0d8,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -9021,6 +8992,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 885929008}
+    - target: {fileID: 7338013787234151660, guid: e1f1a9df38f7147e581580af3c78a0d8,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnReturnMenuClick
+      objectReference: {fileID: 0}
     - target: {fileID: 7338013787234151660, guid: e1f1a9df38f7147e581580af3c78a0d8,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -9039,42 +9015,12 @@ PrefabInstance:
     - target: {fileID: 7338013787234151660, guid: e1f1a9df38f7147e581580af3c78a0d8,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: OnReturnMenuClick
+      value: CloseThemeSelect
       objectReference: {fileID: 0}
     - target: {fileID: 7338013787234151660, guid: e1f1a9df38f7147e581580af3c78a0d8,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 7338013787234151660, guid: e1f1a9df38f7147e581580af3c78a0d8,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7338013787234151660, guid: e1f1a9df38f7147e581580af3c78a0d8,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7338013787234151660, guid: e1f1a9df38f7147e581580af3c78a0d8,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
-      value: 
-      objectReference: {fileID: 114564875}
-    - target: {fileID: 7338013787234151660, guid: e1f1a9df38f7147e581580af3c78a0d8,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: showInterstitialAd
-      objectReference: {fileID: 0}
-    - target: {fileID: 7338013787234151660, guid: e1f1a9df38f7147e581580af3c78a0d8,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 7338013788208914038, guid: e1f1a9df38f7147e581580af3c78a0d8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1f1a9df38f7147e581580af3c78a0d8, type: 3}
