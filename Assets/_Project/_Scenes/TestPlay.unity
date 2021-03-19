@@ -4714,6 +4714,9 @@ MonoBehaviour:
   preview: {fileID: 554282981}
   shopUI: {fileID: 1684707326}
   themeSelect: {fileID: 589011816}
+  playHeader: {fileID: 685391840}
+  preSpace: {fileID: 1817508243}
+  playFooter: {fileID: 1227087082}
   moveTxt: {fileID: 1015837050}
   goldTxt: {fileID: 2072524287}
   SFX:
@@ -6262,6 +6265,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &1227087082 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4199883562090534792, guid: a1dee52fbe9c7403ba1b28f5f50f6c5a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4199883563121705132}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1303877413 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4199883562090534793, guid: a1dee52fbe9c7403ba1b28f5f50f6c5a,
@@ -8554,10 +8563,23 @@ PrefabInstance:
       propertyPath: m_text
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1444923382, guid: 795013b6778f80d4abd6ba7e0f8ebec5, type: 3}
+      propertyPath: m_Name
+      value: RewardCoin
+      objectReference: {fileID: 0}
+    - target: {fileID: 1444923383, guid: 795013b6778f80d4abd6ba7e0f8ebec5, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -300
+      objectReference: {fileID: 0}
     - target: {fileID: 5371378599839791868, guid: 795013b6778f80d4abd6ba7e0f8ebec5,
         type: 3}
       propertyPath: m_Name
       value: WinPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5371378599839791868, guid: 795013b6778f80d4abd6ba7e0f8ebec5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5371378599839791869, guid: 795013b6778f80d4abd6ba7e0f8ebec5,
         type: 3}
@@ -8664,11 +8686,21 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5371378600665549409, guid: 795013b6778f80d4abd6ba7e0f8ebec5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 230
+      objectReference: {fileID: 0}
     - target: {fileID: 5371378600665549412, guid: 795013b6778f80d4abd6ba7e0f8ebec5,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 885929008}
+    - target: {fileID: 5371378600669624142, guid: 795013b6778f80d4abd6ba7e0f8ebec5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 230
+      objectReference: {fileID: 0}
     - target: {fileID: 5371378600669624143, guid: 795013b6778f80d4abd6ba7e0f8ebec5,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

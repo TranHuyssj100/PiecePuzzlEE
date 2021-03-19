@@ -7,7 +7,7 @@ using System.Collections;
 
 public class GameMaster : MonoBehaviour
 {
-    public GameObject winPanel; 
+    public GameObject winPanel;
     public GameObject losePanel;
     public GameObject setting;
     public GameObject menu;
@@ -15,6 +15,12 @@ public class GameMaster : MonoBehaviour
     public GameObject preview;
     public GameObject shopUI;
     public GameObject themeSelect;
+    [Space(10)]
+    [Header("PlayUI")]
+    public GameObject playHeader;
+    public GameObject preSpace;
+    public GameObject playFooter;
+    [Space(10)]
     [Header("text")]
     public TextMeshProUGUI moveTxt;
     public TextMeshProUGUI goldTxt;
@@ -59,7 +65,8 @@ public class GameMaster : MonoBehaviour
             Debug.LogError(GameData.firstTimeInGame);
             StartCoroutine( TestLevelCtr.instance.InitalizeGame(0, 0));
         }      
-        else  menu.SetActive(true);
+        else 
+            menu.SetActive(true);
 
         AdManager.Instance.onRewardAdClosed += RewardAdClosed;
         //onPiecePlace += OnPiecePlaced;
@@ -181,6 +188,15 @@ public class GameMaster : MonoBehaviour
         goldTxt.text = GameData.gold.ToString();
     }
 
+    #endregion
+
+    #region Animation
+    public void AnimatePlayUI()
+    {
+        TweenCustom.ToBottom(playHeader.transform, 1.2f, 1f);
+        TweenCustom.ToUpper(playFooter.transform, 1.2f, 1f);
+        TweenCustom.ZoomInandOut(preSpace.transform, 1.1f, 1f);
+    }
     #endregion
 
 

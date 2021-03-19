@@ -20,8 +20,15 @@ public class TweenCustom
     {
         gameObject.localScale = Vector3.zero;
         Sequence seq = DOTween.Sequence();
-        seq.Append(gameObject.DOScale(Vector3.one * 1.2f, duration))
+        seq.Append(gameObject.DOScale(Vector3.one * strength, duration))
             .Append(gameObject.DOScale(Vector3.one, duration/4));
+
+    }  
+    public static void ZoomIn(Transform gameObject, float strength , float duration)
+    {
+        Sequence seq = DOTween.Sequence();
+        seq.Append(gameObject.DOScale(Vector3.one * strength, duration))
+            .Append(gameObject.DOScale(Vector3.zero, duration/4));
 
     }  
     public static void ZoomOutandIn(Transform gameObject,float strength , float duration)
@@ -38,4 +45,21 @@ public class TweenCustom
             .Append(gameObject.DOScale(Vector3.one, duration/4));
     }   
 
+
+    public static void ToBottom (Transform transform, float strength, float duration)
+    {
+        Sequence seq = DOTween.Sequence();
+        Vector3 oldPos = transform.position;
+        transform.position = new Vector3(transform.position.x, transform.position.y+strength, transform.position.z);
+        seq.Append(transform.DOMove(oldPos - Vector3.up * strength/2, duration/2))
+           .Append(transform.DOMove(oldPos, duration));
+    }  
+    public static void ToUpper (Transform transform, float strength, float duration)
+    {
+        Sequence seq = DOTween.Sequence();
+        Vector3 oldPos = transform.position;
+        transform.position = new Vector3(transform.position.x, transform.position.y-strength, transform.position.z);
+        seq.Append(transform.DOMove(oldPos + Vector3.up * strength/2, duration/2))
+           .Append(transform.DOMove(oldPos, duration));
+    }
 }
