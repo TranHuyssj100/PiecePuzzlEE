@@ -284,7 +284,7 @@ public class GameMaster : MonoBehaviour
     public void Replay()
     {
         EventManager.TriggerEvent("DestroyPiece");
-        FirebaseManager.instance.LogResetLevel(TestLevelCtr.instance.idLevel, DataController.themeData[GameData.Theme].name);
+        //FirebaseManager.instance.LogResetLevel(TestLevelCtr.instance.idLevel, DataController.themeData[GameData.Theme].name);
         //StartCoroutine(LevelController.instance.InitializeGame(LevelController.idLevel, GameData.Theme));
         StartCoroutine(TestLevelCtr.instance.InitalizeGame(TestLevelCtr.instance.idTheme, TestLevelCtr.instance.idLevel));
         CloseWinPanel();
