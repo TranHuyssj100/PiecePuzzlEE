@@ -221,6 +221,22 @@ public class TestLevelCtr : MonoBehaviour
             case 6:
                 Camera.main.transform.position = new Vector3(Config.POSITION_6x6.x, Config.POSITION_6x6.y, -10);
                 Camera.main.orthographicSize = Config.POSITION_6x6.z;
+                break;  
+            case 7:
+                Camera.main.transform.position = new Vector3(Config.POSITION_7x7.x, Config.POSITION_7x7.y, -10);
+                Camera.main.orthographicSize = Config.POSITION_7x7.z;
+                break; 
+            case 8:
+                Camera.main.transform.position = new Vector3(Config.POSITION_8x8.x, Config.POSITION_8x8.y, -10);
+                Camera.main.orthographicSize = Config.POSITION_8x8.z;
+                break;
+            case 9:
+                Camera.main.transform.position = new Vector3(Config.POSITION_9x9.x, Config.POSITION_9x9.y, -10);
+                Camera.main.orthographicSize = Config.POSITION_9x9.z;
+                break;    
+            case 10:
+                Camera.main.transform.position = new Vector3(Config.POSITION_10x10.x, Config.POSITION_10x10.y, -10);
+                Camera.main.orthographicSize = Config.POSITION_10x10.z;
                 break;
         }
     }
