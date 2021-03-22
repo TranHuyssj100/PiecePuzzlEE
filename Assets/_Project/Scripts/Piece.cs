@@ -189,20 +189,27 @@ public class Piece : MonoBehaviour
             child.GetComponent<SpriteRenderer>().sortingOrder -= _value;
         }
     }
-    bool CheckAvailableSpace(Vector2 space)
+    bool CheckAvailableSpace(Vector2 _space)
     {
-        if (space.x < 0 || space.x > (Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1) || space.y > 0 || space.y < -(Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1))
+        _space = new Vector2(Mathf.Round(_space.x), Mathf.Round(_space.y));
+        //Debug.LogError(_space.x);
+        if (_space.x < 0 || _space.x > (Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1) || _space.y > 0 || _space.y < -(Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1))
         {
+            Debug.LogError(_space);
+            Debug.Log(_space.x);
+            Debug.LogError(_space.x < 0f);
             return false;
         }
         for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
         {
-            if (TestLevelCtr.instance.availableSpace[i].position == space)
+            if (TestLevelCtr.instance.availableSpace[i].position == _space)
             {
                 if (TestLevelCtr.instance.availableSpace[i].available)
                     TestLevelCtr.instance.availableSpace[i].available = false;
                 else
+                {
                     return false;
+                }
             }
         }
         return true;
@@ -254,7 +261,9 @@ public class Piece : MonoBehaviour
         OnPieceSelect();
         isCorrect = true;
         transform.DOLocalMove(Vector3.zero, _duration).OnStart(() => CheckAutoCorrect())
-                                                      .OnComplete(() => SetPositionPiece(true));
+                                                      .OnComplete(() => {
+                                                          SetPositionPiece(true);
+                                                      });
     }
     private void CheckAutoCorrect()
     {
