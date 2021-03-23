@@ -27,14 +27,6 @@ public class Piece : MonoBehaviour
 
     
     Vector3 oldMousePos;
-    Vector2 limitPosX= new Vector2(-3,1);
-    Vector2 limitPosY= new Vector2(-2,3);
-
-    int _indexTrueSound = 0;
-
-    bool onceDO = true; 
-
-
 
 
     private void OnEnable()
@@ -94,20 +86,20 @@ public class Piece : MonoBehaviour
         GameMaster.instance.PiecePlaced();
     }
 
-    public void SetLimitPos(int _sizeLevel)
-    {
-        switch (_sizeLevel)
-        {
-            case 5:
-                limitPosX = Config.LIMIT_POS_X_5X5;
-                limitPosY = Config.LIMIT_POS_Y_5X5;
-                break;
-            case 6:
-                limitPosX = Config.LIMIT_POS_X_6X6;
-                limitPosY = Config.LIMIT_POS_Y_6X6;
-                break;
-        } 
-    }
+    //public void SetLimitPos(int _sizeLevel)
+    //{
+    //    switch (_sizeLevel)
+    //    {
+    //        case 5:
+    //            limitPosX = Config.LIMIT_POS_X_5X5;
+    //            limitPosY = Config.LIMIT_POS_Y_5X5;
+    //            break;
+    //        case 6:
+    //            limitPosX = Config.LIMIT_POS_X_6X6;
+    //            limitPosY = Config.LIMIT_POS_Y_6X6;
+    //            break;
+    //    } 
+    //}
 
 
     public void OnPieceSelect()
@@ -195,9 +187,6 @@ public class Piece : MonoBehaviour
         //Debug.LogError(_space.x);
         if (_space.x < 0 || _space.x > (Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1) || _space.y > 0 || _space.y < -(Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1))
         {
-            Debug.LogError(_space);
-            Debug.Log(_space.x);
-            Debug.LogError(_space.x < 0f);
             return false;
         }
         for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)

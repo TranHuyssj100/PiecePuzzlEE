@@ -4,6 +4,7 @@ public static class GameData
 {
     private static int THEME;
     private static int LEVEL;
+    private static int LEVEL_REWARD;
     private static int IS_BGM;
     private static int IS_SFX;
     private static int GOLD;
@@ -29,6 +30,7 @@ public static class GameData
         GOLD = PlayerPrefs.GetInt("gold", 300);
         NO_ADS = PlayerPrefs.GetInt("no_ads", 0);
         FIRST_TIME_IN_GAME = PlayerPrefs.GetInt("first_time_in_game", 1);
+        LEVEL_REWARD = PlayerPrefs.GetInt("level_reward", 0);
 
         //CreateCurrentLevelforEachTheme();
         //CreateStatusTheme();
@@ -38,6 +40,11 @@ public static class GameData
     {
         get { return LEVEL; }
         set { PlayerPrefs.SetInt("level", (LEVEL = value)); }
+    }
+    public static int levelReward
+    {
+        get { return LEVEL_REWARD; }
+        set { PlayerPrefs.SetInt("level_reward", (LEVEL_REWARD = value)); }
     }
     public static int Theme
     {
