@@ -91,6 +91,7 @@ public class WinPanel : MonoBehaviour
     }
     public void OpenGift(float strength, float duration)
     {
+        GameData.levelReward = 0;
         panelGift.gameObject.SetActive(true);
         coins.localScale = Vector3.zero;
         claimx5.localScale = Vector3.zero;
