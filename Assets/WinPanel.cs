@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
+using UnityScript.Scripting;
 
 public class WinPanel : MonoBehaviour
 {
@@ -22,6 +24,7 @@ public class WinPanel : MonoBehaviour
 
 
     int amountCoin=0;
+    public Vector3 oldGiftBoxPos;
 
     public static WinPanel instance;
 
@@ -36,6 +39,7 @@ public class WinPanel : MonoBehaviour
     private void Start()
     {
         AdManager.Instance.onRewardAdClosed += RewardAdClosed;
+        oldGiftBoxPos = giftBox.localPosition;
     }
 
     private void OnDestroy()
@@ -92,12 +96,11 @@ public class WinPanel : MonoBehaviour
     public void OpenGift(float strength, float duration)
     {
         GameData.levelReward = 0;
+        CloseGift();
         panelGift.gameObject.SetActive(true);
-        coins.localScale = Vector3.zero;
-        claimx5.localScale = Vector3.zero;
-        gotIt.localScale = Vector3.zero;
-        giftBox.GetChild(1).GetComponent<Image>().color = new Vector4(1, 1, 1, 1);
-        giftBox.GetChild(2).GetComponent<Image>().color = new Vector4(1, 1, 1, 1);
+        giftBox.gameObject.SetActive(true);
+        claimx5.gameObject.SetActive(true);
+        //oldGiftBoxPos = giftBox.position;
         RandomCoin();
         Debug.LogError(amountCoin);
         GameData.gold+= amountCoin;
@@ -122,8 +125,20 @@ public class WinPanel : MonoBehaviour
         coinTxt.GetComponent<TextMeshProUGUI>().text = "+ " + amountCoin.ToString();
     }
 
+   public void CloseGift()
+    {
+        panelGift.gameObject.SetActive(false);
+        coins.localScale = Vector3.zero;
+        claimx5.localScale = Vector3.zero;
+        gotIt.localScale = Vector3.zero;
+        giftBox.localPosition = oldGiftBoxPos;
+        giftBox.localScale = Vector3.one;
+        //giftBox.GetChild(1).GetComponent<Image>().color = new Vector4(1, 1, 1, 1);
+        //giftBox.GetChild(2).GetComponent<Image>().color = new Vector4(1, 1, 1, 1);
+    }
     public void RandomCoin()
     {
         amountCoin = Random.Range(5, 11) * 10;
     } 
+    
 }
