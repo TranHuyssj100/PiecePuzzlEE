@@ -81,4 +81,8 @@ public class FirebaseManager : MonoBehaviour
     {
         FirebaseAnalytics.LogEvent("Hint_Auto_Correct");
     }
+    public void LogIAP(string product)
+    {
+        FirebaseAnalytics.LogEvent("Purchae IAP","Product", product);
+    }
 }
