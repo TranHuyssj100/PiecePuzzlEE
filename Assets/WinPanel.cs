@@ -25,6 +25,9 @@ public class WinPanel : MonoBehaviour
 
     int amountCoin=0;
     public Vector3 oldGiftBoxPos;
+    public Vector3 oldCoin0Pos;
+    public Vector3 oldCoin1Pos;
+    public Vector3 oldCoin2Pos;
 
     public static WinPanel instance;
 
@@ -40,6 +43,9 @@ public class WinPanel : MonoBehaviour
     {
         AdManager.Instance.onRewardAdClosed += RewardAdClosed;
         oldGiftBoxPos = giftBox.localPosition;
+        oldCoin0Pos = coins.GetChild(0).position;
+        oldCoin1Pos = coins.GetChild(1).position;
+        oldCoin2Pos = coins.GetChild(2).position;
     }
 
     private void OnDestroy()
@@ -63,6 +69,7 @@ public class WinPanel : MonoBehaviour
         float _value = _surPlus / (float)_levelReward;
         giftBox.GetChild(1).GetComponent<Image>().color = new Vector4(1, 1, 1, 1);
         giftBox.GetChild(2).GetComponent<Image>().color = new Vector4(1, 1, 1, 1);
+       
 
         if (_surPlus != 0)
         {
@@ -99,7 +106,8 @@ public class WinPanel : MonoBehaviour
         panelGift.gameObject.SetActive(true);
         giftBox.gameObject.SetActive(true);
         claimx5.gameObject.SetActive(true);
-        //oldGiftBoxPos = giftBox.position;
+
+
         RandomCoin();
         Debug.LogError(amountCoin);
         GameData.gold+= amountCoin;
@@ -119,7 +127,9 @@ public class WinPanel : MonoBehaviour
             .Append(claimx5.DOScale(Vector3.one, duration))
             .Append(gotIt.DOScale(Vector3.one, duration * 2))
             .OnComplete(() => {
-                
+                coins.GetChild(0).position = oldCoin0Pos;
+                coins.GetChild(1).position = oldCoin1Pos;
+                coins.GetChild(2).position = oldCoin2Pos;
             });
         coinTxt.GetComponent<TextMeshProUGUI>().text = "+ " + amountCoin.ToString();
     }
@@ -132,8 +142,9 @@ public class WinPanel : MonoBehaviour
         gotIt.localScale = Vector3.zero;
         giftBox.localPosition = oldGiftBoxPos;
         giftBox.localScale = Vector3.one;
-        //giftBox.GetChild(1).GetComponent<Image>().color = new Vector4(1, 1, 1, 1);
-        //giftBox.GetChild(2).GetComponent<Image>().color = new Vector4(1, 1, 1, 1);
+        coins.GetChild(0).localScale = Vector3.one;
+        coins.GetChild(1).localScale = Vector3.one;
+        coins.GetChild(2).localScale = Vector3.one;
     }
     public void RandomCoin()
     {
