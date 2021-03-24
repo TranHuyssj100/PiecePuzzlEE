@@ -142,7 +142,7 @@ public class GameMaster : MonoBehaviour
                 FirebaseManager.instance.LogUnlockLevel(GameData.level,DataController.themeData[GameData.Theme].name);
                 GameData.SetCurrentLevelByTheme(GameData.Theme, (TestLevelCtr.instance.idLevel) < (DataController.themeData[GameData.Theme].levelCount - 1) ? TestLevelCtr.instance.idLevel + 1 : TestLevelCtr.instance.idLevel);
             }
-            WinPanel.instance.ShowProgress(1);
+            WinPanel.instance.ShowProgress(5);
         }
     }
     void LosePhase()

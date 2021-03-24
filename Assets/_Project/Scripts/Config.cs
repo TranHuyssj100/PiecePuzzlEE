@@ -20,8 +20,6 @@ public class Config
     public static int COST_HINT = 100;
     public static int COST_PREVIEW = 100;
 
-    public static float PIECE_START_SCALE = 0.5f;
+    public static float PIECE_START_SCALE = 0.4f;
     public static float PIECE_SELECTED_SCALE = 1f;
-
-
 }
