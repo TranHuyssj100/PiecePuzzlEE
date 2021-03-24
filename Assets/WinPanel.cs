@@ -81,6 +81,7 @@ public class WinPanel : MonoBehaviour
             DOVirtual.Float(0, 1, 0.5f, (x) => { fill.GetComponent<Image>().fillAmount = x; });
             reward.GetChild(1).GetComponent<TextMeshProUGUI>().text = _levelReward.ToString() + "/" + _levelReward.ToString();
             OpenGift(1.2f, 0.5f);
+            GameData.levelReward = 0;
         }
     }
 

@@ -18,8 +18,7 @@
 
         void Refresh ()
         {
-        Rect safeArea = GetSafeArea ();
-
+            Rect safeArea = GetSafeArea ();
             if (safeArea != LastSafeArea)
                 ApplySafeArea (safeArea);
         }
@@ -28,8 +27,6 @@
         {
             return Screen.safeArea;
         }
-
-
 
     void ApplySafeArea(Rect r)
     {
