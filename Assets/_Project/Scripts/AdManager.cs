@@ -82,7 +82,8 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
 
         loadRewardedAd();
 #if !UNITY_IOS
-        loadBannerAds();
+        if(GameData.noAds != 1)
+            loadBannerAds();
 #endif
         loadInterstitialAd();
 

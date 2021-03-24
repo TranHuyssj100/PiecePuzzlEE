@@ -42,7 +42,6 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
             if(GameData.GetThemeStatus(i) == 1)
                 GameData.level += GameData.GetCurrentLevelByTheme(i) + 1;
         }
-        Debug.Log(GameData.level);
     }
 
 
