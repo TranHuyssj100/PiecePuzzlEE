@@ -99,6 +99,7 @@ public class WinPanel : MonoBehaviour
         {
             GameData.gold += amountCoin * 4;
             claimx5.gameObject.SetActive(false);
+            CloseGift();
         }
     }
     public void OpenGift(float strength, float duration)
