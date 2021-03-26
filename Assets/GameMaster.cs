@@ -133,7 +133,7 @@ public class GameMaster : MonoBehaviour
             SoundManager.instance.ClearIndexSquential(TypeSFX.True);
             //Debug.Log("<color=yellow> YOU WIN ! </color>");
             GameData.levelReward++;
-            Debug.LogError(GameData.levelReward);
+            //Debug.LogError(GameData.levelReward);
             winPanel.GetComponent<WinPanel>().SetImageReview();
             OpenPanel(winPanel);
             if (TestLevelCtr.instance.idLevel >= GameData.GetCurrentLevelByTheme(GameData.Theme) && TestLevelCtr.instance.idLevel < DataController.themeData[GameData.Theme].levelCount - 1)
