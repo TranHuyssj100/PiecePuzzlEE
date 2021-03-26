@@ -87,7 +87,7 @@ public static class GameData
 
     public static int GetCurrentLevelByTheme(int _idTheme)
     {
-        return PlayerPrefs.GetInt(DataController.themeData[_idTheme].name + "Level");
+        return PlayerPrefs.GetInt(DataController.themeData[_idTheme].name + "Level",0);
     }
     public static void SetCurrentLevelByTheme(int _idTheme, int _value)
     {
@@ -107,7 +107,7 @@ public static class GameData
 
     public static int GetThemeStatus(int _themeID)
     {
-        return PlayerPrefs.GetInt(DataController.themeData[_themeID].name + "Unlock");
+        return PlayerPrefs.GetInt(DataController.themeData[_themeID].name + "Unlock",0);
     }
     public static void UnlockTheme(int _themeID)
     {
