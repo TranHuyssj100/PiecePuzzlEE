@@ -64,8 +64,6 @@ public class GameMaster : MonoBehaviour
         if (GameData.firstTimeInGame == 1)
         {
             GameData.firstTimeInGame = 0;
-            Debug.LogError(GameData.firstTimeInGame);
-
             //StartCoroutine(TestLevelCtr.instance.InitalizeGame(0, 0));
             OnStartClick();
         }
@@ -133,11 +131,11 @@ public class GameMaster : MonoBehaviour
             SoundManager.instance.ClearIndexSquential(TypeSFX.True);
             //Debug.Log("<color=yellow> YOU WIN ! </color>");
             GameData.levelReward++;
-            Debug.LogError(GameData.levelReward);
             winPanel.GetComponent<WinPanel>().SetImageReview();
             OpenPanel(winPanel);
             if (TestLevelCtr.instance.idLevel >= GameData.GetCurrentLevelByTheme(GameData.Theme) && TestLevelCtr.instance.idLevel < DataController.themeData[GameData.Theme].levelCount - 1)
             {
+                Debug.Log(GameData.GetCurrentLevelByTheme(GameData.Theme));
                 GameData.level++;
                 FirebaseManager.instance.LogUnlockLevel(GameData.level,DataController.themeData[GameData.Theme].name);
                 GameData.SetCurrentLevelByTheme(GameData.Theme, (TestLevelCtr.instance.idLevel) < (DataController.themeData[GameData.Theme].levelCount - 1) ? TestLevelCtr.instance.idLevel + 1 : TestLevelCtr.instance.idLevel);
