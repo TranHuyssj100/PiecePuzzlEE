@@ -152,6 +152,7 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
         {
             answerPreset.Add(answer);
         }
+        Debug.Log("<color=green>Cut successful from preset: </color>" + Path.Combine(AnswerPresetPath + size, randomPreset + JsonSuffix).ToString());
         return answerPreset;
     }
 #endif

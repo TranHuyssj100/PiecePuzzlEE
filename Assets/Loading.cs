@@ -9,7 +9,7 @@ public class Loading : MonoBehaviour
 
     private void Start()
     {
-        LoadGame(5);
+        LoadGame(3);
     }
 
     public void LoadGame(float timeWait)
