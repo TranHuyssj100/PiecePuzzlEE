@@ -63,10 +63,7 @@ public class TestLevelCtr : MonoBehaviour
 
     private void Start()
     {
-        if (GameData.firstTimeInGame == 1)
-        {
-          
-        }
+
     }
 
 
