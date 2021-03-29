@@ -137,24 +137,51 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
         }
         //Debug.Log(AnswerPresetPath + size);
         AssetDatabase.Refresh();
-        File.WriteAllText(Path.Combine(AnswerPresetPath + size, Directory.GetFiles(AnswerPresetPath + size).Length / 2 + JsonSuffix), _strData);
-        Debug.Log("<color=green>Saved successful to: </color>" + AnswerPresetPath + size +"/" + Directory.GetFiles(AnswerPresetPath + size).Length / 2 + JsonSuffix);
+        //File.WriteAllText(Path.Combine(AnswerPresetPath + size, Directory.GetFiles(AnswerPresetPath + size).Length / 2 + JsonSuffix), _strData);
+        string fileName = GenerateRandomFileName();
+        File.WriteAllText(Path.Combine(AnswerPresetPath + size, fileName + JsonSuffix), _strData);
+        Debug.Log("<color=green>Saved successful to: </color>" + AnswerPresetPath + size +"/" + fileName + JsonSuffix);
+    }
+    private static string GenerateRandomFileName()
+    {
+        const string glyphs = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789";
+        string fileName = "";
+        for (int i = 0; i < 16; i++)
+        {
+            fileName += glyphs[Random.Range(0, glyphs.Length)];
+        }
+        return fileName;
     }
     public static List<ImageCutter.AnswerPreset> ReadAnswerPreset(int _size)
     {
         string loadString;
         string size;
         size = _size + "x" + _size;
+        DirectoryInfo directoryInfo = new DirectoryInfo(AnswerPresetPath + size);
+        FileInfo[] fileInfo = directoryInfo.GetFiles("*.json");
         List<ImageCutter.AnswerPreset> answerPreset = new List<ImageCutter.AnswerPreset>();
-        int randomPreset = Random.Range(0, Directory.GetFiles(AnswerPresetPath + size).Length / 2);
-        loadString = File.ReadAllText(Path.Combine(AnswerPresetPath + size, randomPreset + JsonSuffix));
+        //int randomPreset = Random.Range(0, Directory.GetFiles(AnswerPresetPath + size).Length / 2);
+        //loadString = File.ReadAllText(Path.Combine(AnswerPresetPath + size, randomPreset + JsonSuffix));
+        int randomPreset = Random.Range(0, fileInfo.Length);
+        loadString = File.ReadAllText(Path.Combine(AnswerPresetPath + size, fileInfo[randomPreset].Name));
         foreach(ImageCutter.AnswerPreset answer in JsonHelper.FromJson<ImageCutter.AnswerPreset>(loadString))
         {
             answerPreset.Add(answer);
         }
-        Debug.Log("<color=green>Cut successful from preset: </color>" + Path.Combine(AnswerPresetPath + size, randomPreset + JsonSuffix).ToString());
+        Debug.Log("<color=green>Cut successful from preset: </color>" + fileInfo[randomPreset].Name);
         return answerPreset;
     }
+    public static void RenameFile()
+    {
+        string fileName = "";
+        string size;
+        for (int i = 5; i < 9; i++)
+        {
+            size = i + "x" + i;
+            DirectoryInfo directoryInfo = new DirectoryInfo(AnswerPresetPath + size);
+            FileInfo[] fileInfo = directoryInfo.GetFiles("*.json");
+        }
+    }    
 #endif
 
     //public static int GetThemeLevelCount(ThemeName themeName,int size)
