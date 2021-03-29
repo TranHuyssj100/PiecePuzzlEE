@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -11,21 +9,22 @@ public class Loading : MonoBehaviour
 
     private void Start()
     {
-        LoadGame();
+        LoadGame(5);
     }
 
-    public void LoadGame()
+    public void LoadGame(float timeWait)
     {
-        TweenCustom.TextAutoComplete(loadingTxt, "", "loading..", 0.5f);
-        DOVirtual.Float(0, 1, 0.5f, (x) => { fillProgress.fillAmount = x; });
-        if (GameData.firstTimeInGame == 1)
-        {
-            GameData.firstTimeInGame = 0;
-            Debug.LogError(GameData.firstTimeInGame);
-            GameMaster.instance.OnStartClick();
-        }
-        else GameMaster.instance.menu.SetActive(true);
-     
+        TweenCustom.TextAutoComplete(loadingTxt, "", "loading..", timeWait/2);
+        DOVirtual.Float(0, 1, timeWait, (x) => { fillProgress.fillAmount = x; }).OnComplete(()=> {
+            gameObject.SetActive(false);
+            if (GameData.firstTimeInGame == 1)
+            {
+                GameData.firstTimeInGame = 0;
+                Debug.LogError(GameData.firstTimeInGame);
+                GameMaster.instance.OnStartClick();
+            }
+            else GameMaster.instance.menu.SetActive(true);
+        }); 
     }
 
 }
