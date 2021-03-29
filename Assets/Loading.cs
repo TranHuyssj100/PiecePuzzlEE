@@ -14,7 +14,7 @@ public class Loading : MonoBehaviour
 
     public void LoadGame(float timeWait)
     {
-        TweenCustom.TextAutoComplete(loadingTxt, "", "loading..", timeWait/2);
+        TweenCustom.TextAutoComplete(loadingTxt, "Loading", "Loading..", timeWait/2);
         DOVirtual.Float(0, 1, timeWait, (x) => { fillProgress.fillAmount = x; }).OnComplete(()=> {
             gameObject.SetActive(false);
             if (GameData.firstTimeInGame == 1)
