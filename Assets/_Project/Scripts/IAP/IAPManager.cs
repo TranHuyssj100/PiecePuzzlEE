@@ -18,12 +18,12 @@ public class IAPManager : SingletonDontDestroyMonoBehavior<IAPManager>, IStoreLi
     // when defining the Product Identifiers on the store. Except, for illustration purposes, the 
     // kProductIDSubscription - it has custom Apple and Google identifiers. We declare their store-
     // specific mapping to Unity Purchasing's AddProduct, below.
-    public  string GOLD_50 = "gold_50";
-    public  string GOLD_110 = "gold_110";
-    public  string GOLD_220 = "gold_220";
-    public  string GOLD_330 = "gold_330";
-    public  string GOLD_440 = "gold_440";
-    public  string GOLD_550 = "gold_550";
+    public  string GOLD_500 = "gold_500";
+    public  string GOLD_1100 = "gold_1100";
+    public  string GOLD_2200 = "gold_2200";
+    public  string GOLD_3300 = "gold_3300";
+    public  string GOLD_4400 = "gold_4400";
+    public  string GOLD_5500 = "gold_5500";
     public  string NO_ADS = "no_ads";
     public static string kProductIDSubscription = "subscription";
 
@@ -64,12 +64,12 @@ public class IAPManager : SingletonDontDestroyMonoBehavior<IAPManager>, IStoreLi
 
         // Add a product to sell / restore by way of its identifier, associating the general identifier
         // with its store-specific identifiers.
-        builder.AddProduct(GOLD_50, ProductType.Consumable);
-        builder.AddProduct(GOLD_110, ProductType.Consumable);
-        builder.AddProduct(GOLD_220, ProductType.Consumable);
-        builder.AddProduct(GOLD_330, ProductType.Consumable);
-        builder.AddProduct(GOLD_440, ProductType.Consumable);
-        builder.AddProduct(GOLD_550, ProductType.Consumable);
+        builder.AddProduct(GOLD_500, ProductType.Consumable);
+        builder.AddProduct(GOLD_1100, ProductType.Consumable);
+        builder.AddProduct(GOLD_2200, ProductType.Consumable);
+        builder.AddProduct(GOLD_3300, ProductType.Consumable);
+        builder.AddProduct(GOLD_4400, ProductType.Consumable);
+        builder.AddProduct(GOLD_5500, ProductType.Consumable);
         // Continue adding the non-consumable product.
         builder.AddProduct(NO_ADS, ProductType.NonConsumable);
         // And finish adding the subscription product. Notice this uses store-specific IDs, illustrating
@@ -109,29 +109,29 @@ public class IAPManager : SingletonDontDestroyMonoBehavior<IAPManager>, IStoreLi
         if(AdManager.rewardType == AdManager.RewardType.Gold)
             GameData.gold += 50;
     }
-    public void Buy50Gold()
+    public void Buy500Gold()
     {
-        BuyProductID(GOLD_50);
+        BuyProductID(GOLD_500);
     }
-    public void Buy110Gold()
+    public void Buy1100Gold()
     {
-        BuyProductID(GOLD_110);
+        BuyProductID(GOLD_1100);
     }
-    public void Buy220Gold()
+    public void Buy2200Gold()
     {
-        BuyProductID(GOLD_220);
+        BuyProductID(GOLD_2200);
     }
-    public void Buy330Gold()
+    public void Buy3300Gold()
     {
-        BuyProductID(GOLD_330);
+        BuyProductID(GOLD_3300);
     }
-    public void Buy440Gold()
+    public void Buy4400Gold()
     {
-        BuyProductID(GOLD_440);
+        BuyProductID(GOLD_4400);
     }
-    public void Buy550Gold()
+    public void Buy5500Gold()
     {
-        BuyProductID(GOLD_550);
+        BuyProductID(GOLD_5500);
     }
 
 
@@ -169,6 +169,7 @@ public class IAPManager : SingletonDontDestroyMonoBehavior<IAPManager>, IStoreLi
                 // ... buy the product. Expect a response either through ProcessPurchase or OnPurchaseFailed 
                 // asynchronously.
                 m_StoreController.InitiatePurchase(product);
+                FirebaseManager.instance.LogIAP(productId);
             }
             // Otherwise ...
             else
@@ -251,35 +252,35 @@ public class IAPManager : SingletonDontDestroyMonoBehavior<IAPManager>, IStoreLi
 
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
     {
-        if (String.Equals(args.purchasedProduct.definition.id, GOLD_50, StringComparison.Ordinal))
+        if (String.Equals(args.purchasedProduct.definition.id, GOLD_500, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            GameData.gold += 50;
+            GameData.gold += 500;
         }
-        else if (String.Equals(args.purchasedProduct.definition.id, GOLD_110, StringComparison.Ordinal))
+        else if (String.Equals(args.purchasedProduct.definition.id, GOLD_1100, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            GameData.gold += 110;
+            GameData.gold += 1100;
         }
-        else if (String.Equals(args.purchasedProduct.definition.id, GOLD_220, StringComparison.Ordinal))
+        else if (String.Equals(args.purchasedProduct.definition.id, GOLD_2200, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            GameData.gold += 220;
+            GameData.gold += 2200;
         }
-        else if (String.Equals(args.purchasedProduct.definition.id, GOLD_330, StringComparison.Ordinal))
+        else if (String.Equals(args.purchasedProduct.definition.id, GOLD_3300, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            GameData.gold += 330;
+            GameData.gold += 3300;
         }
-        else if (String.Equals(args.purchasedProduct.definition.id, GOLD_440, StringComparison.Ordinal))
+        else if (String.Equals(args.purchasedProduct.definition.id, GOLD_4400, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            GameData.gold += 440;
+            GameData.gold += 4400;
         }
-        else if (String.Equals(args.purchasedProduct.definition.id, GOLD_550, StringComparison.Ordinal))
+        else if (String.Equals(args.purchasedProduct.definition.id, GOLD_5500, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            GameData.gold += 550;
+            GameData.gold += 5500;
         }
         else if (String.Equals(args.purchasedProduct.definition.id, NO_ADS, StringComparison.Ordinal))
         {

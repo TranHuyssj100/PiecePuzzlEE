@@ -63,10 +63,7 @@ public class TestLevelCtr : MonoBehaviour
 
     private void Start()
     {
-        if (GameData.firstTimeInGame == 1)
-        {
-          
-        }
+
     }
 
 
@@ -172,12 +169,6 @@ public class TestLevelCtr : MonoBehaviour
         availableSpace = new Grid[sizeLevel * sizeLevel];
         sequenceIndex = new Queue<int>(Enumerable.Range(0, listPieces.Count).ToArray());
         CreateAvailableSpaceList();
-
-        //tutorial
-        //if (curAllPieces.transform.childCount > 0)
-        //{
-        //    Destroy(curAllPieces.transform.GetChild(0).gameObject);
-        //}
         DestroyTutorialObj();
         if (idLevel == 0 && idTheme == 0)
         {
@@ -199,6 +190,7 @@ public class TestLevelCtr : MonoBehaviour
                 SpawnPiece(i, false);
             }
         }
+        GameMaster.instance.AnimatePlayUI();
         yield return new WaitForSeconds(1);
         FirebaseManager.instance.LogStartLevel(_idLevel, DataController.themeData[_idTheme].name);
         //_delay = 0;
@@ -226,6 +218,22 @@ public class TestLevelCtr : MonoBehaviour
             case 6:
                 Camera.main.transform.position = new Vector3(Config.POSITION_6x6.x, Config.POSITION_6x6.y, -10);
                 Camera.main.orthographicSize = Config.POSITION_6x6.z;
+                break;  
+            case 7:
+                Camera.main.transform.position = new Vector3(Config.POSITION_7x7.x, Config.POSITION_7x7.y, -10);
+                Camera.main.orthographicSize = Config.POSITION_7x7.z;
+                break; 
+            case 8:
+                Camera.main.transform.position = new Vector3(Config.POSITION_8x8.x, Config.POSITION_8x8.y, -10);
+                Camera.main.orthographicSize = Config.POSITION_8x8.z;
+                break;
+            case 9:
+                Camera.main.transform.position = new Vector3(Config.POSITION_9x9.x, Config.POSITION_9x9.y, -10);
+                Camera.main.orthographicSize = Config.POSITION_9x9.z;
+                break;    
+            case 10:
+                Camera.main.transform.position = new Vector3(Config.POSITION_10x10.x, Config.POSITION_10x10.y, -10);
+                Camera.main.orthographicSize = Config.POSITION_10x10.z;
                 break;
         }
     }

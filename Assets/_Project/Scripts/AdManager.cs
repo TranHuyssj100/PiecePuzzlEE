@@ -81,7 +81,10 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
         MobileAds.SetRequestConfiguration(requestConfiguration);
 
         loadRewardedAd();
-        loadBannerAds();
+#if !UNITY_IOS
+        if(GameData.noAds != 1)
+            loadBannerAds();
+#endif
         loadInterstitialAd();
 
 
@@ -167,15 +170,15 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
 
 
     //--------------------------------------------------------------------------------------------------------
-    #region banner
+#region banner
     void loadBannerAds()
     {
     //    AdRequest request = new AdRequest.Builder().Build();
     //    bannerView = new BannerView(bannerAdUnitId, AdSize.Banner, AdPosition.Bottom);
 #if UNITY_ANDROID
         string adUnitId = bannerAdUnitId;
-#elif UNITY_IPHONE
-            string adUnitId = "ca-app-pub-3940256099942544/2934735716";
+#elif UNITY_IOS
+            string adUnitId = "ca-app-pub-3940256099942544/6300978111";
 #else
             string adUnitId = "unexpected_platform";
 #endif
@@ -189,9 +192,9 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
         // Load the banner with the request.
         this.bannerView.LoadAd(request);
     }
-    #endregion
+#endregion
     //--------------------------------------------------------------------------------------------------------
-    #region InterstitialAd
+#region InterstitialAd
     void loadInterstitialAd()
     {
         if (interstitialAd != null)
@@ -216,11 +219,13 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
 
     public void showInterstitialAd()
     {
+#if !UNITY_IOS
         if (this.interstitialAd.IsLoaded() && GameData.noAds != 1)
         {
             FirebaseManager.instance.LogShowInter();
             interstitialAd.Show();
         }
+#endif
     }
     public IEnumerator waitAndReloadInterstitialAd()
     {
@@ -251,9 +256,9 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
 public void HandleOnAdLeavingApplication(object sender, EventArgs args)
     {
     }
-    #endregion
+#endregion
     //--------------------------------------------------------------------------------------------------------
-    #region RewardedAd
+#region RewardedAd
     private bool isRewarded;
     void loadRewardedAd()
     {
@@ -265,6 +270,7 @@ public void HandleOnAdLeavingApplication(object sender, EventArgs args)
     }
     public void showRewardedAd(RewardType _rewardType)
     {
+#if !UNITY_IOS
         if (this.rewardedAd.IsLoaded())
         {
             isRewarded = false;
@@ -272,6 +278,7 @@ public void HandleOnAdLeavingApplication(object sender, EventArgs args)
             FirebaseManager.instance.LogShowReward(rewardType.ToString());
             this.rewardedAd.Show();
         }
+#endif
     }
     public IEnumerator waitAndReloadRewardedAd()
     {
@@ -311,6 +318,6 @@ public void HandleOnAdLeavingApplication(object sender, EventArgs args)
         FirebaseManager.instance.LogRewarded(rewardType.ToString());
     }
 
-    #endregion
+#endregion
 
 }

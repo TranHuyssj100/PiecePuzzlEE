@@ -218,23 +218,22 @@ MonoBehaviour:
   content: {fileID: 7338013787135528519}
   themeChild: {fileID: 8515670699597328779, guid: f088e2d276424614ebbacd05b20e7d1a,
     type: 3}
-  allTheme: []
   themes:
-  - index: 0
+  - idTheme: 0
     name: Dog
-    image: {fileID: 21300000, guid: 95cf7979d02ecde49b5620ebff581a14, type: 3}
+    size: 5
     price: 100
-    size: 5
-  - index: 1
+    levelCount: 0
+  - idTheme: 0
     name: Cat
-    image: {fileID: 21300000, guid: ee7b06ca9f9034943ba5ddf9fba79a05, type: 3}
-    price: 200
     size: 5
-  - index: 2
-    name: Dog
-    image: {fileID: 21300000, guid: ee7b06ca9f9034943ba5ddf9fba79a05, type: 3}
     price: 200
+    levelCount: 0
+  - idTheme: 0
+    name: Dog
     size: 6
+    price: 200
+    levelCount: 0
 --- !u!1 &7338013786752756955
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,12 +246,12 @@ GameObject:
   - component: {fileID: 7338013786752756958}
   - component: {fileID: 7338013786752756953}
   m_Layer: 5
-  m_Name: Store
+  m_Name: Coin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7338013786752756952
 RectTransform:
   m_ObjectHideFlags: 0
@@ -345,8 +344,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -17, y: 0}
+  m_AnchoredPosition: {x: -0, y: -47.8}
+  m_SizeDelta: {x: -17, y: -91.11359}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &7338013786807658892
 CanvasRenderer:
@@ -534,14 +533,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: f7e1e2a37ac09bc44bdcd74c33820893, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -634,11 +633,11 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 650, y: 185}
-  m_Spacing: {x: 0, y: 20}
+  m_CellSize: {x: 630, y: 180}
+  m_Spacing: {x: 0, y: 10}
   m_Constraint: 1
   m_ConstraintCount: 1
 --- !u!114 &7338013787135528517
@@ -774,6 +773,17 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
+        m_MethodName: OnReturnMenuClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
         m_MethodName: CloseThemeSelect
         m_Mode: 1
         m_Arguments:
@@ -818,7 +828,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0.000024676, y: -78.23883}
+  m_AnchoredPosition: {x: 0.000024676, y: -78.23877}
   m_SizeDelta: {x: 720, y: 156.47766}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7338013787398936199
@@ -1178,13 +1188,14 @@ GameObject:
   - component: {fileID: 7338013788208914039}
   - component: {fileID: 7338013788208914037}
   - component: {fileID: 7338013788208914036}
+  - component: {fileID: 841360483}
   m_Layer: 5
-  m_Name: Coin
+  m_Name: Store
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7338013788208914039
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1241,6 +1252,60 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &841360483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7338013788208914038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 7338013788208914036}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: OpenShopUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7338013788225912004
 GameObject:
   m_ObjectHideFlags: 0

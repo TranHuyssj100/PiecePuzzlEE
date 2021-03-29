@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 public class GridMap : MonoBehaviour
 {
@@ -21,7 +20,6 @@ public class GridMap : MonoBehaviour
                 coordinate.y = y;
                 tilePosition = tilemap.CellToWorld(coordinate);
                 //Debug.Log(string.Format("Position of tile [{0}, {1}] = ({2}, {3})", coordinate.x, coordinate.y, tilePosition.x, tilePosition.y));
-
             }
         }
     }

@@ -4,12 +4,13 @@ public static class GameData
 {
     private static int THEME;
     private static int LEVEL;
+    private static int LEVEL_REWARD;
     private static int IS_BGM;
     private static int IS_SFX;
     private static int GOLD;
     private static int NO_ADS;
 
-    private static int FIRST_TIME_IN_GAME;
+    //private static int FIRST_TIME_IN_GAME;
 
 
     public static event System.Action onGoldValueChanged;
@@ -28,7 +29,8 @@ public static class GameData
         IS_SFX = PlayerPrefs.GetInt("sfx", 1);
         GOLD = PlayerPrefs.GetInt("gold", 300);
         NO_ADS = PlayerPrefs.GetInt("no_ads", 0);
-        FIRST_TIME_IN_GAME = PlayerPrefs.GetInt("first_time_in_game", 1);
+        //FIRST_TIME_IN_GAME = PlayerPrefs.GetInt("first_time_in_game", 1);
+        LEVEL_REWARD = PlayerPrefs.GetInt("level_reward", 0);
 
         //CreateCurrentLevelforEachTheme();
         //CreateStatusTheme();
@@ -38,6 +40,11 @@ public static class GameData
     {
         get { return LEVEL; }
         set { PlayerPrefs.SetInt("level", (LEVEL = value)); }
+    }
+    public static int levelReward
+    {
+        get { return LEVEL_REWARD; }
+        set { PlayerPrefs.SetInt("level_reward", (LEVEL_REWARD = value)); }
     }
     public static int Theme
     {
@@ -61,11 +68,11 @@ public static class GameData
             GoldValueChanged();
         }
     } 
-    public static int firstTimeInGame
-    {
-        get { return FIRST_TIME_IN_GAME; }
-        set { PlayerPrefs.SetInt("first_time_in_game", (FIRST_TIME_IN_GAME = value));}
-    }
+    //public static int firstTimeInGame
+    //{
+    //    get { return FIRST_TIME_IN_GAME; }
+    //    set { PlayerPrefs.SetInt("first_time_in_game", (FIRST_TIME_IN_GAME = value));}
+    //}
 
 
     public static void CreateCurrentLevelforEachTheme()
@@ -80,7 +87,7 @@ public static class GameData
 
     public static int GetCurrentLevelByTheme(int _idTheme)
     {
-        return PlayerPrefs.GetInt(DataController.themeData[_idTheme].name + "Level");
+        return PlayerPrefs.GetInt(DataController.themeData[_idTheme].name + "Level", 0);
     }
     public static void SetCurrentLevelByTheme(int _idTheme, int _value)
     {
@@ -100,7 +107,7 @@ public static class GameData
 
     public static int GetThemeStatus(int _themeID)
     {
-        return PlayerPrefs.GetInt(DataController.themeData[_themeID].name + "Unlock");
+        return PlayerPrefs.GetInt(DataController.themeData[_themeID].name + "Unlock", 0);
     }
     public static void UnlockTheme(int _themeID)
     {

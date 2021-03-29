@@ -8,12 +8,12 @@ public class PurchaseButton : MonoBehaviour
     public enum ProductType
     {
         GOLD_ADS,
-        GOLD_50,
-        GOLD_110,
-        GOLD_220,
-        GOLD_330,
-        GOLD_440,
-        GOLD_550,
+        GOLD_500,
+        GOLD_1100,
+        GOLD_2200,
+        GOLD_3300,
+        GOLD_4400,
+        GOLD_5500,
         NO_ADS
     }
 
@@ -48,23 +48,23 @@ public class PurchaseButton : MonoBehaviour
             case ProductType.GOLD_ADS:
                 IAPManager.Instance.Buy50GoldWithAds();
                 break;
-            case ProductType.GOLD_50:
-                IAPManager.Instance.Buy50Gold();
+            case ProductType.GOLD_500:
+                IAPManager.Instance.Buy500Gold();
                 break;
-            case ProductType.GOLD_110:
-                IAPManager.Instance.Buy110Gold();
+            case ProductType.GOLD_1100:
+                IAPManager.Instance.Buy1100Gold();
                 break;
-            case ProductType.GOLD_220:
-                IAPManager.Instance.Buy220Gold();
+            case ProductType.GOLD_2200:
+                IAPManager.Instance.Buy2200Gold();
                 break;
-            case ProductType.GOLD_330:
-                IAPManager.Instance.Buy330Gold();
+            case ProductType.GOLD_3300:
+                IAPManager.Instance.Buy3300Gold();
                 break;
-            case ProductType.GOLD_440:
-                IAPManager.Instance.Buy440Gold();
+            case ProductType.GOLD_4400:
+                IAPManager.Instance.Buy4400Gold();
                 break;
-            case ProductType.GOLD_550:
-                IAPManager.Instance.Buy550Gold();
+            case ProductType.GOLD_5500:
+                IAPManager.Instance.Buy5500Gold();
                 break;
             case ProductType.NO_ADS:
                 IAPManager.Instance.BuyNoAds();
@@ -77,23 +77,23 @@ public class PurchaseButton : MonoBehaviour
             yield return null;
         switch (productType)
         {
-            case ProductType.GOLD_50:
-                price.text = IAPManager.Instance.GetProductPrice(IAPManager.Instance.GOLD_50);
+            case ProductType.GOLD_500:
+                price.text = IAPManager.Instance.GetProductPrice(IAPManager.Instance.GOLD_500);
                 break;
-            case ProductType.GOLD_110:
-                price.text = IAPManager.Instance.GetProductPrice(IAPManager.Instance.GOLD_110);
+            case ProductType.GOLD_1100:
+                price.text = IAPManager.Instance.GetProductPrice(IAPManager.Instance.GOLD_1100);
                 break;
-            case ProductType.GOLD_220:
-                price.text = IAPManager.Instance.GetProductPrice(IAPManager.Instance.GOLD_220);
+            case ProductType.GOLD_2200:
+                price.text = IAPManager.Instance.GetProductPrice(IAPManager.Instance.GOLD_2200);
                 break;
-            case ProductType.GOLD_330:
-                price.text = IAPManager.Instance.GetProductPrice(IAPManager.Instance.GOLD_330);
+            case ProductType.GOLD_3300:
+                price.text = IAPManager.Instance.GetProductPrice(IAPManager.Instance.GOLD_3300);
                 break;
-            case ProductType.GOLD_440:
-                price.text = IAPManager.Instance.GetProductPrice(IAPManager.Instance.GOLD_440);
+            case ProductType.GOLD_4400:
+                price.text = IAPManager.Instance.GetProductPrice(IAPManager.Instance.GOLD_4400);
                 break;
-            case ProductType.GOLD_550:
-                price.text = IAPManager.Instance.GetProductPrice(IAPManager.Instance.GOLD_550);
+            case ProductType.GOLD_5500:
+                price.text = IAPManager.Instance.GetProductPrice(IAPManager.Instance.GOLD_5500);
                 break;
             case ProductType.NO_ADS:
                 price.text = IAPManager.Instance.GetProductPrice(IAPManager.Instance.NO_ADS);

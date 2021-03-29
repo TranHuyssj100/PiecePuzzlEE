@@ -27,14 +27,6 @@ public class Piece : MonoBehaviour
 
     
     Vector3 oldMousePos;
-    Vector2 limitPosX= new Vector2(-3,1);
-    Vector2 limitPosY= new Vector2(-2,3);
-
-    int _indexTrueSound = 0;
-
-    bool onceDO = true; 
-
-
 
 
     private void OnEnable()
@@ -56,18 +48,6 @@ public class Piece : MonoBehaviour
         selectedPos = 0.1f;
 
         canSetPosition = true;
-
-        //Vector3 offset = Vector3.zero;
-        //foreach (Transform grid in transform)
-        //{
-        //    offset += grid.position;
-        //}
-        //offset /=transform.childCount;
-        //offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
-        //transform.position += offset;
-
-        //transform.localScale = Vector3.zero;
-        //transform.DOScale(Vector3.one * .5f, 0.2f);
         startPosition = transform.position;
 
     }
@@ -106,20 +86,20 @@ public class Piece : MonoBehaviour
         GameMaster.instance.PiecePlaced();
     }
 
-    public void SetLimitPos(int _sizeLevel)
-    {
-        switch (_sizeLevel)
-        {
-            case 5:
-                limitPosX = Config.LIMIT_POS_X_5X5;
-                limitPosY = Config.LIMIT_POS_Y_5X5;
-                break;
-            case 6:
-                limitPosX = Config.LIMIT_POS_X_6X6;
-                limitPosY = Config.LIMIT_POS_Y_6X6;
-                break;
-        } 
-    }
+    //public void SetLimitPos(int _sizeLevel)
+    //{
+    //    switch (_sizeLevel)
+    //    {
+    //        case 5:
+    //            limitPosX = Config.LIMIT_POS_X_5X5;
+    //            limitPosY = Config.LIMIT_POS_Y_5X5;
+    //            break;
+    //        case 6:
+    //            limitPosX = Config.LIMIT_POS_X_6X6;
+    //            limitPosY = Config.LIMIT_POS_Y_6X6;
+    //            break;
+    //    } 
+    //}
 
 
     public void OnPieceSelect()
@@ -145,7 +125,7 @@ public class Piece : MonoBehaviour
             }
             offset /= transform.childCount;
             offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
-            Vector3 _temp= transform.position += new Vector3(offset.x*1.5f, offset.y+2f, 0);
+            Vector3 _temp= transform.position += new Vector3(offset.x, offset.y+2f, 0);
             transform.DOMove(_temp, 0.1f);
         }
         else if (isMouseDown)
@@ -201,20 +181,24 @@ public class Piece : MonoBehaviour
             child.GetComponent<SpriteRenderer>().sortingOrder -= _value;
         }
     }
-    bool CheckAvailableSpace(Vector2 space)
+    bool CheckAvailableSpace(Vector2 _space)
     {
-        if (space.x < 0 || space.x > (Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1) || space.y > 0 || space.y < -(Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1))
+        _space = new Vector2(Mathf.Round(_space.x), Mathf.Round(_space.y));
+        //Debug.LogError(_space.x);
+        if (_space.x < 0 || _space.x > (Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1) || _space.y > 0 || _space.y < -(Mathf.Sqrt(TestLevelCtr.instance.availableSpace.Length) - 1))
         {
             return false;
         }
         for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
         {
-            if (TestLevelCtr.instance.availableSpace[i].position == space)
+            if (TestLevelCtr.instance.availableSpace[i].position == _space)
             {
                 if (TestLevelCtr.instance.availableSpace[i].available)
                     TestLevelCtr.instance.availableSpace[i].available = false;
                 else
+                {
                     return false;
+                }
             }
         }
         return true;
@@ -265,16 +249,10 @@ public class Piece : MonoBehaviour
     {
         OnPieceSelect();
         isCorrect = true;
-        //startPointIndex =  _startPos;
-        //TestLevelCtr.instance.NUM_PIECES_WRONG--;
-        ////TestLevelCtr.instance.SpawnPiece(_startPos,false);
         transform.DOLocalMove(Vector3.zero, _duration).OnStart(() => CheckAutoCorrect())
-                                                      .OnComplete(() => SetPositionPiece(true));
-        //transform.DOScale(Vector3.one, _duration);
-        //transform.localScale = selectedScale * Vector3.one;
-
-        //transform.DOComplete();
-        //transform.DOMove(Vector3.zero, _duration);
+                                                      .OnComplete(() => {
+                                                          SetPositionPiece(true);
+                                                      });
     }
     private void CheckAutoCorrect()
     {

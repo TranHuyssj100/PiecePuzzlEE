@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThemeSelect : MonoBehaviour
+public class ThemeSelect : CoroutineQueue
 {
     public Transform content;
     public GameObject themeChild;
@@ -25,6 +25,7 @@ public class ThemeSelect : MonoBehaviour
 
     public void CreateThemeChild()
     {
+        Queue<IEnumerator> _coroutineQueue = new Queue<IEnumerator>();
         foreach (Transform child in content)
         {
             Destroy(child.gameObject);
@@ -53,7 +54,10 @@ public class ThemeSelect : MonoBehaviour
                                                                                           //GameMaster.instance.OnStartClick();
                                                                                          });
             }
+                //_coroutineQueue.Enqueue(ShowObjRightToLeft(_themeClone.transform.Find("BG"), 0.1f));
         }
+
+        //StartCoroutine(CoroutineCoordinator(_coroutineQueue));
     }
 
 

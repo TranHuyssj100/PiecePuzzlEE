@@ -64,11 +64,11 @@ public class FirebaseManager : MonoBehaviour
         string trimmed = String.Concat(theme.Where(c => !Char.IsWhiteSpace(c)));
         FirebaseAnalytics.LogEvent("Lose_Level_" + trimmed + "_" + (level + 1).ToString("00"));
     }
-    public void LogResetLevel(int level, string theme)
-    {
-        string trimmed = String.Concat(theme.Where(c => !Char.IsWhiteSpace(c)));
-        FirebaseAnalytics.LogEvent("Reset_Level_" + trimmed + "_" + (level + 1).ToString("00"));
-    }
+    //public void LogResetLevel(int level, string theme)
+    //{
+    //    string trimmed = String.Concat(theme.Where(c => !Char.IsWhiteSpace(c)));
+    //    FirebaseAnalytics.LogEvent("Reset_Level_" + trimmed + "_" + (level + 1).ToString("00"));
+    //}
     public void LogUnlockLevel(int level, string theme)
     {
         FirebaseAnalytics.LogEvent("Unlock_Level_" + level.ToString("000"),"Theme",theme);
@@ -80,5 +80,9 @@ public class FirebaseManager : MonoBehaviour
     public void LogAutoCorrectHint()
     {
         FirebaseAnalytics.LogEvent("Hint_Auto_Correct");
+    }
+    public void LogIAP(string product)
+    {
+        FirebaseAnalytics.LogEvent("Purchae IAP","Product", product);
     }
 }

@@ -53,7 +53,7 @@ public class GridLevel : CoroutineQueue
                 if (i <= GameData.GetCurrentLevelByTheme(GameData.Theme))
                     _gridChildClone.GetComponent<GridChild>().UnlockLevel();
                
-                coroutineQueue.Enqueue(ShowObject(_gridChildClone.transform, 0.01f));
+                coroutineQueue.Enqueue(ShowObjZoomOut(_gridChildClone.transform, 0.01f));
             }
             else
             {
