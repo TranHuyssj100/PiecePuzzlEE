@@ -91,8 +91,6 @@ public class GameMaster : MonoBehaviour
     {
         //ShowNumMove();
         ShowGold();
-        if (Input.GetKeyDown(KeyCode.A))
-            DataController.Testing();
     }
 
     private void checkEndGame()

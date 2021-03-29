@@ -171,17 +171,23 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
         Debug.Log("<color=green>Cut successful from preset: </color>" + fileInfo[randomPreset].Name);
         return answerPreset;
     }
-    public static void RenameFile()
-    {
-        string fileName = "";
-        string size;
-        for (int i = 5; i < 9; i++)
-        {
-            size = i + "x" + i;
-            DirectoryInfo directoryInfo = new DirectoryInfo(AnswerPresetPath + size);
-            FileInfo[] fileInfo = directoryInfo.GetFiles("*.json");
-        }
-    }    
+    //public static void RenameFile()
+    //{
+    //    string fileName = "";
+    //    string size;
+    //    for (int i = 5; i < 9; i++)
+    //    {
+    //        size = i + "x" + i;
+    //        DirectoryInfo directoryInfo = new DirectoryInfo(AnswerPresetPath + size);
+    //        FileInfo[] fileInfo = directoryInfo.GetFiles("*.json");
+    //        foreach (FileInfo file in fileInfo)
+    //        {
+    //            Debug.Log("<color=red>From: </color>" + file.FullName);
+    //            File.Move(file.FullName, Path.Combine(AnswerPresetPath + size, GenerateRandomFileName() + JsonSuffix));
+    //            Debug.Log("<color=Green>To: </color>" + file.FullName);
+    //        }
+    //    }
+    //}    
 #endif
 
     //public static int GetThemeLevelCount(ThemeName themeName,int size)
