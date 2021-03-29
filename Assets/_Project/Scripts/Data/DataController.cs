@@ -33,31 +33,32 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
         SAVELEVEL =  Application.dataPath + "/Raw/Levels";
 #endif
         //themeData = LoadThemeData(GameData.Theme);     
+        //LoadAllThemeData();
+        //GameData.CreateStatusTheme();
+        //GameData.CreateCurrentLevelforEachTheme();
+        //GameData.level = 0;
+        //for (int i = 0; i < themeData.Length; i++)
+        //{
+        //    if (GameData.GetThemeStatus(i) == 1)
+        //        GameData.level += GameData.GetCurrentLevelByTheme(i) + 1;
+        //}
+        LoadData();
+    }
+
+
+
+    public static void LoadData()
+    {
         LoadAllThemeData();
         GameData.CreateStatusTheme();
         GameData.CreateCurrentLevelforEachTheme();
         GameData.level = 0;
         for (int i = 0; i < themeData.Length; i++)
         {
-            if(GameData.GetThemeStatus(i) == 1)
+            if (GameData.GetThemeStatus(i) == 1)
                 GameData.level += GameData.GetCurrentLevelByTheme(i) + 1;
         }
     }
-
-
-//    public static ThemeData LoadThemeData(int _type)
-//    {
-//        string loadString ;
-//#if UNITY_EDITOR
-//        loadString = File.ReadAllText(Path.Combine(SAVETHEME, ((ThemeName)_type).ToString() + JsonSuffix));
-//        //Debug.LogError(Path.Combine(SAVETHEME, ((ThemeType)_type).ToString() + JsonSuffix));
-//#elif UNITY_ANDROID
-//        WWW reader = new WWW(Path.Combine(SAVETHEME, "Json/Themes/" + ((ThemeName)_type).ToString() + JsonSuffix));
-//        while (!reader.isDone) { }
-//        loadString = reader.text;
-//#endif
-//        return JsonHelper.FromJson<ThemeData>(loadString)[0];
-//    } 
     
     public static void LoadAllThemeData()
     {

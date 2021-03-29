@@ -4,6 +4,10 @@ using UnityEngine;
 using DG.Tweening;
 using TMPro;
 using System.Security.AccessControl;
+using UnityEngine.UI;
+using System;
+using UnityEngine.Events;
+using Boo.Lang;
 
 public class TweenCustom
 {
@@ -60,6 +64,23 @@ public class TweenCustom
         transform.position = new Vector3(transform.position.x, transform.position.y-strength, transform.position.z);
         seq.Append(transform.DOMove(oldPos + Vector3.up * strength/8, duration))
            .Append(transform.DOMove(oldPos, duration/4));
+    }
+
+
+    public static void TextAutoComplete(TextMeshProUGUI textMesh, string txtBegin, string txtEnd, float duration )
+    {
+        Debug.Log("Animate");
+        DOTween.To(
+            () => txtBegin,
+            x => txtBegin = x,
+            txtEnd,
+            duration).OnUpdate(() => textMesh.text = txtBegin).SetLoops(-1);
+    }
+
+    public static void ProgressBar(Image fill, float duration)
+    {
+        DOVirtual.Float(0, 1, duration, (x) => { fill.fillAmount = x; });
+
     }
 
     public static void RightToLeft(Transform transform, float strength, float duration)

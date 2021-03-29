@@ -61,16 +61,16 @@ public class GameMaster : MonoBehaviour
     public void Start()
     {
         Application.targetFrameRate = 60;
-        if (GameData.firstTimeInGame == 1)
-        {
-            GameData.firstTimeInGame = 0;
-            Debug.LogError(GameData.firstTimeInGame);
+        //if (GameData.firstTimeInGame == 1)
+        //{
+        //    GameData.firstTimeInGame = 0;
+        //    Debug.LogError(GameData.firstTimeInGame);
 
-            //StartCoroutine(TestLevelCtr.instance.InitalizeGame(0, 0));
-            OnStartClick();
-        }
-        else
-            menu.SetActive(true);
+        //    //StartCoroutine(TestLevelCtr.instance.InitalizeGame(0, 0));
+        //    OnStartClick();
+        //}
+        //else
+        //    menu.SetActive(true);
         AdManager.Instance.onRewardAdClosed += RewardAdClosed;
         //onPiecePlace += OnPiecePlaced;
         GameData.onGoldValueChanged += ShowGold;
