@@ -83,6 +83,6 @@ public class FirebaseManager : MonoBehaviour
     }
     public void LogIAP(string product)
     {
-        FirebaseAnalytics.LogEvent("Purchae IAP","Product", product);
+        FirebaseAnalytics.LogEvent("Purchae_IAP","Product", product);
     }
 }

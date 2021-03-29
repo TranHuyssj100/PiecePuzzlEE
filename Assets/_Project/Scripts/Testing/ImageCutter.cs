@@ -190,6 +190,7 @@ public class ImageCutter : MonoBehaviour
             if (!System.IO.Directory.Exists(path + theme.Replace(" ", "") + "/" + levelIndex))
                 System.IO.Directory.CreateDirectory(path + theme.Replace(" ", "") + "/" + levelIndex);
             UnityEditor.PrefabUtility.SaveAsPrefabAsset(sprite, savePath);
+            UnityEditor.AssetDatabase.Refresh();
 #endif
             selectedPieces.Clear();
             DestroyImmediate(sprite);
