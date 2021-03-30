@@ -15,6 +15,7 @@ public class GameMaster : MonoBehaviour
     public GameObject preview;
     public GameObject shopUI;
     public GameObject themeSelect;
+    public GameObject loadingPanel;
     [Space(10)]
     [Header("PlayUI")]
     public GameObject playHeader;
@@ -57,6 +58,7 @@ public class GameMaster : MonoBehaviour
     private void OnEnable()
     {
         onPiecePlace += OnPiecePlaced;
+        loadingPanel.SetActive(true);
     }
     public void Start()
     {

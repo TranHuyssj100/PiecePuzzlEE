@@ -24,7 +24,6 @@ public class TestLevelCtr : MonoBehaviour
     public LevelData curLevelData;
     public Transform[] arrAllPieces;
     public List<GameObject> listPieces = new List<GameObject>();
-    public List<Object> listTest = new List<Object>();
     public GameObject[] point;
     public  Grid[] availableSpace;
 
@@ -101,7 +100,8 @@ public class TestLevelCtr : MonoBehaviour
         if (sequenceIndex.Count > 0)
         {
             int randomIndex = sequenceIndex.Dequeue();
-            GameObject randomPiece = listPieces[randomIndex];
+            //GameObject randomPiece = listPieces[randomIndex];
+            GameObject randomPiece = listPieces.Find((x) => x.name == randomIndex.ToString());
             GameObject pieceClone =  Instantiate(randomPiece, curAllPieces.transform);            
             if (autoCorrect)
             {
@@ -168,6 +168,12 @@ public class TestLevelCtr : MonoBehaviour
         yield return new WaitForEndOfFrame();
         availableSpace = new Grid[sizeLevel * sizeLevel];
         sequenceIndex = new Queue<int>(Enumerable.Range(0, listPieces.Count).ToArray());
+
+        foreach(int i in sequenceIndex)
+        {
+            Debug.LogError("sadada: " + i);
+        }
+
         CreateAvailableSpaceList();
         DestroyTutorialObj();
         if (idLevel == 0 && idTheme == 0)

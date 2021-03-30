@@ -7,6 +7,7 @@ public class Loading : MonoBehaviour
     public TextMeshProUGUI loadingTxt;
     public Image fillProgress;
 
+
     private void Start()
     {
         LoadGame(3);
