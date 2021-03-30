@@ -75,19 +75,19 @@ public class DataController : SingletonDontDestroyMonoBehavior<DataController>
         themeData= JsonHelper.FromJson<ThemeData>(loadString);
     }
 
-    public static LevelData LoadLevelData(int idTheme, int idLevel)
-    {
-        string loadString;
-#if UNITY_EDITOR || UNITY_IOS
-        loadString = File.ReadAllText(Path.Combine(SAVELEVEL, themeData[idTheme].name  + "/"+ idLevel + JsonSuffix));
-        //Debug.LogError((Path.Combine(SAVELEVEL, themeData[idTheme].name + "/" + idLevel + JsonSuffix)));
-#elif UNITY_ANDROID
-        WWW reader = new WWW(Path.Combine(SAVELEVEL, "Json/Levels/"+ themeData[idTheme].name + "/" + idLevel + JsonSuffix));
-        while (!reader.isDone) { }
-        loadString = reader.text;
-#endif
-        return JsonUtility.FromJson<LevelData>(loadString);
-    }
+//    public static LevelData LoadLevelData(int idTheme, int idLevel)
+//    {
+//        string loadString;
+//#if UNITY_EDITOR || UNITY_IOS
+//        loadString = File.ReadAllText(Path.Combine(SAVELEVEL, themeData[idTheme].name  + "/"+ idLevel + JsonSuffix));
+//        //Debug.LogError((Path.Combine(SAVELEVEL, themeData[idTheme].name + "/" + idLevel + JsonSuffix)));
+//#elif UNITY_ANDROID
+//        WWW reader = new WWW(Path.Combine(SAVELEVEL, "Json/Levels/"+ themeData[idTheme].name + "/" + idLevel + JsonSuffix));
+//        while (!reader.isDone) { }
+//        loadString = reader.text;
+//#endif
+//        return JsonUtility.FromJson<LevelData>(loadString);
+//    }
     
    public static List<GameObject> LoadPiece(int idTheme, int idLevel)
     {
