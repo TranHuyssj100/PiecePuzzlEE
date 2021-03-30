@@ -169,11 +169,6 @@ public class TestLevelCtr : MonoBehaviour
         availableSpace = new Grid[sizeLevel * sizeLevel];
         sequenceIndex = new Queue<int>(Enumerable.Range(0, listPieces.Count).ToArray());
 
-        foreach(int i in sequenceIndex)
-        {
-            Debug.LogError("sadada: " + i);
-        }
-
         CreateAvailableSpaceList();
         DestroyTutorialObj();
         if (idLevel == 0 && idTheme == 0)
