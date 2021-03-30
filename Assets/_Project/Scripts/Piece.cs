@@ -49,7 +49,10 @@ public class Piece : MonoBehaviour
 
         canSetPosition = true;
         startPosition = transform.position;
-
+        foreach (Transform grid in transform)
+        {
+            grid.GetChild(0).gameObject.SetActive(false);
+        }
     }
 
 
@@ -61,7 +64,7 @@ public class Piece : MonoBehaviour
     private void OnMouseDown()
     {
         isMouseDown = true;
-        InCreaseSortingLayer(1);
+        InCreaseSortingLayer(2);
         OnPieceSelect();
 
         TestLevelCtr.instance.DeativeTutorial();
@@ -77,7 +80,7 @@ public class Piece : MonoBehaviour
     private void OnMouseUp()
     {
         isMouseDown = false;
-        DecreaseSortingLayer(1);
+        DecreaseSortingLayer(2);
         if (!isCorrect)
         {
             SetPositionPiece(false);
@@ -108,6 +111,7 @@ public class Piece : MonoBehaviour
         transform.DOComplete();
         foreach (Transform grid in transform)
         {
+            grid.GetChild(0).gameObject.SetActive(true);
             for (int i = 0; i < TestLevelCtr.instance.availableSpace.Length; i++)
             {
                 if (TestLevelCtr.instance.availableSpace[i].position == (Vector2)TestLevelCtr.instance.curAllPieces.transform.InverseTransformPoint((Vector2)grid.position))
@@ -172,6 +176,7 @@ public class Piece : MonoBehaviour
         foreach(Transform child in transform)
         {
             child.GetComponent<SpriteRenderer>().sortingOrder += _value;
+            child.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder += _value;
         }
     }
     void DecreaseSortingLayer(int _value)
@@ -179,6 +184,7 @@ public class Piece : MonoBehaviour
         foreach(Transform child in transform)
         {
             child.GetComponent<SpriteRenderer>().sortingOrder -= _value;
+            child.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder -= _value;
         }
     }
     bool CheckAvailableSpace(Vector2 _space)
@@ -209,7 +215,11 @@ public class Piece : MonoBehaviour
                                          Mathf.Round(transform.localPosition.y));
         preState = new TestLevelCtr.Grid[(int)Mathf.Pow(TestLevelCtr.instance.sizeLevel, 2)];
         TestLevelCtr.instance.availableSpace.CopyTo(preState,0);
-        GameMaster.instance.PiecePlaced(); 
+        GameMaster.instance.PiecePlaced();
+        foreach (Transform grid in transform)
+        {
+            grid.GetChild(0).gameObject.SetActive(false);
+        }
         foreach (Transform grid in transform)
         {
             if (!CheckAvailableSpace(TestLevelCtr.instance.curAllPieces.transform.InverseTransformPoint(grid.position)))
