@@ -364,6 +364,19 @@ public class GameMaster : MonoBehaviour
         }
     }
 
+    public void Rate()
+    {
+#if UNITY_ANDROID
+        Application.OpenURL("market://details?id=com.sun.PieceMaster");
+#elif UNITY_IPHONE
+
+#endif
+    }
+    public void MoreGame()
+    {
+        Application.OpenURL("https://play.google.com/store/apps/developer?id=SUNMOB");
+    }
+
     #endregion
 
     #region Reward

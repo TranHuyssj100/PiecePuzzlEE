@@ -139,6 +139,7 @@ public class WinPanel : MonoBehaviour
 
    public void CloseGift()
     {
+        DOTween.CompleteAll();
         panelGift.gameObject.SetActive(false);
         coins.localScale = Vector3.zero;
         claimx5.localScale = Vector3.zero;
