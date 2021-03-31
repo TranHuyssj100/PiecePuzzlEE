@@ -395,6 +395,7 @@ public class GameMaster : MonoBehaviour
     public void GrantMoreMove()
     {
         TestLevelCtr.instance.NUM_MOVE += 5;
+        ShowNumMove();
         CloseLosePanel();
     }    
     private void RewardAdClosed()
