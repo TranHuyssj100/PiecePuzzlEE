@@ -342,6 +342,10 @@ public class GameMaster : MonoBehaviour
 
             }
         }
+        else
+        {
+            OpenShopUI();
+        }
         //StartCoroutine(CorountineCheckPiece());
     }   
 
@@ -361,6 +365,10 @@ public class GameMaster : MonoBehaviour
             preview.transform.Find("Bg").Find("Image").GetComponent<Image>().sprite =
                 DataController.LoadSpritePreview(TestLevelCtr.instance.idTheme, TestLevelCtr.instance.idLevel, TestLevelCtr.instance.sizeLevel);
                 //LevelController.LoadSpritePreview(LevelController.idLevel,DataController.themeData[GameData.Theme].name, LevelController.instance.sizeLevel);
+        }
+        else
+        {
+            OpenShopUI();
         }
     }
 
