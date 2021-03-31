@@ -11,8 +11,29 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
 
     bool isDay0;
 
+    public bool showAdByTimeInterval;
+
+    public int showAdInterval = 20;
+    private float showAdTimer;
+
+
     public int stagePlayed = 0;
+    private static int stageToShowAdDay0 = 3;
     private static int stageToShowAd = 2;
+
+    public void RefreshConfig(bool _showAdByTime, int _showInterval, int _stageToShowDay0,int _stageToShow)
+    {
+        Debug.Log("asdasdasd");
+        showAdByTimeInterval = _showAdByTime;
+        showAdInterval = _showInterval;
+        stageToShowAdDay0 = _stageToShowDay0;
+        stageToShowAd = _stageToShow;
+        Debug.Log(showAdByTimeInterval);
+        Debug.Log(showAdInterval);
+        Debug.Log(stageToShowAdDay0);
+        Debug.Log(stageToShowAd);
+
+    }
 
     public void RewardAdClosed()
     {
@@ -48,7 +69,7 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
             stageToShowAd = 3;
         else
             stageToShowAd = 2;
-
+        showAdTimer = showAdInterval;
 #if UNITY_ANDROID
         rewardedAdUnitId = "ca-app-pub-9179752697212712/9650286780";
         interstitialAdUnitId = "ca-app-pub-9179752697212712/7215695137";
@@ -116,11 +137,11 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
         //this.interstitialAd.OnAdClosed += HandleOnAdClosed;
         //// Called when the ad click caused the user to leave the application.
         //this.interstitialAd.OnAdLeavingApplication += HandleOnAdLeavingApplication;
+    }
 
-
-
-
-
+    private void Update()
+    {
+        showAdTimer -= Time.deltaTime;
     }
 
     bool CheckIsDay0()
@@ -210,11 +231,23 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
     public void checkInterAdsCondition()
     {
         stagePlayed++;
-        if(stagePlayed >= stageToShowAd)
+        if (showAdByTimeInterval)
         {
-            stagePlayed = 0;
-            showInterstitialAd();
-        }    
+            if (showAdTimer <= 0)
+            {
+                showAdTimer = showAdInterval;
+                showInterstitialAd();
+            }
+        }
+        else
+        {
+            if (stagePlayed >= stageToShowAd)
+            {
+                stagePlayed = 0;
+                showInterstitialAd();
+            }
+        }
+        
     }    
 
     public void showInterstitialAd()
@@ -308,8 +341,11 @@ public void HandleOnAdLeavingApplication(object sender, EventArgs args)
     {
         loadRewardedAd();
         Time.timeScale = 1;
-        if(isRewarded)
+        if (isRewarded)
+        {
+            showAdTimer = showAdInterval;
             RewardAdClosed();
+        }
     }
 
     public void HandleUserEarnedReward(object sender, Reward args)
