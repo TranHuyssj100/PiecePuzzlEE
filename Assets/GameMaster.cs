@@ -92,7 +92,7 @@ public class GameMaster : MonoBehaviour
     void FixedUpdate()
     {
         //ShowNumMove();
-        ShowGold();
+        //ShowGold();
     }
 
     private void checkEndGame()
@@ -192,7 +192,7 @@ public class GameMaster : MonoBehaviour
 
     public void ShowGold()
     {
-        goldTxt.text = GameData.gold.ToString();
+       goldTxt.text = GameData.gold.ToString();
     }
 
     #endregion
