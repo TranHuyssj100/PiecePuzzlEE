@@ -9,12 +9,14 @@ public class ThemeSelect : CoroutineQueue
     private int amountTheme;
     public ThemeData[] themes;
 
-    
+    public List<int> themeOrder;
+
     private void Start()
     {
         //allTheme = DataController.GetAllTheme();
         themes = DataController.themeData;
         amountTheme = themes.Length;
+        themeOrder =new List<int>{ 0, 1, 18, 2, 3, 4, 5, 6, 7, 19, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 };
         CreateThemeChild();
     }
 
@@ -36,6 +38,8 @@ public class ThemeSelect : CoroutineQueue
             _themeClone.GetComponent<ThemeChild>().index = themes[i].idTheme;
             _themeClone.GetComponent<ThemeChild>().titleTxt.text = themes[i].name;
             _themeClone.GetComponent<ThemeChild>().SetRankTheme(themes[i].size);
+            int siblingIndex = themeOrder.IndexOf(themes[i].idTheme);
+            _themeClone.transform.SetSiblingIndex(siblingIndex);
             _themeClone.GetComponent<ThemeChild>().image.sprite = DataController.LoadSpritePreview(themes[i].idTheme, 0, themes[i].size);
             int x = i;
             if (GameData.GetThemeStatus(i) == 0)
@@ -56,7 +60,6 @@ public class ThemeSelect : CoroutineQueue
             }
                 //_coroutineQueue.Enqueue(ShowObjRightToLeft(_themeClone.transform.Find("BG"), 0.1f));
         }
-
         //StartCoroutine(CoroutineCoordinator(_coroutineQueue));
     }
 
