@@ -115,7 +115,7 @@ public class Piece : MonoBehaviour
             }
             offset /= transform.childCount;
             offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
-            Vector3 _temp= transform.position += new Vector3(offset.x, offset.y+2f+ 1*(5-TestLevelCtr.instance.sizeLevel)/2, 0);
+            Vector3 _temp= transform.position += new Vector3(offset.x *5/TestLevelCtr.instance.sizeLevel, offset.y+2f+ 1*(5-TestLevelCtr.instance.sizeLevel)/3, 0);
             transform.DOMove(_temp, 0.1f);
         }
         else if (isMouseDown)
@@ -148,7 +148,9 @@ public class Piece : MonoBehaviour
             }
             offset /= transform.childCount;
             offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
-            transform.position += new Vector3(offset.x, offset.y*2f, 0);
+            //transform.position += new Vector3(offset.x, offset.y*2f, 0);
+            transform.position += new Vector3(offset.x*5 / TestLevelCtr.instance.sizeLevel, offset.y + 2f + 1 * (5 - TestLevelCtr.instance.sizeLevel) / 3, 0);
+
 
         }
         transform.DOMove(startPosition, 0.3f).OnComplete(() => { 
