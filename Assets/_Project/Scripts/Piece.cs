@@ -43,7 +43,8 @@ public class Piece : MonoBehaviour
 
     private void Start()
     {
-        startScale = Config.PIECE_START_SCALE;
+        startScale = Config.PIECE_START_SCALE * TestLevelCtr.instance.sizeLevel / 5; // scale size piece for each sizeLevel
+        //startScale = Config.PIECE_START_SCALE;// scale size piece for each sizeLevel
         selectedScale = Config.PIECE_SELECTED_SCALE;
         selectedPos = 0.1f;
 
@@ -86,21 +87,6 @@ public class Piece : MonoBehaviour
         GameMaster.instance.PiecePlaced();
     }
 
-    //public void SetLimitPos(int _sizeLevel)
-    //{
-    //    switch (_sizeLevel)
-    //    {
-    //        case 5:
-    //            limitPosX = Config.LIMIT_POS_X_5X5;
-    //            limitPosY = Config.LIMIT_POS_Y_5X5;
-    //            break;
-    //        case 6:
-    //            limitPosX = Config.LIMIT_POS_X_6X6;
-    //            limitPosY = Config.LIMIT_POS_Y_6X6;
-    //            break;
-    //    } 
-    //}
-
 
     public void OnPieceSelect()
     {
@@ -125,7 +111,7 @@ public class Piece : MonoBehaviour
             }
             offset /= transform.childCount;
             offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
-            Vector3 _temp= transform.position += new Vector3(offset.x, offset.y+2f, 0);
+            Vector3 _temp= transform.position += new Vector3(offset.x, offset.y+2f+ 1*(5-TestLevelCtr.instance.sizeLevel)/2, 0);
             transform.DOMove(_temp, 0.1f);
         }
         else if (isMouseDown)

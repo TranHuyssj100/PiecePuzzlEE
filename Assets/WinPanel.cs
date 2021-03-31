@@ -1,12 +1,7 @@
 ﻿using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Claims;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
-using UnityScript.Scripting;
 
 public class WinPanel : MonoBehaviour
 {
