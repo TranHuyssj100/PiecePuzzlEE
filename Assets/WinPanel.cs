@@ -109,6 +109,7 @@ public class WinPanel : MonoBehaviour
         RandomCoin();
         Debug.LogError(amountCoin);
         GameData.gold+= amountCoin;
+        allCoin.GetChild(0).GetComponent<TextMeshProUGUI>().text = (GameData.gold - amountCoin).ToString();
         Sequence seq = DOTween.Sequence();
         seq.Append(giftBox.DOMove(panelGift.transform.position, duration))
             .Append(giftBox.DOScale(Vector3.one * 2 + Vector3.one * strength, duration))
@@ -116,12 +117,13 @@ public class WinPanel : MonoBehaviour
             .Append(giftBox.GetChild(1).GetComponent<Image>().DOFade(0, duration / 2))
             .Append(giftBox.GetChild(2).GetComponent<Image>().DOFade(0, duration))
             .Append(coins.DOScale(Vector3.one / 2.5f, 0))
-            .Append(coins.GetChild(0).DOMove(allCoin.position, duration))
+            .Append(coins.GetChild(0).DOMove(allCoin.position, duration/1.5f))
             .Append(coins.GetChild(0).DOScale(Vector3.zero, 0))
-            .Append(coins.GetChild(1).DOMove(allCoin.position, duration))
+            .Append(coins.GetChild(1).DOMove(allCoin.position, duration/1.5f))
             .Append(coins.GetChild(1).DOScale(Vector3.zero, 0))
-            .Append(coins.GetChild(2).DOMove(allCoin.position, duration))
+            .Append(coins.GetChild(2).DOMove(allCoin.position, duration/1.5f))
             .Append(coins.GetChild(2).DOScale(Vector3.zero, 0))
+            .Append(DOVirtual.Float(GameData.gold - amountCoin, GameData.gold, 1f, ((x) => { allCoin.GetChild(0).GetComponent<TextMeshProUGUI>().text = ((int)x).ToString(); })))
             .Append(claimx5.DOScale(Vector3.one, duration))
             .Append(gotIt.DOScale(Vector3.one, duration * 2))
             .OnComplete(() => {
