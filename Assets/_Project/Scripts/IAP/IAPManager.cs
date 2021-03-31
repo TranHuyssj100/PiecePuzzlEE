@@ -169,7 +169,6 @@ public class IAPManager : SingletonDontDestroyMonoBehavior<IAPManager>, IStoreLi
                 // ... buy the product. Expect a response either through ProcessPurchase or OnPurchaseFailed 
                 // asynchronously.
                 m_StoreController.InitiatePurchase(product);
-                FirebaseManager.instance.LogIAP(productId);
             }
             // Otherwise ...
             else
@@ -256,31 +255,37 @@ public class IAPManager : SingletonDontDestroyMonoBehavior<IAPManager>, IStoreLi
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
             GameData.gold += 500;
+            FirebaseManager.instance.LogIAP(GOLD_500);
         }
         else if (String.Equals(args.purchasedProduct.definition.id, GOLD_1100, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
             GameData.gold += 1100;
+            FirebaseManager.instance.LogIAP(GOLD_1100);
         }
         else if (String.Equals(args.purchasedProduct.definition.id, GOLD_2200, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
             GameData.gold += 2200;
+            FirebaseManager.instance.LogIAP(GOLD_2200);
         }
         else if (String.Equals(args.purchasedProduct.definition.id, GOLD_3300, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
             GameData.gold += 3300;
+            FirebaseManager.instance.LogIAP(GOLD_3300);
         }
         else if (String.Equals(args.purchasedProduct.definition.id, GOLD_4400, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
             GameData.gold += 4400;
+            FirebaseManager.instance.LogIAP(GOLD_4400);
         }
         else if (String.Equals(args.purchasedProduct.definition.id, GOLD_5500, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
             GameData.gold += 5500;
+            FirebaseManager.instance.LogIAP(GOLD_5500);
         }
         else if (String.Equals(args.purchasedProduct.definition.id, NO_ADS, StringComparison.Ordinal))
         {
@@ -288,6 +293,7 @@ public class IAPManager : SingletonDontDestroyMonoBehavior<IAPManager>, IStoreLi
             GameData.noAds = 1;
             if (onRemoveAds != null)
                 onRemoveAds();
+            FirebaseManager.instance.LogIAP(GOLD_500);
         }
         // Or ... an unknown product has been purchased by this user. Fill in additional products here....
         else

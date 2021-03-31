@@ -23,7 +23,6 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
 
     public void RefreshConfig(bool _showAdByTime, int _showInterval, int _stageToShowDay0,int _stageToShow)
     {
-        Debug.Log("asdasdasd");
         showAdByTimeInterval = _showAdByTime;
         showAdInterval = _showInterval;
         stageToShowAdDay0 = _stageToShowDay0;
@@ -233,8 +232,9 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
         stagePlayed++;
         if (showAdByTimeInterval)
         {
-            if (showAdTimer <= 0)
+            if (showAdTimer <= 0 || stagePlayed >= stageToShowAd)
             {
+                stagePlayed = 0;
                 showAdTimer = showAdInterval;
                 showInterstitialAd();
             }
