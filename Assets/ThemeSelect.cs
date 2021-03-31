@@ -38,8 +38,6 @@ public class ThemeSelect : CoroutineQueue
             _themeClone.GetComponent<ThemeChild>().index = themes[i].idTheme;
             _themeClone.GetComponent<ThemeChild>().titleTxt.text = themes[i].name;
             _themeClone.GetComponent<ThemeChild>().SetRankTheme(themes[i].size);
-            int siblingIndex = themeOrder.IndexOf(themes[i].idTheme);
-            _themeClone.transform.SetSiblingIndex(siblingIndex);
             _themeClone.GetComponent<ThemeChild>().image.sprite = DataController.LoadSpritePreview(themes[i].idTheme, 0, themes[i].size);
             int x = i;
             if (GameData.GetThemeStatus(i) == 0)
@@ -58,7 +56,9 @@ public class ThemeSelect : CoroutineQueue
                                                                                           //GameMaster.instance.OnStartClick();
                                                                                          });
             }
-                //_coroutineQueue.Enqueue(ShowObjRightToLeft(_themeClone.transform.Find("BG"), 0.1f));
+            //_coroutineQueue.Enqueue(ShowObjRightToLeft(_themeClone.transform.Find("BG"), 0.1f));
+            //int siblingIndex = themeOrder.IndexOf(themes[i].idTheme);
+            //_themeClone.transform.SetSiblingIndex(siblingIndex);
         }
         //StartCoroutine(CoroutineCoordinator(_coroutineQueue));
     }
