@@ -195,6 +195,7 @@ public class TestLevelCtr : MonoBehaviour
         GameMaster.instance.AnimatePlayUI();
         yield return new WaitForSeconds(1);
         FirebaseManager.instance.LogStartLevel(_idLevel, DataController.themeData[_idTheme].name);
+        GameMaster.instance.OpenRatePanelByLevel(new int[] { 10, 20 });
         //_delay = 0;
         //Tutorial();
     }
