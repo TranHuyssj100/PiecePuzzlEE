@@ -289,7 +289,7 @@ public class GameMaster : MonoBehaviour
 
     public void OpenRatePanelByLevel(int [] levelShowRate)
     {
-        Debug.LogError(GameData.level +" :"+ levelShowRate.Contains(GameData.level));;
+        //Debug.LogError(GameData.level +" :"+ levelShowRate.Contains(GameData.level));;
         if (levelShowRate.Contains(GameData.level))
         {
             OpenPanel(RatePanel);

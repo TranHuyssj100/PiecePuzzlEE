@@ -77,15 +77,19 @@ public class TweenCustom
             duration).OnUpdate(() => textMesh.text = txtBegin).SetLoops(-1);
     }
 
-    public static void ProgressBar(Image fill, float duration)
+    public static void ProgressBar(Image fill, float duration, TweenCallback f)
     {
-        DOVirtual.Float(0, 1, duration, (x) => { fill.fillAmount = x; });
+        DOVirtual.Float(0, 1, duration, (x) => { fill.fillAmount = x; }).OnComplete(f);
 
     }
 
     public static void RightToLeft(Transform transform, float strength, float duration)
     {
        
+    }
 
+    public static void ButtonShake(float strength, float duration)
+    {
+        
     }
 }
