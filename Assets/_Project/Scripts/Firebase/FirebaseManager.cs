@@ -42,6 +42,7 @@ public class FirebaseManager : MonoBehaviour
         // yet, or if we ask for values that the server doesn't have:
         defaults.Add("show_ad_by_time_interval", false);
         defaults.Add("show_ad_time_interval", 40);
+        defaults.Add("show_ad_time_interval_day0", 65);
         defaults.Add("show_ad_stage_day0_count", 2);
         defaults.Add("show_ad_stage_count", 1);
 
@@ -89,6 +90,7 @@ public class FirebaseManager : MonoBehaviour
                 AdManager.Instance.RefreshConfig(
                     Firebase.RemoteConfig.FirebaseRemoteConfig.GetValue("show_ad_by_time_interval").BooleanValue,
                     int.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.GetValue("show_ad_time_interval").StringValue),
+                    int.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.GetValue("show_ad_time_interval_day0").StringValue),
                     int.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.GetValue("show_ad_stage_day0_count").StringValue),
                     int.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.GetValue("show_ad_stage_count").StringValue));
                 break;

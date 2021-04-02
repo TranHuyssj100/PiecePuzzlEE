@@ -13,7 +13,8 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
 
     public bool showAdByTimeInterval;
 
-    public int showAdInterval = 20;
+    public int showAdInterval = 45;
+    public int showAdIntervalDay0 = 65;
     private float showAdTimer;
 
 
@@ -21,10 +22,11 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
     private static int stageToShowAdDay0 = 3;
     private static int stageToShowAd = 2;
 
-    public void RefreshConfig(bool _showAdByTime, int _showInterval, int _stageToShowDay0,int _stageToShow)
+    public void RefreshConfig(bool _showAdByTime, int _showInterval,int _showIntervalDay0, int _stageToShowDay0,int _stageToShow)
     {
         showAdByTimeInterval = _showAdByTime;
         showAdInterval = _showInterval;
+        showAdIntervalDay0 = _showIntervalDay0;
         stageToShowAdDay0 = _stageToShowDay0;
         stageToShowAd = _stageToShow;
         Debug.Log(showAdByTimeInterval);
@@ -65,10 +67,15 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
     void Start()
     {
         if (CheckIsDay0())
+        {
             stageToShowAd = 3;
+            showAdTimer = showAdIntervalDay0;
+        }
         else
+        {
             stageToShowAd = 2;
-        showAdTimer = showAdInterval;
+            showAdTimer = showAdInterval;
+        }
 #if UNITY_ANDROID
         rewardedAdUnitId = "ca-app-pub-9179752697212712/9650286780";
         interstitialAdUnitId = "ca-app-pub-9179752697212712/7215695137";
@@ -235,7 +242,14 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
             if (showAdTimer <= 0 || stagePlayed >= stageToShowAd)
             {
                 stagePlayed = 0;
-                showAdTimer = showAdInterval;
+                if (CheckIsDay0())
+                {
+                    showAdTimer = showAdIntervalDay0;
+                }
+                else
+                {
+                    showAdTimer = showAdInterval;
+                }
                 showInterstitialAd();
             }
         }
