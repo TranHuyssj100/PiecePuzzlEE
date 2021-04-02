@@ -16,7 +16,8 @@ public class Loading : MonoBehaviour
     public void LoadGame(float timeWait)
     {
         TweenCustom.TextAutoComplete(loadingTxt, "Loading", "Loading...", timeWait/2);
-        DOVirtual.Float(0, 1, timeWait, (x) => { fillProgress.fillAmount = x; }).OnComplete(()=> {
+        TweenCustom.ProgressBar(fillProgress, timeWait, () =>
+        {
             gameObject.SetActive(false);
             if (GameData.firstTimeInGame == 1)
             {
@@ -25,7 +26,7 @@ public class Loading : MonoBehaviour
                 GameMaster.instance.OnStartClick();
             }
             else GameMaster.instance.menu.SetActive(true);
-        }); 
+        });
     }
 
 }
