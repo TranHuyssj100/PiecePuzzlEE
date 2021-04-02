@@ -35,6 +35,13 @@ public class IAPManager : SingletonDontDestroyMonoBehavior<IAPManager>, IStoreLi
 
     void Start()
     {
+        GOLD_500 = "gold_500";
+        GOLD_1100 = "gold_1100";
+        GOLD_2200 = "gold_2200";
+        GOLD_3300 = "gold_3300";
+        GOLD_4400 = "gold_4400";
+        GOLD_5500 = "gold_5500";
+        NO_ADS = "no_ads";
         // If we haven't set up the Unity Purchasing reference
         if (m_StoreController == null)
         {
@@ -293,7 +300,7 @@ public class IAPManager : SingletonDontDestroyMonoBehavior<IAPManager>, IStoreLi
             GameData.noAds = 1;
             if (onRemoveAds != null)
                 onRemoveAds();
-            FirebaseManager.instance.LogIAP(GOLD_500);
+            FirebaseManager.instance.LogIAP(NO_ADS);
         }
         // Or ... an unknown product has been purchased by this user. Fill in additional products here....
         else
