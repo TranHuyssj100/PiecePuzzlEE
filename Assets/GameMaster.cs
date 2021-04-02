@@ -4,6 +4,7 @@ using DG.Tweening;
 using TMPro;
 using System;
 using System.Collections;
+using System.Linq;
 
 public class GameMaster : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class GameMaster : MonoBehaviour
     public GameObject shopUI;
     public GameObject themeSelect;
     public GameObject loadingPanel;
+    public GameObject RatePanel;
     [Space(10)]
     [Header("PlayUI")]
     public GameObject playHeader;
@@ -161,7 +163,7 @@ public class GameMaster : MonoBehaviour
     #endregion
 
     #region CLOSE-OPEN PANEL
-    void OpenPanel(GameObject panel)
+    public void OpenPanel(GameObject panel)
     {
         if (!panel.activeSelf)
         {
@@ -170,7 +172,7 @@ public class GameMaster : MonoBehaviour
             panel.transform.DOScale(Vector3.one, .35f);
         }
     }  
-    void ClosePanel(GameObject panel)
+   public void ClosePanel(GameObject panel)
     {
         if (panel.activeSelf)
         {
@@ -283,6 +285,15 @@ public class GameMaster : MonoBehaviour
     public void CloseMenu()
     {
         ClosePanel(menu);
+    }
+
+    public void OpenRatePanelByLevel(int [] levelShowRate)
+    {
+        Debug.LogError(GameData.level +" :"+ levelShowRate.Contains(GameData.level));;
+        if (levelShowRate.Contains(GameData.level))
+        {
+            OpenPanel(RatePanel);
+        }
     }
 
     public void Replay()
