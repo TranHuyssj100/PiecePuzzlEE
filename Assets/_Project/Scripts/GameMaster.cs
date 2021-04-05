@@ -18,6 +18,9 @@ public class GameMaster : MonoBehaviour
     public GameObject themeSelect;
     public GameObject loadingPanel;
     public GameObject RatePanel;
+    public GameObject collectionGrid;
+    public GameObject collectionBook;
+
     [Space(10)]
     [Header("PlayUI")]
     public GameObject playHeader;
@@ -285,6 +288,23 @@ public class GameMaster : MonoBehaviour
     public void CloseMenu()
     {
         ClosePanel(menu);
+    }
+
+    public void OpenCollectionGrid()
+    {
+        OpenPanel(collectionGrid);
+    }
+    public void CloseCollectionGrid()
+    {
+        ClosePanel(collectionGrid);
+    }
+    public void OpenCollectionBook()
+    {
+        OpenPanel(collectionBook);
+    }
+    public void CloseCollectionBook()
+    {
+        ClosePanel(collectionBook);
     }
 
     public void OpenRatePanelByLevel(int [] levelShowRate)

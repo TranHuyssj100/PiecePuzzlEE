@@ -10,7 +10,7 @@ public class GridLevel : CoroutineQueue
     public GameObject gridChild;
     public TextMeshProUGUI title;
     public static GridLevel instance;
-    int numLevelofTheme;
+    protected int numLevelofTheme;
 
     protected Queue<IEnumerator> coroutineQueue = new Queue<IEnumerator>();
 
@@ -33,7 +33,7 @@ public class GridLevel : CoroutineQueue
     }
 
 
-    public void SpawnGridChild(int _idTheme, int _sizeLevel)
+    public virtual void SpawnGridChild(int _idTheme, int _sizeLevel)
     {
         title.text = DataController.themeData[_idTheme].name;
         foreach (Transform child in transform)

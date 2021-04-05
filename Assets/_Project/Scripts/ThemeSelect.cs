@@ -6,8 +6,10 @@ public class ThemeSelect : CoroutineQueue
 {
     public Transform content;
     public GameObject themeChild;
-    private int amountTheme;
+    protected int amountTheme;
     public ThemeData[] themes;
+
+    
 
     public List<int> themeOrder;
 
@@ -25,7 +27,7 @@ public class ThemeSelect : CoroutineQueue
         CreateThemeChild();
     }
 
-    public void CreateThemeChild()
+    public virtual void CreateThemeChild()
     {
         Queue<IEnumerator> _coroutineQueue = new Queue<IEnumerator>();
         foreach (Transform child in content)
@@ -62,8 +64,7 @@ public class ThemeSelect : CoroutineQueue
         }
         //StartCoroutine(CoroutineCoordinator(_coroutineQueue));
     }
-
-
+    
     private void UnlockTheme(int index)
     {
         if (GameData.gold >= themes[index].price)
