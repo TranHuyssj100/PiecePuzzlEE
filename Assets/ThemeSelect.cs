@@ -13,7 +13,7 @@ public class ThemeSelect : CoroutineQueue
 
     private void Start()
     {
-        //allTheme = DataController.GetAllTheme();
+        //AdManager.Instance.onRewardAdClosed += RewardAdClosed;
         themes = DataController.themeData;
         amountTheme = themes.Length;
         themeOrder =new List<int>{ 0, 1, 18, 2, 3, 4, 5, 6, 7, 19, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 };
@@ -23,6 +23,17 @@ public class ThemeSelect : CoroutineQueue
     private void OnEnable()
     {
         CreateThemeChild();
+        AdManager.Instance.onRewardAdClosed += RewardAdClosed;
+    }
+
+    private void OnDisable()
+    {
+        AdManager.Instance.onRewardAdClosed -= RewardAdClosed;
+    }
+
+    private void OnDestroy()
+    {
+
     }
 
     public void CreateThemeChild()
@@ -37,18 +48,33 @@ public class ThemeSelect : CoroutineQueue
             GameObject _themeClone = GameObject.Instantiate(themeChild, content);
             _themeClone.GetComponent<ThemeChild>().index = themes[i].idTheme;
             _themeClone.GetComponent<ThemeChild>().titleTxt.text = themes[i].name;
-            _themeClone.GetComponent<ThemeChild>().SetRankTheme(themes[i].size);
+            _themeClone.GetComponent<ThemeChild>().SetRankTheme(themes[i].size, themes[i].price);
             _themeClone.GetComponent<ThemeChild>().image.sprite = DataController.LoadSpritePreview(themes[i].idTheme, 0, themes[i].size);
+            _themeClone.GetComponent<ThemeChild>().SetTypeUnlock(themes[i].price);
             int x = i;
             if (GameData.GetThemeStatus(i) == 0)
             {
-                _themeClone.GetComponent<ThemeChild>().priceTxt.text = themes[i].price.ToString();
-                _themeClone.GetComponent<ThemeChild>().buyBtn.onClick.AddListener(() => UnlockTheme(x));
+                if(themes[i].price>0)
+                {
+                    
+                    _themeClone.GetComponent<ThemeChild>().priceTxt.text = themes[i].price.ToString();
+                    _themeClone.GetComponent<ThemeChild>().buyBtn.onClick.AddListener(() => UnlockThemeByCoin(x));
+                }
+                else
+                {
+                    _themeClone.GetComponent<ThemeChild>().ad_UnlockBtn.onClick.AddListener(() => ShowUnlockAd(x));
+                }
             }
             else
             {
-                _themeClone.GetComponent<ThemeChild>().UnlockTheme();
-                //_themeClone.GetComponent<ThemeChild>().priceTxt.text = "Open";
+                if (themes[i].price>0)
+                {
+                    _themeClone.GetComponent<ThemeChild>().UnlockByCoin();
+                }
+                else 
+                {
+                    _themeClone.GetComponent<ThemeChild>().UnlockByAd();
+                }
                 _themeClone.GetComponent<ThemeChild>().progressBtn.onClick.AddListener(() => { GameMaster.instance.OpenLevelSelect();
                                                                                           GameData.Theme = x;
                                                                                           GridLevel.instance.SpawnGridChild(x, themes[x].size);
@@ -56,15 +82,13 @@ public class ThemeSelect : CoroutineQueue
                                                                                           //GameMaster.instance.OnStartClick();
                                                                                          });
             }
-            //_coroutineQueue.Enqueue(ShowObjRightToLeft(_themeClone.transform.Find("BG"), 0.1f));
             int siblingIndex = themeOrder.IndexOf(themes[i].idTheme);
             _themeClone.transform.SetSiblingIndex(siblingIndex);
         }
-        //StartCoroutine(CoroutineCoordinator(_coroutineQueue));
     }
 
 
-    private void UnlockTheme(int index)
+    private void UnlockThemeByCoin(int index)
     {
         if (GameData.gold >= themes[index].price)
         {
@@ -75,7 +99,7 @@ public class ThemeSelect : CoroutineQueue
             {
                 if (child.GetComponent<ThemeChild>().index == index)
                 {
-                    child.GetComponent<ThemeChild>().UnlockTheme();
+                    child.GetComponent<ThemeChild>().UnlockByCoin();
                     child.GetComponent<ThemeChild>().buyBtn.onClick.RemoveAllListeners();
                     child.GetComponent<ThemeChild>().progressBtn.onClick.AddListener(() => {
                         GameMaster.instance.OpenLevelSelect();
@@ -85,18 +109,50 @@ public class ThemeSelect : CoroutineQueue
                     });
                 }
             }
-            //content.GetChild(index).GetComponent<ThemeChild>().UnlockTheme();
-            //content.GetChild(index).GetComponent<ThemeChild>().buyBtn.onClick.RemoveAllListeners();
-            //content.GetChild(index).GetComponent<ThemeChild>().progressBtn.onClick.AddListener(() => { GameMaster.instance.OpenLevelSelect();
-            //                                                                                     GameData.Theme = index;
-            //                                                                                     GridLevel.instance.SpawnGridChild(index, themes[index].size);
-            //                                                                                     GameMaster.instance.CloseThemeSelect();
-            //                                                                                     //GameMaster.instance.OnStartClick();
-            //                                                                                     });
         }
         else
         {
             GameMaster.instance.OpenShopUI();
         }
     }
+
+    int indexAd;
+    void UnlockThemeByAd(int index)
+    {
+        GameData.level++;
+        FirebaseManager.instance.LogUnlockLevel(GameData.level, DataController.themeData[GameData.Theme].name);
+        //indexAd = index;
+
+        foreach (Transform child in content)
+        {
+            if (child.GetComponent<ThemeChild>().index == index)
+            {
+                child.GetComponent<ThemeChild>().UnlockByAd();
+                child.GetComponent<ThemeChild>().ad_UnlockBtn.onClick.RemoveAllListeners();
+                child.GetComponent<ThemeChild>().progressBtn.onClick.AddListener(() => {
+                    GameMaster.instance.OpenLevelSelect();
+                    GameData.Theme = index;
+                    GridLevel.instance.SpawnGridChild(index, themes[index].size);
+                    GameMaster.instance.CloseThemeSelect();
+                });
+            }
+        }
+    }
+
+        #region Reward_UnlocK
+    public void ShowUnlockAd(int index)
+    {
+        indexAd = index;
+        AdManager.Instance.showRewardedAd(AdManager.RewardType.UnLockTheme);
+#if UNITY_EDITOR
+        RewardAdClosed();
+#endif
+    }
+    private void RewardAdClosed()
+    {
+        if (AdManager.rewardType == AdManager.RewardType.UnLockTheme)
+            UnlockThemeByAd(indexAd);
+    }
+    #endregion
 }
+

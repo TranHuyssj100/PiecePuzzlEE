@@ -239,7 +239,6 @@ public class ThemeData
     public int size;
     public int price;
     public int levelCount;
-   
 }
 
 [System.Serializable]
@@ -249,13 +248,5 @@ public class LevelData
     public int idTheme;
     public int pieceDefault;
 }
-
-//[System.Serializable]
-//public class SampleAnswer
-//{
-//    public int idAnswer;
-//    public int [] pieceNames;
-//    public int [] answers;
-//}
 
 
