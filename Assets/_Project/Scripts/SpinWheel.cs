@@ -66,7 +66,7 @@ public class SpinWheel : MonoBehaviour
 
     private void Awake()
     {
-        //transform.localScale = Vector3.zero;
+        transform.localScale = Vector3.one;
         //for (int n = 0; n < itemList.Length; n++)
         //{
         //    if (itemName[n] != "5" && itemName[n] != "6") randomList.Add(n);
@@ -136,7 +136,7 @@ public class SpinWheel : MonoBehaviour
 
         AddReward(itemName[itemNumber].ToString(), itemNum[itemNumber]);
         Invoke("ShowPopUp", 0.35f);
-        //ShowPopUp();
+        ShowPopUp();
     }
 
     void AddReward(string itemName, int value)
