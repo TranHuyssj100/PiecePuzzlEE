@@ -18,7 +18,7 @@ public class CollectionBook : ThemeSelect
             GameObject _themeClone = GameObject.Instantiate(themeChild, content);
             _themeClone.GetComponent<ThemeChild>().index = themes[i].idTheme;
             _themeClone.GetComponent<ThemeChild>().titleTxt.text = themes[i].name;
-            _themeClone.GetComponent<ThemeChild>().SetRankTheme(themes[i].size);
+            _themeClone.GetComponent<ThemeChild>().SetRankTheme(themes[i].size,themes[i].price);
             _themeClone.GetComponent<ThemeChild>().image.sprite = DataController.LoadSpritePreview(themes[i].idTheme, 0, themes[i].size);
             int x = i;
             if (GameData.GetThemeStatus(i) == 0)

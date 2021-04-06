@@ -13,25 +13,25 @@ public class ThemeChild : MonoBehaviour
     public TextMeshProUGUI progressTxt;
     public Transform rankObj;
     public UnityEngine.UI.Image image;
-    public UnityEngine.UI.Button buyBtn, progressBtn, ad_UnlockBtn;
+    public UnityEngine.UI.Button buyBtn, progressBtn;
 
 
     private void Start()
     {
     }
 
-    public void UnlockByCoin()
+    public void UnlockTheme()
     {
         GameData.UnlockTheme(index);
         buyBtn.gameObject.SetActive(false);
         progressTxt.text = (GameData.GetCurrentLevelByTheme(index) + 1).ToString() + "/" + DataController.themeData[index].levelCount.ToString();
     }
-    public void UnlockByAd()
-    {
-        GameData.UnlockTheme(index);
-        ad_UnlockBtn.gameObject.SetActive(false);
-        progressTxt.text = (GameData.GetCurrentLevelByTheme(index) + 1).ToString() + "/" + DataController.themeData[index].levelCount.ToString();
-    }
+    //public void UnlockByAd()
+    //{
+    //    GameData.UnlockTheme(index);
+    //    ad_UnlockBtn.gameObject.SetActive(false);
+    //    progressTxt.text = (GameData.GetCurrentLevelByTheme(index) + 1).ToString() + "/" + DataController.themeData[index].levelCount.ToString();
+    //}
 
     public void SetRankTheme( int sizeLevel,int price)
     {
@@ -51,20 +51,5 @@ public class ThemeChild : MonoBehaviour
             }
         }
     }
-    public void SetTypeUnlock(int price) 
-    {
-        if (price == 0)
-        {
-
-            buyBtn.gameObject.SetActive(false);
-            ad_UnlockBtn.gameObject.SetActive(true);
-        }
-        else
-        {
-            buyBtn.gameObject.SetActive(true);
-            ad_UnlockBtn.gameObject.SetActive(false);
-        }
-    }
-
 }
 
