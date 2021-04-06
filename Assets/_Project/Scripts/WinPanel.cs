@@ -37,7 +37,7 @@ public class WinPanel : MonoBehaviour
     private void Start()
     {
         AdManager.Instance.onRewardAdClosed += RewardAdClosed;
-        oldGiftBoxPos = giftBox.localPosition;
+        //oldGiftBoxPos = giftBox.localPosition;
         oldCoin0Pos = coins.GetChild(0).position;
         oldCoin1Pos = coins.GetChild(1).position;
         oldCoin2Pos = coins.GetChild(2).position;
@@ -99,12 +99,12 @@ public class WinPanel : MonoBehaviour
     }
     public void OpenGift(float strength, float duration)
     {
+        
         GameData.levelReward = 0;
         CloseGift();
         panelGift.gameObject.SetActive(true);
         giftBox.gameObject.SetActive(true);
         claimx5.gameObject.SetActive(true);
-
 
         RandomCoin();
         Debug.LogError(amountCoin);
