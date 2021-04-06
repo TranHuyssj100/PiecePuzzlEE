@@ -9,14 +9,14 @@ public class GridLevel : CoroutineQueue
 {
     public GameObject gridChild;
     public TextMeshProUGUI title;
-    public static GridLevel instance;
+    //public static GridLevel instance;
     protected int numLevelofTheme;
 
     protected Queue<IEnumerator> coroutineQueue = new Queue<IEnumerator>();
 
     private void Awake()
     {
-        instance = this;
+        //instance = this;
 
     }
 

@@ -5,7 +5,6 @@ using UnityEngine;
 public class CollectionBook : ThemeSelect
 {
 
-
     
     public override void CreateThemeChild()
     {
@@ -36,7 +35,7 @@ public class CollectionBook : ThemeSelect
                 _themeClone.GetComponent<ThemeChild>().progressBtn.onClick.AddListener(() => {
                     GameMaster.instance.OpenCollectionGrid();
                     GameData.Theme = x;
-                    GridLevel.instance.SpawnGridChild(x, themes[x].size);
+                    gridLevel.SpawnGridChild(x, themes[x].size);
                     GameMaster.instance.CloseThemeSelect();
                 });
             }

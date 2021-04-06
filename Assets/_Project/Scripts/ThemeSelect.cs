@@ -10,7 +10,8 @@ public class ThemeSelect : CoroutineQueue
     public ThemeData[] themes;
     public Sprite Ads;
     public Sprite AdsBtn;
-    
+
+    public GridLevel gridLevel;
 
     public List<int> themeOrder;
 
@@ -19,7 +20,7 @@ public class ThemeSelect : CoroutineQueue
         //allTheme = DataController.GetAllTheme();
         themes = DataController.themeData;
         amountTheme = themes.Length;
-        themeOrder =new List<int>{ 0, 1, 18, 2, 3, 4, 5, 6, 7, 19, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 };
+        themeOrder =new List<int>{ 0, 1, 18,20, 2, 3, 4, 5, 6, 7, 19, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 };
         CreateThemeChild();
 
         AdManager.Instance.onRewardAdClosed += RewardAdClosed;
@@ -72,7 +73,7 @@ public class ThemeSelect : CoroutineQueue
                 //_themeClone.GetComponent<ThemeChild>().priceTxt.text = "Open";
                 _themeClone.GetComponent<ThemeChild>().progressBtn.onClick.AddListener(() => { GameMaster.instance.OpenLevelSelect();
                                                                                           GameData.Theme = x;
-                                                                                          GridLevel.instance.SpawnGridChild(x, themes[x].size);
+                                                                                          gridLevel.SpawnGridChild(x, themes[x].size);
                                                                                           GameMaster.instance.CloseThemeSelect();
                                                                                           //GameMaster.instance.OnStartClick();
                                                                                          });
@@ -100,7 +101,7 @@ public class ThemeSelect : CoroutineQueue
                     child.GetComponent<ThemeChild>().progressBtn.onClick.AddListener(() => {
                         GameMaster.instance.OpenLevelSelect();
                         GameData.Theme = index;
-                        GridLevel.instance.SpawnGridChild(index, themes[index].size);
+                        gridLevel.SpawnGridChild(index, themes[index].size);
                         GameMaster.instance.CloseThemeSelect();
                     });
                 }
