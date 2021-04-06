@@ -31,6 +31,7 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
         stageToShowAd = _stageToShow;
         Debug.Log(showAdByTimeInterval);
         Debug.Log(showAdInterval);
+        Debug.Log(showAdIntervalDay0);
         Debug.Log(stageToShowAdDay0);
         Debug.Log(stageToShowAd);
 
@@ -47,7 +48,7 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
         DoubleReward,
         PentaReward,
         MoreMove, 
-        UnLockTheme
+        UnlockTheme
     }
 
     public static RewardType rewardType;

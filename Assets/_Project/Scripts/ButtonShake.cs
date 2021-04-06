@@ -6,7 +6,6 @@ using DG.Tweening;
 public class ButtonShake :MonoBehaviour, IPointerDownHandler
 {
     float duration = 0.2f;
-
     public void  OnPointerDown(PointerEventData eventData )
     {
         //DOTween.CompleteAll();
