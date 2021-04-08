@@ -25,6 +25,8 @@ public class SpinWheel : MonoBehaviour
     private float anglePerItem = 45;
     [SerializeField]
     private Button spinButton;
+    public TextMeshProUGUI amountSpin;
+    public float maxAmountSpin=3;
     public List<AnimationCurve> animationCurves;
 
     [Header("Timer")]
@@ -74,12 +76,13 @@ public class SpinWheel : MonoBehaviour
     }
     private void OnDisable()
     {
-        AdManager.Instance.onRewardAdClosed -= RewardAdClosed;
+        if (AdManager.Instance != null)
+            AdManager.Instance.onRewardAdClosed -= RewardAdClosed;
     }
 
     private void Start()
     {
-        //ActiveDailyTimer();
+        amountSpin.text = GameData.dailySpinAmount + "/" + maxAmountSpin;
     }
     public void RandomReward()
     {
@@ -88,7 +91,7 @@ public class SpinWheel : MonoBehaviour
             GameData.dailySpinAmount--;
             randomTime = UnityEngine.Random.Range(7, 10);
             int crit = UnityEngine.Random.Range(0,17);
-            Debug.LogError(crit.ToString()+"/" +(randomList.Count-1));
+            //Debug.LogError(crit.ToString()+"/" +(randomList.Count-1));
             
             if (crit == randomList.Count-1) itemNumber = randomList.Count-1;
             else itemNumber = UnityEngine.Random.Range(0, randomList.Count-1);
@@ -96,6 +99,7 @@ public class SpinWheel : MonoBehaviour
             float maxAngle = 360 * randomTime + (itemNumber * 45);
             StartCoroutine(SpinTheWheel(0.5f * randomTime, maxAngle));   
         }
+        amountSpin.text = GameData.dailySpinAmount + "/" + maxAmountSpin;
     }
     IEnumerator StartSpin(float maxAngle, float waitSeconds)
     {
@@ -154,10 +158,12 @@ public class SpinWheel : MonoBehaviour
             {
                 CreateDailyTimer();
                 GameData.dailySpinAmount = 3;
+                //spinButton.interactable = true;
             }
             else
             {
-                //ShowErrorPopUp()
+                //spinButton.interactable = false;
+                //ShowErrorPopUp("Waiting for 24 hour to get more spin!");
             }
         }
     }
@@ -187,6 +193,10 @@ public class SpinWheel : MonoBehaviour
     #if UNITY_EDITOR
             RandomReward();
     #endif
+        }
+        else
+        {
+            ShowErrorPopUp("Waiting for 24 hour to get more spin!");
         }
     }
 
