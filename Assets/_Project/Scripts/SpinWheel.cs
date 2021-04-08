@@ -188,6 +188,7 @@ public class SpinWheel : MonoBehaviour
         seq.Append(claimx5.transform.DOScale(Vector3.one,0.5f))
         .Append(gotIt.transform.DOScale(Vector3.one, 1));
 
+        claimx5.onClick.RemoveAllListeners();
         claimx5.onClick.AddListener(() => ShowX5CoinAd());
 
     }
@@ -232,7 +233,7 @@ public class SpinWheel : MonoBehaviour
                     TimeSpan subTime = oldDate.Subtract(DateTime.Now);
                     double temp = (subTime).TotalSeconds - Convert.ToDouble(Time.deltaTime);
                     //Debug.LogError(subTime);
-                    tileSpinBtn.text = "Wating:";   
+                    tileSpinBtn.text = "Waiting:";   
                     amountSpin.text = TimeSpan.FromSeconds(temp).ToString("hh\\:mm\\:ss");            
                     //spinButton.interactable = false;
                 }
@@ -253,7 +254,6 @@ public class SpinWheel : MonoBehaviour
     public DateTime GetDailyTimer()
     {
         long temp = Convert.ToInt64(GameData.dailyTimer);
-        Debug.Log("dailyTimer: " + DateTime.FromBinary(temp));
         return DateTime.FromBinary(temp);
     }
     #endregion
@@ -287,7 +287,7 @@ public class SpinWheel : MonoBehaviour
 
     public void ShowX5CoinAd()
     {
-        AdManager.Instance.showRewardedAd(AdManager.RewardType.PentaReward);
+        AdManager.Instance.showRewardedAd(AdManager.RewardType.DailyReward);
 #if UNITY_EDITOR
         RewardX5AdClosed();
 #endif
@@ -295,8 +295,9 @@ public class SpinWheel : MonoBehaviour
 
     private void RewardX5AdClosed()
     {
-        if (AdManager.rewardType == AdManager.RewardType.PentaReward)
+        if (AdManager.rewardType == AdManager.RewardType.DailyReward)
         {
+            Debug.Log(rewardvalue * 4);
             GameData.gold += rewardvalue * 4;
             claimx5.transform.localScale = Vector3.zero;
             gotIt.transform.localScale = Vector3.zero;
