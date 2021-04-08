@@ -63,6 +63,7 @@ public class GameMaster : MonoBehaviour
     {
         onPiecePlace += OnPiecePlaced;
         loadingPanel.SetActive(true);
+        ChecKSpindDailyNoti();
     }
     public void Start()
     {
@@ -346,6 +347,7 @@ public class GameMaster : MonoBehaviour
     }
    public void OnReturnMenuClick()
     {
+        ChecKSpindDailyNoti();
         OpenPanel(menu);
         TestLevelCtr.instance.DestroyTutorialObj();
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -452,7 +454,8 @@ public class GameMaster : MonoBehaviour
     #region Noti
     void ChecKSpindDailyNoti()
     {
-        Transform spinWheel = menu.transform.Find("SpinWheel");
+        Debug.LogError("CheckingNoti");
+        Transform spinWheel = menu.transform.Find("Panel").Find("SpinWheel");
         if (GameData.dailySpinAmount > 0)
         {
             spinWheel.Find("Noti").gameObject.SetActive(true);
