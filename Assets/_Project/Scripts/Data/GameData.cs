@@ -12,6 +12,10 @@ public static class GameData
 
     private static int FIRST_TIME_IN_GAME;
 
+    private static string DAILY_TIMER;
+    private static int DAILY_SPIN_AMOUNT;
+    
+
 
     public static event System.Action onGoldValueChanged;
     public static void GoldValueChanged()
@@ -31,6 +35,9 @@ public static class GameData
         NO_ADS = PlayerPrefs.GetInt("no_ads", 0);
         FIRST_TIME_IN_GAME = PlayerPrefs.GetInt("first_time_in_game", 1);
         LEVEL_REWARD = PlayerPrefs.GetInt("level_reward", 0);
+
+        DAILY_TIMER = PlayerPrefs.GetString("daily_timer", "");
+        DAILY_SPIN_AMOUNT = PlayerPrefs.GetInt("daily_spin_amount",3);
 
         //CreateCurrentLevelforEachTheme();
         //CreateStatusTheme();
@@ -120,4 +127,16 @@ public static class GameData
         get { return NO_ADS; }
         set { PlayerPrefs.SetInt("no_ads", (NO_ADS = value)); }
     }
+    
+    public static int dailySpinAmount
+    {
+        get { return DAILY_SPIN_AMOUNT; }
+        set { PlayerPrefs.SetInt("daily_spin_amount", (DAILY_SPIN_AMOUNT = value)); }
+    }
+    public static string dailyTimer
+    {
+        get { return DAILY_TIMER; }
+        set { PlayerPrefs.SetString("daily_timer", (DAILY_TIMER = value)); }
+    }
+
 }

@@ -48,7 +48,8 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
         DoubleReward,
         PentaReward,
         MoreMove, 
-        UnlockTheme
+        UnlockTheme,
+        DailyReward
     }
 
     public static RewardType rewardType;

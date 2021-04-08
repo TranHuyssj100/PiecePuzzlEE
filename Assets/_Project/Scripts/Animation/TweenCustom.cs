@@ -67,14 +67,30 @@ public class TweenCustom
     }
 
 
-    public static void TextAutoComplete(TextMeshProUGUI textMesh, string txtBegin, string txtEnd, float duration )
+    public static void TextAutoComplete(TextMeshProUGUI textMesh, string txtBegin, string txtEnd, float duration, bool isLoop )
     {
         Debug.Log("Animate");
-        DOTween.To(
-            () => txtBegin,
-            x => txtBegin = x,
-            txtEnd,
-            duration).OnUpdate(() => textMesh.text = txtBegin).SetLoops(-1);
+        if (isLoop)
+        {
+            DOTween.To(
+                () => txtBegin,
+                x => txtBegin = x,
+                txtEnd,
+                duration).OnUpdate(() => textMesh.text = txtBegin).SetLoops(-1);
+        }
+        else
+        {
+            DOTween.To(
+                () => txtBegin,
+                x => txtBegin = x,
+                txtEnd,
+                duration).OnUpdate(() => textMesh.text = txtBegin);
+        }
+    }
+
+    public static void RangeTextRunner(int begin, int end, float duration, TextMeshProUGUI text )
+    {
+        DOVirtual.Float(begin, end, duration, ((x) => { text.text = ((int)x).ToString(); }));
     }
 
     public static void ProgressBar(Image fill, float duration, TweenCallback f)
@@ -88,8 +104,8 @@ public class TweenCustom
        
     }
 
-    public static void ButtonShake(float strength, float duration)
+    public static void MoveObject(Transform transform, Vector3 end, float duration)
     {
-        
+        transform.DOMove(end, duration);
     }
 }
