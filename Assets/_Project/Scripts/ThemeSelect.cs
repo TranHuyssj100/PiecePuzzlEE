@@ -30,10 +30,10 @@ public class ThemeSelect : CoroutineQueue
     {
         CreateThemeChild();
     }
-    private void OnDestroy()
-    {
-        AdManager.Instance.onRewardAdClosed -= RewardAdClosed;
-    }
+    //private void OnDestroy()
+    //{
+    //    AdManager.Instance.onRewardAdClosed -= RewardAdClosed;
+    //}
     public virtual void CreateThemeChild()
     {
         Queue<IEnumerator> _coroutineQueue = new Queue<IEnumerator>();

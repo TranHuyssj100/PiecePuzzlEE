@@ -328,6 +328,10 @@ public void HandleOnAdLeavingApplication(object sender, EventArgs args)
             FirebaseManager.instance.LogShowReward(rewardType.ToString());
             this.rewardedAd.Show();
         }
+        else
+        {
+            GameMaster.instance.PlayNoAdAvailableAnim();
+        }    
 #endif
     }
     public IEnumerator waitAndReloadRewardedAd()

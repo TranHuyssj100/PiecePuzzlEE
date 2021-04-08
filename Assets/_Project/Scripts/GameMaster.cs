@@ -20,6 +20,8 @@ public class GameMaster : MonoBehaviour
     public GameObject collectionGrid;
     public GameObject collectionBook;
 
+    public GameObject noAdAvailablePanel;
+
     [Space(10)]
     [Header("PlayUI")]
     public GameObject playHeader;
@@ -448,4 +450,21 @@ public class GameMaster : MonoBehaviour
 
     #endregion
 
+
+    public void PlayNoAdAvailableAnim()
+    {
+        Sequence seq = DOTween.Sequence();
+        seq.Pause();
+        seq.Append(noAdAvailablePanel.transform.DOScale(Vector3.one, .2f))
+                 .Append(noAdAvailablePanel.transform.DOScale(Vector3.one, 1f))
+                 .Append(noAdAvailablePanel.transform.DOScale(Vector3.zero, .2f));
+        if (noAdAvailablePanel.transform.localScale == Vector3.zero)
+            seq.Play();
+        else
+        {
+            noAdAvailablePanel.transform.localScale = Vector3.zero;
+            seq.Restart();
+        }
+
+    }
 }
