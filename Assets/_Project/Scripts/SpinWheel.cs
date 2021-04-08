@@ -5,6 +5,7 @@ using TMPro;
 using DG.Tweening;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 
 public class SpinWheel : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class SpinWheel : MonoBehaviour
     [SerializeField]
     private Button spinButton;
     public TextMeshProUGUI amountSpin;
+    public TextMeshProUGUI tileSpinBtn;
     public float maxAmountSpin=3;
     public List<AnimationCurve> animationCurves;
 
@@ -73,6 +75,7 @@ public class SpinWheel : MonoBehaviour
     private void OnEnable()
     {
         AdManager.Instance.onRewardAdClosed += RewardAdClosed;
+        CheckActiveDailyTimer();
     }
     private void OnDisable()
     {
@@ -82,7 +85,12 @@ public class SpinWheel : MonoBehaviour
 
     private void Start()
     {
-        amountSpin.text = GameData.dailySpinAmount + "/" + maxAmountSpin;
+        //amountSpin.text = GameData.dailySpinAmount + "/" + maxAmountSpin;
+    }
+    private void Update()
+    {
+        //CountDownActiveDailySpin(amountSpin);        
+        CheckActiveDailyTimer();
     }
     public void RandomReward()
     {
@@ -144,7 +152,15 @@ public class SpinWheel : MonoBehaviour
     }
 
     #region Timer
-    void ActiveDailyTimer()
+    
+    void CountDownActiveDailySpin(TextMeshProUGUI text)
+    {
+        TimeSpan subTime = GetDailyTimer().Subtract(DateTime.Now);
+        double temp=  subTime.TotalSeconds - Convert.ToDouble(Time.deltaTime);
+        text.text = TimeSpan.FromSeconds(temp).ToString("hh\\:mm\\:ss");
+    }
+
+    void CheckActiveDailyTimer()
     {
         if (GameData.dailyTimer == "")
         {
@@ -153,24 +169,42 @@ public class SpinWheel : MonoBehaviour
         else
         {
             DateTime oldDate = GetDailyTimer();
-            TimeSpan subTime = DateTime.Now.Subtract(oldDate);
-            if(subTime.CompareTo( new TimeSpan(24,0, 0)) > 0)
+            //if(subTime.CompareTo( new TimeSpan(24,0, 0)) > 0)
+            if(DateTime.Now.CompareTo(oldDate) > 0)
             {
                 CreateDailyTimer();
                 GameData.dailySpinAmount = 3;
+                tileSpinBtn.text = "Spin";
+                amountSpin.text = GameData.dailySpinAmount + "/" + maxAmountSpin;
                 //spinButton.interactable = true;
             }
             else
             {
-                //spinButton.interactable = false;
-                //ShowErrorPopUp("Waiting for 24 hour to get more spin!");
+                if (GameData.dailySpinAmount > 0)
+                {
+                    tileSpinBtn.text = "Spin";
+                    amountSpin.text = GameData.dailySpinAmount + "/" + maxAmountSpin;
+                }
+                else
+                {
+                    TimeSpan subTime = oldDate.Subtract(DateTime.Now);
+                    double temp = (subTime).TotalSeconds - Convert.ToDouble(Time.deltaTime);
+                    //Debug.LogError(subTime);
+                    tileSpinBtn.text = "Wating:";   
+                    amountSpin.text = TimeSpan.FromSeconds(temp).ToString("hh\\:mm\\:ss");            
+                    //spinButton.interactable = false;
+                }
             }
         }
     }
 
     void CreateDailyTimer()
     {
-        GameData.dailyTimer= DateTime.Now.ToBinary().ToString();
+        //GameData.dailyTimer= DateTime.Now.ToBinary().ToString();
+        DateTime tororrow = DateTime.Now.AddDays(1);
+        DateTime activeTimer = new DateTime(tororrow.Year, tororrow.Month, tororrow.Day, 0, 0, 0);
+        GameData.dailyTimer= activeTimer.ToBinary().ToString();
+
         Debug.LogError(GameData.dailyTimer);
     }
 
@@ -185,7 +219,7 @@ public class SpinWheel : MonoBehaviour
     #region Reward
     public void ShowDailyRewardAd()
     {
-        ActiveDailyTimer();
+        CheckActiveDailyTimer();
         Debug.LogError(GameData.dailySpinAmount);
         if (GameData.dailySpinAmount > 0)
         {
@@ -196,7 +230,7 @@ public class SpinWheel : MonoBehaviour
         }
         else
         {
-            ShowErrorPopUp("Waiting for 24 hour to get more spin!");
+            ShowErrorPopUp("The Spin is not Ready!");
         }
     }
 
