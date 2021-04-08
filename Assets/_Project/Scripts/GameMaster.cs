@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 using System;
-using System.Collections;
 using System.Linq;
 
 public class GameMaster : MonoBehaviour

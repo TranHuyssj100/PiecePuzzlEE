@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening;
 using UnityEngine.UI;
-
+using System;
 
 public class SpinWheel : MonoBehaviour
 {
@@ -16,6 +16,7 @@ public class SpinWheel : MonoBehaviour
     private string[] itemName;
     [SerializeField]
     private GameObject wheel;
+    public Transform arrow;
 
     [Header("Random Rewards")]
     [SerializeField]
@@ -26,34 +27,10 @@ public class SpinWheel : MonoBehaviour
     private Button spinButton;
     public List<AnimationCurve> animationCurves;
 
-    private int randomTime;
-    private int itemNumber;
+    [Header("Timer")]
+    public DateTime timer;
 
-    [SerializeField]
-    private TextMeshProUGUI requirementText;
 
-    [Header("PopUp Results")]
-    [SerializeField]
-    private GameObject popupResult;
-    [SerializeField]
-    private Image resultIcon;
-    [SerializeField]
-    private TextMeshProUGUI resultValue;
-    [SerializeField]
-    private GameObject nonCharacterReward;
-    [SerializeField]
-    private GameObject characterReward;
-    [SerializeField]
-    private TextMeshProUGUI noThanksText;
-    [SerializeField]
-    public bool isAdsWatched;
-    [SerializeField]
-    public bool isX2Watched;
-    [SerializeField]
-    private Button x2Rewards;
-    [SerializeField]
-    private Button claimCharacter;
-    [SerializeField] AdManager adManager;
 
     [SerializeField]
     List<int> randomList = new List<int>();
@@ -61,6 +38,9 @@ public class SpinWheel : MonoBehaviour
     private GameObject errorPopUpPanel;
     [SerializeField]
     private TextMeshProUGUI errorText;
+
+    private int randomTime;
+    private int itemNumber;
 
     public static SpinWheel instance;
 
@@ -75,34 +55,46 @@ public class SpinWheel : MonoBehaviour
         //        //if (!DataManager.Instance.GetUserCharacterData(n).is_unlocked) randomList.Add(n);
 
         //    }
-        //}
-        //var index = 0;
-        //adManager = GameObject.Find("AdManager").GetComponent<AdManager>();
-        //foreach (Transform slot in wheel.transform)
-        //{
-        //    slot.GetComponentInChildren<Image>().sprite = itemList[index];
-        //    slot.GetComponentInChildren<TextMeshProUGUI>().text = itemNum[index].ToString();
-        //    index += 1;
-        //}
-        //spinButton.onClick.AddListener(() => RandomReward());
+        //} 
 
+        var index = 0;
+        //adManager = GameObject.Find("AdManager").GetComponent<AdManager>();
+        foreach (Transform slot in wheel.transform.Find("rewards"))
+        {
+            slot.GetComponentInChildren<Image>().sprite = itemList[index];
+            slot.GetComponentInChildren<TextMeshProUGUI>().text = itemNum[index].ToString();
+            index += 1;
+        }
+        spinButton.onClick.AddListener(() => ShowDailyRewardAd());
+    }
+
+    private void OnEnable()
+    {
+        AdManager.Instance.onRewardAdClosed += RewardAdClosed;
+    }
+    private void OnDisable()
+    {
+        AdManager.Instance.onRewardAdClosed -= RewardAdClosed;
+    }
+
+    private void Start()
+    {
+        //ActiveDailyTimer();
     }
     public void RandomReward()
     {
-        if (!spinning /*&& GameData.PreStars >= 10*/ )
+        if (!spinning)
         {
-            //if (GameData.PreStars >= 10)
-            //{
-                randomTime = Random.Range(7, 10);
-                itemNumber = Random.Range(0, randomList.Count);
-                float maxAngle = 360 * randomTime + (itemNumber * 45);
-                //wheel.transform.DORotate(new Vector3(0, 0, 30), 0.05f).SetLoops(90, LoopType.Incremental);
-                StartCoroutine(SpinTheWheel(0.5f * randomTime, maxAngle));
-            //}
-            //else
-            //{
-            //    ShowErrorPopUp("Not Enough Stars");
-            //}
+            GameData.dailySpinAmount--;
+            randomTime = UnityEngine.Random.Range(7, 10);
+            int crit = UnityEngine.Random.Range(0,17);
+            Debug.LogError(crit.ToString()+"/" +(randomList.Count-1));
+            
+            if (crit == randomList.Count-1) itemNumber = randomList.Count-1;
+            else itemNumber = UnityEngine.Random.Range(0, randomList.Count-1);
+
+            float maxAngle = 360 * randomTime + (itemNumber * 45);
+            StartCoroutine(SpinTheWheel(0.5f * randomTime, maxAngle));   
         }
     }
     IEnumerator StartSpin(float maxAngle, float waitSeconds)
@@ -114,11 +106,11 @@ public class SpinWheel : MonoBehaviour
     IEnumerator SpinTheWheel(float time, float maxAngle)
     {
         spinning = true;
-        //spinButton.interactable = false;
+        spinButton.interactable = false;
         float timer = 0f;
         float startAngle = wheel.transform.eulerAngles.z;
         maxAngle = maxAngle - startAngle;
-        int animationCurveNumber = Random.Range(0, animationCurves.Count);
+        int animationCurveNumber = UnityEngine.Random.Range(0, animationCurves.Count);
         while (timer < time)
         {
             float angle = maxAngle * animationCurves[animationCurveNumber].Evaluate(timer / time);
@@ -129,14 +121,9 @@ public class SpinWheel : MonoBehaviour
         wheel.transform.localEulerAngles = new Vector3(0.0f, 0.0f, maxAngle + startAngle);
         spinning = false;
         spinButton.interactable = true;
-        //GameData.PreStars -= 10;
-        //GameData.Chest_Opened_No += 1;
-        //requirementText.text = GameData.PreStars.ToString() + "/" + 10;
-        Debug.Log("< color = green >" + itemNumber + "Prize: " + itemList[itemNumber] + itemNum[itemNumber]);
+        Debug.Log("<color=green>" + itemNumber + "_Prize: " + itemList[itemNumber] + itemNum[itemNumber]+"</color>");
 
         AddReward(itemName[itemNumber].ToString(), itemNum[itemNumber]);
-        Invoke("ShowPopUp", 0.35f);
-        ShowPopUp();
     }
 
     void AddReward(string itemName, int value)
@@ -144,68 +131,72 @@ public class SpinWheel : MonoBehaviour
         switch (itemName)
         {
             case "Golds":
-                //GameData.Golds += value;
+                GameData.gold += value;
+                TweenCustom.RangeTextRunner(GameData.gold - value, GameData.gold, 1f, GameMaster.instance.goldTxt.GetComponent<TextMeshProUGUI>());
                 break;
             case "Gems":
-                //GameData.Gems += value;
-                break;
-            case "Shield":
-                //GameData.AmountShield += value;
-                break;
-            case "Boost":
-                //GameData.AmountBoost += value;
-                break;
-            case "5":
-                break;
-            case "6":
-                break;
+                break;        
         }
-    }
-    void ShowPopUp()
-    {
-        popupResult.transform.DOScale(Vector3.one, 0.2f);
-        resultIcon.sprite =  itemList[itemNumber];
-        resultValue.text = itemNum[itemNumber].ToString();
-        //if (itemName[itemNumber] != "5" && itemName[itemNumber] != "6")
-        //{
-            //nonCharacterReward.SetActive(true);
-            x2Rewards.onClick.AddListener(() => ShowAds(x2Rewards));
-        //}
-        //else
-        //{
-        //    characterReward.SetActive(true);
-        //    claimCharacter.onClick.AddListener(() => ShowAds(claimCharacter));
-            noThanksText.GetComponent<RectTransform>().DOScale(Vector3.one, 0.5f);
-        //}
     }
 
-    void ShowAds(Button button)
+    #region Timer
+    void ActiveDailyTimer()
     {
-        button.interactable = false;
-        if (button == x2Rewards)
+        if (GameData.dailyTimer == "")
         {
-            if (adManager.rewardedAd.IsLoaded())
-            {
-                //adManager.showRewardedAd(AdManager.RewardType.DoubleWheelReward);
-            }
-            else
-            {
-                ShowErrorPopUp("No ads available at the moment!");
-            }
+            CreateDailyTimer();
         }
-        else if (button == claimCharacter)
+        else
         {
-            if (adManager.rewardedAd.IsLoaded())
+            DateTime oldDate = GetDailyTimer();
+            TimeSpan subTime = DateTime.Now.Subtract(oldDate);
+            if(subTime.CompareTo( new TimeSpan(24,0, 0)) > 0)
             {
-                //adManager.showRewardedAd(AdManager.RewardType.CharacterWheelReward);
+                CreateDailyTimer();
+                GameData.dailySpinAmount = 3;
             }
             else
             {
-                ShowErrorPopUp("No ads available at the moment!");
+                //ShowErrorPopUp()
             }
         }
     }
 
+    void CreateDailyTimer()
+    {
+        GameData.dailyTimer= DateTime.Now.ToBinary().ToString();
+        Debug.LogError(GameData.dailyTimer);
+    }
+
+    public DateTime GetDailyTimer()
+    {
+        long temp = Convert.ToInt64(GameData.dailyTimer);
+        Debug.Log("dailyTimer: " + DateTime.FromBinary(temp));
+        return DateTime.FromBinary(temp);
+    }
+    #endregion
+
+    #region Reward
+    public void ShowDailyRewardAd()
+    {
+        ActiveDailyTimer();
+        Debug.LogError(GameData.dailySpinAmount);
+        if (GameData.dailySpinAmount > 0)
+        {
+            AdManager.Instance.showRewardedAd(AdManager.RewardType.DailyReward);
+    #if UNITY_EDITOR
+            RandomReward();
+    #endif
+        }
+    }
+
+    private void RewardAdClosed()
+    {
+        if (AdManager.rewardType == AdManager.RewardType.DailyReward)
+        {
+            RandomReward();
+        }
+    }
     void ShowErrorPopUp(string errorCode)
     {
         errorText.text = errorCode;
@@ -223,50 +214,10 @@ public class SpinWheel : MonoBehaviour
         }
     }
 
-    public void OnAdClose()
-    {
-        if (isAdsWatched)
-        {
-            //DataManager.Instance.UnlockChar(System.Int32.Parse(itemName[itemNumber]));
-            randomList.Remove(itemNumber);
-            //GameData.Chest_Opened_No += 1;
-            ClosePopUp();
-        }
-        else if (isX2Watched)
-        {
-            AddReward(itemName[itemNumber].ToString(), itemNum[itemNumber]);
-            ClosePopUp();
-        }
-        else
-        {
-            x2Rewards.interactable = true;
-            claimCharacter.interactable = true;
-        }
-    }
+    #endregion
 
-    public void ClosePopUp()
-    {
-        nonCharacterReward.SetActive(false);
-        characterReward.SetActive(false);
-        popupResult.transform.DOScale(Vector3.zero, 0.2f);
-        isAdsWatched = false;
-        isX2Watched = false;
-        x2Rewards.interactable = true;
-        claimCharacter.interactable = true;
-    }
-    private void Update()
-    {
 
-    }
 
-    public void OpenUI()
-    {
-        transform.DOScale(Vector3.one, 0.2f);
-        //requirementText.text = GameData.PreStars.ToString() + "/" + 10;
-    }
 
-    public void CloseUI()
-    {
-        transform.DOScale(Vector3.zero, 0.2f);
-    }
+
 }

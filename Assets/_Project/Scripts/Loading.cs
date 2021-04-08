@@ -15,7 +15,7 @@ public class Loading : MonoBehaviour
 
     public void LoadGame(float timeWait)
     {
-        TweenCustom.TextAutoComplete(loadingTxt, "Loading", "Loading...", timeWait/2);
+        TweenCustom.TextAutoComplete(loadingTxt, "Loading", "Loading...", timeWait/2, true);
         TweenCustom.ProgressBar(fillProgress, timeWait, () =>
         {
             gameObject.SetActive(false);
