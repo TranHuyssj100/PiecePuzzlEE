@@ -34,7 +34,15 @@ public class SpinWheel : MonoBehaviour
     [Header("Timer")]
     public DateTime timer;
 
-
+    [Header("PopUp Results")]
+    public GameObject popupResult;
+    public Image resultIcon;
+    [SerializeField]
+    private TextMeshProUGUI resultValue;
+    [SerializeField]
+    private GameObject gotIt;
+    public Button claimx5;
+        
 
     [SerializeField]
     List<int> randomList = new List<int>();
@@ -43,8 +51,10 @@ public class SpinWheel : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI errorText;
 
-    private int randomTime;
-    private int itemNumber;
+    int randomTime;
+    int itemNumber;
+    int rewardvalue; 
+
 
     public static SpinWheel instance;
 
@@ -69,18 +79,21 @@ public class SpinWheel : MonoBehaviour
             slot.GetComponentInChildren<TextMeshProUGUI>().text = itemNum[index].ToString();
             index += 1;
         }
-        spinButton.onClick.AddListener(() => ShowDailyRewardAd());
+        //spinButton.onClick.AddListener(() => ShowDailyRewardAd());
+        spinButton.onClick.AddListener(() => RandomReward());
     }
 
     private void OnEnable()
     {
-        AdManager.Instance.onRewardAdClosed += RewardAdClosed;
+        AdManager.Instance.onRewardAdClosed += RewardX5AdClosed;
         CheckActiveDailyTimer();
+        claimx5.transform.localScale = Vector3.zero;
+        gotIt.transform.localScale = Vector3.zero;
     }
     private void OnDisable()
     {
         if (AdManager.Instance != null)
-            AdManager.Instance.onRewardAdClosed -= RewardAdClosed;
+            AdManager.Instance.onRewardAdClosed -= RewardX5AdClosed;
     }
 
     private void Start()
@@ -94,20 +107,30 @@ public class SpinWheel : MonoBehaviour
     }
     public void RandomReward()
     {
-        if (!spinning)
-        {
-            GameData.dailySpinAmount--;
-            randomTime = UnityEngine.Random.Range(7, 10);
-            int crit = UnityEngine.Random.Range(0,17);
-            //Debug.LogError(crit.ToString()+"/" +(randomList.Count-1));
+        CheckActiveDailyTimer();
+        Debug.LogError(GameData.dailySpinAmount);
+        if (GameData.dailySpinAmount > 0)
+        { 
+            if (!spinning)
+            {
+                GameData.dailySpinAmount--;
+                randomTime = UnityEngine.Random.Range(7, 10);
+                int crit = UnityEngine.Random.Range(0,50);
+                //Debug.LogError(crit.ToString()+"/" +(randomList.Count-1));
             
-            if (crit == randomList.Count-1) itemNumber = randomList.Count-1;
-            else itemNumber = UnityEngine.Random.Range(0, randomList.Count-1);
+                if (crit == randomList.Count-1) itemNumber = randomList.Count-1;
+                else itemNumber = UnityEngine.Random.Range(0, randomList.Count-1);
 
-            float maxAngle = 360 * randomTime + (itemNumber * 45);
-            StartCoroutine(SpinTheWheel(0.5f * randomTime, maxAngle));   
+                float maxAngle = 360 * randomTime + (itemNumber * 45);
+                StartCoroutine(SpinTheWheel(0.5f * randomTime, maxAngle));   
+            }
+        }
+        else
+        {
+            ShowErrorPopUp("The Spin is not Ready!");
         }
         amountSpin.text = GameData.dailySpinAmount + "/" + maxAmountSpin;
+
     }
     IEnumerator StartSpin(float maxAngle, float waitSeconds)
     {
@@ -136,6 +159,8 @@ public class SpinWheel : MonoBehaviour
         Debug.Log("<color=green>" + itemNumber + "_Prize: " + itemList[itemNumber] + itemNum[itemNumber]+"</color>");
 
         AddReward(itemName[itemNumber].ToString(), itemNum[itemNumber]);
+        rewardvalue = itemNum[itemNumber];
+        ShowPopUp();
     }
 
     void AddReward(string itemName, int value)
@@ -151,9 +176,26 @@ public class SpinWheel : MonoBehaviour
         }
     }
 
-    #region Timer
-    
-    void CountDownActiveDailySpin(TextMeshProUGUI text)
+    void ShowPopUp()
+    {
+        //popupResult.transform.DOScale(Vector3.one, 0.2f);
+        GameMaster.instance.OpenPanel(popupResult);
+        resultIcon.sprite = itemList[itemNumber];
+        resultValue.text = itemNum[itemNumber].ToString();
+
+        Sequence seq = DOTween.Sequence();
+
+        seq.Append(claimx5.transform.DOScale(Vector3.one,0.5f))
+        .Append(gotIt.transform.DOScale(Vector3.one, 1));
+
+        claimx5.onClick.AddListener(() => ShowX5CoinAd());
+
+    }
+
+
+            #region Timer
+
+            void CountDownActiveDailySpin(TextMeshProUGUI text)
     {
         TimeSpan subTime = GetDailyTimer().Subtract(DateTime.Now);
         double temp=  subTime.TotalSeconds - Convert.ToDouble(Time.deltaTime);
@@ -217,30 +259,51 @@ public class SpinWheel : MonoBehaviour
     #endregion
 
     #region Reward
-    public void ShowDailyRewardAd()
+    //public void ShowDailyRewardAd()
+    //{
+    //    CheckActiveDailyTimer();
+    //    Debug.LogError(GameData.dailySpinAmount);
+    //    if (GameData.dailySpinAmount > 0)
+    //    {
+    //        AdManager.Instance.showRewardedAd(AdManager.RewardType.DailyReward);
+    //#if UNITY_EDITOR
+    //        RandomReward();
+    //#endif
+    //    }
+    //    else
+    //    {
+    //        ShowErrorPopUp("The Spin is not Ready!");
+    //    }
+    //}
+    //private void RewardAdClosed()
+    //{
+    //    if (AdManager.rewardType == AdManager.RewardType.DailyReward)
+    //    {
+    //        RandomReward();
+    //    }
+    //}
+
+
+
+    public void ShowX5CoinAd()
     {
-        CheckActiveDailyTimer();
-        Debug.LogError(GameData.dailySpinAmount);
-        if (GameData.dailySpinAmount > 0)
+        AdManager.Instance.showRewardedAd(AdManager.RewardType.PentaReward);
+#if UNITY_EDITOR
+        RewardX5AdClosed();
+#endif
+    }
+
+    private void RewardX5AdClosed()
+    {
+        if (AdManager.rewardType == AdManager.RewardType.PentaReward)
         {
-            AdManager.Instance.showRewardedAd(AdManager.RewardType.DailyReward);
-    #if UNITY_EDITOR
-            RandomReward();
-    #endif
-        }
-        else
-        {
-            ShowErrorPopUp("The Spin is not Ready!");
+            GameData.gold += rewardvalue * 4;
+            claimx5.transform.localScale = Vector3.zero;
+            gotIt.transform.localScale = Vector3.zero;
+            GameMaster.instance.ClosePanel(popupResult);
         }
     }
 
-    private void RewardAdClosed()
-    {
-        if (AdManager.rewardType == AdManager.RewardType.DailyReward)
-        {
-            RandomReward();
-        }
-    }
     void ShowErrorPopUp(string errorCode)
     {
         errorText.text = errorCode;
