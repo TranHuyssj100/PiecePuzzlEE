@@ -50,6 +50,7 @@ public class FirebaseManager : MonoBehaviour
         // [END set_defaults]
         Debug.Log("RemoteConfig configured and ready!");
         FetchDataAsync();
+
     }
 
     #region RemoteConfig
