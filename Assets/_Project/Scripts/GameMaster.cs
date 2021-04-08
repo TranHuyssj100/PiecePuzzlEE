@@ -448,4 +448,19 @@ public class GameMaster : MonoBehaviour
 
     #endregion
 
+
+    #region Noti
+    void ChecKSpindDailyNoti()
+    {
+        Transform spinWheel = menu.transform.Find("SpinWheel");
+        if (GameData.dailySpinAmount > 0)
+        {
+            spinWheel.Find("Noti").gameObject.SetActive(true);
+        }
+        else
+        {
+            spinWheel.Find("Noti").gameObject.SetActive(false);
+        }
+    }
+    #endregion
 }
