@@ -19,6 +19,7 @@ public class GameMaster : MonoBehaviour
     public GameObject RatePanel;
     public GameObject collectionGrid;
     public GameObject collectionBook;
+    public GameObject spinBtn;
 
     public GameObject noAdAvailablePanel;
 
@@ -476,10 +477,12 @@ public class GameMaster : MonoBehaviour
         Transform spinWheel = menu.transform.Find("Panel").Find("SpinWheel");
         if (GameData.dailySpinAmount > 0)
         {
+            spinBtn.transform.Find("Noti").gameObject.SetActive(true);
             spinWheel.Find("Noti").gameObject.SetActive(true);
         }
         else
         {
+            spinBtn.transform.Find("Noti").gameObject.SetActive(false);
             spinWheel.Find("Noti").gameObject.SetActive(false);
         }
     }

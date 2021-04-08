@@ -118,7 +118,7 @@ public class SpinWheel : MonoBehaviour
                 int crit = UnityEngine.Random.Range(0,50);
                 //Debug.LogError(crit.ToString()+"/" +(randomList.Count-1));
             
-                if (crit == randomList.Count-1) itemNumber = randomList.Count-1;
+                if (crit == 1) itemNumber = randomList.Count-1;
                 else itemNumber = UnityEngine.Random.Range(0, randomList.Count-1);
 
                 float maxAngle = 360 * randomTime + (itemNumber * 45);
