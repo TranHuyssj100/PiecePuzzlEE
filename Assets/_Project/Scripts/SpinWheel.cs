@@ -118,7 +118,7 @@ public class SpinWheel : MonoBehaviour
                 int crit = UnityEngine.Random.Range(0,50);
                 //Debug.LogError(crit.ToString()+"/" +(randomList.Count-1));
             
-                if (crit == randomList.Count-1) itemNumber = randomList.Count-1;
+                if (crit == 1) itemNumber = randomList.Count-1;
                 else itemNumber = UnityEngine.Random.Range(0, randomList.Count-1);
 
                 float maxAngle = 360 * randomTime + (itemNumber * 45);
@@ -160,7 +160,6 @@ public class SpinWheel : MonoBehaviour
 
         AddReward(itemName[itemNumber].ToString(), itemNum[itemNumber]);
         rewardvalue = itemNum[itemNumber];
-        Debug.LogError(rewardvalue);
         ShowPopUp();
     }
 
@@ -188,6 +187,10 @@ public class SpinWheel : MonoBehaviour
 
         seq.Append(claimx5.transform.DOScale(Vector3.one,0.5f))
         .Append(gotIt.transform.DOScale(Vector3.one, 1));
+
+        claimx5.onClick.RemoveAllListeners();
+        claimx5.onClick.AddListener(() => ShowX5CoinAd());
+
     }
 
 
@@ -230,7 +233,7 @@ public class SpinWheel : MonoBehaviour
                     TimeSpan subTime = oldDate.Subtract(DateTime.Now);
                     double temp = (subTime).TotalSeconds - Convert.ToDouble(Time.deltaTime);
                     //Debug.LogError(subTime);
-                    tileSpinBtn.text = "Wating:";   
+                    tileSpinBtn.text = "Waiting:";   
                     amountSpin.text = TimeSpan.FromSeconds(temp).ToString("hh\\:mm\\:ss");            
                     //spinButton.interactable = false;
                 }
@@ -251,7 +254,6 @@ public class SpinWheel : MonoBehaviour
     public DateTime GetDailyTimer()
     {
         long temp = Convert.ToInt64(GameData.dailyTimer);
-        Debug.Log("dailyTimer: " + DateTime.FromBinary(temp));
         return DateTime.FromBinary(temp);
     }
     #endregion
@@ -295,6 +297,7 @@ public class SpinWheel : MonoBehaviour
     {
         if (AdManager.rewardType == AdManager.RewardType.DailyReward)
         {
+            Debug.Log(rewardvalue * 4);
             GameData.gold += rewardvalue * 4;
             claimx5.transform.localScale = Vector3.zero;
             gotIt.transform.localScale = Vector3.zero;

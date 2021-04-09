@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4758372270662646530}
   - component: {fileID: 4758372270662646533}
   - component: {fileID: 4758372270662646531}
+  - component: {fileID: 2002037677}
   m_Layer: 5
   m_Name: Restore
   m_TagString: Untagged
@@ -119,6 +120,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2002037677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4758372270662646535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71edf7d67537515439b6a29aa897a491, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4758372270737670843
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,6 +144,7 @@ GameObject:
   - component: {fileID: 4758372270737670822}
   - component: {fileID: 4758372270737670841}
   - component: {fileID: 4758372270737670823}
+  - component: {fileID: 1173654335}
   m_Layer: 5
   m_Name: MoreGame
   m_TagString: Untagged
@@ -237,7 +251,30 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4758372270737670841}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: MoreGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1173654335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4758372270737670843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71edf7d67537515439b6a29aa897a491, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4758372271195705879
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,7 +423,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4758372271246926750
 RectTransform:
   m_ObjectHideFlags: 0
@@ -553,6 +590,7 @@ GameObject:
   - component: {fileID: 4758372271435503156}
   - component: {fileID: 4758372271435503159}
   - component: {fileID: 4758372271435503157}
+  - component: {fileID: 992299767}
   m_Layer: 5
   m_Name: Share
   m_TagString: Untagged
@@ -659,7 +697,30 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4758372271435503159}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: FaceBookShare
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &992299767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4758372271435503177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71edf7d67537515439b6a29aa897a491, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4758372271624172465
 GameObject:
   m_ObjectHideFlags: 0
@@ -672,6 +733,7 @@ GameObject:
   - component: {fileID: 4758372271624172476}
   - component: {fileID: 4758372271624172479}
   - component: {fileID: 4758372271624172477}
+  - component: {fileID: 1579405895}
   m_Layer: 5
   m_Name: Rate
   m_TagString: Untagged
@@ -778,7 +840,30 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4758372271624172479}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: Rate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1579405895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4758372271624172465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71edf7d67537515439b6a29aa897a491, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4758372271698840077
 GameObject:
   m_ObjectHideFlags: 0
@@ -791,6 +876,7 @@ GameObject:
   - component: {fileID: 4758372271698840072}
   - component: {fileID: 4758372271698840075}
   - component: {fileID: 4758372271698840073}
+  - component: {fileID: 1999996998}
   m_Layer: 5
   m_Name: SFX
   m_TagString: Untagged
@@ -909,6 +995,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1999996998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4758372271698840077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71edf7d67537515439b6a29aa897a491, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4758372271793940755
 GameObject:
   m_ObjectHideFlags: 0
@@ -1453,6 +1551,7 @@ GameObject:
   - component: {fileID: 4758372272241564148}
   - component: {fileID: 4758372272241564151}
   - component: {fileID: 4758372272241564149}
+  - component: {fileID: 1792748809}
   m_Layer: 5
   m_Name: BGM
   m_TagString: Untagged
@@ -1571,6 +1670,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1792748809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4758372272241563913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71edf7d67537515439b6a29aa897a491, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4758372272494279548
 GameObject:
   m_ObjectHideFlags: 0
@@ -1665,6 +1776,7 @@ GameObject:
   - component: {fileID: 4758372272591582986}
   - component: {fileID: 4758372272591582984}
   - component: {fileID: 4758372272591582987}
+  - component: {fileID: 2423835063470076788}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -1728,6 +1840,60 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2423835063470076788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4758372272591582989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 0
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 4758372272673468810}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: CloseSetting
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4758372272673468812
 GameObject:
   m_ObjectHideFlags: 0
@@ -1740,6 +1906,7 @@ GameObject:
   - component: {fileID: 4758372272673468811}
   - component: {fileID: 4758372272673468810}
   - component: {fileID: 4758372272673468808}
+  - component: {fileID: 128622275}
   m_Layer: 5
   m_Name: off
   m_TagString: Untagged
@@ -1857,6 +2024,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &128622275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4758372272673468812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71edf7d67537515439b6a29aa897a491, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6186478857800053613
 GameObject:
   m_ObjectHideFlags: 0
