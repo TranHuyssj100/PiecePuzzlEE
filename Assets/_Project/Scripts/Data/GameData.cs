@@ -14,6 +14,7 @@ public static class GameData
 
     private static string DAILY_TIMER;
     private static int DAILY_SPIN_AMOUNT;
+    private static int AVAILABLE_DAILY_SPIN;
     
 
 
@@ -38,6 +39,7 @@ public static class GameData
 
         DAILY_TIMER = PlayerPrefs.GetString("daily_timer", "");
         DAILY_SPIN_AMOUNT = PlayerPrefs.GetInt("daily_spin_amount",3);
+        AVAILABLE_DAILY_SPIN = PlayerPrefs.GetInt("available_daily_spin",1);
 
         //CreateCurrentLevelforEachTheme();
         //CreateStatusTheme();
@@ -128,10 +130,17 @@ public static class GameData
         set { PlayerPrefs.SetInt("no_ads", (NO_ADS = value)); }
     }
     
+
+    //DailySpin
     public static int dailySpinAmount
     {
         get { return DAILY_SPIN_AMOUNT; }
         set { PlayerPrefs.SetInt("daily_spin_amount", (DAILY_SPIN_AMOUNT = value)); }
+    } 
+    public static int availableDailySpin
+    {
+        get { return AVAILABLE_DAILY_SPIN; }
+        set { PlayerPrefs.SetInt("available_daily_spin", (AVAILABLE_DAILY_SPIN = value)); }
     }
     public static string dailyTimer
     {

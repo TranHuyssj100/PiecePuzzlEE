@@ -53,8 +53,8 @@ public class SpinWheel : MonoBehaviour
 
     int randomTime;
     int itemNumber;
-    int rewardvalue; 
-
+    int rewardvalue;
+    double waitTime;
 
     public static SpinWheel instance;
 
@@ -107,13 +107,13 @@ public class SpinWheel : MonoBehaviour
     }
     public void RandomReward()
     {
-        CheckActiveDailyTimer();
-        Debug.LogError(GameData.dailySpinAmount);
-        if (GameData.dailySpinAmount > 0)
+        if (GameData.dailySpinAmount > 0 && GameData.availableDailySpin==1)
         { 
             if (!spinning)
             {
+                GameData.availableDailySpin = 0;
                 GameData.dailySpinAmount--;
+                CreateDailyTimer();
                 randomTime = UnityEngine.Random.Range(7, 10);
                 int crit = UnityEngine.Random.Range(0,50);
                 //Debug.LogError(crit.ToString()+"/" +(randomList.Count-1));
@@ -129,7 +129,8 @@ public class SpinWheel : MonoBehaviour
         {
             ShowErrorPopUp("The Spin is not Ready!");
         }
-        amountSpin.text = GameData.dailySpinAmount + "/" + maxAmountSpin;
+        Debug.LogError(GameData.dailySpinAmount);
+        //amountSpin.text = GameData.dailySpinAmount + "/" + maxAmountSpin;
 
     }
     IEnumerator StartSpin(float maxAngle, float waitSeconds)
@@ -194,61 +195,48 @@ public class SpinWheel : MonoBehaviour
     }
 
 
-            #region Timer
-
-            void CountDownActiveDailySpin(TextMeshProUGUI text)
-    {
-        TimeSpan subTime = GetDailyTimer().Subtract(DateTime.Now);
-        double temp=  subTime.TotalSeconds - Convert.ToDouble(Time.deltaTime);
-        text.text = TimeSpan.FromSeconds(temp).ToString("hh\\:mm\\:ss");
-    }
-
+   #region Timer
     void CheckActiveDailyTimer()
     {
-        if (GameData.dailyTimer == "")
+
+        DateTime oldDate = GetDailyTimer();
+        if(DateTime.Now.CompareTo(oldDate) > 0 )
         {
-            CreateDailyTimer();
+
+            GameData.availableDailySpin = 1;
+            tileSpinBtn.text = "Spin";
+            amountSpin.text = GameData.dailySpinAmount + "/" + maxAmountSpin;
+            //CreateDailyTimer();
         }
         else
         {
-            DateTime oldDate = GetDailyTimer();
-            //if(subTime.CompareTo( new TimeSpan(24,0, 0)) > 0)
-            if(DateTime.Now.CompareTo(oldDate) > 0)
-            {
-                CreateDailyTimer();
-                GameData.dailySpinAmount = 3;
-                tileSpinBtn.text = "Spin";
-                amountSpin.text = GameData.dailySpinAmount + "/" + maxAmountSpin;
-                //spinButton.interactable = true;
-            }
-            else
-            {
-                if (GameData.dailySpinAmount > 0)
-                {
-                    tileSpinBtn.text = "Spin";
-                    amountSpin.text = GameData.dailySpinAmount + "/" + maxAmountSpin;
-                }
-                else
-                {
-                    TimeSpan subTime = oldDate.Subtract(DateTime.Now);
-                    double temp = (subTime).TotalSeconds - Convert.ToDouble(Time.deltaTime);
-                    //Debug.LogError(subTime);
-                    tileSpinBtn.text = "Waiting:";   
-                    amountSpin.text = TimeSpan.FromSeconds(temp).ToString("hh\\:mm\\:ss");            
-                    //spinButton.interactable = false;
-                }
-            }
+
+            TimeSpan subTime = oldDate.Subtract(DateTime.Now);
+            double temp = (subTime).TotalSeconds - Convert.ToDouble(Time.deltaTime);
+            //Debug.LogError(subTime);
+            tileSpinBtn.text = "Waiting:";   
+            amountSpin.text = TimeSpan.FromSeconds(temp).ToString("hh\\:mm\\:ss");            
         }
     }
 
+
     void CreateDailyTimer()
     {
-        //GameData.dailyTimer= DateTime.Now.ToBinary().ToString();
-        DateTime tororrow = DateTime.Now.AddDays(1);
-        DateTime activeTimer = new DateTime(tororrow.Year, tororrow.Month, tororrow.Day, 0, 0, 0);
-        GameData.dailyTimer= activeTimer.ToBinary().ToString();
-
-        Debug.LogError(GameData.dailyTimer);
+        if (GameData.dailySpinAmount > 0)
+        {
+            DateTime activeTimer = DateTime.Now.AddMinutes(10f);
+            GameData.dailyTimer = activeTimer.ToBinary().ToString();
+            Debug.LogError(activeTimer);
+        }
+        else
+        {
+            //GameData.availableDailySpin = 0;
+            GameData.dailySpinAmount = 3;
+            DateTime tororrow = DateTime.Now.AddDays(1);
+            DateTime activeTimer = new DateTime(tororrow.Year, tororrow.Month, tororrow.Day, 0, 0, 0);
+            GameData.dailyTimer = activeTimer.ToBinary().ToString();
+            Debug.LogError(activeTimer);
+        }
     }
 
     public DateTime GetDailyTimer()
