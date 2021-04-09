@@ -86,7 +86,7 @@ public class SpinWheel : MonoBehaviour
     private void OnEnable()
     {
         AdManager.Instance.onRewardAdClosed += RewardX5AdClosed;
-        CheckActiveDailyTimer();
+        //CheckActiveDailyTimer();
         claimx5.transform.localScale = Vector3.zero;
         gotIt.transform.localScale = Vector3.zero;
     }
@@ -198,24 +198,26 @@ public class SpinWheel : MonoBehaviour
    #region Timer
     void CheckActiveDailyTimer()
     {
-
-        DateTime oldDate = GetDailyTimer();
-        if(DateTime.Now.CompareTo(oldDate) > 0 )
+        if (GameData.dailyTimer != "")
         {
+            DateTime oldDate = GetDailyTimer();
+            if (DateTime.Now.CompareTo(oldDate) > 0)
+            {
 
-            GameData.availableDailySpin = 1;
-            tileSpinBtn.text = "Spin";
-            amountSpin.text = GameData.dailySpinAmount + "/" + maxAmountSpin;
-            //CreateDailyTimer();
-        }
-        else
-        {
+                GameData.availableDailySpin = 1;
+                tileSpinBtn.text = "Spin";
+                amountSpin.text = GameData.dailySpinAmount + "/" + maxAmountSpin;
+                //CreateDailyTimer();
+            }
+            else
+            {
 
-            TimeSpan subTime = oldDate.Subtract(DateTime.Now);
-            double temp = (subTime).TotalSeconds - Convert.ToDouble(Time.deltaTime);
-            //Debug.LogError(subTime);
-            tileSpinBtn.text = "Waiting:";   
-            amountSpin.text = TimeSpan.FromSeconds(temp).ToString("hh\\:mm\\:ss");            
+                TimeSpan subTime = oldDate.Subtract(DateTime.Now);
+                double temp = (subTime).TotalSeconds - Convert.ToDouble(Time.deltaTime);
+                //Debug.LogError(subTime);
+                tileSpinBtn.text = "Waiting:";
+                amountSpin.text = TimeSpan.FromSeconds(temp).ToString("hh\\:mm\\:ss");
+            }
         }
     }
 

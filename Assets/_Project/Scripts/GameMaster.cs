@@ -475,7 +475,7 @@ public class GameMaster : MonoBehaviour
     {
         Debug.LogError("CheckingNoti");
         Transform spinWheel = menu.transform.Find("Panel").Find("SpinWheel");
-        if (GameData.dailySpinAmount > 0)
+        if (GameData.dailySpinAmount > 0  && GameData.availableDailySpin==1)
         {
             spinBtn.transform.Find("Noti").gameObject.SetActive(true);
             spinWheel.Find("Noti").gameObject.SetActive(true);
