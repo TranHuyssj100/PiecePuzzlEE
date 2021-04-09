@@ -160,6 +160,7 @@ public class SpinWheel : MonoBehaviour
 
         AddReward(itemName[itemNumber].ToString(), itemNum[itemNumber]);
         rewardvalue = itemNum[itemNumber];
+        Debug.LogError(rewardvalue);
         ShowPopUp();
     }
 
@@ -187,9 +188,6 @@ public class SpinWheel : MonoBehaviour
 
         seq.Append(claimx5.transform.DOScale(Vector3.one,0.5f))
         .Append(gotIt.transform.DOScale(Vector3.one, 1));
-
-        claimx5.onClick.AddListener(() => ShowX5CoinAd());
-
     }
 
 
@@ -287,7 +285,7 @@ public class SpinWheel : MonoBehaviour
 
     public void ShowX5CoinAd()
     {
-        AdManager.Instance.showRewardedAd(AdManager.RewardType.PentaReward);
+        AdManager.Instance.showRewardedAd(AdManager.RewardType.DailyReward);
 #if UNITY_EDITOR
         RewardX5AdClosed();
 #endif
@@ -295,7 +293,7 @@ public class SpinWheel : MonoBehaviour
 
     private void RewardX5AdClosed()
     {
-        if (AdManager.rewardType == AdManager.RewardType.PentaReward)
+        if (AdManager.rewardType == AdManager.RewardType.DailyReward)
         {
             GameData.gold += rewardvalue * 4;
             claimx5.transform.localScale = Vector3.zero;
