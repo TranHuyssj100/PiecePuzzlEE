@@ -18,6 +18,8 @@ public class SpinWheel : MonoBehaviour
     [SerializeField]
     private GameObject wheel;
     public Transform arrow;
+    [SerializeField]
+    private Button returnBtn, panelBtn;
 
     [Header("Random Rewards")]
     [SerializeField]
@@ -145,6 +147,8 @@ public class SpinWheel : MonoBehaviour
     IEnumerator SpinTheWheel(float time, float maxAngle)
     {
         spinning = true;
+        returnBtn.onClick.RemoveAllListeners();
+        panelBtn.onClick.RemoveAllListeners();
         spinButton.interactable = false;
         float timer = 0f;
         float startAngle = wheel.transform.eulerAngles.z;
@@ -163,6 +167,16 @@ public class SpinWheel : MonoBehaviour
         Debug.Log("<color=green>" + itemNumber + "_Prize: " + itemList[itemNumber] + itemNum[itemNumber]+"</color>");
 
         AddReward(itemName[itemNumber].ToString(), itemNum[itemNumber]);
+        returnBtn.onClick.AddListener(() =>
+        {
+            GameMaster.instance.CloseDailySpin();
+            GameMaster.instance.ChecKSpinDailyNoti();
+        });
+        panelBtn.onClick.AddListener(() =>
+        {
+            GameMaster.instance.CloseDailySpin();
+            GameMaster.instance.ChecKSpinDailyNoti();
+        });
         rewardvalue = itemNum[itemNumber];
         ShowPopUp();
     }
