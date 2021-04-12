@@ -112,6 +112,7 @@ public class SpinWheel : MonoBehaviour
         { 
             if (!spinning)
             {
+                GameData.showDailySpin = 0;
                 GameData.availableDailySpin = 0;
                 GameData.dailySpinAmount--;
                 CreateDailyTimer();
@@ -234,7 +235,7 @@ public class SpinWheel : MonoBehaviour
         }
         else
         {
-            //GameData.availableDailySpin = 0;
+            GameData.showDailySpin = 1;
             GameData.dailySpinAmount = 5;
             DateTime tororrow = DateTime.Now.AddDays(1);
             DateTime activeTimer = new DateTime(tororrow.Year, tororrow.Month, tororrow.Day, 0, 0, 0);

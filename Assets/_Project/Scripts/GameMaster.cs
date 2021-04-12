@@ -20,6 +20,7 @@ public class GameMaster : MonoBehaviour
     public GameObject RatePanel;
     public GameObject collectionGrid;
     public GameObject collectionBook;
+    public GameObject dailySpinPanel;
     public GameObject spinBtn;
 
     public GameObject noAdAvailablePanel;
@@ -80,7 +81,7 @@ public class GameMaster : MonoBehaviour
         Btn_SFX.GetComponent<UnityEngine.UI.Image>().sprite = SFX[GameData.isSFX];
 
         winPanel.GetComponent<WinPanel>().oldGiftBoxPos = winPanel.GetComponent<WinPanel>().giftBox.localPosition;
-
+        ShowDailySpinEachActive();
     }
 
     private void OnDestroy()
@@ -199,7 +200,7 @@ public class GameMaster : MonoBehaviour
 
     #endregion
 
-    #region Animation
+    #region ANIMATION
     public void AnimatePlayUI()
     {
         DOTween.CompleteAll();
@@ -210,7 +211,7 @@ public class GameMaster : MonoBehaviour
     #endregion
 
 
-    #region OnClick
+    #region ON_CLICK
     void OpenWinPanel()
     {
   
@@ -302,6 +303,15 @@ public class GameMaster : MonoBehaviour
     public void CloseCollectionBook()
     {
         ClosePanel(collectionBook);
+    }  
+    
+    public void OpenDailySpin()
+    {
+        OpenPanel(dailySpinPanel);
+    }
+    public void CloseDailySpin()
+    {
+        ClosePanel(dailySpinPanel);
     }
 
     public void OpenRatePanelByLevel(int [] levelShowRate)
@@ -416,7 +426,7 @@ public class GameMaster : MonoBehaviour
 
     #endregion
 
-    #region Reward
+    #region REWARD
     public void ShowMoreMoveAd()
     {
         AdManager.Instance.showRewardedAd(AdManager.RewardType.MoreMove);
@@ -435,7 +445,7 @@ public class GameMaster : MonoBehaviour
     #endregion
 
 
-    #region Sound
+    #region SOUND
     public void toggleSFX()
     {
         GameData.isSFX = GameData.isSFX == 0 ? 1 : 0;
@@ -487,5 +497,17 @@ public class GameMaster : MonoBehaviour
             spinWheel.Find("Noti").gameObject.SetActive(false);
         }
     }
+    #endregion
+
+    #region DAILY_SPIN
+    public void ShowDailySpinEachActive()
+    {
+        if (GameData.showDailySpin == 1 && GameData.availableDailySpin == 1 && GameData.level>1)
+        {
+            Debug.LogError("ShowDailySpinEachActive");
+            OpenDailySpin();
+        }
+    }
+
     #endregion
 }
