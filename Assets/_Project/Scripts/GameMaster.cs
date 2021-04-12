@@ -277,6 +277,7 @@ public class GameMaster : MonoBehaviour
     {
         OpenPanel(themeSelect);
         TestLevelCtr.instance.DestroyTutorialObj();
+        ChecKSpinDailyNoti();
     }
     public void CloseThemeSelect()
     {
@@ -481,7 +482,7 @@ public class GameMaster : MonoBehaviour
         }
 
     }
-    #region Noti
+    #region DAILY_SPIN
     public void ChecKSpinDailyNoti()
     {
         Debug.LogError("CheckingNoti");
@@ -497,9 +498,7 @@ public class GameMaster : MonoBehaviour
             spinWheel.Find("Noti").gameObject.SetActive(false);
         }
     }
-    #endregion
 
-    #region DAILY_SPIN
     public void ShowDailySpinEachActive()
     {
         if (GameData.showDailySpin == 1 && GameData.availableDailySpin == 1 && GameData.level>1)

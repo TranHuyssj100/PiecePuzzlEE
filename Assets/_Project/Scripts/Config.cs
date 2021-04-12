@@ -22,4 +22,6 @@ public class Config
 
     public static float PIECE_START_SCALE = 0.4f;
     public static float PIECE_SELECTED_SCALE = 1f;
+
+    public static float TIME_WAIT_DAILY_SPIN = 5f;
 }
