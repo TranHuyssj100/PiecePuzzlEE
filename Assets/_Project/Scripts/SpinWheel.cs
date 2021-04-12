@@ -28,7 +28,7 @@ public class SpinWheel : MonoBehaviour
     private Button spinButton;
     public TextMeshProUGUI amountSpin;
     public TextMeshProUGUI tileSpinBtn;
-    public float maxAmountSpin=3;
+    public int maxAmountSpin=5;
     public List<AnimationCurve> animationCurves;
 
     [Header("Timer")]
@@ -98,7 +98,8 @@ public class SpinWheel : MonoBehaviour
 
     private void Start()
     {
-        //amountSpin.text = GameData.dailySpinAmount + "/" + maxAmountSpin;
+        maxAmountSpin = GameData.maxDailySpinAmount;
+        amountSpin.text = GameData.dailySpinAmount + "/" + maxAmountSpin;
     }
     private void Update()
     {
@@ -111,6 +112,7 @@ public class SpinWheel : MonoBehaviour
         { 
             if (!spinning)
             {
+                GameData.showDailySpin = 0;
                 GameData.availableDailySpin = 0;
                 GameData.dailySpinAmount--;
                 CreateDailyTimer();
@@ -122,7 +124,8 @@ public class SpinWheel : MonoBehaviour
                 else itemNumber = UnityEngine.Random.Range(0, randomList.Count-1);
 
                 float maxAngle = 360 * randomTime + (itemNumber * 45);
-                StartCoroutine(SpinTheWheel(0.5f * randomTime, maxAngle));   
+                StartCoroutine(SpinTheWheel(0.5f * randomTime, maxAngle));
+                FirebaseManager.instance.LogDailySpin();
             }
         }
         else
@@ -226,14 +229,14 @@ public class SpinWheel : MonoBehaviour
     {
         if (GameData.dailySpinAmount > 0)
         {
-            DateTime activeTimer = DateTime.Now.AddMinutes(10f);
+            DateTime activeTimer = DateTime.Now.AddMinutes(5f);
             GameData.dailyTimer = activeTimer.ToBinary().ToString();
             Debug.LogError(activeTimer);
         }
         else
         {
-            //GameData.availableDailySpin = 0;
-            GameData.dailySpinAmount = 3;
+            GameData.showDailySpin = 1;
+            GameData.dailySpinAmount = 5;
             DateTime tororrow = DateTime.Now.AddDays(1);
             DateTime activeTimer = new DateTime(tororrow.Year, tororrow.Month, tororrow.Day, 0, 0, 0);
             GameData.dailyTimer = activeTimer.ToBinary().ToString();

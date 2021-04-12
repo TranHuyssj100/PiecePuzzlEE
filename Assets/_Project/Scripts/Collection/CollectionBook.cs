@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class CollectionBook : ThemeSelect
 {
+    private void OnEnable()
+    {
+        FirebaseManager.instance.LogCollectionBookOpen();
+    }
 
-    
     public override void CreateThemeChild()
     {
         foreach (Transform child in content)
