@@ -206,7 +206,6 @@ public class SpinWheel : MonoBehaviour
             DateTime oldDate = GetDailyTimer();
             if (DateTime.Now.CompareTo(oldDate) > 0)
             {
-
                 GameData.availableDailySpin = 1;
                 tileSpinBtn.text = "Spin";
                 amountSpin.text = GameData.dailySpinAmount + "/" + maxAmountSpin;
@@ -214,7 +213,6 @@ public class SpinWheel : MonoBehaviour
             }
             else
             {
-
                 TimeSpan subTime = oldDate.Subtract(DateTime.Now);
                 double temp = (subTime).TotalSeconds - Convert.ToDouble(Time.deltaTime);
                 //Debug.LogError(subTime);
@@ -227,20 +225,32 @@ public class SpinWheel : MonoBehaviour
 
     void CreateDailyTimer()
     {
-        if (GameData.dailySpinAmount > 0)
-        {
-            DateTime activeTimer = DateTime.Now.AddMinutes(5f);
-            GameData.dailyTimer = activeTimer.ToBinary().ToString();
-            Debug.LogError(activeTimer);
-        }
-        else
+        if (DateTime.Now.AddMinutes(5f).Day != DateTime.Now.Day)
         {
             GameData.showDailySpin = 1;
             GameData.dailySpinAmount = 5;
-            DateTime tororrow = DateTime.Now.AddDays(1);
-            DateTime activeTimer = new DateTime(tororrow.Year, tororrow.Month, tororrow.Day, 0, 0, 0);
+            DateTime activeTimer = DateTime.Now.AddMinutes(5f);
             GameData.dailyTimer = activeTimer.ToBinary().ToString();
             Debug.LogError(activeTimer);
+
+        }
+        else
+        {
+            if (GameData.dailySpinAmount > 0)
+            {
+                DateTime activeTimer = DateTime.Now.AddMinutes(5f);
+                GameData.dailyTimer = activeTimer.ToBinary().ToString();
+                Debug.LogError(activeTimer);
+            }
+            else
+            {
+                GameData.showDailySpin = 1;
+                GameData.dailySpinAmount = 5;
+                DateTime tororrow = DateTime.Now.AddDays(1);
+                DateTime activeTimer = new DateTime(tororrow.Year, tororrow.Month, tororrow.Day, 0, 0, 0);
+                GameData.dailyTimer = activeTimer.ToBinary().ToString();
+                Debug.LogError(activeTimer);
+            }
         }
     }
 
