@@ -4,6 +4,7 @@ using DG.Tweening;
 using TMPro;
 using System;
 using System.Linq;
+using Firebase.Analytics;
 
 public class GameMaster : MonoBehaviour
 {

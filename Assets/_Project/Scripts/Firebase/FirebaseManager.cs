@@ -177,4 +177,9 @@ public void OnTokenReceived(object sender, Firebase.Messaging.TokenReceivedEvent
     {
         FirebaseAnalytics.LogEvent("Daily_Spin");
     }
+    public void LogCollectionBookOpen()
+    {
+        Debug.LogError("Collection_Book_Open");
+        FirebaseAnalytics.LogEvent("Collection_Book_Open");
+    }
 }
