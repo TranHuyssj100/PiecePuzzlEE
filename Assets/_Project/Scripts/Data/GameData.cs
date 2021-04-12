@@ -14,6 +14,7 @@ public static class GameData
 
     private static string DAILY_TIMER;
     private static int DAILY_SPIN_AMOUNT;
+    private static int MAX_DAILY_SPIN_AMOUNT;
     private static int AVAILABLE_DAILY_SPIN;
     
 
@@ -38,7 +39,8 @@ public static class GameData
         LEVEL_REWARD = PlayerPrefs.GetInt("level_reward", 0);
 
         DAILY_TIMER = PlayerPrefs.GetString("daily_timer", "");
-        DAILY_SPIN_AMOUNT = PlayerPrefs.GetInt("daily_spin_amount",3);
+        DAILY_SPIN_AMOUNT = PlayerPrefs.GetInt("daily_spin_amount",5);
+        MAX_DAILY_SPIN_AMOUNT= PlayerPrefs.GetInt("max_daily_spin_amount",5);
         AVAILABLE_DAILY_SPIN = PlayerPrefs.GetInt("available_daily_spin",1);
 
         //CreateCurrentLevelforEachTheme();
@@ -132,6 +134,11 @@ public static class GameData
     
 
     //DailySpin
+    public static int maxDailySpinAmount
+    {
+        get { return MAX_DAILY_SPIN_AMOUNT; }
+        set { PlayerPrefs.SetInt("max_daily_spin_amount", (MAX_DAILY_SPIN_AMOUNT = value)); }
+    }
     public static int dailySpinAmount
     {
         get { return DAILY_SPIN_AMOUNT; }

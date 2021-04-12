@@ -172,5 +172,9 @@ public void OnTokenReceived(object sender, Firebase.Messaging.TokenReceivedEvent
     public void LogIAP(string product)
     {
         FirebaseAnalytics.LogEvent("Purchae_IAP","Product", product);
+    } 
+    public void LogDailySpin()
+    {
+        FirebaseAnalytics.LogEvent("Daily_Spin");
     }
 }
