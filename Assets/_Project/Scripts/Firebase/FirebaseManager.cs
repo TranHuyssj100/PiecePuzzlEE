@@ -88,12 +88,18 @@ public class FirebaseManager : MonoBehaviour
                 //AdManager.showAdInterval = int.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.GetValue("show_ad_time_interval").StringValue);
                 //AdManager.stageToShowAdDay0 = int.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.GetValue("show_ad_stage_day0_count").StringValue);
                 //AdManager.stageToShowAd = int.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.GetValue("show_ad_stage_count").StringValue);
-                AdManager.Instance.RefreshConfig(
+                AdManager.Instance.RefreshAdConfig(
                     Firebase.RemoteConfig.FirebaseRemoteConfig.GetValue("show_ad_by_time_interval").BooleanValue,
                     int.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.GetValue("show_ad_time_interval").StringValue),
                     int.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.GetValue("show_ad_time_interval_day0").StringValue),
                     int.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.GetValue("show_ad_stage_day0_count").StringValue),
-                    int.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.GetValue("show_ad_stage_count").StringValue));
+                    int.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.GetValue("show_ad_stage_count").StringValue),
+                    Firebase.RemoteConfig.FirebaseRemoteConfig.GetValue("banner_ad_id").StringValue,
+                    Firebase.RemoteConfig.FirebaseRemoteConfig.GetValue("interstitial_ad_id").StringValue,
+                    Firebase.RemoteConfig.FirebaseRemoteConfig.GetValue("rewarded_ad_id").StringValue);
+                Debug.Log(Firebase.RemoteConfig.FirebaseRemoteConfig.GetValue("banner_ad_id").StringValue);
+                Debug.Log(Firebase.RemoteConfig.FirebaseRemoteConfig.GetValue("interstitial_ad_id").StringValue);
+                Debug.Log(Firebase.RemoteConfig.FirebaseRemoteConfig.GetValue("rewarded_ad_id").StringValue);
                 break;
             case Firebase.RemoteConfig.LastFetchStatus.Failure:
                 switch (info.LastFetchFailureReason)
