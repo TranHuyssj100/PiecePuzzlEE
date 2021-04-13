@@ -22,19 +22,17 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
     private static int stageToShowAdDay0 = 3;
     private static int stageToShowAd = 2;
 
-    public void RefreshConfig(bool _showAdByTime, int _showInterval,int _showIntervalDay0, int _stageToShowDay0,int _stageToShow)
+    public void RefreshAdConfig(bool _showAdByTime, int _showInterval, int _showIntervalDay0, int _stageToShowDay0, int _stageToShow, string _bannerID, string _interID, string _rewardedID)
     {
         showAdByTimeInterval = _showAdByTime;
         showAdInterval = _showInterval;
         showAdIntervalDay0 = _showIntervalDay0;
         stageToShowAdDay0 = _stageToShowDay0;
         stageToShowAd = _stageToShow;
-        Debug.Log(showAdByTimeInterval);
-        Debug.Log(showAdInterval);
-        Debug.Log(showAdIntervalDay0);
-        Debug.Log(stageToShowAdDay0);
-        Debug.Log(stageToShowAd);
-
+        bannerAdUnitId = _bannerID;
+        loadBannerAds();
+        interstitialAdUnitId = _interID;
+        rewardedAdUnitId = _rewardedID;
     }
 
     public void RewardAdClosed()
