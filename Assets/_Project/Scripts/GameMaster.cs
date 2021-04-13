@@ -81,6 +81,7 @@ public class GameMaster : MonoBehaviour
         Btn_SFX.GetComponent<UnityEngine.UI.Image>().sprite = SFX[GameData.isSFX];
 
         winPanel.GetComponent<WinPanel>().oldGiftBoxPos = winPanel.GetComponent<WinPanel>().giftBox.localPosition;
+        ChecKSpinDailyNoti();
         ShowDailySpinEachActive();
     }
 
