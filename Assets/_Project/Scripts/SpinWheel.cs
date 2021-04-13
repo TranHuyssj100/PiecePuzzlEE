@@ -192,7 +192,6 @@ public class SpinWheel : MonoBehaviour
             GameMaster.instance.CloseDailySpin();
             GameMaster.instance.ChecKSpinDailyNoti();
         });
-        Debug.Log("addaadadaw");
         rewardvalue = itemNum[itemNumber];
         ShowPopUp();
     }
