@@ -58,6 +58,21 @@ public class SoundManager : MonoBehaviour
                 obj.track[randomIndex].source.Play();
             }
         }
+    }  
+    public void PlaySFX(TypeSFX _type, string _name)
+    {
+        if (GameData.isSFX == 1)
+        {
+            ObjectSound _objectSound = listObject.Find(x => (x.type == _type));
+            if (_objectSound != null)
+            {
+                Sound _sound = _objectSound.track.Find(y => (y.name == _name));
+                if (_sound != null && !_sound.source.isPlaying)
+                {
+                    _sound.source.Play();
+                }
+            }
+        }
     }
     public void playSequential(TypeSFX _type)
     {
