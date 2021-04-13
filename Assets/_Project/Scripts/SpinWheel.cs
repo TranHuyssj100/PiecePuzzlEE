@@ -91,6 +91,7 @@ public class SpinWheel : MonoBehaviour
         //CheckActiveDailyTimer();
         claimx5.transform.localScale = Vector3.zero;
         gotIt.transform.localScale = Vector3.zero;
+   
     }
     private void OnDisable()
     {
@@ -102,6 +103,17 @@ public class SpinWheel : MonoBehaviour
     {
         maxAmountSpin = GameData.maxDailySpinAmount;
         amountSpin.text = GameData.dailySpinAmount + "/" + maxAmountSpin;
+        returnBtn.onClick.AddListener(() =>
+        {
+            GameMaster.instance.CloseDailySpin();
+            GameMaster.instance.ChecKSpinDailyNoti();
+        });
+        panelBtn.onClick.AddListener(() =>
+        {
+            GameMaster.instance.CloseDailySpin();
+            GameMaster.instance.ChecKSpinDailyNoti();
+        });
+
     }
     private void Update()
     {
@@ -150,6 +162,9 @@ public class SpinWheel : MonoBehaviour
         returnBtn.onClick.RemoveAllListeners();
         panelBtn.onClick.RemoveAllListeners();
         spinButton.interactable = false;
+
+        SoundManager.instance.PlayBGM(TypeSFX.SpinWheel, "Spin");
+
         float timer = 0f;
         float startAngle = wheel.transform.eulerAngles.z;
         maxAngle = maxAngle - startAngle;
@@ -177,6 +192,7 @@ public class SpinWheel : MonoBehaviour
             GameMaster.instance.CloseDailySpin();
             GameMaster.instance.ChecKSpinDailyNoti();
         });
+        Debug.Log("addaadadaw");
         rewardvalue = itemNum[itemNumber];
         ShowPopUp();
     }
