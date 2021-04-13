@@ -170,6 +170,7 @@ public enum TypeSFX
     Win,
     BGM,
     Lose,
+    SpinWheel,
     NUM_OF_TYPE
 }
 

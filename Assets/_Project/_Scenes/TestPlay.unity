@@ -221,6 +221,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1683158506}
     m_Modifications:
     - target: {fileID: 455254381, guid: 4ad291d1dd96a654fb31f23de5de62be, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 455254381, guid: 4ad291d1dd96a654fb31f23de5de62be, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 885929008}
@@ -228,6 +232,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 885929008}
+    - target: {fileID: 455254381, guid: 4ad291d1dd96a654fb31f23de5de62be, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CloseDailySpin
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005818994, guid: 4ad291d1dd96a654fb31f23de5de62be, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2005818994, guid: 4ad291d1dd96a654fb31f23de5de62be, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -236,6 +248,22 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 885929008}
+    - target: {fileID: 2005818994, guid: 4ad291d1dd96a654fb31f23de5de62be, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CloseDailySpin
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005818994, guid: 4ad291d1dd96a654fb31f23de5de62be, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005818994, guid: 4ad291d1dd96a654fb31f23de5de62be, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: CloseDailySpin
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005818994, guid: 4ad291d1dd96a654fb31f23de5de62be, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3314743885931713732, guid: 4ad291d1dd96a654fb31f23de5de62be,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -350,6 +378,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DailySpinWheel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8575291795928281702, guid: 4ad291d1dd96a654fb31f23de5de62be,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ad291d1dd96a654fb31f23de5de62be, type: 3}
@@ -5424,6 +5457,14 @@ MonoBehaviour:
     track:
     - name: Lose
       clip: {fileID: 8300000, guid: 04ba052aacb2a46e2acb22a9f8e0cd76, type: 3}
+      volume: 0.6
+      pitch: 1
+      loop: 0
+      source: {fileID: 0}
+  - type: 6
+    track:
+    - name: SpinWheel
+      clip: {fileID: 8300000, guid: ab459645d9ab8c445bff89ac29b56b7f, type: 3}
       volume: 0.6
       pitch: 1
       loop: 0
