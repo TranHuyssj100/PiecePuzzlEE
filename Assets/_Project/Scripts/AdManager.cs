@@ -8,8 +8,32 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
 {
     public event Action onRewardAdClosed;
 
+
+    bool isDay0;
+
+    public bool showAdByTimeInterval;
+
+    public int showAdInterval = 45;
+    public int showAdIntervalDay0 = 65;
+    private float showAdTimer;
+
+
     public int stagePlayed = 0;
-    private int stageToShowAd = 3;
+    private static int stageToShowAdDay0 = 3;
+    private static int stageToShowAd = 2;
+
+    public void RefreshAdConfig(bool _showAdByTime, int _showInterval, int _showIntervalDay0, int _stageToShowDay0, int _stageToShow, string _bannerID, string _interID, string _rewardedID)
+    {
+        showAdByTimeInterval = _showAdByTime;
+        showAdInterval = _showInterval;
+        showAdIntervalDay0 = _showIntervalDay0;
+        stageToShowAdDay0 = _stageToShowDay0;
+        stageToShowAd = _stageToShow;
+        bannerAdUnitId = _bannerID;
+        loadBannerAds();
+        interstitialAdUnitId = _interID;
+        rewardedAdUnitId = _rewardedID;
+    }
 
     public void RewardAdClosed()
     {
@@ -21,7 +45,9 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
         Gold,
         DoubleReward,
         PentaReward,
-        MoreMove
+        MoreMove, 
+        UnlockTheme,
+        DailyReward
     }
 
     public static RewardType rewardType;
@@ -41,16 +67,21 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
 
     void Start()
     {
-        //if (instance == null)
-        //    instance = this;
-        //DontDestroyOnLoad(this);
+        if (CheckIsDay0())
+        {
+            stageToShowAd = 3;
+            showAdTimer = showAdIntervalDay0;
+        }
+        else
+        {
+            stageToShowAd = 2;
+            showAdTimer = showAdInterval;
+        }
 #if UNITY_ANDROID
         rewardedAdUnitId = "ca-app-pub-9179752697212712/9650286780";
         interstitialAdUnitId = "ca-app-pub-9179752697212712/7215695137";
         bannerAdUnitId = "ca-app-pub-9179752697212712/2320437582";
 #elif UNITY_IOS
-            //rewardedAdUnitId = "ca-app-pub-9179752697212712/7094033959";
-            //interstitialAdUnitId = "ca-app-pub-9179752697212712/7828686655";
             rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
             interstitialAdUnitId = "ca-app-pub-3940256099942544/8691691433";
             bannerAdUnitId = "ca-app-pub-3940256099942544/6300978111";
@@ -78,9 +109,16 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
         MobileAds.SetRequestConfiguration(requestConfiguration);
 
         loadRewardedAd();
-        loadBannerAds();
+#if !UNITY_IOS
+        if(GameData.noAds != 1)
+            loadBannerAds();
+#endif
         loadInterstitialAd();
 
+
+        stagePlayed = 0;
+
+        
         //// Called when an ad request has successfully loaded.
         //this.rewardedAd.OnAdLoaded += HandleRewardedAdLoaded;
         //// Called when an ad request failed to load.
@@ -106,12 +144,26 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
         //this.interstitialAd.OnAdClosed += HandleOnAdClosed;
         //// Called when the ad click caused the user to leave the application.
         //this.interstitialAd.OnAdLeavingApplication += HandleOnAdLeavingApplication;
-
-
-
-
-
     }
+
+    private void Update()
+    {
+        showAdTimer -= Time.deltaTime;
+    }
+
+    bool CheckIsDay0()
+    {
+        if (!PlayerPrefs.HasKey("Day0"))
+        {
+            PlayerPrefs.SetString("Day0", DateTime.Now.Date.ToString());
+            return true;
+        }
+        if (DateTime.Now.Date > DateTime.Parse(PlayerPrefs.GetString("Day0", DateTime.Now.Date.ToString())))
+            return false;
+        else
+            return true;
+    }
+
 
     public void rewardedAdEventSubscribe()
     {
@@ -146,15 +198,15 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
 
 
     //--------------------------------------------------------------------------------------------------------
-    #region banner
+#region banner
     void loadBannerAds()
     {
     //    AdRequest request = new AdRequest.Builder().Build();
     //    bannerView = new BannerView(bannerAdUnitId, AdSize.Banner, AdPosition.Bottom);
 #if UNITY_ANDROID
         string adUnitId = bannerAdUnitId;
-#elif UNITY_IPHONE
-            string adUnitId = "ca-app-pub-3940256099942544/2934735716";
+#elif UNITY_IOS
+            string adUnitId = "ca-app-pub-3940256099942544/6300978111";
 #else
             string adUnitId = "unexpected_platform";
 #endif
@@ -168,9 +220,9 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
         // Load the banner with the request.
         this.bannerView.LoadAd(request);
     }
-    #endregion
+#endregion
     //--------------------------------------------------------------------------------------------------------
-    #region InterstitialAd
+#region InterstitialAd
     void loadInterstitialAd()
     {
         if (interstitialAd != null)
@@ -186,20 +238,42 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
     public void checkInterAdsCondition()
     {
         stagePlayed++;
-        if(stagePlayed >= stageToShowAd)
+        if (showAdByTimeInterval)
         {
-            stagePlayed = 0;
-            showInterstitialAd();
-        }    
+            if (showAdTimer <= 0 || stagePlayed >= stageToShowAd)
+            {
+                stagePlayed = 0;
+                if (CheckIsDay0())
+                {
+                    showAdTimer = showAdIntervalDay0;
+                }
+                else
+                {
+                    showAdTimer = showAdInterval;
+                }
+                showInterstitialAd();
+            }
+        }
+        else
+        {
+            if (stagePlayed >= stageToShowAd)
+            {
+                stagePlayed = 0;
+                showInterstitialAd();
+            }
+        }
+        
     }    
 
     public void showInterstitialAd()
     {
+#if !UNITY_IOS
         if (this.interstitialAd.IsLoaded() && GameData.noAds != 1)
         {
             FirebaseManager.instance.LogShowInter();
             interstitialAd.Show();
         }
+#endif
     }
     public IEnumerator waitAndReloadInterstitialAd()
     {
@@ -230,9 +304,9 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
 public void HandleOnAdLeavingApplication(object sender, EventArgs args)
     {
     }
-    #endregion
+#endregion
     //--------------------------------------------------------------------------------------------------------
-    #region RewardedAd
+#region RewardedAd
     private bool isRewarded;
     void loadRewardedAd()
     {
@@ -244,6 +318,7 @@ public void HandleOnAdLeavingApplication(object sender, EventArgs args)
     }
     public void showRewardedAd(RewardType _rewardType)
     {
+#if !UNITY_IOS
         if (this.rewardedAd.IsLoaded())
         {
             isRewarded = false;
@@ -251,6 +326,11 @@ public void HandleOnAdLeavingApplication(object sender, EventArgs args)
             FirebaseManager.instance.LogShowReward(rewardType.ToString());
             this.rewardedAd.Show();
         }
+        else
+        {
+            GameMaster.instance.PlayNoAdAvailableAnim();
+        }    
+#endif
     }
     public IEnumerator waitAndReloadRewardedAd()
     {
@@ -280,8 +360,11 @@ public void HandleOnAdLeavingApplication(object sender, EventArgs args)
     {
         loadRewardedAd();
         Time.timeScale = 1;
-        if(isRewarded)
+        if (isRewarded)
+        {
+            showAdTimer = showAdInterval;
             RewardAdClosed();
+        }
     }
 
     public void HandleUserEarnedReward(object sender, Reward args)
@@ -290,6 +373,6 @@ public void HandleOnAdLeavingApplication(object sender, EventArgs args)
         FirebaseManager.instance.LogRewarded(rewardType.ToString());
     }
 
-    #endregion
+#endregion
 
 }
