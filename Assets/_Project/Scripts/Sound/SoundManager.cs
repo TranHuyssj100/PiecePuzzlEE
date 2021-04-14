@@ -35,7 +35,7 @@ public class SoundManager : MonoBehaviour
     {
         if (GameData.isBGM == 1)
         {
-            //Debug.Log("PLAY SFX");
+            Debug.Log(_name);
             ObjectSound _objectSound= listObject.Find(x => (x.type == _type));
             if (_objectSound != null)
             {
