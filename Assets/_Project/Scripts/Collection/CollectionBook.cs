@@ -6,6 +6,7 @@ public class CollectionBook : ThemeSelect
 {
     private void OnEnable()
     {
+        CreateThemeChild();
         FirebaseManager.instance.LogCollectionBookOpen();
     }
 
