@@ -163,7 +163,7 @@ public class SpinWheel : MonoBehaviour
         panelBtn.onClick.RemoveAllListeners();
         spinButton.interactable = false;
 
-        SoundManager.instance.PlayBGM(TypeSFX.SpinWheel, "Spin");
+        SoundManager.instance.PlaySFX(TypeSFX.SpinWheel, "Spin");
 
         float timer = 0f;
         float startAngle = wheel.transform.eulerAngles.z;
