@@ -45,9 +45,6 @@ public class FirebaseManager : MonoBehaviour
         defaults.Add("show_ad_time_interval_day0", 65);
         defaults.Add("show_ad_stage_day0_count", 2);
         defaults.Add("show_ad_stage_count", 1);
-        defaults.Add("banner_ad_id", "ca-app-pub-9179752697212712/2320437582");
-        defaults.Add("interstitial_ad_id", "ca-app-pub-9179752697212712/7215695137");
-        defaults.Add("rewarded_ad_id", "ca-app-pub-9179752697212712/9650286780");
 
         Firebase.RemoteConfig.FirebaseRemoteConfig.SetDefaults(defaults);
         // [END set_defaults]
