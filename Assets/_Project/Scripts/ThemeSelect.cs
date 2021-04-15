@@ -20,7 +20,7 @@ public class ThemeSelect : CoroutineQueue
         //allTheme = DataController.GetAllTheme();
         themes = DataController.themeData;
         amountTheme = themes.Length;
-        themeOrder = new List<int> { 0, 1, 18, 20, 2, 3, 21, 4, 5, 6, 7, 22, 19, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 };
+        themeOrder = new List<int> { 0, 1, 18, 20, 2, 24, 3, 21, 4, 5, 23, 6, 7, 22, 19, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 };
         CreateThemeChild();
 
         AdManager.Instance.onRewardAdClosed += RewardAdClosed;
