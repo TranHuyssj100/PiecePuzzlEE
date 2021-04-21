@@ -30,9 +30,18 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
         stageToShowAdDay0 = _stageToShowDay0;
         stageToShowAd = _stageToShow;
         bannerAdUnitId = _bannerID;
-        loadBannerAds();
         interstitialAdUnitId = _interID;
         rewardedAdUnitId = _rewardedID;
+
+
+
+        loadRewardedAd();
+#if !UNITY_IOS
+        if (GameData.noAds != 1)
+            loadBannerAds();
+#endif
+        loadInterstitialAd();
+
     }
 
     public void RewardAdClosed()
@@ -78,9 +87,9 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
             showAdTimer = showAdInterval;
         }
 #if UNITY_ANDROID
-        rewardedAdUnitId = "ca-app-pub-9179752697212712/9650286780";
-        interstitialAdUnitId = "ca-app-pub-9179752697212712/7215695137";
-        bannerAdUnitId = "ca-app-pub-9179752697212712/2320437582";
+        rewardedAdUnitId = "/6485410/Picture_Master_Rewards";
+        interstitialAdUnitId = "/6485410/Picture_Master_Interstitial";
+        bannerAdUnitId = "/6485410/Picture_Master_320x50";
 #elif UNITY_IOS
             rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
             interstitialAdUnitId = "ca-app-pub-3940256099942544/8691691433";
@@ -110,7 +119,7 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
 
         loadRewardedAd();
 #if !UNITY_IOS
-        if(GameData.noAds != 1)
+        if (GameData.noAds != 1)
             loadBannerAds();
 #endif
         loadInterstitialAd();
@@ -287,7 +296,7 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
 
     public void HandleOnAdFailedToLoad(object sender, AdFailedToLoadEventArgs args)
     {
-        StartCoroutine("waitAndReloadRewardedAd");
+        StartCoroutine("waitAndReloadInterstitialAd");
     }
 
     public void HandleOnAdOpened(object sender, EventArgs args)
