@@ -62,6 +62,7 @@ public class SpinWheel : MonoBehaviour
 
     private void Awake()
     {
+        ResetSpinWheel();
         transform.localScale = Vector3.one;
         //for (int n = 0; n < itemList.Length; n++)
         //{
@@ -283,10 +284,30 @@ public class SpinWheel : MonoBehaviour
         }
     }
 
+
     public DateTime GetDailyTimer()
     {
         long temp = Convert.ToInt64(GameData.dailyTimer);
         return DateTime.FromBinary(temp);
+    }
+
+    public void ResetSpinWheel()
+    {
+        if(GameData.dailyTimer != "")
+        {
+            if(DateTime.Now.Day!= GetDailyTimer().Day )
+            {
+                GameData.showDailySpin = 1;
+                GameData.availableDailySpin = 1;
+                GameData.dailySpinAmount = 5;
+                DateTime activeTimer = DateTime.Now;
+                GameData.dailyTimer = activeTimer.ToBinary().ToString();
+                tileSpinBtn.text = "Spin";
+                amountSpin.text = GameData.dailySpinAmount + "/" + maxAmountSpin;
+                Debug.LogError(activeTimer);
+
+            }
+        }
     }
     #endregion
 
