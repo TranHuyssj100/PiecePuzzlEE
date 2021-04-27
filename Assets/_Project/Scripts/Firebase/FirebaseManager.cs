@@ -45,9 +45,9 @@ public class FirebaseManager : MonoBehaviour
         defaults.Add("show_ad_time_interval_day0", 65);
         defaults.Add("show_ad_stage_day0_count", 2);
         defaults.Add("show_ad_stage_count", 1);
-        defaults.Add("banner_ad_id", "/6485410/Picture_Master_320x50");
-        defaults.Add("interstitial_ad_id", "/6485410/Picture_Master_Interstitial");
-        defaults.Add("rewarded_ad_id", "/6485410/Picture_Master_Rewards");
+        defaults.Add("banner_ad_id", "ca-app-pub-7542714085197760/4607674630");
+        defaults.Add("interstitial_ad_id", "ca-app-pub-7542714085197760/4416102944");
+        defaults.Add("rewarded_ad_id", "ca-app-pub-7542714085197760/1598367911");
 
         Firebase.RemoteConfig.FirebaseRemoteConfig.SetDefaults(defaults);
         // [END set_defaults]

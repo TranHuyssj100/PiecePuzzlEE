@@ -109,18 +109,31 @@ public class Piece : MonoBehaviour
         if (transform.localScale != Vector3.one)
         {
             Vector3 offset = Vector3.zero;
+            Vector3 meanPre, meanAfter;
+            meanPre = Vector3.zero;
+            meanAfter = Vector3.zero;
             foreach (Transform grid in transform)
             {
-                offset += grid.position;
+                meanPre += grid.position;
+                //offset += grid.position;
             }
-            offset /= transform.childCount;
-            offset = (transform.position - offset)/* * pieceClone.transform.localScale.x*/;
-            Vector3 _temp= transform.position += new Vector3(offset.x *5/TestLevelCtr.instance.sizeLevel, offset.y+2f+ 1*(5-TestLevelCtr.instance.sizeLevel)/3, 0);
+            meanPre /= transform.childCount;
+            transform.localScale = Vector3.one;
+            foreach (Transform grid in transform)
+            {
+                meanAfter += grid.position;
+                //offset += grid.position;
+            }
+            meanAfter /= transform.childCount;
+            //offset /= transform.childCount;
+            //offset = (offset - transform.position)/* * pieceClone.transform.localScale.x*/;
+            offset = meanAfter - meanPre;
+            Vector3 _temp = transform.position - offset + new Vector3(0, 1, 0);
             transform.DOMove(_temp, 0.1f);
         }
         else if (isMouseDown)
         {
-            transform.position += new Vector3(0,0.5f, 0);
+            transform.position += new Vector3(0, 0.5f, 0);
         }
         transform.localScale= Vector3.one;
 

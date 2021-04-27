@@ -87,11 +87,17 @@ public class AdManager : SingletonDontDestroyMonoBehavior<AdManager>
             showAdTimer = showAdInterval;
         }
 #if UNITY_ANDROID
-        rewardedAdUnitId = "/6485410/Picture_Master_Rewards";
-        interstitialAdUnitId = "/6485410/Picture_Master_Interstitial";
-        bannerAdUnitId = "/6485410/Picture_Master_320x50";
+
+        rewardedAdUnitId = "ca-app-pub-7542714085197760/1598367911";
+        interstitialAdUnitId = "ca-app-pub-7542714085197760/4416102944";
+        bannerAdUnitId = "ca-app-pub-7542714085197760/4607674630";
+        #region test_ad
+        //rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
+        //interstitialAdUnitId = "ca-app-pub-3940256099942544/8691691433";
+        //bannerAdUnitId = "ca-app-pub-3940256099942544/6300978111";
+        #endregion
 #elif UNITY_IOS
-            rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
+        rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
             interstitialAdUnitId = "ca-app-pub-3940256099942544/8691691433";
             bannerAdUnitId = "ca-app-pub-3940256099942544/6300978111";
 
