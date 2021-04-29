@@ -68,7 +68,7 @@ public class GameMaster : MonoBehaviour
     {
         onPiecePlace += OnPiecePlaced;
         loadingPanel.SetActive(true);
-        ChecKSpinDailyNoti();
+        //ChecKSpinDailyNoti();
     }
     public void Start()
     {
@@ -81,8 +81,8 @@ public class GameMaster : MonoBehaviour
         Btn_SFX.GetComponent<UnityEngine.UI.Image>().sprite = SFX[GameData.isSFX];
 
         winPanel.GetComponent<WinPanel>().oldGiftBoxPos = winPanel.GetComponent<WinPanel>().giftBox.localPosition;
-        ChecKSpinDailyNoti();
-        ShowDailySpinEachActive();
+        //ChecKSpinDailyNoti();
+        //ShowDailySpinEachActive();
     }
 
     private void OnDestroy()
@@ -278,7 +278,7 @@ public class GameMaster : MonoBehaviour
     {
         OpenPanel(themeSelect);
         TestLevelCtr.instance.DestroyTutorialObj();
-        ChecKSpinDailyNoti();
+        //ChecKSpinDailyNoti();
     }
     public void CloseThemeSelect()
     {
@@ -363,7 +363,7 @@ public class GameMaster : MonoBehaviour
     }
    public void OnReturnMenuClick()
     {
-        ChecKSpinDailyNoti();
+        //ChecKSpinDailyNoti();
         OpenPanel(menu);
         TestLevelCtr.instance.DestroyTutorialObj();
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

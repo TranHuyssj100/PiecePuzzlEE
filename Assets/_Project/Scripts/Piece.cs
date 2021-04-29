@@ -129,7 +129,7 @@ public class Piece : MonoBehaviour
             //offset = (offset - transform.position)/* * pieceClone.transform.localScale.x*/;
             offset = meanAfter - meanPre;
             Vector3 _temp = transform.position - offset + new Vector3(0, 1, 0);
-            transform.DOMove(_temp, 0.1f);
+            transform.DOMove(_temp, 0f);
         }
         else if (isMouseDown)
         {
