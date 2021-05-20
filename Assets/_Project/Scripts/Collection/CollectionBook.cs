@@ -7,7 +7,7 @@ public class CollectionBook : ThemeSelect
     private void OnEnable()
     {
         CreateThemeChild();
-        FirebaseManager.instance.LogCollectionBookOpen();
+        //FirebaseManager.instance.LogCollectionBookOpen();
     }
 
     public override void CreateThemeChild()
