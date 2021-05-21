@@ -44,20 +44,17 @@ namespace com.adjust.sdk
             {
                 AdjustConfig adjustConfig = new AdjustConfig(this.appToken, this.environment, (this.logLevel == AdjustLogLevel.Suppress));
                 adjustConfig.setLogLevel(this.logLevel);
-                adjustConfig.setLogDelegate(msg => Debug.Log(msg));
                 adjustConfig.setSendInBackground(this.sendInBackground);
                 adjustConfig.setEventBufferingEnabled(this.eventBuffering);
                 adjustConfig.setLaunchDeferredDeeplink(this.launchDeferredDeeplink);
                 Adjust.start(adjustConfig);
+                Adjust.getGoogleAdId((string googleAdId) => {
+                    Debug.Log(googleAdId);
+                });
             }
-           
         }
-        private void Update()
-        {
-            Adjust.getGoogleAdId((string googleAdId) => {
-                Debug.Log(googleAdId);
-            });
-        }
+
+
         void OnApplicationPause(bool pauseStatus)
         {
             if (IsEditor()) 
