@@ -49,7 +49,7 @@ namespace com.adjust.sdk
                 adjustConfig.setLaunchDeferredDeeplink(this.launchDeferredDeeplink);
                 Adjust.start(adjustConfig);
                 Adjust.getGoogleAdId((string googleAdId) => {
-                    Debug.Log(googleAdId);
+                    Debug.Log("adadadaddakdakdjkejkledje/"+googleAdId);
                 });
             }
         }
